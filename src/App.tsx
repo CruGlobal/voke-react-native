@@ -25,7 +25,7 @@ import {
   StackNavigationProp,
 } from '@react-navigation/stack';
 import { SafeAreaView, useSafeArea } from 'react-native-safe-area-context';
-import { useAppState } from '@react-native-community/hooks'
+import useAppState from 'react-native-appstate-hook';
 import RNBootSplash from 'react-native-bootsplash';
 import { Host } from 'react-native-portalize';
 import theme from 'utils/theme';
@@ -127,167 +127,6 @@ const transparentHeaderConfig = {
   headerTransparent: true,
 };
 
-const AdventureStack = createStackNavigator<AdventureStackParamList>();
-
-const AdventureStackScreens = ({ navigation, route }: any) => {
-  const insets = useSafeArea();
-  const { t } = useTranslation('title');
-
-  useEffect(() => {
-    if (route?.state?.routes.length && route?.state?.type) {
-      // Make tapbar visible dynamically.
-      navigation.setOptions({
-        tabBarVisible:
-          route?.state && route?.state?.type === 'stack'
-            ? !(route?.state?.routes.length > 1)
-            : null,
-      });
-    }
-  }, [route?.state?.routes.length]);
-
-  return (
-    <AdventureStack.Navigator
-      screenOptions={{
-        ...defaultHeaderConfig,
-      }}
-    >
-      <AdventureStack.Screen
-        name="Adventures"
-        component={Adventures}
-        options={{
-          title: t('adventures'),
-        }}
-      />
-      <AdventureStack.Screen
-        name="AdventureAvailable"
-        component={AdventureAvailable}
-        // Fixed header with back button.
-        options={{
-          ...transparentHeaderConfig,
-          headerStyle: {
-            ...transparentHeaderConfig.headerStyle,
-            paddingTop: insets.top,
-          },
-          title: '',
-          headerLeft: (): ReactElement => (
-            <HeaderLeft testID="AdventureAvailable" />
-          ),
-        }}
-      />
-      <AdventureStack.Screen
-        name="AdventureActive"
-        component={AdventureActive}
-        // Fixed header with back button.
-        options={{
-          ...transparentHeaderConfig,
-          headerStyle: {
-            ...transparentHeaderConfig.headerStyle,
-          },
-          title: '',
-          headerLeft: (): ReactElement => (
-            <HeaderLeft resetTo="Adventures" testID="AdventureActive" />
-          ),
-          headerRight: undefined,
-        }}
-      />
-      <AdventureStack.Screen
-        name="AdventureManage"
-        component={AdventureManage}
-        // Fixed header with back button.
-        options={({ route, navigation }) => ({
-          ...transparentHeaderConfig,
-          headerStyle: {
-            ...transparentHeaderConfig.headerStyle,
-            paddingTop: insets.top,
-          },
-          title: '',
-          headerLeft: (): ReactElement => (
-            <HeaderLeft testID="AdventureManage" />
-          ),
-        })}
-      />
-      <AdventureStack.Screen
-        name="AdventureStepScreen"
-        component={AdventureStepScreen}
-        // Fixed header with back button.
-        options={{
-          ...transparentHeaderConfig,
-          headerStyle: {
-            ...transparentHeaderConfig.headerStyle,
-            paddingTop: insets.top,
-          },
-          title: '',
-          headerLeft: (): ReactElement => (
-            <HeaderLeft testID="AdventureStepScreenHeader" />
-          ),
-          headerRight: undefined,
-        }}
-      />
-      <AdventureStack.Screen
-        name="GroupModal"
-        component={GroupModal}
-        options={{ headerShown: false }}
-      />
-      <AdventureStack.Screen
-        name="AllMembersModal"
-        component={AllMembersModal}
-        options={{
-          ...transparentHeaderConfig,
-          headerStyle: {
-            ...transparentHeaderConfig.headerStyle,
-            paddingTop: insets.top,
-          },
-          title: '',
-          headerLeft: (): ReactElement => (
-            <HeaderLeft testID="AllMembersModal" />
-          ),
-          headerRight: undefined,
-        }}
-      />
-      {/* <AdventureStack.Screen
-        name="AccountPhoto"
-        component={AccountPhoto}
-        options={{ headerShown: false }}
-      /> */}
-    </AdventureStack.Navigator>
-  );
-};
-
-const VideoStack = createStackNavigator<VideoStackParamList>();
-function VideoStackScreens({ navigation, route }: any) {
-  const { t } = useTranslation('title');
-  const insets = useSafeArea();
-  // TODO: extract into utility function.
-  navigation.setOptions({
-    tabBarVisible: route.state ? !(route.state.index > 0) : null,
-  });
-  return (
-    <VideoStack.Navigator screenOptions={defaultHeaderConfig}>
-      <VideoStack.Screen
-        name="Explore"
-        component={Videos}
-        options={{
-          title: t('explore'),
-        }}
-      />
-      <VideoStack.Screen
-        name="VideoDetails"
-        component={VideoDetails}
-        // Fixed header with back button.
-        options={{
-          ...transparentHeaderConfig,
-          headerStyle: {
-            ...transparentHeaderConfig.headerStyle,
-            paddingTop: insets.top, // TODO: Check if it really works here?
-          },
-          title: '',
-          headerLeft: (): ReactElement => <HeaderLeft testID="VideoDetails" />,
-        }}
-      />
-    </VideoStack.Navigator>
-  );
-}
-
 const NotificationStack = createStackNavigator<NotificationStackParamList>();
 const NotificationStackScreens = () => {
   const { t } = useTranslation('title');
@@ -307,12 +146,10 @@ const NotificationStackScreens = () => {
   );
 };
 
-const LoggedInAppContainer = () => {
+const LoggedInAppContainer = (navigation, route) => {
   const dispatch = useDispatch();
   const Tabs = createBottomTabNavigator();
-  const state = useNavigationState(state => state);
   const { t } = useTranslation('title');
-
   const currentAppState = useAppState();
 
   useEffect(() => {
@@ -347,14 +184,14 @@ const LoggedInAppContainer = () => {
     <Tabs.Navigator tabBar={props => <TabBar {...props} />}>
       <Tabs.Screen
         name="Adventures"
-        component={AdventureStackScreens}
+        component={Adventures}
         options={{
           title: t('adventures'),
         }}
       />
       <Tabs.Screen
         name="Explore"
-        component={VideoStackScreens}
+        component={Videos}
         options={{
           title: t('explore'),
         }}
@@ -405,15 +242,15 @@ const RootStackScreens = React.memo(
               }}
             />
           ) : (
-            <RootStack.Screen
-              name="Welcome"
-              component={Welcome}
-              options={{
-                title: '',
-                headerShown: false,
-              }}
-            />
-          )}
+              <RootStack.Screen
+                name="Welcome"
+                component={Welcome}
+                options={{
+                  title: '',
+                  headerShown: false,
+                }}
+              />
+            )}
           {/* <AppStack.Screen name="WelcomeApp" component={WelcomeAppContainer} /> */}
           {/* <AppStack.Screen name="Welcome" component={Welcome} /> */}
           {/* Don't hide these Welcome screens under !isLoggedIn
@@ -508,7 +345,7 @@ const RootStackScreens = React.memo(
                   <Text style={[st.white, st.mr4, st.fs16]}>{t('done')}</Text>
                 </Touchable>
               ),
-              headerLeft: (): ReactElement => {},
+              headerLeft: (): ReactElement => { },
               cardStyle: { backgroundColor: theme.colors.transparent },
               headerStyle: {
                 backgroundColor: theme.colors.primary,
@@ -728,6 +565,113 @@ const RootStackScreens = React.memo(
               title: t('title:acknowledgements'),
             })}
           />
+
+          <RootStack.Screen
+            name="VideoDetails"
+            component={VideoDetails}
+            // Fixed header with back button.
+            options={{
+              ...transparentHeaderConfig,
+              headerStyle: {
+                ...transparentHeaderConfig.headerStyle,
+                paddingTop: insets.top, // TODO: Check if it really works here?
+              },
+              title: '',
+              headerLeft: (): ReactElement => <HeaderLeft testID="VideoDetails" />,
+            }}
+          />
+          <RootStack.Screen
+            name="AdventureAvailable"
+            component={AdventureAvailable}
+            // Fixed header with back button.
+            options={{
+              ...transparentHeaderConfig,
+              headerStyle: {
+                ...transparentHeaderConfig.headerStyle,
+                paddingTop: insets.top,
+              },
+              title: '',
+              headerLeft: (): ReactElement => (
+                <HeaderLeft testID="AdventureAvailable" />
+              ),
+            }}
+          />
+          <RootStack.Screen
+            name="AdventureActive"
+            component={AdventureActive}
+            // Fixed header with back button.
+            options={{
+              ...transparentHeaderConfig,
+              headerStyle: {
+                ...transparentHeaderConfig.headerStyle,
+              },
+              title: '',
+              headerLeft: (): ReactElement => (
+                <HeaderLeft resetTo="LoggedInApp" testID="AdventureActive" />
+              ),
+              headerRight: undefined,
+            }}
+          />
+          <RootStack.Screen
+            name="AdventureManage"
+            component={AdventureManage}
+            // Fixed header with back button.
+            options={({ route, navigation }) => ({
+              ...transparentHeaderConfig,
+              headerStyle: {
+                ...transparentHeaderConfig.headerStyle,
+                paddingTop: insets.top,
+              },
+              title: '',
+              headerLeft: (): ReactElement => (
+                <HeaderLeft resetTo="AdventureActive" testID="AdventureManage" />
+              ),
+
+              /* navigation.navigate('AdventureActive', {
+                adventureId: adventureItem.id,
+              }); */
+            })}
+          />
+          <RootStack.Screen
+            name="AdventureStepScreen"
+            component={AdventureStepScreen}
+            // Fixed header with back button.
+            options={{
+              ...transparentHeaderConfig,
+              headerStyle: {
+                ...transparentHeaderConfig.headerStyle,
+                paddingTop: insets.top,
+              },
+              title: '',
+              headerLeft: (): ReactElement => (
+                <HeaderLeft testID="AdventureStepScreenHeader" />
+              ),
+              headerRight: undefined,
+            }}
+          />
+          <RootStack.Screen
+            name="GroupModal"
+            component={GroupModal}
+            options={{ headerShown: false }}
+          />
+          <RootStack.Screen
+            name="AllMembersModal"
+            component={AllMembersModal}
+            options={{
+              ...transparentHeaderConfig,
+              headerStyle: {
+                ...transparentHeaderConfig.headerStyle,
+                paddingTop: insets.top,
+              },
+              title: '',
+              headerLeft: (): ReactElement => (
+                <HeaderLeft testID="AllMembersModal" />
+              ),
+              headerRight: undefined,
+            }}
+          />
+
+
         </RootStack.Navigator>
       </>
     );
@@ -813,10 +757,8 @@ const App = () => {
     // Here Chat is the name of the screen that handles the URL /feed, and Profile handles the URL /user.
   };
 
-
   // Make screen names meaningfull for Analytic reports.
   const analyticsRenameRoute = (routeName: string) => {
-
     let newName = '';
 
     switch (routeName) {
@@ -834,8 +776,7 @@ const App = () => {
     }
 
     return newName;
-
-  }
+  };
 
   return (
     <>
@@ -856,8 +797,8 @@ const App = () => {
           // Save the current route name for later comparision
           routeNameRef.current = currentRouteName;
         }}
-        // linking={linking} - not working.
-        // initialState={ ( isLoggedIn ? ({ index: 0, routes: [{ name: 'LoggedInApp' }] }) : ({ index: 0, routes: [{ name: 'WelcomeApp' }] }) ) }
+      // linking={linking} - not working.
+      // initialState={ ( isLoggedIn ? ({ index: 0, routes: [{ name: 'LoggedInApp' }] }) : ({ index: 0, routes: [{ name: 'WelcomeApp' }] }) ) }
       >
         <Host>
           <AppStack.Navigator
