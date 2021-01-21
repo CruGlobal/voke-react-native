@@ -1,83 +1,96 @@
-import React, { RefObject, useRef } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import i18next from 'i18next';
-import Menu, { MenuItem } from 'react-native-material-menu';
-import languageCodes from 'i18n/languageCodes';
-import Text from 'components/Text';
-import Touchable from 'components/Touchable';
+import Select from 'domain/Common/Select';
 import VokeIcon from 'components/VokeIcon';
+import Text from 'components/Text';
 
 import styles from './styles';
 
-interface Props { }
+// Can't use import for json:
+// https://github.com/microsoft/TypeScript/issues/24715
+const languageCodes = require('i18n/langaugeCodes.json')
+type Option = {
+  label: string;
+  selected?: boolean;
+};
 
-const LanguageSwitch = (props: Props) => {
-  const languageMenuRef: RefObject<Menu> = useRef(null);
+const LanguageSwitch = (): ReactElement => {
   const lang = languageCodes[i18next.language.substr(0, 2).toLowerCase()];
   const availableTranslations = i18next.languages;
-  // To change language use:
-  // https://www.i18next.com/overview/api#changelanguage
-  // change the language
-  // i18next.changeLanguage("en-US-xx");
-  return (
-    <>
-      <Menu
-        ref={languageMenuRef}
-        button={
-          <Text
-            style={styles.settingOption}
-            onPress={() => {
-              languageMenuRef.current?.show();
-            }}
-          >
-            {lang.name}{' '}
-            {lang.name !== 'English' ? '(' + lang.nativeName + ')' : ''}{' '}
-            <VokeIcon
-              name="down-arrow"
-              size={12}
-              style={styles.actionReportIcon}
-            />
-          </Text>
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectOptions, setSelectOptions] = useState<Option[]>([]);
+
+  useEffect(() => {
+    // Prepare list of languages for selector removing 'en-US' used
+    // for development purposes only.
+    const appLang = i18next.language.toUpperCase();
+
+    availableTranslations.map(lang => {
+      const stepLang = lang.toUpperCase();
+      if (stepLang !== 'EN-US') {
+        if (appLang === stepLang || stepLang === 'EN' && appLang === 'EN-US') {
+          setSelectOptions((current) => [
+            ...current,
+            { label: lang, selected: true }
+          ]);
+        } else {
+          setSelectOptions((current) => [...current, { label: lang }]);
         }
-      >
-        {availableTranslations.map(language => {
-          const isCurrent =
-            i18next.language === language.toUpperCase() ||
-            (i18next.language === 'en-US' && language.toUpperCase() === 'EN');
-          return language.toUpperCase() !== 'EN-US' ? (
-            <Touchable
-              onPress={(): void => {
-                /* dispatch(
-                setComplain({
-                  messageId: item?.id,
-                  adventureId: adventure.id,
-                }),
-              ); */
-                languageMenuRef.current?.hide();
-              }}
-              style={[
-                styles.langOption,
-                {
-                  backgroundColor: isCurrent
-                    ? 'rgba(0,0,0,.07)'
-                    : 'transparent',
-                },
-              ]}
-            >
-              <Text style={styles.langOptionText}>
-                {language.toUpperCase()}
-              </Text>
-              {!!isCurrent && (
-                <VokeIcon
-                  name="checkmark-outline"
-                  size={10}
-                  style={styles.langOptionCheckmark}
-                />
-              )}
-            </Touchable>
-          ) : null;
-        })}
-      </Menu>
-    </>
+      }
+    });
+  }, []);
+
+  const newLangSelected = (option: Option): void => {
+    // Change current language for app UI.
+    const appLang = i18next.language.toUpperCase();
+    const newSelectOptions: Option[] = selectOptions;
+    selectOptions.map((value, index) => {
+      if (value.label === option.label ||
+        (appLang === 'EN-US' && option.label.toUpperCase() === 'EN')) {
+        // Mark selected language as current in the options object.
+        newSelectOptions[index].selected = true;
+        // Change current language in i18next instance:
+        i18next.changeLanguage(value?.label);
+      } else {
+        delete selectOptions[index].selected;
+      }
+    });
+    setSelectOptions(newSelectOptions);
+  };
+
+  return (
+    <Select
+      options={selectOptions}
+      // Toggle button:
+      toggleText={lang.name}
+      toggleTestId="languageSwitchButton"
+      toggleTextStyle={styles.settingOption}
+      // Selector state change:
+      isOpen={modalVisible}
+      onOpen={() => setModalVisible(true)}
+      onClose={() => setModalVisible(false)}
+      onSelect={option => newLangSelected(option)}
+      // Single option:
+      optionEl={(option) => {
+        return (
+          <>
+            {/* Item Label */}
+            <Text style={styles.langOptionText}>
+              {option.label.toUpperCase()}
+            </Text>
+            {/* Checkmark icon */}
+            {option?.selected && (
+              <VokeIcon
+                name="checkmark-outline"
+                size={10}
+                style={styles.langOptionCheckmark}
+                testID={'selected-' + option.label}
+              />
+            )}
+          </>
+        );
+      }}
+    />
   );
 };
 
