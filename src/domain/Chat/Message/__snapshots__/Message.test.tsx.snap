@@ -1,0 +1,1715 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`blur others decision messages in multichoise until I answer 1`] = `
+<View
+  style={
+    Object {
+      "paddingBottom": 16,
+      "paddingHorizontal": 22,
+      "zIndex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "paddingHorizontal": 22,
+      }
+    }
+  >
+    <View>
+      <View
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "backgroundColor": "#186078",
+            "borderRadius": 8,
+            "overflow": "hidden",
+            "width": "100%",
+          }
+        }
+        testID="messagePressArea"
+      >
+        <View>
+          <Text
+            style={
+              Array [
+                Object {
+                  "fontSize": 17,
+                  "paddingHorizontal": 22,
+                  "paddingVertical": 22,
+                },
+                Object {
+                  "color": "#fff",
+                  "opacity": 1,
+                },
+              ]
+            }
+          >
+            Test message content
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        />
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "bottom": 0,
+              "justifyContent": "center",
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            }
+          }
+        >
+          <BlurView
+            blurAmount={2}
+            blurType="light"
+            style={
+              Array [
+                Object {
+                  "backgroundColor": "transparent",
+                },
+                Object {
+                  "bottom": 0,
+                  "left": 0,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                },
+              ]
+            }
+          />
+          <View
+            style={
+              Object {
+                "backgroundColor": "rgba(0,0,0,.2)",
+                "bottom": 0,
+                "left": 0,
+                "position": "absolute",
+                "right": 0,
+                "top": 0,
+              }
+            }
+          />
+          <Text
+            allowFontScaling={false}
+            style={
+              Array [
+                Object {
+                  "color": undefined,
+                  "fontSize": 16,
+                },
+                Object {
+                  "color": "#fff",
+                },
+                Object {
+                  "fontFamily": "icoMoon",
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                },
+                Object {},
+              ]
+            }
+          >
+            
+          </Text>
+        </View>
+      </View>
+      <Image
+        source={
+          Object {
+            "testUri": "../../../src/assets/avatars/defaultAvatar.png",
+          }
+        }
+        style={
+          Object {
+            "backgroundColor": "#3295ad",
+            "borderRadius": 50,
+            "bottom": 0,
+            "height": 25,
+            "left": -30,
+            "position": "absolute",
+            "width": 25,
+          }
+        }
+      />
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "flexDirection": "row",
+            "paddingTop": 4,
+          },
+          Object {
+            "justifyContent": "flex-start",
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#1d1d26",
+            },
+            Object {
+              "fontFamily": "TitilliumWeb-Regular",
+            },
+            Object {
+              "color": "#fff",
+              "fontSize": 13,
+              "textAlign": "right",
+            },
+          ]
+        }
+      >
+        Jan 25 @ 4:44 PM
+      </Text>
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "flex-start",
+              "alignSelf": "flex-start",
+              "flex": 1,
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+            },
+            Object {
+              "justifyContent": "flex-end",
+            },
+          ]
+        }
+      >
+        <View
+          forwardedRef={[Function]}
+          style={Object {}}
+        >
+          <View
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "backgroundColor": "#fff",
+                "borderRadius": 12,
+                "marginBottom": 4,
+                "marginLeft": 8,
+                "paddingHorizontal": 4,
+                "paddingVertical": 4,
+              }
+            }
+            testID="reactionPill-0"
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#186078",
+                  "fontSize": 11,
+                  "paddingRight": 4,
+                }
+              }
+            >
+              🤗
+               
+              3
+            </Text>
+          </View>
+        </View>
+        <View
+          forwardedRef={[Function]}
+          style={Object {}}
+        >
+          <View
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "backgroundColor": "#fff",
+                "borderRadius": 12,
+                "marginBottom": 4,
+                "marginLeft": 8,
+                "paddingHorizontal": 4,
+                "paddingVertical": 4,
+              }
+            }
+            testID="reactionPill-1"
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#186078",
+                  "fontSize": 11,
+                  "paddingRight": 4,
+                }
+              }
+            >
+              😄
+               
+              1
+            </Text>
+          </View>
+        </View>
+        <View
+          forwardedRef={[Function]}
+          style={Object {}}
+        >
+          <View
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "backgroundColor": "#fff",
+                "borderRadius": 12,
+                "marginBottom": 4,
+                "marginLeft": 8,
+                "paddingHorizontal": 4,
+                "paddingVertical": 4,
+              }
+            }
+            testID="reactionPill-2"
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#186078",
+                  "fontSize": 11,
+                  "paddingRight": 4,
+                }
+              }
+            >
+              ♥️
+               
+              3
+            </Text>
+          </View>
+        </View>
+        <View
+          forwardedRef={[Function]}
+          style={Object {}}
+        >
+          <View
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "backgroundColor": "#fff",
+                "borderRadius": 12,
+                "marginBottom": 4,
+                "marginLeft": 8,
+                "paddingHorizontal": 4,
+                "paddingVertical": 4,
+              }
+            }
+            testID="reactionPill-3"
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#186078",
+                  "fontSize": 11,
+                  "paddingRight": 4,
+                }
+              }
+            >
+              😂
+               
+              1
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`render binary step (decision/pray) - no option selected 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    Object {
+      "paddingBottom": 22,
+      "paddingHorizontal": 22,
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "paddingHorizontal": 20,
+        },
+        Object {
+          "flexDirection": "column",
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#1d1d26",
+          "borderRadius": 10,
+          "overflow": "hidden",
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "overflow": "hidden",
+            },
+            Object {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+          ]
+        }
+      >
+        <FastImageView
+          resizeMode="cover"
+          source={
+            Object {
+              "uri": "https://cru-vokeapi-prod.s3.amazonaws.com/platform/organization/journey/steps/images/811/1ed/6d-/small/data.jpg?1581968878",
+            }
+          }
+          style={
+            Object {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            }
+          }
+        />
+      </View>
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#1d1d26",
+            },
+            Object {
+              "fontFamily": "TitilliumWeb-Regular",
+            },
+            Object {
+              "color": "#fff",
+              "fontSize": 21,
+              "paddingBottom": 8,
+              "paddingHorizontal": 22,
+              "paddingTop": 22,
+            },
+          ]
+        }
+      >
+        PRAYER
+      </Text>
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#1d1d26",
+            },
+            Object {
+              "fontFamily": "TitilliumWeb-Regular",
+            },
+            Object {
+              "color": "#fff",
+              "fontSize": 17,
+              "paddingHorizontal": 22,
+            },
+          ]
+        }
+      >
+        Jesus, thank you for loving me, thank you for the worth you speak into
+      </Text>
+      <BVLinearGradient
+        colors={
+          Array [
+            0,
+            4278190080,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0.5,
+            "y": 1,
+          }
+        }
+        locations={null}
+        startPoint={
+          Object {
+            "x": 0.5,
+            "y": 0,
+          }
+        }
+        style={
+          Object {
+            "paddingBottom": 44,
+            "paddingHorizontal": 16,
+            "paddingTop": 22,
+            "width": "100%",
+          }
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "#1d1d26",
+              },
+              Object {
+                "fontFamily": "TitilliumWeb-Regular",
+              },
+              Object {
+                "color": "#fff",
+                "flex": 1,
+                "fontSize": 21,
+                "lineHeight": 27.3,
+                "textAlign": "center",
+              },
+            ]
+          }
+        >
+          Have you made this commitment today?
+        </Text>
+        <View
+          style={
+            Object {
+              "flexDirection": "row",
+              "justifyContent": "space-around",
+              "paddingHorizontal": 22,
+              "paddingTop": 16,
+            }
+          }
+        >
+          <View
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "backgroundColor": "#FF9900",
+                "borderRadius": 88,
+                "opacity": 1,
+                "paddingHorizontal": 16,
+                "paddingVertical": 8,
+              }
+            }
+            testID="binaryButton-0"
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                }
+              }
+            >
+              <Text
+                style={
+                  Array [
+                    Object {
+                      "fontFamily": "TitilliumWeb-Regular",
+                      "textAlign": "center",
+                    },
+                    Object {
+                      "fontSize": 21,
+                      "lineHeight": 31.5,
+                    },
+                    Object {
+                      "color": "#fff",
+                    },
+                    undefined,
+                    undefined,
+                  ]
+                }
+              >
+                Not yet
+              </Text>
+            </View>
+          </View>
+          <View
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "backgroundColor": "#FF9900",
+                "borderRadius": 88,
+                "opacity": 1,
+                "paddingHorizontal": 16,
+                "paddingVertical": 8,
+              }
+            }
+            testID="binaryButton-1"
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                }
+              }
+            >
+              <Text
+                style={
+                  Array [
+                    Object {
+                      "fontFamily": "TitilliumWeb-Regular",
+                      "textAlign": "center",
+                    },
+                    Object {
+                      "fontSize": 21,
+                      "lineHeight": 31.5,
+                    },
+                    Object {
+                      "color": "#fff",
+                    },
+                    undefined,
+                    undefined,
+                  ]
+                }
+              >
+                I just did
+              </Text>
+            </View>
+          </View>
+        </View>
+      </BVLinearGradient>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`render binary step (decision/pray) - one selected 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    Object {
+      "paddingBottom": 22,
+      "paddingHorizontal": 22,
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "paddingHorizontal": 20,
+        },
+        Object {
+          "flexDirection": "column",
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#1d1d26",
+          "borderRadius": 10,
+          "overflow": "hidden",
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "overflow": "hidden",
+            },
+            Object {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+          ]
+        }
+      >
+        <FastImageView
+          resizeMode="cover"
+          source={
+            Object {
+              "uri": "https://cru-vokeapi-prod.s3.amazonaws.com/platform/organization/journey/steps/images/811/1ed/6d-/small/data.jpg?1581968878",
+            }
+          }
+          style={
+            Object {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            }
+          }
+        />
+      </View>
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#1d1d26",
+            },
+            Object {
+              "fontFamily": "TitilliumWeb-Regular",
+            },
+            Object {
+              "color": "#fff",
+              "fontSize": 21,
+              "paddingBottom": 8,
+              "paddingHorizontal": 22,
+              "paddingTop": 22,
+            },
+          ]
+        }
+      >
+        PRAYER
+      </Text>
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#1d1d26",
+            },
+            Object {
+              "fontFamily": "TitilliumWeb-Regular",
+            },
+            Object {
+              "color": "#fff",
+              "fontSize": 17,
+              "paddingHorizontal": 22,
+            },
+          ]
+        }
+      >
+        Jesus, thank you for loving me, thank you for the worth you speak into
+      </Text>
+      <BVLinearGradient
+        colors={
+          Array [
+            0,
+            4278190080,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0.5,
+            "y": 1,
+          }
+        }
+        locations={null}
+        startPoint={
+          Object {
+            "x": 0.5,
+            "y": 0,
+          }
+        }
+        style={
+          Object {
+            "paddingBottom": 44,
+            "paddingHorizontal": 16,
+            "paddingTop": 22,
+            "width": "100%",
+          }
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "#1d1d26",
+              },
+              Object {
+                "fontFamily": "TitilliumWeb-Regular",
+              },
+              Object {
+                "color": "#fff",
+                "flex": 1,
+                "fontSize": 21,
+                "lineHeight": 27.3,
+                "textAlign": "center",
+              },
+            ]
+          }
+        >
+          Have you made this commitment today?
+        </Text>
+        <View
+          style={
+            Object {
+              "flexDirection": "row",
+              "justifyContent": "space-around",
+              "paddingHorizontal": 22,
+              "paddingTop": 16,
+            }
+          }
+        >
+          <View
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "backgroundColor": "#fff",
+                "borderRadius": 88,
+                "opacity": 1,
+                "paddingHorizontal": 16,
+                "paddingVertical": 8,
+              }
+            }
+            testID="binaryButton-0"
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                }
+              }
+            >
+              <Text
+                style={
+                  Array [
+                    Object {
+                      "fontFamily": "TitilliumWeb-Regular",
+                      "textAlign": "center",
+                    },
+                    Object {
+                      "fontSize": 21,
+                      "lineHeight": 31.5,
+                    },
+                    Object {
+                      "color": "#186078",
+                    },
+                    undefined,
+                    undefined,
+                  ]
+                }
+              >
+                Not yet
+              </Text>
+            </View>
+          </View>
+          <View
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "backgroundColor": "#FF9900",
+                "borderRadius": 88,
+                "opacity": 1,
+                "paddingHorizontal": 16,
+                "paddingVertical": 8,
+              }
+            }
+            testID="binaryButton-1"
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                }
+              }
+            >
+              <Text
+                style={
+                  Array [
+                    Object {
+                      "fontFamily": "TitilliumWeb-Regular",
+                      "textAlign": "center",
+                    },
+                    Object {
+                      "fontSize": 21,
+                      "lineHeight": 31.5,
+                    },
+                    Object {
+                      "color": "#fff",
+                    },
+                    undefined,
+                    undefined,
+                  ]
+                }
+              >
+                I just did
+              </Text>
+            </View>
+          </View>
+        </View>
+      </BVLinearGradient>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`renders correctly bot message in solo adventure 1`] = `
+<View
+  style={
+    Object {
+      "paddingBottom": 16,
+      "paddingHorizontal": 22,
+      "zIndex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "paddingHorizontal": 22,
+      }
+    }
+  >
+    <View>
+      <View
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "backgroundColor": "#186078",
+            "borderRadius": 8,
+            "overflow": "hidden",
+            "width": "100%",
+          }
+        }
+        testID="messagePressArea"
+      >
+        <View>
+          <Text
+            style={
+              Object {
+                "color": "#fff",
+                "fontFamily": "TitilliumWeb-SemiBold",
+                "marginBottom": -16,
+                "opacity": 0.75,
+                "paddingHorizontal": 22,
+                "paddingTop": 16,
+              }
+            }
+          >
+            VokeBot 
+            
+          </Text>
+          <Text
+            style={
+              Array [
+                Object {
+                  "fontSize": 17,
+                  "paddingHorizontal": 22,
+                  "paddingVertical": 22,
+                },
+                Object {
+                  "color": "#fff",
+                  "opacity": 1,
+                },
+              ]
+            }
+          >
+            A user said I've thought about this on and off over the years without any conclusion.
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        />
+      </View>
+      <Image
+        source={
+          Object {
+            "uri": "https://assets.vokeapp.com/images/user/small/avatar.jpg",
+          }
+        }
+        style={
+          Object {
+            "backgroundColor": "#3295ad",
+            "borderRadius": 50,
+            "bottom": 0,
+            "height": 25,
+            "left": -30,
+            "position": "absolute",
+            "width": 25,
+          }
+        }
+      />
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "flexDirection": "row",
+            "paddingTop": 4,
+          },
+          Object {
+            "justifyContent": "flex-start",
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#1d1d26",
+            },
+            Object {
+              "fontFamily": "TitilliumWeb-Regular",
+            },
+            Object {
+              "color": "#fff",
+              "fontSize": 13,
+              "textAlign": "right",
+            },
+          ]
+        }
+      >
+        Jan 25 @ 4:44 PM
+      </Text>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`renders correctly in group adventure 1`] = `
+<View
+  style={
+    Object {
+      "paddingBottom": 16,
+      "paddingHorizontal": 22,
+      "zIndex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "paddingHorizontal": 22,
+      }
+    }
+  >
+    <View>
+      <View
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "backgroundColor": "#186078",
+            "borderRadius": 8,
+            "overflow": "hidden",
+            "width": "100%",
+          }
+        }
+        testID="messagePressArea"
+      >
+        <View>
+          <Text
+            style={
+              Array [
+                Object {
+                  "fontSize": 17,
+                  "paddingHorizontal": 22,
+                  "paddingVertical": 22,
+                },
+                Object {
+                  "color": "#fff",
+                  "opacity": 1,
+                },
+              ]
+            }
+          >
+            Test message content
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        />
+      </View>
+      <Image
+        source={
+          Object {
+            "testUri": "../../../src/assets/avatars/defaultAvatar.png",
+          }
+        }
+        style={
+          Object {
+            "backgroundColor": "#3295ad",
+            "borderRadius": 50,
+            "bottom": 0,
+            "height": 25,
+            "left": -30,
+            "position": "absolute",
+            "width": 25,
+          }
+        }
+      />
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "flexDirection": "row",
+            "paddingTop": 4,
+          },
+          Object {
+            "justifyContent": "flex-start",
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#1d1d26",
+            },
+            Object {
+              "fontFamily": "TitilliumWeb-Regular",
+            },
+            Object {
+              "color": "#fff",
+              "fontSize": 13,
+              "textAlign": "right",
+            },
+          ]
+        }
+      >
+        Jan 25 @ 4:44 PM
+      </Text>
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "flex-start",
+              "alignSelf": "flex-start",
+              "flex": 1,
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+            },
+            Object {
+              "justifyContent": "flex-end",
+            },
+          ]
+        }
+      >
+        <View
+          forwardedRef={[Function]}
+          style={Object {}}
+        >
+          <View
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "backgroundColor": "#fff",
+                "borderRadius": 12,
+                "marginBottom": 4,
+                "marginLeft": 8,
+                "paddingHorizontal": 4,
+                "paddingVertical": 4,
+              }
+            }
+            testID="reactionPill-0"
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#186078",
+                  "fontSize": 11,
+                  "paddingRight": 4,
+                }
+              }
+            >
+              🤗
+               
+              3
+            </Text>
+          </View>
+        </View>
+        <View
+          forwardedRef={[Function]}
+          style={Object {}}
+        >
+          <View
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "backgroundColor": "#fff",
+                "borderRadius": 12,
+                "marginBottom": 4,
+                "marginLeft": 8,
+                "paddingHorizontal": 4,
+                "paddingVertical": 4,
+              }
+            }
+            testID="reactionPill-1"
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#186078",
+                  "fontSize": 11,
+                  "paddingRight": 4,
+                }
+              }
+            >
+              😄
+               
+              1
+            </Text>
+          </View>
+        </View>
+        <View
+          forwardedRef={[Function]}
+          style={Object {}}
+        >
+          <View
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "backgroundColor": "#fff",
+                "borderRadius": 12,
+                "marginBottom": 4,
+                "marginLeft": 8,
+                "paddingHorizontal": 4,
+                "paddingVertical": 4,
+              }
+            }
+            testID="reactionPill-2"
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#186078",
+                  "fontSize": 11,
+                  "paddingRight": 4,
+                }
+              }
+            >
+              ♥️
+               
+              3
+            </Text>
+          </View>
+        </View>
+        <View
+          forwardedRef={[Function]}
+          style={Object {}}
+        >
+          <View
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "backgroundColor": "#fff",
+                "borderRadius": 12,
+                "marginBottom": 4,
+                "marginLeft": 8,
+                "paddingHorizontal": 4,
+                "paddingVertical": 4,
+              }
+            }
+            testID="reactionPill-3"
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#186078",
+                  "fontSize": 11,
+                  "paddingRight": 4,
+                }
+              }
+            >
+              😂
+               
+              1
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`renders correctly in solo adventure 1`] = `
+<View
+  style={
+    Object {
+      "paddingBottom": 16,
+      "paddingHorizontal": 22,
+      "zIndex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "paddingHorizontal": 22,
+      }
+    }
+  >
+    <View>
+      <View
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "backgroundColor": "#186078",
+            "borderRadius": 8,
+            "overflow": "hidden",
+            "width": "100%",
+          }
+        }
+        testID="messagePressArea"
+      >
+        <View>
+          <Text
+            style={
+              Array [
+                Object {
+                  "fontSize": 17,
+                  "paddingHorizontal": 22,
+                  "paddingVertical": 22,
+                },
+                Object {
+                  "color": "#fff",
+                  "opacity": 1,
+                },
+              ]
+            }
+          >
+            Test message content
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        />
+      </View>
+      <Image
+        source={
+          Object {
+            "testUri": "../../../src/assets/avatars/defaultAvatar.png",
+          }
+        }
+        style={
+          Object {
+            "backgroundColor": "#3295ad",
+            "borderRadius": 50,
+            "bottom": 0,
+            "height": 25,
+            "left": -30,
+            "position": "absolute",
+            "width": 25,
+          }
+        }
+      />
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "flexDirection": "row",
+            "paddingTop": 4,
+          },
+          Object {
+            "justifyContent": "flex-start",
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#1d1d26",
+            },
+            Object {
+              "fontFamily": "TitilliumWeb-Regular",
+            },
+            Object {
+              "color": "#fff",
+              "fontSize": 13,
+              "textAlign": "right",
+            },
+          ]
+        }
+      >
+        Jan 25 @ 4:44 PM
+      </Text>
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "flex-start",
+              "alignSelf": "flex-start",
+              "flex": 1,
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+            },
+            Object {
+              "justifyContent": "flex-end",
+            },
+          ]
+        }
+      >
+        <View
+          forwardedRef={[Function]}
+          style={Object {}}
+        >
+          <View
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "backgroundColor": "#fff",
+                "borderRadius": 12,
+                "marginBottom": 4,
+                "marginLeft": 8,
+                "paddingHorizontal": 4,
+                "paddingVertical": 4,
+              }
+            }
+            testID="reactionPill-0"
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#186078",
+                  "fontSize": 11,
+                  "paddingRight": 4,
+                }
+              }
+            >
+              🤗
+               
+              3
+            </Text>
+          </View>
+        </View>
+        <View
+          forwardedRef={[Function]}
+          style={Object {}}
+        >
+          <View
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "backgroundColor": "#fff",
+                "borderRadius": 12,
+                "marginBottom": 4,
+                "marginLeft": 8,
+                "paddingHorizontal": 4,
+                "paddingVertical": 4,
+              }
+            }
+            testID="reactionPill-1"
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#186078",
+                  "fontSize": 11,
+                  "paddingRight": 4,
+                }
+              }
+            >
+              😄
+               
+              1
+            </Text>
+          </View>
+        </View>
+        <View
+          forwardedRef={[Function]}
+          style={Object {}}
+        >
+          <View
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "backgroundColor": "#fff",
+                "borderRadius": 12,
+                "marginBottom": 4,
+                "marginLeft": 8,
+                "paddingHorizontal": 4,
+                "paddingVertical": 4,
+              }
+            }
+            testID="reactionPill-2"
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#186078",
+                  "fontSize": 11,
+                  "paddingRight": 4,
+                }
+              }
+            >
+              ♥️
+               
+              3
+            </Text>
+          </View>
+        </View>
+        <View
+          forwardedRef={[Function]}
+          style={Object {}}
+        >
+          <View
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "backgroundColor": "#fff",
+                "borderRadius": 12,
+                "marginBottom": 4,
+                "marginLeft": 8,
+                "paddingHorizontal": 4,
+                "paddingVertical": 4,
+              }
+            }
+            testID="reactionPill-3"
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#186078",
+                  "fontSize": 11,
+                  "paddingRight": 4,
+                }
+              }
+            >
+              😂
+               
+              1
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
