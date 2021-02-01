@@ -1,0 +1,393 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "flex-start",
+        "alignSelf": "flex-start",
+        "flex": 1,
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+      },
+      Object {
+        "justifyContent": "flex-end",
+      },
+    ]
+  }
+>
+  <View
+    forwardedRef={[Function]}
+    style={Object {}}
+  >
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#fff",
+          "borderRadius": 12,
+          "marginBottom": 4,
+          "marginLeft": 8,
+          "paddingHorizontal": 4,
+          "paddingVertical": 4,
+        }
+      }
+      testID="reactionPill-0"
+    >
+      <Text
+        style={
+          Object {
+            "color": "#186078",
+            "fontSize": 11,
+            "paddingRight": 4,
+          }
+        }
+      >
+        🤗
+         
+        3
+      </Text>
+    </View>
+  </View>
+  <View
+    forwardedRef={[Function]}
+    style={Object {}}
+  >
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#fff",
+          "borderRadius": 12,
+          "marginBottom": 4,
+          "marginLeft": 8,
+          "paddingHorizontal": 4,
+          "paddingVertical": 4,
+        }
+      }
+      testID="reactionPill-1"
+    >
+      <Text
+        style={
+          Object {
+            "color": "#186078",
+            "fontSize": 11,
+            "paddingRight": 4,
+          }
+        }
+      >
+        😄
+         
+        1
+      </Text>
+    </View>
+  </View>
+  <View
+    forwardedRef={[Function]}
+    style={Object {}}
+  >
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#fff",
+          "borderRadius": 12,
+          "marginBottom": 4,
+          "marginLeft": 8,
+          "paddingHorizontal": 4,
+          "paddingVertical": 4,
+        }
+      }
+      testID="reactionPill-2"
+    >
+      <Text
+        style={
+          Object {
+            "color": "#186078",
+            "fontSize": 11,
+            "paddingRight": 4,
+          }
+        }
+      >
+        ♥️
+         
+        3
+      </Text>
+    </View>
+  </View>
+  <View
+    forwardedRef={[Function]}
+    style={Object {}}
+  >
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#fff",
+          "borderRadius": 12,
+          "marginBottom": 4,
+          "marginLeft": 8,
+          "paddingHorizontal": 4,
+          "paddingVertical": 4,
+        }
+      }
+      testID="reactionPill-3"
+    >
+      <Text
+        style={
+          Object {
+            "color": "#186078",
+            "fontSize": 11,
+            "paddingRight": 4,
+          }
+        }
+      >
+        😂
+         
+        1
+      </Text>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`renders correctly my message 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "flex-start",
+        "alignSelf": "flex-start",
+        "flex": 1,
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+      },
+      Object {
+        "justifyContent": "flex-start",
+      },
+    ]
+  }
+>
+  <View
+    forwardedRef={[Function]}
+    style={Object {}}
+  >
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#fff",
+          "borderRadius": 12,
+          "marginBottom": 4,
+          "marginLeft": 8,
+          "paddingHorizontal": 4,
+          "paddingVertical": 4,
+        }
+      }
+      testID="reactionPill-0"
+    >
+      <Text
+        style={
+          Object {
+            "color": "#186078",
+            "fontSize": 11,
+            "paddingRight": 4,
+          }
+        }
+      >
+        🤗
+         
+        3
+      </Text>
+    </View>
+  </View>
+  <View
+    forwardedRef={[Function]}
+    style={Object {}}
+  >
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#fff",
+          "borderRadius": 12,
+          "marginBottom": 4,
+          "marginLeft": 8,
+          "paddingHorizontal": 4,
+          "paddingVertical": 4,
+        }
+      }
+      testID="reactionPill-1"
+    >
+      <Text
+        style={
+          Object {
+            "color": "#186078",
+            "fontSize": 11,
+            "paddingRight": 4,
+          }
+        }
+      >
+        😄
+         
+        1
+      </Text>
+    </View>
+  </View>
+  <View
+    forwardedRef={[Function]}
+    style={Object {}}
+  >
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#fff",
+          "borderRadius": 12,
+          "marginBottom": 4,
+          "marginLeft": 8,
+          "paddingHorizontal": 4,
+          "paddingVertical": 4,
+        }
+      }
+      testID="reactionPill-2"
+    >
+      <Text
+        style={
+          Object {
+            "color": "#186078",
+            "fontSize": 11,
+            "paddingRight": 4,
+          }
+        }
+      >
+        ♥️
+         
+        3
+      </Text>
+    </View>
+  </View>
+  <View
+    forwardedRef={[Function]}
+    style={Object {}}
+  >
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#fff",
+          "borderRadius": 12,
+          "marginBottom": 4,
+          "marginLeft": 8,
+          "paddingHorizontal": 4,
+          "paddingVertical": 4,
+        }
+      }
+      testID="reactionPill-3"
+    >
+      <Text
+        style={
+          Object {
+            "color": "#186078",
+            "fontSize": 11,
+            "paddingRight": 4,
+          }
+        }
+      >
+        😂
+         
+        1
+      </Text>
+    </View>
+  </View>
+</View>
+`;
