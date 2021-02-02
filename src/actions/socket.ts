@@ -258,13 +258,13 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
               console.log('🛑 socket error\n', error.message);
               // throw error;
               // Try to restart:
-              setTimeout(
+             /*  setTimeout(
                 () =>
                   dispatch({
                     type: REDUX_ACTIONS.STARTUP,
                   }),
                 5000,
-              );
+              ); */
             };
 
             global.ws.onclose = error => {
@@ -279,13 +279,13 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
           // Do nothing with the error
           console.log('🛑 socketErr:\n', socketErr);
           // Try to restart:
-          setTimeout(
+         /*  setTimeout(
             () =>
               dispatch({
                 type: REDUX_ACTIONS.STARTUP,
               }),
             5000,
-          );
+          ); */
         }
       }
     }

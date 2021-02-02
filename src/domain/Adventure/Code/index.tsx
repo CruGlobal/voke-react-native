@@ -120,7 +120,7 @@ function AdventureCode(): ReactElement {
         style={{
           marginTop:
             Platform.OS === 'ios' &&
-              keyboard.keyboardShown &&
+            keyboard.keyboardShown &&
             windowDimensions.height < 700
               ? -40
               : 0,
@@ -136,7 +136,8 @@ function AdventureCode(): ReactElement {
           style={{
             marginTop:
               keyboard.keyboardShown && windowDimensions.height < 700 ? 45 : 85,
-            opacity: keyboard.keyboardShown && windowDimensions.width < 340 ? 0 : 1,
+            opacity:
+              keyboard.keyboardShown && windowDimensions.width < 340 ? 0 : 1,
           }}
         >
           {t('botMessageContent')}
@@ -195,7 +196,9 @@ function AdventureCode(): ReactElement {
       </OldButton>
       <Flex
         style={{
-          minHeight: keyboard.keyboardShown ? theme.spacing.xxl : theme.spacing.xxl,
+          minHeight: keyboard.keyboardShown
+            ? theme.spacing.xxl
+            : theme.spacing.xxl,
         }}
       />
     </Screen>

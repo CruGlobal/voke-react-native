@@ -96,11 +96,13 @@ function AdventureAvailable(props: Props): React.ReactElement {
       content_type: 'Adventure Available',
       item_list_id: 'Adventures',
       item_list_name: 'Find Adventures',
-      items: [{
-        item_name: item.name,
-        item_category: 'Adventure Available',
-        item_category2: item?.language?.name,
-      }]
+      items: [
+        {
+          item_name: item.name,
+          item_category: 'Adventure Available',
+          item_category2: item?.language?.name,
+        },
+      ],
     });
   }, []);
 

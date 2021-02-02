@@ -11,9 +11,8 @@ import {
 } from 'react-native';
 import { useDebouncedCallback } from 'use-debounce';
 import { capitalize, upperCase } from 'utils';
-
-import Touchable from '../Touchable';
-import VokeIcon from '../VokeIcon';
+import VokeIcon from 'components/VokeIcon';
+import Touchable from 'components/Touchable';
 
 import styles from './styles';
 interface StylingProps {

@@ -8,11 +8,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { bots } from 'assets';
 import theme from 'utils/theme';
+import Text from 'components/Text';
+import Image from 'components/Image';
 
-import Text from '../Text';
 import useCheckUpdate from '../../hooks/useCheckUpdate';
 import Button from '../Button';
-import Image from '../Image';
 import useStoreUrl from '../../hooks/useStoreUrl';
 import { remindToUpdate } from '../../actions/info';
 import { RootState } from '../../reducers';

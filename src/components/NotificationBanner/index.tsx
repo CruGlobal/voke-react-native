@@ -5,14 +5,14 @@ import { useNavigation } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 import { Portal } from 'react-native-portalize';
-
-import ModalNotifications from '../../components/ModalNotifications';
-import { RootState } from '../../reducers';
-import Flex from '../Flex';
-import Text from '../Text';
-import OldButton from '../OldButton';
-import VokeIcon from '../VokeIcon';
 import theme from 'utils/theme';
+import Flex from 'components/Flex';
+import VokeIcon from 'components/VokeIcon';
+import Text from 'components/Text';
+
+import ModalNotifications from '../ModalNotifications';
+import { RootState } from '../../reducers';
+import OldButton from '../OldButton';
 
 const NotificationBanner = (): React.ReactElement => {
   const navigation = useNavigation();
@@ -60,7 +60,7 @@ const NotificationBanner = (): React.ReactElement => {
             backgroundColor: 'rgba(0,0,0,.85)',
             minHeight: '105%',
             borderRadius: 0,
-            marginTop:'-5%',
+            marginTop: '-5%',
           }}
           FooterComponent={null}
         >

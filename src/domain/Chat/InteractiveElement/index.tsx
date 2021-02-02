@@ -1,20 +1,22 @@
+import Options from 'domain/Chat/Options';
+
 import React, { useState, useEffect } from 'react';
 import { View, TextInput } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { getCurrentUserId } from 'utils/get';
-import st from 'utils/st';
 import { TAdventureSingle, TMessage, TStep } from 'utils/types';
+import { createAdventureStepMessage } from 'actions/requests';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'reducers';
+import Flex from 'components/Flex';
+import OldButton from 'components/OldButton';
+import VokeIcon from 'components/VokeIcon';
+import Text from 'components/Text';
+import st from 'utils/st';
 
-import Flex from '../Flex';
-import OldButton from '../OldButton';
-import VokeIcon from '../VokeIcon';
-import Text from '../Text';
-import Image from '../Image';
-import { createAdventureStepMessage } from '../../actions/requests';
-import Select from '../Select';
-
+import BinaryQuestion from './BinaryQuestion';
 import styles from './styles';
+import MultiQuestion from 'domain/Chat/InteractiveElement/MultiQuestion';
 
 interface Props {
   kind: TStep['kind'];
@@ -23,17 +25,17 @@ interface Props {
   internalMessage?: TMessage;
   defaultValue: string;
   onFocus: () => void;
-  isLoading: boolean;
+  isLoading?: boolean; // TODO: remove?
 }
 
-const AdventureStepMessageInput = ({
+const InteractiveElement = ({
   kind,
   adventure,
   step,
   internalMessage,
   defaultValue,
   onFocus,
-  isLoading,
+  isLoading = false,
 }: Props): React.ReactElement => {
   const { t } = useTranslation('journey');
   const dispatch = useDispatch();
@@ -41,17 +43,18 @@ const AdventureStepMessageInput = ({
   const [value, setValue] = useState(defaultValue || null);
   const [draft, setDraft] = useState(null);
   const [messageSent, setMesssageSent] = useState(false);
-  const isMultiQuestion = kind === 'multi';
-  const isBinaryQuestion = kind === 'binary';
-  const isShareQuestion = kind === 'share';
-  const isComplete = step?.status === 'completed';
   const isLocked = step && step['completed_by_messenger?'];
+  const isComplete = step?.status === 'completed';
+  const isMultiQuestion = kind === 'multi';
+  const isShareQuestion = kind === 'share';
+  const isBinaryQuestion = kind === 'binary';
 
   const currentMessages = useSelector(
     ({ data }: RootState) => data.adventureStepMessages[step?.id] || [],
   );
 
-  // In case component rendered before default/current value fetched from the server.
+  // In case component rendered before default/current value
+  // fetched from the server.
   useEffect(() => {
     setValue(defaultValue);
   }, [defaultValue]);
@@ -62,7 +65,7 @@ const AdventureStepMessageInput = ({
     } else if (isComplete || value) {
       setMesssageSent(true);
     } else {
-      for (const [key, msg] of Object.entries(currentMessages)) {
+      for (const [, msg] of Object.entries(currentMessages)) {
         if (
           msg.messenger_id === userId &&
           !msg?.metadata?.question &&
@@ -76,14 +79,12 @@ const AdventureStepMessageInput = ({
   }, [currentMessages.length]);
 
   // When SEND message button clicked.
-  const handleSendMessage = (newValue: any): void => {
+  const handleSendMessage = (newValue: string): void => {
     setMesssageSent(true);
-    // Keyboard.dismiss();
     dispatch(
       createAdventureStepMessage({
         adventure,
         step,
-        // value: newValue || value,
         value: newValue,
         internalMessage: internalMessage ? internalMessage : null,
         kind,
@@ -94,121 +95,23 @@ const AdventureStepMessageInput = ({
 
   if (isMultiQuestion) {
     const answers = internalMessage
-      ? (internalMessage.metadata || {}).answers
-      : (step.metadata || {}).answers;
-    if ((answers || []).length === 0) return <></>;
-
-    let formattedAnswers = answers.map(a => ({
-      value: a.value,
-      label: a.key,
-    }));
-    if (isComplete) {
-      formattedAnswers = formattedAnswers.map(a => ({
-        ...a,
-        disabled: true,
-      }));
-    }
-
-    return (
-      <View
-        style={[
-          st.ovh,
-          {
-            backgroundColor: st.colors.white,
-            borderBottomLeftRadius: 10,
-            borderBottomRightRadius: 10,
-          },
-        ]}
-      >
-        <Select
-          options={formattedAnswers}
-          onFocus={event => {
-            onFocus(event);
-          }}
-          // placeholder="Choose Your Answer..."
-          selectedValue={value}
-          onUpdate={t => {
-            setValue(t.label);
-            handleSendMessage(t.value);
-          }}
-          containerColor={st.colors.orange}
-          isDisabled={isLocked}
-        />
-      </View>
-    );
+      ? internalMessage?.metadata?.answers
+      : step?.metadata?.answers;
+    <MultiQuestion answers={answers} isComplete={isComplete} isLocked={isLocked} selected={value} onItemSelected={(item): void => {
+          setValue(item.label || '');
+              handleSendMessage(item.value);
+        }}/>
   }
 
-  if (isBinaryQuestion) {
-    const metadata = internalMessage.metadata || {};
-    const { answers } = metadata;
-    const hasSelected = (answers || []).find(a => a.selected);
+  if (isBinaryQuestion && internalMessage?.metadata) {
     return (
-      <Flex direction="column" style={[st.mt4]}>
-        <Flex direction="row">
-          <Flex style={[st.f1]} />
-          <Flex
-            direction="column"
-            align="center"
-            style={[st.bgBlack, st.ovh, st.br5, st.w100]}
-          >
-            {(metadata.image || {}).small ? (
-              <Image
-                source={{ uri: metadata.image.small }}
-                style={[st.absfill]}
-              />
-            ) : null}
-            <Text style={[st.pd3, st.fs1, st.white]}>{metadata.name}</Text>
-            <Text style={[st.ph3, st.tal, st.fs3, st.white]}>
-              {metadata.comment}
-            </Text>
-            <Flex
-              direction="column"
-              align="center"
-              style={styles.mainQuestion}
-              /* style={[
-                st.ph4,
-                st.pv4,
-                st.mt4,
-                st.w100,
-                {
-                  marginRight: -20,
-                  marginLeft: -20,
-                  backgroundColor: st.colors.lightOrange,
-                },
-              ]} */
-            >
-              <Text style={[[st.pv4, st.white, st.tac, st.fs20, st.lh(24)]]}>
-                {metadata.question}
-              </Text>
-              <Flex direction="row">
-                {answers.map((a, index) => (
-                  <OldButton
-                    disabled={hasSelected}
-                    onPress={() => {
-                      setValue(a.value);
-                      handleSendMessage(a.value);
-                    }}
-                    style={[
-                      a.selected ? st.bgWhite : st.bgOrange,
-                      st.br1,
-                      st.mh5,
-                      st.ph2,
-                      st.pv5,
-                      a.selected || !hasSelected
-                        ? { opacity: 1 }
-                        : { opacity: 0.4 },
-                    ]}
-                  >
-                    <Text style={[a.selected ? st.orange : st.white, st.fs18]}>
-                      {a.key}
-                    </Text>
-                  </OldButton>
-                ))}
-              </Flex>
-            </Flex>
-          </Flex>
-        </Flex>
-      </Flex>
+      <BinaryQuestion
+        metadata={internalMessage?.metadata}
+        onValueSelected={(val): void => {
+          setValue(val);
+          handleSendMessage(val);
+        }}
+      />
     );
   }
 
@@ -259,6 +162,7 @@ const AdventureStepMessageInput = ({
     );
   }
 
+  // Regular.
   return (
     <Flex
       direction="row"
@@ -318,4 +222,4 @@ const AdventureStepMessageInput = ({
   );
 };
 
-export default AdventureStepMessageInput;
+export default InteractiveElement;

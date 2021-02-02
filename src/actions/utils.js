@@ -10,10 +10,10 @@ const API_VERSION = 'v1';
 
 let domain = '';
 if (!CONSTANTS.IS_STAGING) {
-  setTimeout(() => console.log('🛑 POINTING TO PROD'), 1);
+  // setTimeout(() => console.log('🛑 POINTING TO PROD'), 1);
   domain = '';
 } else {
-  setTimeout(() => console.log('🟢 POINTING TO STAGING'), 1);
+  // setTimeout(() => console.log('🟢 POINTING TO STAGING'), 1);
   domain = '-stage';
 }
 

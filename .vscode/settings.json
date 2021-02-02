@@ -1,5 +1,4 @@
 {
-  "java.configuration.updateBuildConfiguration": "disabled",
   "eslint.enable": true,
   "workbench.colorCustomizations": {
     "badge.background": "#caa863",

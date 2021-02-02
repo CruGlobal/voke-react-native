@@ -7,13 +7,13 @@ import { useWindowDimensions } from 'react-native';
 import st from 'utils/st';
 import { momentUtc } from 'utils';
 import { bots } from 'assets';
+import Flex from 'components/Flex';
+import VokeIcon from 'components/VokeIcon';
+import Image from 'components/Image';
+import Text from 'components/Text';
+import Touchable from 'components/Touchable';
 
-import Image from '../Image';
-import Flex from '../Flex';
-import Text from '../Text';
-import Touchable from '../Touchable';
 import DateComponent from '../DateComponent';
-import VokeIcon from '../VokeIcon';
 
 function renderText(item) {
   const notification = item;

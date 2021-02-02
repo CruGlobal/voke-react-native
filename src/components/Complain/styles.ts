@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-
 import theme from 'utils/theme';
 
 const styles = StyleSheet.create({
@@ -13,11 +12,11 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   modalBlur: {
-    ...StyleSheet.absoluteFill,
+    ...StyleSheet.absoluteFillObject,
     // backgroundColor: 'rgba(255,255,255,.3)',
   },
   modalBlurAndroid: {
-    ...StyleSheet.absoluteFill,
+    ...StyleSheet.absoluteFillObject,
     backgroundColor: theme.colors.white,
   },
   modalContent: {

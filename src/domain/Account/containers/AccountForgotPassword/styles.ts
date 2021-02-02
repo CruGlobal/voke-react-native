@@ -36,7 +36,7 @@ const styles: { [key: string]: any } = {
       marginLeft: theme.spacing.l,
       marginRight: theme.spacing.l,
       marginBottom: theme.spacing.l,
-    }
+    },
   ],
   ButtonStartLabel: [ui.buttonText.size.l, ui.buttonText.style.solid],
   ButtonSignIn: [ui.button.size.m, ui.button.style.outline],

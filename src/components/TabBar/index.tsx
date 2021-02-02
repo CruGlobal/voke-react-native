@@ -3,11 +3,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
 import st from 'utils/st';
 import theme from 'utils/theme';
-
-import Flex from '../Flex';
-import Touchable from '../Touchable';
-import VokeIcon from '../VokeIcon';
-import Text from '../Text';
+import Flex from 'components/Flex';
+import VokeIcon from 'components/VokeIcon';
+import Touchable from 'components/Touchable';
+import Text from 'components/Text';
 
 import styles from './styles';
 

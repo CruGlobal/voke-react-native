@@ -10,10 +10,10 @@ import { useFocusEffect } from '@react-navigation/native';
 import CONSTANTS, { REDUX_ACTIONS } from 'utils/constants';
 import theme from 'utils/theme';
 import Touchable from 'components/Touchable';
+import VokeIcon from 'components/VokeIcon';
+import Text from 'components/Text';
 
 import { createComplain } from '../../actions/requests';
-import Text from '../Text';
-import VokeIcon from '../VokeIcon';
 import { RootState } from '../../reducers';
 import OldButton from '../OldButton';
 

@@ -167,7 +167,7 @@ function VideoList() {
       screen_name: newSelection,
       screen_class: 'VideoList',
     });
-  }
+  };
 
   return (
     <View style={[st.f1, st.bgBlue]}>
@@ -217,7 +217,7 @@ function VideoList() {
                 <OldButton
                   key={item.id}
                   onPress={() => {
-                    registerAnalyticsEvent(item.title)
+                    registerAnalyticsEvent(item.title);
                     setFilterId(item.id);
                   }}
                   style={[
@@ -240,8 +240,8 @@ function VideoList() {
                       style={{ color: theme.colors.white }}
                     />
                   ) : (
-                      <Text style={[st.white, st.fs18]}>{item.title}</Text>
-                    )}
+                    <Text style={[st.white, st.fs18]}>{item.title}</Text>
+                  )}
                 </OldButton>
               )}
             />
@@ -254,7 +254,7 @@ function VideoList() {
             ) : null}
           </>
         )}
-      // removeClippedSubviews // vc-1022
+        // removeClippedSubviews // vc-1022
       />
     </View>
   );
@@ -262,7 +262,7 @@ function VideoList() {
 
 function ChannelList() {
   const dispatch = useDispatch();
-  useMount(() => { });
+  useMount(() => {});
   return (
     <ScrollView style={[st.f1, st.bgBlue]} scrollIndicatorInsets={{ right: 1 }}>
       <Text>NOTHING YET</Text>

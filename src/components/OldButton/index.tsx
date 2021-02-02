@@ -8,8 +8,7 @@ import {
   TextStyle,
 } from 'react-native';
 import st from 'utils/st';
-
-import Touchable from '../Touchable';
+import Touchable from 'components/Touchable';
 
 type ButtonProps = {
   onPress?: Function;
