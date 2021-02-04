@@ -86,7 +86,7 @@ const Select = (props: Props): ReactElement => {
   return (
     <View collapsable={false}>
       <TouchableOpacity
-        ref={(newRef) => toggleRef.current = newRef}
+        ref={newRef => (toggleRef.current = newRef)}
         onPress={(): void => {
           show();
         }}
@@ -112,7 +112,7 @@ const Select = (props: Props): ReactElement => {
         <TouchableWithoutFeedback
           onPress={hide}
           accessible={false}
-          testID='dropdownBackdrop'
+          testID="dropdownBackdrop"
         >
           <View
             style={[

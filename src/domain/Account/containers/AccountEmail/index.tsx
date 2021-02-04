@@ -244,7 +244,9 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
               </OldButton>
             </Flex>
             {/* Safe area at the bottom for phone with exotic notches */}
-            <Flex style={{ height: keyboard.keyboardShown ? 0 : insets.bottom }} />
+            <Flex
+              style={{ height: keyboard.keyboardShown ? 0 : insets.bottom }}
+            />
           </Flex>
         </DismissKeyboardView>
       </ScrollView>

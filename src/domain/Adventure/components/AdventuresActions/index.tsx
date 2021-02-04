@@ -3,7 +3,6 @@ import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import lodash from 'lodash';
-
 import Flex from 'components/Flex';
 import Text from 'components/Text';
 import st from 'utils/st';

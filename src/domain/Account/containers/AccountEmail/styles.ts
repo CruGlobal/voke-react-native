@@ -70,8 +70,7 @@ const styles: { [key: string]: any } = {
     width: '100%',
   },
   ButtonFBSignIn: [ui.button.size.m, ui.button.style.outline],
-  ButtonFBSignInIcon:
-  {
+  ButtonFBSignInIcon: {
     width: 22,
     height: 22,
     marginRight: theme.spacing.l,

@@ -12,13 +12,13 @@ import useInterval from 'utils/useInterval';
 import { getExpiredTime } from 'utils/get';
 import st from 'utils/st';
 import { TDataState, TInvitation } from 'utils/types';
+import Flex from 'components/Flex';
+import VokeIcon from 'components/VokeIcon';
+import Image from 'components/Image';
+import Touchable from 'components/Touchable';
+import Text from 'components/Text';
 
-import Image from '../Image';
-import Touchable from '../Touchable';
-import Text from '../Text';
 import OldButton from '../OldButton';
-import VokeIcon from '../VokeIcon';
-import Flex from '../Flex';
 import {
   resendAdventureInvitation,
   deleteAdventureInvitation,
@@ -155,13 +155,15 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
             content_type: 'Invite',
             item_list_id: 'Adventures',
             item_list_name: 'My Adventures',
-            items: [{
-              item_id: '0145292b-bef9-47ed-b14e-25f367c7246a',
-              item_name: inviteItem.organization_journey.name,
-              item_category: 'Invite',
-              item_category2: inviteItem.kind,
-              item_category3: inviteItem.status,
-            }]
+            items: [
+              {
+                item_id: '0145292b-bef9-47ed-b14e-25f367c7246a',
+                item_name: inviteItem.organization_journey.name,
+                item_category: 'Invite',
+                item_category2: inviteItem.kind,
+                item_category3: inviteItem.status,
+              },
+            ],
           });
 
           navigation.navigate('AdventureActive', {

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-
-import VokeIcon from '../VokeIcon';
+import VokeIcon from 'components/VokeIcon';
 
 import styles from './styles';
 

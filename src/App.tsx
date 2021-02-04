@@ -1,20 +1,10 @@
-import React, {
-  useEffect,
-  useState,
-  useCallback,
-  ReactElement,
-  useRef,
-  memo,
-} from 'react';
+import React, { useEffect, useState, ReactElement } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import {
   NavigationContainer,
-  useRoute,
   useNavigationState,
-  useFocusEffect,
   StackActions,
-  RouteProp,
 } from '@react-navigation/native';
 import analytics from '@react-native-firebase/analytics';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
@@ -25,7 +15,7 @@ import {
   StackNavigationProp,
 } from '@react-navigation/stack';
 import { SafeAreaView, useSafeArea } from 'react-native-safe-area-context';
-import useAppState from 'react-native-appstate-hook';
+import { useAppState } from '@react-native-community/hooks';
 import RNBootSplash from 'react-native-bootsplash';
 import { Host } from 'react-native-portalize';
 import theme from 'utils/theme';

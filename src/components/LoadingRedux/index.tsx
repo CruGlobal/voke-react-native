@@ -2,9 +2,8 @@ import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ActivityIndicator } from 'react-native';
 import st from 'utils/st';
-
-import Flex from '../Flex';
-import Text from '../Text';
+import Flex from 'components/Flex';
+import Text from 'components/Text';
 
 const LoadingRedux = () => {
   return (

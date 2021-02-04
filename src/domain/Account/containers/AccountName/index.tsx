@@ -192,7 +192,9 @@ const AccountName = (props: Props): React.ReactElement => {
             {
               backgroundColor: theme.colors.white,
               textAlign: 'center',
-              marginTop: keyboard.keyboardShown ? theme.spacing.l : theme.spacing.xl,
+              marginTop: keyboard.keyboardShown
+                ? theme.spacing.l
+                : theme.spacing.xl,
               shadowColor: 'rgba(0, 0, 0, 0.5)',
               shadowOpacity: 0.5,
               elevation: 4,

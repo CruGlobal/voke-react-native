@@ -2,9 +2,8 @@ import React, { forwardRef, useState } from 'react';
 import { TextInput, TextInputProps, View } from 'react-native';
 import theme from 'utils/theme';
 import st from 'utils/st'; // TODO: use new styles here.
-
-import Text from '../Text';
-import Flex from '../Flex';
+import Flex from 'components/Flex';
+import Text from 'components/Text';
 
 // TextInputProps already have all the property definitions used here,
 // so just extend it with our one custom property 'label'.

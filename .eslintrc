@@ -1,24 +1,39 @@
 {
   "extends": [
-		"react-native-wcandillon",
-		"prettier",
+    "react-native-wcandillon",
+    "prettier",
     "prettier/react",
-    "prettier/@typescript-eslint",
-	],
-	"globals": {
+    "prettier/@typescript-eslint"
+  ],
+  "globals": {
     "LOG": true,
     "WARN": true,
-    __DEV__: true,
+    "__DEV__": true
   },
   "rules": {
-    camelcase: ["error", {
-      allow: [
-        "message_id",
-        "messenger_journeys",
-        "messenger_journey_reports",
-        "messenger_journey_steps",
-      ]
-    }],
-    "import/extensions": ["ignorePackages"]
-  },
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "camelcase": [
+      "error",
+      {
+        "allow": [
+          "message_id",
+          "messenger_journeys",
+          "messenger_journey_reports",
+          "messenger_journey_steps",
+          "messenger_journey_step_id",
+          "step_kind",
+          "vokebot_action"
+        ]
+      }
+    ]
+  }
 }

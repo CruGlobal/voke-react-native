@@ -511,7 +511,7 @@ exports[`render binary step (decision/pray) - no option selected 1`] = `
         }
         style={
           Object {
-            "paddingBottom": 44,
+            "paddingBottom": 30.799999999999997,
             "paddingHorizontal": 16,
             "paddingTop": 22,
             "width": "100%",
@@ -544,7 +544,7 @@ exports[`render binary step (decision/pray) - no option selected 1`] = `
             Object {
               "flexDirection": "row",
               "justifyContent": "space-around",
-              "paddingHorizontal": 22,
+              "paddingHorizontal": 8,
               "paddingTop": 16,
             }
           }
@@ -564,7 +564,7 @@ exports[`render binary step (decision/pray) - no option selected 1`] = `
                 "backgroundColor": "#FF9900",
                 "borderRadius": 88,
                 "opacity": 1,
-                "paddingHorizontal": 16,
+                "paddingHorizontal": 22,
                 "paddingVertical": 8,
               }
             }
@@ -617,7 +617,7 @@ exports[`render binary step (decision/pray) - no option selected 1`] = `
                 "backgroundColor": "#FF9900",
                 "borderRadius": 88,
                 "opacity": 1,
-                "paddingHorizontal": 16,
+                "paddingHorizontal": 22,
                 "paddingVertical": 8,
               }
             }
@@ -790,7 +790,7 @@ exports[`render binary step (decision/pray) - one selected 1`] = `
         }
         style={
           Object {
-            "paddingBottom": 44,
+            "paddingBottom": 30.799999999999997,
             "paddingHorizontal": 16,
             "paddingTop": 22,
             "width": "100%",
@@ -823,7 +823,7 @@ exports[`render binary step (decision/pray) - one selected 1`] = `
             Object {
               "flexDirection": "row",
               "justifyContent": "space-around",
-              "paddingHorizontal": 22,
+              "paddingHorizontal": 8,
               "paddingTop": 16,
             }
           }
@@ -843,7 +843,7 @@ exports[`render binary step (decision/pray) - one selected 1`] = `
                 "backgroundColor": "#fff",
                 "borderRadius": 88,
                 "opacity": 1,
-                "paddingHorizontal": 16,
+                "paddingHorizontal": 22,
                 "paddingVertical": 8,
               }
             }
@@ -895,8 +895,8 @@ exports[`render binary step (decision/pray) - one selected 1`] = `
               Object {
                 "backgroundColor": "#FF9900",
                 "borderRadius": 88,
-                "opacity": 1,
-                "paddingHorizontal": 16,
+                "opacity": 0.4,
+                "paddingHorizontal": 22,
                 "paddingVertical": 8,
               }
             }

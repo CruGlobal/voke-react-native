@@ -1,0 +1,291 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`emit events correctly - kind "question" 1`] = `
+Array [
+  Object {
+    "description": "Create Adventure Step Message",
+    "options": Object {
+      "data": Object {
+        "message": Object {
+          "content": "Some answer",
+          "message_reference_id": "d64a1b4e-3214-4c31-b46a-24ca9e946ab2",
+          "messenger_journey_step_id": "671c28d8-eda1-4cbf-b9d1-58a9a4011867",
+        },
+      },
+      "description": "Create Adventure Step Message",
+      "method": "post",
+      "pathParams": Object {
+        "adventureConversationId": "fb6e60b5-ddd2-4756-a1c5-4473cc2f6a72",
+      },
+      "url": "me/conversations/{adventureConversationId}/messages",
+    },
+    "type": "REQUEST_FETCH",
+  },
+]
+`;
+
+exports[`renders correctly - kind "question" - answered 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    Object {
+      "paddingBottom": 22,
+      "paddingHorizontal": 22,
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "paddingHorizontal": 20,
+        },
+        Object {
+          "flexDirection": "column",
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "backgroundColor": "#FF9900",
+            "borderTopLeftRadius": 10,
+            "borderTopRightRadius": 10,
+            "paddingHorizontal": 16,
+            "paddingVertical": 22,
+            "width": "100%",
+          },
+          Object {
+            "alignItems": "center",
+            "flexDirection": "column",
+            "justifyContent": "center",
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#fff",
+            "fontSize": 17,
+            "lineHeight": 22.1,
+            "textAlign": "center",
+          }
+        }
+      >
+        What led you to this response today?
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#fff",
+          "borderBottomLeftRadius": 10,
+          "borderBottomRightRadius": 10,
+          "flexDirection": "row",
+          "paddingHorizontal": 16,
+          "width": "100%",
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#1d1d26",
+            },
+            Object {
+              "fontFamily": "TitilliumWeb-Regular",
+            },
+            Object {
+              "color": "#186078",
+              "fontSize": 17,
+              "paddingVertical": 16,
+              "width": "100%",
+            },
+          ]
+        }
+      >
+        Answer to the question
+      </Text>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`renders correctly - kind "question" - not answered 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    Object {
+      "paddingBottom": 22,
+      "paddingHorizontal": 22,
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "paddingHorizontal": 20,
+        },
+        Object {
+          "flexDirection": "column",
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "backgroundColor": "#FF9900",
+            "borderTopLeftRadius": 10,
+            "borderTopRightRadius": 10,
+            "paddingHorizontal": 16,
+            "paddingVertical": 22,
+            "width": "100%",
+          },
+          Object {
+            "alignItems": "center",
+            "flexDirection": "column",
+            "justifyContent": "center",
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#fff",
+            "fontSize": 17,
+            "lineHeight": 22.1,
+            "textAlign": "center",
+          }
+        }
+      >
+        What led you to this response today?
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#fff",
+          "borderBottomLeftRadius": 10,
+          "borderBottomRightRadius": 10,
+          "flexDirection": "row",
+          "paddingHorizontal": 16,
+          "width": "100%",
+        }
+      }
+    >
+      <TextInput
+        allowFontScaling={true}
+        autoCapitalize="sentences"
+        keyboardAppearance="dark"
+        multiline={true}
+        onChangeText={[Function]}
+        onFocus={[Function]}
+        placeholder="enterAnswer"
+        placeholderTextColor="#979797"
+        rejectResponderTermination={true}
+        selectionColor="#216373"
+        style={
+          Object {
+            "color": "#186078",
+            "flex": 1,
+            "fontFamily": "TitilliumWeb-Regular",
+            "fontSize": 17,
+            "marginRight": 6,
+            "paddingBottom": 22,
+            "paddingTop": 22,
+          }
+        }
+        testID="inputEnterAnswer"
+        underlineColorAndroid="transparent"
+        value=""
+      />
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignSelf": "flex-end",
+            "borderRadius": 88,
+            "opacity": 1,
+            "paddingHorizontal": 22,
+            "paddingVertical": 16,
+            "right": -15,
+          }
+        }
+        testID="ctaSendAnswer"
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "center",
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "fontFamily": "TitilliumWeb-Regular",
+                  "textAlign": "center",
+                },
+                Object {
+                  "fontSize": 21,
+                  "lineHeight": 28.35,
+                },
+                Object {
+                  "color": "#44c8e8",
+                  "fontFamily": "TitilliumWeb-SemiBold",
+                },
+                undefined,
+                undefined,
+              ]
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              style={
+                Array [
+                  Object {
+                    "color": undefined,
+                    "fontSize": 24,
+                  },
+                  Object {
+                    "color": "#3295ad",
+                  },
+                  Object {
+                    "fontFamily": "icoMoon",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  Object {},
+                ]
+              }
+            >
+              
+            </Text>
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;

@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
+import theme from 'utils/theme';
+import { useTranslation } from 'react-i18next';
+import Flex from 'components/Flex';
+import VokeIcon from 'components/VokeIcon';
+import Text from 'components/Text';
+
 import OldButton from '../OldButton';
 
-import theme from 'utils/theme';
-import Flex from '../Flex';
-import VokeIcon from '../VokeIcon';
-import Text from '../Text';
 import styles from './styles';
-import { useTranslation } from 'react-i18next';
 
 function CollapsibleInfo({
   toggleText,
@@ -17,14 +18,16 @@ function CollapsibleInfo({
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <Flex
-      direction="column"
-      justify="center"
-      style={styles.container}
-    >
+    <Flex direction="column" justify="center" style={styles.container}>
       {/* Information Icon */}
-      <OldButton onPress={() => setIsOpen(!isOpen)} testID={'ctaInfoBlockToggle'} style={styles.ctaInfoBlockToggle}>
-        <Text style={styles.ctaInfoBlockToggleText} testID={'textHaveCode'}>{toggleText}</Text>
+      <OldButton
+        onPress={() => setIsOpen(!isOpen)}
+        testID={'ctaInfoBlockToggle'}
+        style={styles.ctaInfoBlockToggle}
+      >
+        <Text style={styles.ctaInfoBlockToggleText} testID={'textHaveCode'}>
+          {toggleText}
+        </Text>
         <VokeIcon
           name="help-circle"
           size={30}
@@ -34,11 +37,7 @@ function CollapsibleInfo({
       {/* Content */}
       {isOpen ? (
         <Flex>
-          <Text
-            style={styles.textMain}
-          >
-            {infoText}
-          </Text>
+          <Text style={styles.textMain}>{infoText}</Text>
           {children}
         </Flex>
       ) : null}

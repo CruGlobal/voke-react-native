@@ -6,18 +6,18 @@ import { useNavigation } from '@react-navigation/native';
 import lodash from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { TAdventureSingle, TAvailableAdventure } from 'utils/types';
+import theme from 'utils/theme';
+import Flex from 'components/Flex';
+import VokeIcon from 'components/VokeIcon';
+import Image from 'components/Image';
+import Touchable from 'components/Touchable';
+import Text from 'components/Text';
 
-import Image from '../Image';
-import Touchable from '../Touchable';
-import Text from '../Text';
 import OldButton from '../OldButton';
-import VokeIcon from '../VokeIcon';
-import Flex from '../Flex';
 import { RootState } from '../../reducers';
 import Button from '../Button';
 
 import styles from './styles';
-import theme from 'utils/theme';
 
 function AvailableAdventureItem(
   adventureData: TAvailableAdventure,
@@ -136,9 +136,9 @@ function AvailableAdventureItem(
             {shouldInviteFriend ? null : (
               <OldButton
                 testID={'ctaShareIcon'}
-              type="transparent"
-              isAndroidOpacity
-              onPress={(): void =>
+                type="transparent"
+                isAndroidOpacity
+                onPress={(): void =>
                   navigation.navigate('AdventureName', {
                     item: {
                       id: adventureData.id,
@@ -146,7 +146,7 @@ function AvailableAdventureItem(
                     withGroup: false,
                   })
                 }
-              activeOpacity={0.6}
+                activeOpacity={0.6}
                 touchableStyle={{
                   top: -15,
                   marginLeft: 10,
@@ -159,7 +159,7 @@ function AvailableAdventureItem(
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}
-            >
+              >
                 <VokeIcon
                   name="share"
                   style={{
@@ -168,7 +168,7 @@ function AvailableAdventureItem(
                     color: theme.colors.white,
                   }}
                 />
-            </OldButton>
+              </OldButton>
             )}
           </Flex>
         </Flex>

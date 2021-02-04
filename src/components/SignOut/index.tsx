@@ -11,10 +11,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import theme from 'utils/theme';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import Flex from 'components/Flex';
+import Touchable from 'components/Touchable';
 
-import Flex from '../Flex';
 import OldButton from '../OldButton';
-import Touchable from '../Touchable';
 import { logoutAction } from '../../actions/auth';
 
 type SignOutProps = {

@@ -13,13 +13,13 @@ import theme from 'utils/theme';
 import st from 'utils/st';
 import { TAdventureSingle, TDataState, TStep } from 'utils/types';
 import analytics from '@react-native-firebase/analytics';
+import Flex from 'components/Flex';
+import VokeIcon from 'components/VokeIcon';
+import Image from 'components/Image';
+import Touchable from 'components/Touchable';
+import Text from 'components/Text';
 
 import { RootState } from '../../reducers';
-import Image from '../Image';
-import Touchable from '../Touchable';
-import Flex from '../Flex';
-import Text from '../Text';
-import VokeIcon from '../VokeIcon';
 import Spacer from '../Spacer';
 
 import styles from './styles';

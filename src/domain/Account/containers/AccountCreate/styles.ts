@@ -9,7 +9,7 @@ const styles: { [key: string]: any } = {
     {
       flex: 1,
       backgroundColor: theme.colors.primary,
-    }
+    },
   ],
   PrimaryContent: {
     width: '100%',
@@ -58,7 +58,6 @@ const styles: { [key: string]: any } = {
     fontFamily: theme.fonts.regular,
     textAlign: 'center',
     marginTop: -theme.spacing.l,
-
   },
   SectionFB: {
     backgroundColor: theme.colors.primary,
