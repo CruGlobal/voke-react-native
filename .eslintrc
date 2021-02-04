@@ -11,6 +11,16 @@
     "__DEV__": true
   },
   "rules": {
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
     "camelcase": [
       "error",
       {
@@ -18,10 +28,12 @@
           "message_id",
           "messenger_journeys",
           "messenger_journey_reports",
-          "messenger_journey_steps"
+          "messenger_journey_steps",
+          "messenger_journey_step_id",
+          "step_kind",
+          "vokebot_action"
         ]
       }
-    ],
-    "import/extensions": ["ignorePackages"]
+    ]
   }
 }

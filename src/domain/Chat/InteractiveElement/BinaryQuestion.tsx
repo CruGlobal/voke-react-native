@@ -11,43 +11,58 @@ import styles from './styles';
 interface Props {
   metadata: TMessage['metadata'];
   onValueSelected: (value: string) => void;
+  isShareRequest?: boolean;
 }
 
 const BinaryQuestion = ({
   metadata,
   onValueSelected,
+  isShareRequest,
 }: Props): React.ReactElement => {
-  const image = metadata?.image?.small || '';
   const name = metadata?.name || '';
+  const image = metadata?.image?.small || '';
   const comment = metadata?.comment || '';
-  const question = metadata?.question || '';
   const answers = metadata?.answers || [];
+  const question = metadata?.question || '';
   const hasSelected = answers.find(a => a.selected) ? true : false;
   return (
-    <View style={styles.binaryBubble}>
+    <View style={isShareRequest ? styles.shareQBubble : styles.binaryBubble}>
       {image ? (
         <Image source={{ uri: image }} style={StyleSheet.absoluteFill} />
       ) : null}
-      <Text style={styles.binaryName}>{name}</Text>
-      <Text style={styles.binaryComment}>{comment}</Text>
+      {isShareRequest ? (
+        <Text style={styles.shareQName}>{name}</Text>
+      ) : (
+        <>
+          <Text style={styles.binaryName}>{name}</Text>
+          <Text style={styles.binaryComment}>{comment}</Text>
+        </>
+      )}
       <LinearGradient
-        colors={['rgba(0,0,0,0)', 'rgba(0,0,0,5)']}
+        colors={[
+          'rgba(0,0,0,0)',
+          isShareRequest ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,1)',
+        ]}
         style={styles.mainQuestion}
       >
-        <Text style={styles.binaryQuestion}>{question}</Text>
+        <Text
+          style={isShareRequest ? styles.shareQuestion : styles.binaryQuestion}
+        >
+          {question}
+        </Text>
         <View style={styles.binaryOptionsWrap}>
           {answers.map((a, index) => (
             <Button
               key={index}
               disabled={hasSelected}
+              testID={'binaryButton-' + index}
+              color={a.selected ? 'blank' : 'accent'}
               onPress={(): void => {
                 onValueSelected(a.value);
               }}
-              color={a.selected ? 'blank' : 'accent'}
               style={[
                 a.selected || !hasSelected ? { opacity: 1 } : { opacity: 0.4 },
               ]}
-              testID={'binaryButton-' + index}
             >
               {a.key}
             </Button>

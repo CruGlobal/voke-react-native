@@ -411,6 +411,31 @@ export const mockMyMessage: TMessage = {
   created_at: '2021-01-25T20:44:00.960Z',
 };
 
+export const mockMessageQuestion: TMessage = {
+  id: 'd64a1b4e-3214-4c31-b46a-24ca9e946ab2',
+  content: '',
+  position: 2,
+  messenger_id: 'messenger2',
+  conversation_id: 'fb6e60b5-ddd2-4756-a1c5-4473cc2f6a72',
+  messenger_journey_step_id: 'aad54470-cb18-4e95-b626-171d9fb500ee',
+  grouping_journey_step_id: 'aad54470-cb18-4e95-b626-171d9fb500ee',
+  kind: 'text',
+  direct_message: true,
+  'adventure_message?': true,
+  item: null,
+  reactions: {},
+  metadata: {
+    messenger_journey_step_id: '671c28d8-eda1-4cbf-b9d1-58a9a4011867',
+    name: 'What led you to this response today?',
+    question: 'What led you to this response today?',
+    comment: '',
+    step_kind: 'question',
+    image: image,
+    vokebot_action: 'journey_step',
+  },
+  created_at: '2021-01-25T20:44:00.960Z',
+};
+
 export const botMessageMock: TMessage = {
   id: '2021-01-28T21:45:50.991Z',
   messenger_id: '27171f1e-b73c-4ce8-ade0-17b58bdfd72b',

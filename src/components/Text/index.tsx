@@ -16,7 +16,8 @@ const Text = forwardRef(
     ref: React.Ref<RNText>,
   ) => {
     return (
-      <RNText ref={ref} {...rest} style={[st.black, st.fontMain, style]}>
+      <RNText ref={ref} {...rest}      
+      style={[st.black, st.fontMain, style]}>
         {children}
       </RNText>
     );

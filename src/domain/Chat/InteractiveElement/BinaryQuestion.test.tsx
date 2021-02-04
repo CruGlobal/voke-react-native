@@ -1,17 +1,8 @@
 import React from 'react';
 import { fireEvent } from '@testing-library/react-native';
-import { Host } from 'react-native-portalize';
-// import { toHaveStyle } from '@testing-library/jest-native'; - causes TS error.
-// https://github.com/testing-library/jest-dom/issues/123
 import '@testing-library/jest-native';
 import {
-  groupAdventureMock,
-  stepMock,
-  mockMyMessage,
-  soloAdventureMock,
-  botMessageMock,
   mockUser,
-  mockMessage,
   mockStepDecisionInactive,
   mockMessageBinaryDefault,
   mockMessageBinarySelected,

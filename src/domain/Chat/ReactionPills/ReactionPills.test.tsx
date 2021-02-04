@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react-native';
 
-import ReactionPills from '../index';
+import ReactionPills from './index';
 
 const reactionsMock = {
   '🤗': [

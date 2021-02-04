@@ -284,7 +284,13 @@ export type TMessage = {
   conversation_id: string;
   messenger_journey_step_id?: string;
   grouping_journey_step_id?: string;
-  kind?: 'text' | 'request' | 'response' | 'question' | 'answer' | 'request_information';
+  kind?:
+    | 'text'
+    | 'request'
+    | 'response'
+    | 'question'
+    | 'answer'
+    | 'request_information';
   direct_message?: boolean;
   'adventure_message?'?: boolean;
   selected?: boolean; // Selected option in multichoise option.

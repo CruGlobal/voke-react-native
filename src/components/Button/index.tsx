@@ -101,6 +101,7 @@ const Button: FunctionComponent<ButtonProps> = ({
   icon,
   testID,
   shadow = false,
+  style,
   ...rest
 }) => {
   const stylesOuter = getStyles({
@@ -129,7 +130,7 @@ const Button: FunctionComponent<ButtonProps> = ({
   return (
     <Touchable
       {...rest}
-      style={stylesOuter}
+      style={[stylesOuter, style]}
       disabled={isDisabled}
       onPress={
         isDisabled

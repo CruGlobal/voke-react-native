@@ -36,6 +36,15 @@ const SpecialMessage = (props: Props): React.ReactElement => {
     selectedAnswer = nextMessage?.content;
   }
 
+  /*   console.log('--------------------------------------------------------');
+  console.log('🐸 kind:', kind);
+  console.log('🐸 defaultValue - selectedAnswer:', selectedAnswer);
+  console.log('🐸 internalMessage - message:', message);
+  console.log('🐸 adventure:', adventure);
+  console.log('🐸 step:', step);
+  console.log('🐸 nextMessage:', nextMessage);
+  console.log('--------------------------------------------------------');
+ */
   return (
     <View
       style={styles.mainQuestionCard}
@@ -61,7 +70,7 @@ const SpecialMessage = (props: Props): React.ReactElement => {
             </Text>
           </Flex>
         ) : null}
-        {/* Message input field: */}
+        {/* Message input field / options / actions: */}
         <InteractiveElement
           kind={kind}
           adventure={adventure}

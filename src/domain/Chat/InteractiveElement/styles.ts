@@ -1,20 +1,29 @@
-import { matches } from 'lodash';
 import { StyleSheet } from 'react-native';
 import theme from 'utils/theme';
 
-const stylesShared = {
+const stylesShared = StyleSheet.create({
   answerText: {
     width: '100%',
     paddingVertical: theme.spacing.m,
     fontSize: theme.fontSizes.l,
     color: theme.colors.secondary,
   },
-};
+  messageBubble: {
+    borderRadius: theme.radius.m,
+    overflow: 'hidden',
+    alignItems: 'center',
+  },
+  question: {
+    flex: 1,
+    color: theme.colors.white,
+    textAlign: 'center',
+  },
+});
 
 const styles = StyleSheet.create({
   buttonSend: {
-    padding: 20,
     right: -15,
+    alignSelf: 'flex-end',
   },
   iconSend: {
     color: theme.colors.secondaryAlt,
@@ -26,6 +35,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.spacing.m,
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 
   answerText: {
@@ -36,11 +47,29 @@ const styles = StyleSheet.create({
     opacity: 0,
   },
 
+  answerSkipped: {
+    ...stylesShared.answerText,
+    color: theme.colors.gray,
+    opacity: 0.4,
+  },
+
+  answerTextInput: {
+    flex: 1,
+    paddingTop: theme.spacing.l,
+    paddingBottom: theme.spacing.l,
+    fontSize: theme.fontSizes.l,
+    color: theme.colors.secondary,
+    marginRight: 6,
+    fontFamily: theme.fonts.regular,
+  },
+
   binaryBubble: {
-    borderRadius: theme.radius.m,
-    overflow: 'hidden',
-    alignItems: 'center',
+    ...stylesShared.messageBubble,
     backgroundColor: theme.colors.black,
+  },
+  shareQBubble: {
+    ...stylesShared.messageBubble,
+    backgroundColor: theme.colors.secondary,
   },
 
   binaryName: {
@@ -50,6 +79,14 @@ const styles = StyleSheet.create({
     paddingBottom: theme.spacing.s,
     paddingHorizontal: theme.spacing.l,
   },
+  shareQName: {
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.l,
+    paddingTop: theme.spacing.l,
+    marginBottom: -theme.spacing.s,
+    paddingHorizontal: theme.spacing.l,
+    opacity: 0.75,
+  },
   binaryComment: {
     paddingHorizontal: theme.spacing.l,
     color: theme.colors.white,
@@ -58,21 +95,23 @@ const styles = StyleSheet.create({
   mainQuestion: {
     width: '100%',
     paddingTop: theme.spacing.l,
-    paddingBottom: theme.spacing.xl,
+    paddingBottom: theme.spacing.l * 1.4,
     paddingHorizontal: theme.spacing.m,
   },
   binaryQuestion: {
-    flex: 1,
-    color: theme.colors.white,
+    ...stylesShared.question,
     fontSize: theme.fontSizes.xl,
     lineHeight: theme.fontSizes.xl * 1.3,
-    textAlign: 'center',
+  },
+  shareQuestion: {
+    ...stylesShared.question,
+    fontSize: theme.fontSizes.l,
   },
   binaryOptionsWrap: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingTop: theme.spacing.m,
-    paddingHorizontal: theme.spacing.l,
+    paddingHorizontal: theme.spacing.s,
   },
 });
 
