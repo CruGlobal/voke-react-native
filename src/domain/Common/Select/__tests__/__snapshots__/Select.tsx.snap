@@ -1,0 +1,421 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  collapsable={false}
+>
+  <View
+    accessible={true}
+    focusable={true}
+    forwardedRef={[Function]}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "opacity": 1,
+      }
+    }
+    testID="toggleTestId"
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#1d1d26",
+          },
+          Object {
+            "fontFamily": "TitilliumWeb-Regular",
+          },
+          Object {
+            "color": "red",
+          },
+        ]
+      }
+    >
+      Toggle Text Test
+    </Text>
+    <View
+      style={
+        Array [
+          Object {
+            "borderLeftColor": "transparent",
+            "borderLeftWidth": 0,
+            "borderRightColor": "white",
+            "borderRightWidth": 1.5,
+            "borderTopColor": "white",
+            "borderTopWidth": 1.5,
+            "height": 7,
+            "transform": Array [
+              Object {
+                "translateX": 1.5,
+              },
+              Object {
+                "translateY": -2.4,
+              },
+              Object {
+                "rotate": "135deg",
+              },
+            ],
+            "width": 7,
+          },
+          Object {
+            "marginLeft": 10,
+          },
+        ]
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`renders correctly when open 1`] = `
+<View
+  collapsable={false}
+>
+  <View
+    accessible={true}
+    focusable={true}
+    forwardedRef={[Function]}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "opacity": 1,
+      }
+    }
+    testID="toggleTestId"
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#1d1d26",
+          },
+          Object {
+            "fontFamily": "TitilliumWeb-Regular",
+          },
+          Object {
+            "color": "red",
+          },
+        ]
+      }
+    >
+      Toggle Text Test
+    </Text>
+    <View
+      style={
+        Array [
+          Object {
+            "borderLeftColor": "transparent",
+            "borderLeftWidth": 0,
+            "borderRightColor": "white",
+            "borderRightWidth": 1.5,
+            "borderTopColor": "white",
+            "borderTopWidth": 1.5,
+            "height": 7,
+            "transform": Array [
+              Object {
+                "translateX": 1.5,
+              },
+              Object {
+                "translateY": -2.4,
+              },
+              Object {
+                "rotate": "135deg",
+              },
+            ],
+            "width": 7,
+          },
+          Object {
+            "marginLeft": 10,
+          },
+        ]
+      }
+    />
+  </View>
+  <RCTModalHostView
+    animationType="none"
+    hardwareAccelerated={false}
+    identifier={1}
+    onRequestClose={[Function]}
+    onStartShouldSetResponder={[Function]}
+    presentationStyle="overFullScreen"
+    style={
+      Object {
+        "position": "absolute",
+      }
+    }
+    supportedOrientations={
+      Array [
+        "portrait",
+        "portrait-upside-down",
+        "landscape",
+        "landscape-left",
+        "landscape-right",
+      ]
+    }
+    transparent={true}
+  >
+    <View
+      collapsable={false}
+      style={
+        Array [
+          Object {
+            "flex": 1,
+            "left": 0,
+            "top": 0,
+          },
+          Object {
+            "backgroundColor": "transparent",
+          },
+        ]
+      }
+    >
+      <View
+        pointerEvents="box-none"
+        style={
+          Object {
+            "flex": 1,
+          }
+        }
+      >
+        <View
+          collapsable={true}
+          pointerEvents="box-none"
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <View
+            accessible={false}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Array [
+                Object {
+                  "bottom": 0,
+                  "left": 0,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                },
+                Object {
+                  "opacity": 0,
+                },
+              ]
+            }
+            testID="dropdownBackdrop"
+          >
+            <View
+              onLayout={[Function]}
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "white",
+                    "borderRadius": 4,
+                    "position": "absolute",
+                    "shadowColor": "black",
+                    "shadowOffset": Object {
+                      "height": 2,
+                      "width": 0,
+                    },
+                    "shadowOpacity": 0.14,
+                    "shadowRadius": 2,
+                  },
+                  Object {
+                    "left": 0,
+                    "top": 0,
+                  },
+                ]
+              }
+            >
+              <View
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "alignSelf": "center",
+                    "backgroundColor": "transparent",
+                    "flexDirection": "row",
+                    "justifyContent": "flex-start",
+                    "opacity": 1,
+                    "paddingLeft": 10,
+                    "paddingRight": 14,
+                    "paddingVertical": 10,
+                    "width": "100%",
+                  }
+                }
+              >
+                <Text
+                  testID="singleOption-0"
+                >
+                  Option Label 1
+                   
+                  
+                </Text>
+              </View>
+              <View
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "alignSelf": "center",
+                    "backgroundColor": "transparent",
+                    "flexDirection": "row",
+                    "justifyContent": "flex-start",
+                    "opacity": 1,
+                    "paddingLeft": 10,
+                    "paddingRight": 14,
+                    "paddingVertical": 10,
+                    "width": "100%",
+                  }
+                }
+              >
+                <Text
+                  testID="singleOption-1"
+                >
+                  Option Label 2
+                   
+                  
+                </Text>
+              </View>
+              <View
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "alignSelf": "center",
+                    "backgroundColor": "rgba(0,0,0,.07)",
+                    "flexDirection": "row",
+                    "justifyContent": "flex-start",
+                    "opacity": 1,
+                    "paddingLeft": 10,
+                    "paddingRight": 14,
+                    "paddingVertical": 10,
+                    "width": "100%",
+                  }
+                }
+              >
+                <Text
+                  testID="singleOption-2"
+                >
+                  Option Label 3
+                   
+                   - Selected
+                </Text>
+              </View>
+              <View
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "alignSelf": "center",
+                    "backgroundColor": "transparent",
+                    "flexDirection": "row",
+                    "justifyContent": "flex-start",
+                    "opacity": 1,
+                    "paddingLeft": 10,
+                    "paddingRight": 14,
+                    "paddingVertical": 10,
+                    "width": "100%",
+                  }
+                }
+              >
+                <Text
+                  testID="singleOption-3"
+                >
+                  Option Label 4
+                   
+                  
+                </Text>
+              </View>
+              <View
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "alignSelf": "center",
+                    "backgroundColor": "transparent",
+                    "flexDirection": "row",
+                    "justifyContent": "flex-start",
+                    "opacity": 1,
+                    "paddingLeft": 10,
+                    "paddingRight": 14,
+                    "paddingVertical": 10,
+                    "width": "100%",
+                  }
+                }
+              >
+                <Text
+                  testID="singleOption-4"
+                >
+                  Option Label 5
+                   
+                  
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTModalHostView>
+</View>
+`;
