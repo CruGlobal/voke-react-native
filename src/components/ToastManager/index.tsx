@@ -4,11 +4,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import useInterval from 'utils/useInterval';
 import { REDUX_ACTIONS } from 'utils/constants';
 import st from 'utils/st';
+import Flex from 'components/Flex';
+import Touchable from 'components/Touchable';
+import Text from 'components/Text';
 
 import { RootState } from '../../reducers';
-import Flex from '../Flex';
-import Touchable from '../Touchable';
-import Text from '../Text';
 
 const DEFAULT_TIMEOUT = 4000;
 

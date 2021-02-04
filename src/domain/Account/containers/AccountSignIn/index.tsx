@@ -164,7 +164,7 @@ const AccountSignIn: FunctionComponent<Props> = props => {
       Alert.alert(
         `Can't sign\u00A0in using Apple\u00A0ID`,
         'Apple authentication is\u00A0not\u00A0available at\u00A0this\u00A0moment.' +
-        errorMessage,
+          errorMessage,
       );
     } else if (!user?.first_name) {
       // If user.id is set but user.first_name = null in the server response
@@ -176,7 +176,7 @@ const AccountSignIn: FunctionComponent<Props> = props => {
       Alert.alert(t('appleSignInDeletedTile'), t('appleSignInDeletedBody'), [
         {
           text: t('cancel'),
-          onPress: () => { },
+          onPress: () => {},
           style: 'cancel',
         },
         {

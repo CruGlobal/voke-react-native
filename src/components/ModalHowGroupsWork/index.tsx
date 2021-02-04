@@ -7,9 +7,9 @@ import { Image, View } from 'react-native';
 import { tutorials } from 'assets';
 import theme from 'utils/theme';
 import Touchable from 'components/Touchable';
+import Flex from 'components/Flex';
+import Text from 'components/Text';
 
-import Flex from '../Flex';
-import Text from '../Text';
 import OldButton from '../OldButton';
 import BotTalking from '../BotTalking';
 import Screen from '../Screen';

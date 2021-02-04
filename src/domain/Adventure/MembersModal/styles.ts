@@ -93,11 +93,11 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.xl,
   },
   modalBlurAndroid: {
-    ...StyleSheet.absoluteFill,
+    ...StyleSheet.absoluteFillObject,
     backgroundColor: theme.colors.white,
   },
   modalBlur: {
-    ...StyleSheet.absoluteFill,
+    ...StyleSheet.absoluteFillObject,
   },
   modalTitle: {
     textAlign: 'center',

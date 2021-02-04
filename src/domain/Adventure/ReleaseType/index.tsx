@@ -16,7 +16,6 @@ import OldButton from 'components/OldButton';
 import BotTalking from 'components/BotTalking';
 import { sendAdventureInvitation, sendVideoInvitation } from 'actions/requests';
 import Screen from 'components/Screen';
-
 import theme from 'utils/theme';
 
 import styles from './styles';
@@ -173,7 +172,9 @@ function GroupReleaseType(props: any): ReactElement {
   return (
     <Screen testID="groupReleaseType" noKeyboard>
       <Flex value={1} direction="column" justify="center">
-        {keyboard.keyboardShown && <View style={{ minHeight: theme.spacing.xl }} />}
+        {keyboard.keyboardShown && (
+          <View style={{ minHeight: theme.spacing.xl }} />
+        )}
         <Flex
           // align="center"
           justify="center"

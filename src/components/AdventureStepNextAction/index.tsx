@@ -12,12 +12,12 @@ import {
   getTimeToDate,
 } from 'utils/get';
 import st from 'utils/st';
+import Flex from 'components/Flex';
+import VokeIcon from 'components/VokeIcon';
+import Text from 'components/Text';
 
 import { RootState } from '../../reducers';
-import Text from '../Text';
 import OldButton from '../OldButton';
-import VokeIcon from '../VokeIcon';
-import Flex from '../Flex';
 
 import styles from './styles';
 

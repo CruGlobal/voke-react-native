@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   },
   buttonSizeM: {
     paddingVertical: theme.spacing.s,
-    paddingHorizontal: theme.spacing.m,
+    paddingHorizontal: theme.spacing.l,
     // borderRadius: theme.radius.xxl,
   },
   buttonSizeL: {

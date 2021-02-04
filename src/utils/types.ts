@@ -99,13 +99,13 @@ export type AppStackParamList = {
 type TVideoItem = {
   id: string;
   name: string;
-  media_start: number;
-  media_end: number;
+  media_start: number | null;
+  media_end: number | null;
   content: {
     id: string;
     type: string;
     url: string;
-    hsl?: string;
+    hls?: string;
     duration: number;
     thumbnails: {
       small: string;
@@ -126,8 +126,10 @@ export interface TMessenger {
   first_name: string;
   last_name: string;
   group_leader?: boolean;
+  completed?: boolean;
+  'archived?'?: boolean;
   avatar: TImage;
-  status: string; //"active"
+  status?: string; //"active"
 }
 
 export interface TUser {
@@ -136,6 +138,7 @@ export interface TUser {
   firstName?: string | undefined;
   lastName?: string | undefined;
   avatar?: TImage | undefined;
+  vokebotConversationId?: string;
 }
 
 export type TStep = {
@@ -148,15 +151,15 @@ export type TStep = {
   position: number;
   kind: 'regular' | 'share' | 'text' | 'multi' | 'binary' | 'question';
   internal_step: boolean; // NOT USED. if a step is internal or not (it is a main step)
-  status_message: string; // Message to be displayed as the top VokeBot banner in the single step view.
+  status_message: string | null; // Message to be displayed as the top VokeBot banner in the single step view.
   unread_messages: number;
   'completed_by_messenger?': boolean;
   image: TImage;
   item: {
     id: string;
     name: string;
-    media_start: string;
-    media_end: string;
+    media_start: string | null;
+    media_end: string | null;
     content: {
       id: string;
       type: 'arclight' | 'youtube';
@@ -190,7 +193,7 @@ export type TStep = {
   };
   locked: boolean;
   created_at: string;
-  updated_at: string;
+  updated_at?: string;
 };
 
 // Typing for myAdventures.
@@ -233,13 +236,14 @@ export type TAdventureSingle = {
   name: string;
   slogan: string;
   description: string;
-  gating_period: number;
-  gating_start_at: string;
+  gating_period: number | null;
+  gating_start_at: string | null;
   journey_invite: {
     id: string;
     name: string;
     code: string;
-  };
+    preview_journey_url?: string;
+  } | null;
   conversation: {
     id: string;
     messengers: TMessenger[];
@@ -277,19 +281,31 @@ export type TMessage = {
   position?: number;
   messenger_id?: string;
   messenger_answer?: string;
-  conversation_id?: string;
+  conversation_id: string;
   messenger_journey_step_id?: string;
-  kind?: 'text' | 'request' | 'response';
+  grouping_journey_step_id?: string;
+  kind?:
+    | 'text'
+    | 'request'
+    | 'response'
+    | 'question'
+    | 'answer'
+    | 'request_information';
   direct_message?: boolean;
   'adventure_message?'?: boolean;
   selected?: boolean; // Selected option in multichoise option.
   metadata?: {
-    created_at: string;
-    step_kind: string;
+    created_at?: string;
+    step_kind?: TStep['kind'];
     answers?: TAnswer[];
-    question: string;
-    vokebot_action: string;
-    messenger_journey_step_id: string;
+    question?: string;
+    vokebot_action?: string;
+    grouping_journey_step_id?: string;
+    messenger_journey_step_id?: string;
+    messenger_answer?: string;
+    name?: string;
+    comment?: string;
+    image?: TImage;
   };
   item?: {
     id: string;
@@ -306,8 +322,11 @@ export type TMessage = {
     };
     media_start?: number;
     media_end?: number;
-  };
+  } | null;
   created_at: string;
+  reactions?: {
+    [emoji: string]: string[];
+  };
 };
 
 export interface TInvitation {

@@ -3,9 +3,9 @@ import Image from 'react-native-scalable-image';
 import theme from 'utils/theme';
 import { View } from 'react-native';
 import { bots } from 'assets';
+import Flex from 'components/Flex';
+import Text from 'components/Text';
 
-import Flex from '../Flex';
-import Text from '../Text';
 import Triangle from '../Triangle';
 
 import styles from './styles';

@@ -4,17 +4,17 @@ body, html {
 }
 body {
     font-family: Helvetica Neue, Helvetica, Arial;
-    fontSize: 14px;
+    font-size: 14px;
     color:#333;
 }
-.small { fontSize: 12px; }
+.small { font-size: 12px; }
 *, *:after, *:before {
   -webkit-box-sizing:border-box;
      -moz-box-sizing:border-box;
           box-sizing:border-box;
   }
-h1 { fontSize: 20px; margin: 0;}
-h2 { fontSize: 14px; }
+h1 { font-size: 20px; margin: 0;}
+h2 { font-size: 14px; }
 pre {
     font: 12px/1.4 Consolas, "Liberation Mono", Menlo, Courier, monospace;
     margin: 0;
@@ -57,7 +57,7 @@ a:hover { text-decoration:underline; }
 
 .fraction {
   font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-  fontSize: 10px;
+  font-size: 10px;
   color: #555;
   background: #E8E8E8;
   padding: 4px 5px;
@@ -90,11 +90,11 @@ table.coverage td.line-coverage {
 table.coverage td span.cline-any {
     display: inline-block;
     padding: 0 5px;
-    width: '100%',
+    width: 100%;
 }
 .missing-if-branch {
     display: inline-block;
-    marginRight: 5px;
+    margin-right: 5px;
     border-radius: 3px;
     position: relative;
     padding: 0 4px;
@@ -104,7 +104,7 @@ table.coverage td span.cline-any {
 
 .skip-if-branch {
     display: none;
-    marginRight: 10px;
+    margin-right: 10px;
     position: relative;
     padding: 0 4px;
     background: #ccc;
@@ -115,7 +115,7 @@ table.coverage td span.cline-any {
 }
 .coverage-summary {
   border-collapse: collapse;
-  width: '100%',
+  width: 100%;
 }
 .coverage-summary tr { border-bottom: 1px solid #bbb; }
 .keyline-all { border: 1px solid #ddd; }
@@ -142,7 +142,7 @@ table.coverage td span.cline-any {
     height: 10px;
     width: 7px;
     display: inline-block;
-    marginLeft: 0.5em;
+    margin-left: 0.5em;
     background: url(sort-arrow-sprite.png) no-repeat scroll 0 0 transparent;
 }
 .coverage-summary .sorted .sorter {
@@ -187,7 +187,7 @@ span.cline-neutral { background: #eaeaea; }
 .coverage-summary td.empty {
     opacity: .5;
     padding-top: 4px;
-    paddingBottom: 4px;
+    padding-bottom: 4px;
     line-height: 1;
     color: #888;
 }

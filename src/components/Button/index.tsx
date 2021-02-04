@@ -11,9 +11,8 @@ import {
 } from 'react-native';
 import { useDebouncedCallback } from 'use-debounce';
 import { capitalize, upperCase } from 'utils';
-
-import Touchable from '../Touchable';
-import VokeIcon from '../VokeIcon';
+import VokeIcon from 'components/VokeIcon';
+import Touchable from 'components/Touchable';
 
 import styles from './styles';
 interface StylingProps {
@@ -102,6 +101,7 @@ const Button: FunctionComponent<ButtonProps> = ({
   icon,
   testID,
   shadow = false,
+  style,
   ...rest
 }) => {
   const stylesOuter = getStyles({
@@ -130,7 +130,7 @@ const Button: FunctionComponent<ButtonProps> = ({
   return (
     <Touchable
       {...rest}
-      style={stylesOuter}
+      style={[stylesOuter, style]}
       disabled={isDisabled}
       onPress={
         isDisabled
