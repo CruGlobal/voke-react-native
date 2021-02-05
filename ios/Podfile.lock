@@ -27,66 +27,63 @@ PODS:
     - FBSDKShareKit/Share (= 8.2.0)
   - FBSDKShareKit/Share (8.2.0):
     - FBSDKCoreKit (~> 8.2.0)
-  - Firebase/Analytics (7.3.0):
+  - Firebase/Analytics (7.5.0):
     - Firebase/Core
-  - Firebase/Core (7.3.0):
+  - Firebase/Core (7.5.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (= 7.3.0)
-  - Firebase/CoreOnly (7.3.0):
-    - FirebaseCore (= 7.3.0)
-  - Firebase/Crashlytics (7.3.0):
+    - FirebaseAnalytics (= 7.5.0)
+  - Firebase/CoreOnly (7.5.0):
+    - FirebaseCore (= 7.5.0)
+  - Firebase/Crashlytics (7.5.0):
     - Firebase/CoreOnly
-    - FirebaseCrashlytics (~> 7.3.0)
-  - Firebase/DynamicLinks (7.3.0):
+    - FirebaseCrashlytics (~> 7.5.0)
+  - Firebase/DynamicLinks (7.5.0):
     - Firebase/CoreOnly
-    - FirebaseDynamicLinks (~> 7.3.0)
-  - Firebase/Performance (7.3.0):
+    - FirebaseDynamicLinks (~> 7.5.0)
+  - Firebase/Performance (7.5.0):
     - Firebase/CoreOnly
-    - FirebasePerformance (~> 7.3.0)
+    - FirebasePerformance (~> 7.5.0)
   - FirebaseABTesting (7.5.0):
     - FirebaseCore (~> 7.0)
-  - FirebaseAnalytics (7.3.0):
+  - FirebaseAnalytics (7.5.0):
     - FirebaseCore (~> 7.0)
     - FirebaseInstallations (~> 7.0)
-    - GoogleAppMeasurement (= 7.3.0)
+    - GoogleAppMeasurement (= 7.5.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.0)
     - GoogleUtilities/MethodSwizzler (~> 7.0)
     - GoogleUtilities/Network (~> 7.0)
     - "GoogleUtilities/NSData+zlib (~> 7.0)"
-    - nanopb (~> 2.30906.0)
-  - FirebaseCore (7.3.0):
-    - FirebaseCoreDiagnostics (~> 7.0)
+    - nanopb (~> 2.30907.0)
+  - FirebaseCore (7.5.0):
+    - FirebaseCoreDiagnostics (~> 7.4)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Logger (~> 7.0)
-  - FirebaseCoreDiagnostics (7.3.0):
+  - FirebaseCoreDiagnostics (7.5.0):
     - GoogleDataTransport (~> 8.0)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Logger (~> 7.0)
-    - nanopb (~> 2.30906.0)
-  - FirebaseCrashlytics (7.3.0):
+    - nanopb (~> 2.30907.0)
+  - FirebaseCrashlytics (7.5.0):
     - FirebaseCore (~> 7.0)
     - FirebaseInstallations (~> 7.0)
     - GoogleDataTransport (~> 8.0)
-    - nanopb (~> 2.30906.0)
+    - nanopb (~> 2.30907.0)
     - PromisesObjC (~> 1.2)
-  - FirebaseDynamicLinks (7.3.1):
+  - FirebaseDynamicLinks (7.5.0):
     - FirebaseCore (~> 7.0)
   - FirebaseInstallations (7.5.0):
     - FirebaseCore (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/UserDefaults (~> 7.0)
     - PromisesObjC (~> 1.2)
-  - FirebasePerformance (7.3.0):
+  - FirebasePerformance (7.5.0):
     - FirebaseCore (~> 7.0)
     - FirebaseInstallations (~> 7.0)
     - FirebaseRemoteConfig (~> 7.0)
-    - GoogleDataTransport (~> 8.1)
-    - GoogleToolboxForMac/Logger (~> 2.1)
-    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
+    - GoogleDataTransport (~> 8.2)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/ISASwizzler (~> 7.0)
     - GoogleUtilities/MethodSwizzler (~> 7.0)
-    - GTMSessionFetcher/Core (~> 1.1)
     - Protobuf (~> 3.12)
   - FirebaseRemoteConfig (7.5.0):
     - FirebaseABTesting (~> 7.0)
@@ -141,19 +138,14 @@ PODS:
     - FlipperKit/Core
     - FlipperKit/FlipperKitNetworkPlugin
   - glog (0.3.5)
-  - GoogleAppMeasurement (7.3.0):
+  - GoogleAppMeasurement (7.5.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 7.0)
     - GoogleUtilities/MethodSwizzler (~> 7.0)
     - GoogleUtilities/Network (~> 7.0)
     - "GoogleUtilities/NSData+zlib (~> 7.0)"
-    - nanopb (~> 2.30906.0)
-  - GoogleDataTransport (8.1.0):
-    - nanopb (~> 2.30906.0)
-  - GoogleToolboxForMac/Defines (2.3.0)
-  - GoogleToolboxForMac/Logger (2.3.0):
-    - GoogleToolboxForMac/Defines (= 2.3.0)
-  - "GoogleToolboxForMac/NSData+zlib (2.3.0)":
-    - GoogleToolboxForMac/Defines (= 2.3.0)
+    - nanopb (~> 2.30907.0)
+  - GoogleDataTransport (8.2.0):
+    - nanopb (~> 2.30907.0)
   - GoogleUtilities/AppDelegateSwizzler (7.2.2):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -174,7 +166,6 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.2.2):
     - GoogleUtilities/Logger
-  - GTMSessionFetcher/Core (1.5.0)
   - libwebp (1.1.0):
     - libwebp/demux (= 1.1.0)
     - libwebp/mux (= 1.1.0)
@@ -184,11 +175,11 @@ PODS:
   - libwebp/mux (1.1.0):
     - libwebp/demux
   - libwebp/webp (1.1.0)
-  - nanopb (2.30906.0):
-    - nanopb/decode (= 2.30906.0)
-    - nanopb/encode (= 2.30906.0)
-  - nanopb/decode (2.30906.0)
-  - nanopb/encode (2.30906.0)
+  - nanopb (2.30907.0):
+    - nanopb/decode (= 2.30907.0)
+    - nanopb/encode (= 2.30907.0)
+  - nanopb/decode (2.30907.0)
+  - nanopb/encode (2.30907.0)
   - OpenSSL-Universal (1.0.2.20):
     - OpenSSL-Universal/Static (= 1.0.2.20)
   - OpenSSL-Universal/Static (1.0.2.20)
@@ -514,24 +505,24 @@ PODS:
     - React-Core
     - SDWebImage (~> 5.8)
     - SDWebImageWebPCoder (~> 0.6.1)
-  - RNFBAnalytics (10.3.1):
-    - Firebase/Analytics (~> 7.3.0)
+  - RNFBAnalytics (10.6.1):
+    - Firebase/Analytics (~> 7.5.0)
     - React-Core
     - RNFBApp
-  - RNFBApp (10.3.0):
-    - Firebase/CoreOnly (~> 7.3.0)
+  - RNFBApp (10.6.1):
+    - Firebase/CoreOnly (~> 7.5.0)
     - React-Core
-  - RNFBCrashlytics (10.3.1):
-    - Firebase/Crashlytics (~> 7.3.0)
+  - RNFBCrashlytics (10.6.1):
+    - Firebase/Crashlytics (~> 7.5.0)
     - React-Core
     - RNFBApp
-  - RNFBDynamicLinks (10.3.1):
-    - Firebase/DynamicLinks (~> 7.3.0)
+  - RNFBDynamicLinks (10.6.1):
+    - Firebase/DynamicLinks (~> 7.5.0)
     - GoogleUtilities/AppDelegateSwizzler
     - React-Core
     - RNFBApp
-  - RNFBPerf (10.3.1):
-    - Firebase/Performance (~> 7.3.0)
+  - RNFBPerf (10.6.1):
+    - Firebase/Performance (~> 7.5.0)
     - React-Core
     - RNFBApp
   - RNGestureHandler (1.9.0):
@@ -683,9 +674,7 @@ SPEC REPOS:
     - FlipperKit
     - GoogleAppMeasurement
     - GoogleDataTransport
-    - GoogleToolboxForMac
     - GoogleUtilities
-    - GTMSessionFetcher
     - libwebp
     - nanopb
     - OpenSSL-Universal
@@ -839,15 +828,15 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: 4afd6ff53d8133a433dbcda44451c9498f8c6ce4
   FBSDKLoginKit: 7181765f2524d7ebf82d9629066c8e6caafc99d0
   FBSDKShareKit: 0c0d51b3af47075a85ed9bea0e28b2fc70e3594b
-  Firebase: 26223c695fe322633274198cb19dca8cb7e54416
+  Firebase: fd5e4d2b756292c6e7ee6faac1eb320225d6e97e
   FirebaseABTesting: e419991eb6e92772b3c0a02fa3a675f59da692f1
-  FirebaseAnalytics: 2580c2d62535ae7b644143d48941fcc239ea897a
-  FirebaseCore: 4d3c72622ce0e2106aaa07bb4b2935ba2c370972
-  FirebaseCoreDiagnostics: d50e11039e5984d92c8a512be2395f13df747350
-  FirebaseCrashlytics: d31325312c92e2cb2f0386d589b9aa44e303d99b
-  FirebaseDynamicLinks: a6df95d6dbc746c2bbf7d511343cda1344e2cf70
+  FirebaseAnalytics: 00b7f74571d346ee1ffb9bf0a2e6f2ffff222bcc
+  FirebaseCore: 06a2b68af8901f2244eb989419eb89edc3789b4d
+  FirebaseCoreDiagnostics: 35685db68b11fe7d19d2d8b557fd7e3a56ac81cc
+  FirebaseCrashlytics: 4d77da03c81dedc92cccbefc758f968dccf64b30
+  FirebaseDynamicLinks: 2f11a2aa60589bd93bf45849e459d2ebc1ae2525
   FirebaseInstallations: a46ae59915f0931e18814164849cd0354bea24ed
-  FirebasePerformance: 7915b7dfc8258030d5fac9544d7fa6b55fbe3e57
+  FirebasePerformance: a89e502647db1a8ece1b80781ab7d565c2ebcedf
   FirebaseRemoteConfig: 98dac0952e07858dbd70ad0f26d470eb7fa37ee4
   Flipper: be611d4b742d8c87fbae2ca5f44603a02539e365
   Flipper-DoubleConversion: 38631e41ef4f9b12861c67d17cb5518d06badc41
@@ -857,13 +846,11 @@ SPEC CHECKSUMS:
   Flipper-RSocket: a3acb8812d6adf127deb0a5edae2793b97e6b641
   FlipperKit: ab353d41aea8aae2ea6daaf813e67496642f3d7d
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
-  GoogleAppMeasurement: 8d3c0aeede16ab7764144b5a4ca8e1d4323841b7
-  GoogleDataTransport: 116c84c4bdeb76be2a7a46de51244368f9794eab
-  GoogleToolboxForMac: 1350d40e86a76f7863928d63bcb0b89c84c521c5
+  GoogleAppMeasurement: 65a1071e5f52f63ab03d0a4d814a54fd762d885a
+  GoogleDataTransport: 1024b1a4dfbd7a0e92cb20d7e0a6f1fb66b449a4
   GoogleUtilities: 31c5b01f978a70c6cff2afc6272b3f1921614b43
-  GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
   libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
-  nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
+  nanopb: 59221d7f958fb711001e6a449489542d92ae113e
   OpenSSL-Universal: ff34003318d5e1163e9529b08470708e389ffcdd
   Permission-Camera: 119b01de97a5b3edb637999e38476b68143b9d17
   Permission-Notifications: 5c69bf2f6c1e30345af4f25e2981dc1c8dafbc22
@@ -913,11 +900,11 @@ SPEC CHECKSUMS:
   RNDateTimePicker: 8eba76de1afd556bc00c874f4d0c0616e30e32f1
   RNDeviceInfo: 6ecb1d1c87d20e4c62354be0348de23362824dcd
   RNFastImage: d4870d58f5936111c56218dbd7fcfc18e65b58ff
-  RNFBAnalytics: 2fb60eedb8cead61797417cc7c33f087ce78e6c3
-  RNFBApp: d5bc110403b55ba26ac441716259bd514d559cc5
-  RNFBCrashlytics: 35964e0e2eaa37ea79cb43d43e76f7575358b68d
-  RNFBDynamicLinks: 1516a852ab41a939ebe71abf1172e7c71592bfce
-  RNFBPerf: b0ec900816322d7574f4d87e192b59d2edfc482e
+  RNFBAnalytics: ed354ca7caccaa97a2885c3bc9d0efdfceddf07b
+  RNFBApp: e7d6692573cf6174bc790e07f327d270030cd653
+  RNFBCrashlytics: 1fdb22f863593081c5e9bfc4139a4ab42ec465ef
+  RNFBDynamicLinks: fccf9ac56a6679cb3746c9eabeb9782b17eb4a66
+  RNFBPerf: 73ada3b43cf317cc5577f00a0332e2e5aa8ed9aa
   RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
   RNImageCropPicker: 9e0bf18cf4184a846fed55747c8e622208b39947
   RNLocalize: 41026b7c14878f1a1b381bc79f668f1fbf841adb
