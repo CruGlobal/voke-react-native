@@ -577,9 +577,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.vlad.test;
+				PRODUCT_BUNDLE_IDENTIFIER = org.cru.voke;
 				PRODUCT_NAME = Voke;
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore org.cru.voke";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
