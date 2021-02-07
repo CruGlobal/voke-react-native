@@ -4,10 +4,10 @@ import { ScrollView, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import theme from 'utils/theme';
+import Flex from 'components/Flex';
+import Text from 'components/Text';
 
 import { requestPremissions } from '../../actions/auth';
-import Flex from '../Flex';
-import Text from '../Text';
 import OldButton from '../OldButton';
 import BotTalking from '../BotTalking';
 import Screen from '../Screen';

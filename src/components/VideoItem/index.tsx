@@ -5,13 +5,13 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import st from 'utils/st';
 import theme from 'utils/theme';
+import Flex from 'components/Flex';
+import VokeIcon from 'components/VokeIcon';
+import Image from 'components/Image';
+import Text from 'components/Text';
+import Touchable from 'components/Touchable';
 
-import Image from '../Image';
 import OldButton from '../OldButton';
-import Flex from '../Flex';
-import Text from '../Text';
-import Touchable from '../Touchable';
-import VokeIcon from '../VokeIcon';
 
 function formatDuration(seconds) {
   if (!seconds) return '00:00';

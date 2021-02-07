@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable camelcase */
+import Message from 'domain/Chat/Message';
+import InteractiveElement from 'domain/Chat/InteractiveElement';
+
 import React, {
   useState,
   useEffect,
@@ -24,7 +27,6 @@ import { ThunkDispatch } from 'redux-thunk';
 import { REDUX_ACTIONS } from 'utils/constants';
 import { RootState } from 'reducers';
 import Complain from 'components/Complain';
-import AdventureStepMessageInput from 'components/AdventureStepMessageInput';
 import AdventureStepNextAction from 'components/AdventureStepNextAction';
 import AdventureStepMessage from 'components/AdventureStepMessage';
 import DismissKeyboardView from 'components/DismissKeyboardHOC';
@@ -189,13 +191,14 @@ const AdventureStepScreenRender = ({
   const currentMessages: TMessage[] = useSelector(
     ({ data }: RootState) => data.adventureStepMessages[currentStep?.id] || [],
     // Custom equalityFn comparing length of the array only.
-    (item, previousItem) => {
+    // Can't do that anymore as reactions/emojies data change inside the message.
+    /* (item, previousItem) => {
       if (item.length === previousItem.length) {
         return true;
       } else {
         return false;
       }
-    },
+    }, */
   );
 
   const videoIsPlaying = useSelector(
@@ -505,7 +508,7 @@ const AdventureStepScreenRender = ({
                           {currentStep?.question}
                         </Text>
                       </Flex>
-                      <AdventureStepMessageInput
+                      <InteractiveElement
                         onFocus={(): void => {
                           if (!hasClickedPlay) {
                             dispatch(
@@ -531,44 +534,37 @@ const AdventureStepScreenRender = ({
                     </Flex>
                   </View>
 
-                  {
-                    currentMessages.map((item, index) => {
+                  {currentMessages.map((item, index) => {
+                    if (item && myMainAnswer?.id !== item?.id) {
                       return (
-                        <>
-                          {!item || myMainAnswer?.id === item?.id ? null : (
-                            <AdventureStepMessage
-                              key={item.id}
-                              adventure={adventure}
-                              step={currentStep}
-                              item={item}
-                              next={
-                                currentMessages[index + 1]
-                                  ? currentMessages[index + 1]
-                                  : null
-                              }
-                              previous={
-                                currentMessages[index - 1]
-                                  ? currentMessages[index - 1]
-                                  : null
-                              }
-                              onFocus={(event, posY): void => {
-                                if (
-                                  Platform.OS === 'ios' &&
-                                  scrollRef?.current
-                                ) {
-                                  scrollRef.current.scrollTo({
-                                    x: 0,
-                                    y: posY - 40,
-                                    animated: true,
-                                  });
-                                }
-                              }}
-                            />
-                          )}
-                        </>
+                        <Message
+                          key={item.id}
+                          adventure={adventure}
+                          step={currentStep}
+                          item={item}
+                          next={
+                            currentMessages[index + 1]
+                              ? currentMessages[index + 1]
+                              : null
+                          }
+                          previous={
+                            currentMessages[index - 1]
+                              ? currentMessages[index - 1]
+                              : null
+                          }
+                          onFocus={(posY): void => {
+                            if (Platform.OS === 'ios' && scrollRef?.current) {
+                              scrollRef.current.scrollTo({
+                                x: 0,
+                                y: posY - 40,
+                                animated: true,
+                              });
+                            }
+                          }}
+                        />
                       );
-                    })
-                  }
+                    }
+                  })}
                   <AdventureStepNextAction
                     adventureId={adventureId}
                     stepId={currentStep.id}

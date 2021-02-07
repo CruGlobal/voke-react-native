@@ -65,15 +65,16 @@ function VideoDetails(props: Props) {
       content_type: 'Video',
       item_list_id: 'Explore',
       item_list_name: 'Videos',
-      items: [{
-        item_id: item.id,
-        item_name: item.name,
-        item_category: item.content_type,
-        item_category2: item.language.name,
-      }]
+      items: [
+        {
+          item_id: item.id,
+          item_name: item.name,
+          item_category: item.content_type,
+          item_category2: item.language.name,
+        },
+      ],
     });
   }, []);
-
 
   return (
     <Flex value={1}>

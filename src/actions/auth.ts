@@ -3,7 +3,7 @@ import { Alert, Platform } from 'react-native';
 import { getTimeZone, getCountry, getLocales } from 'react-native-localize';
 import AsyncStorage from '@react-native-community/async-storage';
 import FilesystemStorage from 'redux-persist-filesystem-storage';
-import dynamicLinks from '@react-native-firebase/dynamic-links';
+import dynamicLinks from '@react-native-fireebase/dynamic-links';
 import {
   LoginManager,
   GraphRequestManager,

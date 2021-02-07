@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     paddingBottom: theme.spacing.m,
     paddingLeft: theme.spacing.xl,
     paddingRight: theme.spacing.xl,
+    zIndex: 0,
   },
 
   nextActionButton: {

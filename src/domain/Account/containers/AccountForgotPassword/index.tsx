@@ -12,7 +12,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import useKeyboard from '@rnhooks/keyboard';
+import { useKeyboard } from '@react-native-community/hooks';
 import DismissKeyboardView from 'components/DismissKeyboardHOC';
 import Flex from 'components/Flex';
 import Text from 'components/Text';
@@ -36,7 +36,7 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
   const passwordRef = useRef<TextInput>(null);
 
   // https://github.com/react-native-hooks/keyboard#configuration
-  const [isKeyboardVisible] = useKeyboard();
+  const keyboard = useKeyboard();
 
   useMount(() => {
     lockToPortrait();
@@ -136,7 +136,7 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
           </OldButton>
         </Flex>
       </KeyboardAvoidingView>
-      {!isKeyboardVisible && (
+      {!keyboard.keyboardShown && (
         <>
           {/* SECTION: NEED HELP? */}
           <Flex

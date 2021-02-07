@@ -1,25 +1,36 @@
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/camelcase */
+import ContextMode from 'domain/Chat/ContextMode';
+import InteractiveElement from 'domain/Chat/InteractiveElement';
+
 import React, { useState, useRef, RefObject } from 'react';
-import { Image as ReactNativeImage, Platform, View } from 'react-native';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import {
+  Alert,
+  Image as ReactNativeImage,
+  Platform,
+  Pressable,
+  View,
+} from 'react-native';
 import { BlurView } from '@react-native-community/blur';
+import Clipboard from '@react-native-community/clipboard';
 import Menu from 'react-native-material-menu';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { avatars, ui } from 'assets';
 import theme from 'utils/theme';
-import { getCurrentUserId } from 'utils/get';
 import st from 'utils/st';
 import { TAdventureSingle, TStep, TMessage, TMessenger } from 'utils/types';
+import { setComplain, toastAction } from 'actions/info';
+import { createReaction } from 'actions/requests';
+import useCurrentUser from 'hooks/useCurrentUser';
+import Flex from 'components/Flex';
+import VokeIcon from 'components/VokeIcon';
+import Image from 'components/Image';
+import Text from 'components/Text';
+import Touchable from 'components/Touchable';
 
-import { setComplain } from '../../actions/info';
-import Image from '../Image';
-import Text from '../Text';
-import VokeIcon from '../VokeIcon';
-import Flex from '../Flex';
 import DateComponent from '../DateComponent';
-import AdventureStepMessageInput from '../AdventureStepMessageInput';
-import Touchable from '../Touchable';
 
 import styles from './styles';
 
@@ -42,16 +53,16 @@ function AdventureStepMessage({
 }: MessageProps): React.ReactElement | null {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const reportMenuRef: RefObject<Menu> = useRef(null);
+  const user = useCurrentUser();
   const [answerPosY, setAnswerPosY] = useState(0);
+  const [contextActive, setContextActive] = useState(false);
   const isAndroid = Platform.OS === 'android';
-  const userId = getCurrentUserId();
 
-  const isMyMessage = item?.messenger_id === userId;
+  const isMyMessage = item?.messenger_id === user.id;
   const adminUser = adventure.conversation.messengers.find(i => i.group_leader);
 
   const isAdminMessage = item?.messenger_id === adminUser?.id;
-  const isAdmin = userId === adminUser?.id;
+  const isAdmin = user.id === adminUser?.id;
   // const myFirstMessage = reversed.find(m => m.messenger_id === me.id);
   if (isMyMessage && adventure.kind === 'solo') return null;
   const isSharedAnswer = item?.metadata?.vokebot_action === 'share_answers';
@@ -83,7 +94,7 @@ function AdventureStepMessage({
     '';
 
   const showMessageReporting =
-    item?.messenger_id !== userId && // Can't report themselves.
+    item?.messenger_id !== user.id && // Can't report themselves.
     !isAdminMessage && // Can't report admin.
     !isBlured && // Can't report blured messages.
     !isAdmin && // Admin can't report anyone.
@@ -117,245 +128,9 @@ function AdventureStepMessage({
 
   // SPECIAL MESSAGE: QUESTION / MULTI / BINARY / SHARE
   if (['binary', 'multi', 'question', 'share'].includes(msgKind)) {
-    return (
-      <View
-        style={styles.mainQuestionCard}
-        onLayout={({ nativeEvent }) => {
-          // Calculate vertical offset to be usef on answer field focus.
-          const layout = nativeEvent?.layout;
-          if (layout && layout?.y && layout?.height) {
-            setAnswerPosY(layout.y);
-          }
-        }}
-      >
-        <Flex
-          direction="column"
-          style={styles.mainQuestionContainer}
-          // style={[st.w80, st.mh1, st.mt4]}
-        >
-          {msgKind === 'multi' || msgKind === 'question' ? (
-            /* MESSAGE QUESTION AREA: */
-            <Flex
-              direction="column"
-              // style={[st.w100, st.bgOrange, st.brtl5, st.brtr5, st.pd1]}
-              style={styles.mainQuestion}
-              align="center"
-              justify="center"
-            >
-              <Text style={[st.tac, st.white, st.fs(20), st.lh(24)]}>
-                {(item?.metadata || {}).question || null}
-              </Text>
-            </Flex>
-          ) : null}
-          {/* <Image
-            source={{ uri: (messenger.avatar || {}).small }}
-            style={[st.absb, st.right(-30), st.h(25), st.w(25), st.br1]}
-          /> */}
-          {/* MESSAGE INPUT FIELD: */}
-          <AdventureStepMessageInput
-            kind={msgKind}
-            adventure={adventure}
-            step={step}
-            internalMessage={item}
-            defaultValue={selectedAnswer}
-            onFocus={event => {
-              onFocus(event, answerPosY);
-            }}
-          />
-        </Flex>
-      </View>
-    );
   }
 
   // REGULAR MESSAGE: TEXT
-  return (
-    <>
-      {!item?.content && isMyMessage ? null : (
-        <Flex align="between" style={styles.messageContainer}>
-          <Flex direction="column" style={styles.messageContent}>
-            <Flex direction="row">
-              {isMyMessage ? <Flex style={[st.f1]} /> : null}
-              <Flex
-                style={{
-                  width: '100%',
-                  // width: isSharedAnswer ? '100%' : 'auto',
-                  // minWidth: 170,
-                  backgroundColor: isMyMessage
-                    ? theme.colors.white
-                    : theme.colors.secondary,
-                  borderRadius: 8,
-                  overflow: 'hidden', // Need this to hide overflow blur effect.
-                }}
-              >
-                <Flex direction="column">
-                  {isMyMessage || !messenger.first_name ? null : (
-                    <Text style={styles.messageAuthor}>
-                      {messenger.first_name ? messenger.first_name + ' ' : ''}
-                      {messenger.last_name ? messenger.last_name + ' ' : ''}
-                    </Text>
-                  )}
-                  {isSharedAnswer ? (
-                    <Flex
-                      style={[
-                        styles.messageSharedContent,
-                        {
-                          backgroundColor: isBlured
-                            ? 'transparent'
-                            : 'rgba(0,0,0,.2)',
-                        },
-                      ]}
-                    >
-                      <Text
-                        style={[
-                          st.fs4,
-                          {
-                            color:
-                              isBlured && isAndroid
-                                ? 'rgba(0,0,0,0)'
-                                : theme.colors.white,
-                          },
-                        ]}
-                      >
-                        {item?.content}
-                      </Text>
-                    </Flex>
-                  ) : null}
-                  <Text
-                    style={{
-                      color:
-                        isBlured && isAndroid
-                          ? 'rgba(0,0,0,0)'
-                          : isMyMessage
-                          ? '#44c8e8'
-                          : '#fff',
-                      opacity: item?.content ? 1 : 0.5,
-                      paddingHorizontal: theme.spacing.l,
-                      paddingVertical: theme.spacing.l,
-                      fontSize: theme.fontSizes.l,
-                    }}
-                  >
-                    {isSharedAnswer
-                      ? item?.metadata?.messenger_answer
-                      : item?.content
-                      ? item?.content
-                      : 'Skipped'}
-                  </Text>
-                </Flex>
-                {!isMyMessage ? <Flex style={[st.f1]} /> : null}
-
-                {isBlured ? (
-                  <Flex align="center" justify="center" style={[st.absfill]}>
-                    <>
-                      {isAndroid && (
-                        <ReactNativeImage
-                          source={ui.bluredText}
-                          resizeMode={'repeat'}
-                          resizeMethod={'resize'}
-                          style={{
-                            width: '92%',
-                            height: 800,
-                            position: 'absolute',
-                            left: '4%',
-                            top: 10,
-                            // Background needed to cover name of the messenger.
-                            backgroundColor: theme.colors.secondary,
-                          }}
-                        />
-                      )}
-                      {!isAndroid && (
-                        <BlurView
-                          blurType="light"
-                          blurAmount={2}
-                          style={[st.absfill]}
-                        />
-                      )}
-                      <Flex
-                        style={[
-                          st.absfill,
-                          { backgroundColor: 'rgba(0,0,0,.2)' },
-                        ]}
-                      />
-                      <VokeIcon name="lock" size={16} style={styles.icon} />
-                    </>
-                  </Flex>
-                ) : null}
-              </Flex>
-              {/* User Avatar */}
-              <Image
-                source={
-                  messenger?.avatar?.small
-                    ? { uri: messenger?.avatar?.small }
-                    : avatars.default
-                }
-                style={isMyMessage ? styles.myAvatar : styles.userAvatar}
-              />
-            </Flex>
-            {/* Message Footer: Name + Date */}
-            <Flex
-              direction="row"
-              align="center"
-              justify={isMyMessage ? 'end' : 'start'}
-              style={styles.messageMeta}
-            >
-              <DateComponent
-                style={[
-                  st.white,
-                  isMyMessage ? st.tar : null,
-                  { fontSize: theme.fontSizes.xs },
-                ]}
-                date={item?.created_at}
-                format="MMM D @ h:mm A"
-              />
-              {/* <Text style={styles.messageMetaActions}>・</Text> */}
-              {
-                // Prevent reporting it's own messages 🤪.
-                // Remove this condition if more actions added later.
-                showMessageReporting && (
-                  <Menu
-                    ref={reportMenuRef}
-                    button={
-                      <Text
-                        style={styles.messageMetaActions}
-                        onPress={reportMenuRef.current?.show}
-                      >
-                        {t('more')}
-                      </Text>
-                    }
-                  >
-                    <Touchable
-                      onPress={(): void => {
-                        // Prevent reporting it's own messages 🤪.
-                        if (showMessageReporting) {
-                          dispatch(
-                            setComplain({
-                              messageId: item?.id,
-                              adventureId: adventure.id,
-                            }),
-                          );
-                        }
-                        reportMenuRef.current?.hide();
-                      }}
-                      style={styles.actionReport}
-                    >
-                      <VokeIcon
-                        name="warning"
-                        size={20}
-                        style={styles.actionReportIcon}
-                      />
-                      <Text style={styles.actionReportLabel}>
-                        {' '}
-                        {t('conversations:report')}
-                      </Text>
-                    </Touchable>
-                  </Menu>
-                )
-              }
-            </Flex>
-          </Flex>
-        </Flex>
-      )}
-    </>
-  );
 }
 
 export default AdventureStepMessage;

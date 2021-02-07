@@ -12,12 +12,12 @@ import { useTranslation } from 'react-i18next';
 import analytics from '@react-native-firebase/analytics';
 import st from 'utils/st';
 import { TAdventureSingle, TDataState } from 'utils/types';
+import Flex from 'components/Flex';
+import Image from 'components/Image';
+import Touchable from 'components/Touchable';
+import Text from 'components/Text';
+import VokeIcon from 'components/VokeIcon';
 
-import Image from '../Image';
-import Touchable from '../Touchable';
-import Text from '../Text';
-import VokeIcon from '../VokeIcon';
-import Flex from '../Flex';
 import { deleteAdventure, getMyAdventures } from '../../actions/requests';
 import { RootState } from '../../reducers';
 
