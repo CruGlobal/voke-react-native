@@ -90,7 +90,7 @@
     "react-native-vector-icons": "^7.1.0",
     "react-native-version-check": "^3.4.2",
     "react-native-video": "4.4.5",
-    "react-native-webview": "^10.7.0",
+    "react-native-webview": "^11.2.1",
     "react-native-youtube-iframe": "^1.2.4",
     "react-redux": "^7.2.2",
     "redux": "^4.0.5",
