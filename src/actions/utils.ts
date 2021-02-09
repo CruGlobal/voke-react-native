@@ -3,6 +3,8 @@ import qs from 'qs'; // querystring parsing and stringifying
 import CONSTANTS, { REDUX_ACTIONS } from 'utils/constants';
 import { userBlockedAction } from 'actions/auth';
 
+import configureStore from '../store';
+const { store } = configureStore();
 let baseUrl;
 let authUrl;
 
@@ -55,14 +57,14 @@ function replaceUrlParam(url, pathParams) {
   return url;
 }
 
-function buildParams(options, getState) {
+function buildParams(options) {
   const params = options.params || {};
   // Add on the version as a query parameter
   if (options.anonymous) {
     return params;
   }
 
-  const token = getState().auth.authToken;
+  const token = store.getState().auth.authToken;
 
   return {
     access_token: token,
@@ -70,145 +72,145 @@ function buildParams(options, getState) {
   };
 }
 // TODO: Needs refactoring.
-export default function request(options) {
-  return async (dispatch, getState) => {
-    let finalUrl = replaceUrlParam(options.url, options.pathParams);
-    const params = qs.stringify(buildParams(options, getState));
-    // finalUrl = `${API_BASE_URL}${finalUrl}?${params}`;
-    if (options.isAuth) {
-      finalUrl = `${AUTH_URL}${finalUrl}?${params}`;
-    } else {
-      finalUrl = `${API_BASE_URL}${finalUrl}?${params}`;
-    }
+export default function request<T>(options): Promise<T> {
+  let finalUrl = replaceUrlParam(options.url, options.pathParams);
+  console.log('store:');
+  console.log(store);
+  const params = qs.stringify(buildParams(options));
+  // finalUrl = `${API_BASE_URL}${finalUrl}?${params}`;
+  if (options.isAuth) {
+    finalUrl = `${AUTH_URL}${finalUrl}?${params}`;
+  } else {
+    finalUrl = `${API_BASE_URL}${finalUrl}?${params}`;
+  }
 
-    const newObj = {
-      headers: options.headers
-        ? { ...DEFAULT_HEADERS, ...options.headers }
-        : DEFAULT_HEADERS,
-      method: (options.method || 'GET').toUpperCase(),
-      url: finalUrl,
-    };
+  const newObj = {
+    headers: options.headers
+      ? { ...DEFAULT_HEADERS, ...options.headers }
+      : DEFAULT_HEADERS,
+    method: (options.method || 'GET').toUpperCase(),
+    url: finalUrl,
+  };
 
-    if (!options.anonymous) {
-      const userToken = getState().auth.authToken;
-      newObj.headers['x-access-token'] = userToken;
-    }
+  if (!options.anonymous) {
+    const userToken = store.getState().auth.authToken;
+    newObj.headers['x-access-token'] = userToken;
+  }
 
-    if ((options.data || {}).name === 'me[avatar]') {
-      // we are uploading an image
-      return RNFetchBlob.fetch(
-        'PUT',
-        finalUrl,
-        {
-          Authorization: newObj.headers.Authorization,
-          'Content-Type': 'multipart/form-data',
-        },
-        [options.data],
-      )
-        .then(json)
-        .then(resp => {
-          // resp.data;
-          console.log('RNFetchBlob > resp:');
-          console.log(resp);
-          // return resp.data;
-          dispatch({
+  if ((options.data || {}).name === 'me[avatar]') {
+    // we are uploading an image
+    return RNFetchBlob.fetch(
+      'PUT',
+      finalUrl,
+      {
+        Authorization: newObj.headers.Authorization,
+        'Content-Type': 'multipart/form-data',
+      },
+      [options.data],
+    )
+      .then(json)
+      .then(resp => {
+        // resp.data;
+        console.log('RNFetchBlob > resp:');
+        console.log(resp);
+        // return resp.data;
+        /* dispatch({
             description: options.description,
             type: REDUX_ACTIONS.REQUEST_SUCCESS,
             url: finalUrl,
             method: newObj.method,
             result: resp,
-          });
+          }); */
 
-          return resp;
-        })
-        .catch(err => {
-          console.log('fetch blob err', err);
-          return err;
-        });
-    }
+        return resp;
+      })
+      .catch(err => {
+        console.log('fetch blob err', err);
+        return err;
+      });
+  }
 
-    if (options.method !== 'get') {
-      newObj.body =
-        options.stringify === false
-          ? { ...options.data, ...(options.customData || {}) }
-          : JSON.stringify({ ...options.data, ...(options.customData || {}) });
-    }
+  if (options.method !== 'get') {
+    newObj.body =
+      options.stringify === false
+        ? { ...options.data, ...(options.customData || {}) }
+        : JSON.stringify({ ...options.data, ...(options.customData || {}) });
+  }
 
-    // Log redux action.
-    dispatch({
+  // Log redux action.
+  /* dispatch({
       description: options.description,
       type: REDUX_ACTIONS.REQUEST_FETCH,
       options,
       // body: options.data,
-    });
+    }); */
 
-    // Do request.
-    return fetch(finalUrl, newObj)
-      .then(response => {
-        if (!response.ok) {
-          return response
-            .json()
-            .then(message => {
-              // Got valid JSON with error response, use it
-              // throw new Error(message || response.status); << not working.
-              throw message;
-            })
-            .catch(e => {
-              // Couldn't parse the JSON
-              throw { ...e, ...{ status: response.status } };
-            });
-        }
-        if (options.blob) {
-          return response.blob();
-        }
-        // Successful response, parse the JSON and return the data
-        return response.json().then(r => {
-          dispatch({
+  // Do request.
+  return fetch(finalUrl, newObj)
+    .then(response => {
+      if (!response.ok) {
+        return response
+          .json()
+          .then(message => {
+            // Got valid JSON with error response, use it
+            // throw new Error(message || response.status); << not working.
+            throw message;
+          })
+          .catch(e => {
+            // Couldn't parse the JSON
+            throw { ...e, ...{ status: response.status } };
+          });
+      }
+      if (options.blob) {
+        return response.blob();
+      }
+      // Successful response, parse the JSON and return the data
+      return response.json().then(r => {
+        /* dispatch({
             description: options.description,
             type: REDUX_ACTIONS.REQUEST_SUCCESS,
             url: finalUrl,
             method: newObj.method,
             result: r,
-          });
-          return r;
-        });
-      })
-      .catch(e => {
-        console.log('fetch error', e);
-        dispatch({
+          }); */
+        return r as Promise<T>;
+      });
+    })
+    .catch(e => {
+      console.log('fetch error', e);
+      /* dispatch({
           type: REDUX_ACTIONS.REQUEST_FAIL,
           url: finalUrl,
           method: newObj.method,
           error: e,
-        });
+        }); */
 
-        // If user blocked server will return 403,
-        // meaning we should to mark the current user as blocked in the store.
-        if (e.status === 403) {
-          dispatch(userBlockedAction());
-        }
-        // if (options.url !== ROUTES.LOGOUT.url) {
-        //   const unauthMessages = [
-        //     'Missing active access token',
-        //     'Unable to validate token',
-        //     'Sorry, that token is no longer valid',
-        //     'Valid token is missing user',
-        //   ];
-        //   if (e && unauthMessages.includes(e.message)) {
-        //     console.log('unable to validate token. User needs to login again.');
-        //     if ([ROUTES.LOGIN.url, ROUTES.LOGIN_WITH_TOKEN.url].includes(options.url)) {
-        //       // Trying to login, but got an error message, just show the toast
-        //       toast.error({ message: e.message });
-        //     } else {
-        //       dispatch(showModal({ type: 'UserUnauth' }));
-        //     }
-        //   }
-        // }
+      // If user blocked server will return 403,
+      // meaning we should to mark the current user as blocked in the store.
+      if (e.status === 403) {
+        // dispatch(userBlockedAction());
+      }
+      // if (options.url !== ROUTES.LOGOUT.url) {
+      //   const unauthMessages = [
+      //     'Missing active access token',
+      //     'Unable to validate token',
+      //     'Sorry, that token is no longer valid',
+      //     'Valid token is missing user',
+      //   ];
+      //   if (e && unauthMessages.includes(e.message)) {
+      //     console.log('unable to validate token. User needs to login again.');
+      //     if ([ROUTES.LOGIN.url, ROUTES.LOGIN_WITH_TOKEN.url].includes(options.url)) {
+      //       // Trying to login, but got an error message, just show the toast
+      //       toast.error({ message: e.message });
+      //     } else {
+      //       dispatch(showModal({ type: 'UserUnauth' }));
+      //     }
+      //   }
+      // }
 
-        // Couldn't parse the JSON
-        throw e;
-      });
-  };
+      // Couldn't parse the JSON
+      throw e;
+    });
 }
 
 function imageUpload(url, headers, data) {

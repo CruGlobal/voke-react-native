@@ -92,7 +92,10 @@ const ROUTES = {
     method: 'get',
     url: 'me',
   },
-  GET_AVAILABLE_ADVENTURES: { method: 'get', url: `organization_journeys` },
+  GET_AVAILABLE_ADVENTURES: {
+    method: 'get',
+    url: `organization_journeys?language_code={languageCode}`,
+  },
   GET_MY_ADVENTURES: {
     method: 'get',
     url: `me/journeys`,

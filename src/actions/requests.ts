@@ -6,8 +6,9 @@ import { REDUX_ACTIONS } from 'utils/constants';
 import st from 'utils/st';
 import request from 'actions/utils';
 import { isEqualObject, exists } from 'utils';
-import { TAdventureSingle, TError } from 'src/utils/types';
-import { AsyncAction } from 'src/reducers';
+import { TAdventureSingle, TError, TAdventures, TDataState } from 'utils/types';
+import { AsyncAction } from 'reducers';
+import { Action } from 'redux';
 
 import { DataKeys } from '../reducers/data';
 import { AuthDataKeys } from '../reducers/auth';
@@ -15,7 +16,8 @@ import { AuthDataKeys } from '../reducers/auth';
 import { setAppIconBadgeNumber } from './notifications';
 import ROUTES from './routes';
 
-type Dispatch = ThunkDispatch<any, any, any>;
+// type Dispatch = ThunkDispatch<any, any, any>;
+type Dispatch = ThunkDispatch<TDataState, void, Action>;
 
 export function setUser(userData: any) {
   return async (dispatch: Dispatch, getState: any) => {
@@ -87,17 +89,53 @@ export function setAuthData(key: AuthDataKeys, data: any) {
   };
 }
 
-export function getAvailableAdventures() {
-  return async (dispatch: Dispatch, getState: any) => {
-    const results: any = await dispatch(
-      request({
+interface AdventuresResult {
+  organization_journeys: TAdventures;
+  _links: {
+    first: {
+      href: string;
+      page_number: number;
+    } | null;
+    previous: {
+      href: string;
+      page_number: number;
+    } | null;
+    self: {
+      href: string;
+      page_number: number;
+    } | null;
+    next: null;
+    last: {
+      href: string;
+      page_number: number;
+    } | null;
+    root: {
+      href: string;
+      total_pages: number;
+      total_count: number;
+      limit_value: number;
+    };
+  };
+}
+
+export function getAvailableAdventures(languageCode = 'en'): AsyncAction<void> {
+  return async (dispatch): Promise<void> => {
+    try {
+      const results = await request<AdventuresResult>({
         ...ROUTES.GET_AVAILABLE_ADVENTURES,
+        pathParams: { languageCode },
         description: 'Get Available Adventures',
-      }),
-    );
-    const adventures = results.organization_journeys;
-    dispatch(setData('availableAdventures', adventures));
-    return results;
+      });
+      if (results?.organization_journeys) {
+        const adventures = results?.organization_journeys;
+        dispatch(setData('availableAdventures', adventures));
+      }
+    } catch (error) {
+      console.log(
+        'Error downloading adventures (language:' + languageCode + '):',
+        error,
+      );
+    }
   };
 }
 

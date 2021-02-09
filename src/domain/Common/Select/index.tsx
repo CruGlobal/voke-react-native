@@ -94,7 +94,7 @@ const Select = (props: Props): ReactElement => {
         testID={toggleTestId}
       >
         <Text style={toggleTextStyle}>{toggleText}</Text>
-        {<Chevron color="white" style={{ marginLeft: 10 }} />}
+        <Chevron color="white" style={{ marginLeft: 10, marginRight: 2 }} />
       </TouchableOpacity>
 
       <Modal

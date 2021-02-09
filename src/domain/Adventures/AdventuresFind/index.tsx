@@ -1,3 +1,5 @@
+import AdventuresActions from 'domain/Adventure/AdventuresActions';
+
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { View, ScrollView, FlatList, RefreshControl } from 'react-native';
@@ -6,7 +8,6 @@ import theme from 'utils/theme';
 import { RootState } from 'reducers';
 
 import { getAvailableAdventures } from '../../../actions/requests';
-import AdventuresActions from '../../Adventure/components/AdventuresActions';
 
 const AdventuresFind = (): React.ReactElement => {
   const [refreshing, setRefreshing] = useState(false);

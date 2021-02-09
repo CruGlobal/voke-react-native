@@ -1,3 +1,5 @@
+import AdventuresActions from 'domain/Adventure/AdventuresActions';
+
 import React, { useEffect, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +14,6 @@ import {
   getMyAdventures,
   getAdventuresInvitations,
 } from '../../../actions/requests';
-import AdventuresActions from '../../Adventure/components/AdventuresActions';
 import { setCurrentScreen } from '../../../actions/info';
 
 import styles from './styles';
