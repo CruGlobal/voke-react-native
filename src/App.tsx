@@ -29,6 +29,8 @@ import {
 } from 'utils/types';
 import { useMount } from 'utils';
 import NavBackButton from 'components/NavBackButton';
+import { getTimeSinceStartup } from 'react-native-startup-time';
+import { REDUX_ACTIONS } from 'utils/constants';
 
 import {
   startupAction,
@@ -699,6 +701,13 @@ const App = () => {
 
   // Hide splash screen on load.
   useMount(() => {
+    getTimeSinceStartup().then(time => {
+      dispatch({
+        type: REDUX_ACTIONS.SET_STARTUP_TIME,
+        data: time,
+      });
+    });
+
     getUrlAsync();
     checkInitialNotification();
     RNBootSplash.hide({ duration: 250 }); // Hide splash screen.

@@ -8,7 +8,6 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { YellowBox } from 'react-native';
 import { registerLogs } from 'utils';
-import { StartupTime } from 'react-native-startup-time';
 
 import configureStore from './store';
 import App from './App';
@@ -50,10 +49,6 @@ const Root = () => {
         >
           <App />
           <ToastManager />
-          <StartupTime
-            ready={true /* optional, defaults to true */}
-          // style={styles.startupTime /* optional*/}
-          />
         </PersistGate>
       </Provider>
     </SafeAreaProvider>
