@@ -91,6 +91,9 @@ jobs:
         - (cd ios && bundler install)
         - defaults write com.apple.dt.XCBuild IgnoreFileSystemDeviceInodeChanges -bool YES
         - npx react-native-inhibit-warnings
+        - (cd ios && rm Pods && pod install)
+        - ls
+        - pod install
 
       script:
         - (cd ios && travis_wait 60 fastlane ios cru_build_app)
