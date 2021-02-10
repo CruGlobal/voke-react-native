@@ -21,10 +21,17 @@ type Option = {
 const availableTranslations = ['EN', 'ES', 'PR', 'FR'];
 
 const AdvLanguageSwitch = (): ReactElement => {
-  const currentLang = 'EN';
+  const [currentLang, setCurrentLang] = useState('EN');
   const [modalVisible, setModalVisible] = useState(false);
   const [selectOptions, setSelectOptions] = useState<Option[]>([]);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Some languages composed from two parts like 'EN-US'.
+    // We extract only first part of this string.
+    const langParts = currentLang.split('-');
+    return langParts[0];
+  }, [currentLang]);
 
   const fillLanguages = (): void => {
     const appLang = i18next.language.toUpperCase();
@@ -35,6 +42,7 @@ const AdvLanguageSwitch = (): ReactElement => {
           ...current,
           { label: lang, selected: true },
         ]);
+        setCurrentLang(stepLang);
       } else {
         setSelectOptions(current => [...current, { label: lang }]);
       }
@@ -51,7 +59,6 @@ const AdvLanguageSwitch = (): ReactElement => {
 
   const newLangSelected = (option: Option): void => {
     // Change current language for app UI.
-    const appLang = i18next.language.toUpperCase();
     const newSelectOptions: Option[] = selectOptions;
     selectOptions.map((value, index) => {
       if (value.label === option.label) {
@@ -59,6 +66,7 @@ const AdvLanguageSwitch = (): ReactElement => {
         newSelectOptions[index].selected = true;
         // Pull adventures for the current language from the server.
         dispatch(getAvailableAdventures(value?.label.toLowerCase()));
+        setCurrentLang(value.label);
       } else {
         delete selectOptions[index].selected;
       }
