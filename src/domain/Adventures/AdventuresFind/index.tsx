@@ -42,12 +42,10 @@ const AdventuresFind = (): React.ReactElement => {
           return item?.id ? <AvailableAdventureItem {...item} /> : <></>;
         }}
         data={availableAdventures}
-        style={{ width: '100%' }}
+        style={{ width: '100%', paddingBottom: 120 }}
         onRefresh={onRefresh}
         refreshing={refreshing}
       />
-      {/* Extra spacing for bottom navigation tabs */}
-      <View style={{ height: 120 }} />
     </View>
   );
 };
