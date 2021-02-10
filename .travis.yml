@@ -80,7 +80,7 @@ jobs:
         - ios-sim start --devicetypeid "com.apple.CoreSimulator.SimDeviceType.iPhone-8, 14.0"
 
       after_failure:
-        - cat ~/Library/Logs/gym
+        # - cat ~/Library/Logs/gym
         - cat /Users/travis/Library/Logs/gym/Voke-Voke.log
 
       install:
@@ -90,6 +90,7 @@ jobs:
         - gem install bundler:2.1.4
         - (cd ios && bundler install)
         - defaults write com.apple.dt.XCBuild IgnoreFileSystemDeviceInodeChanges -bool YES
+        - npm run react-native-inhibit-warnings
 
       script:
         - (cd ios && travis_wait 60 fastlane ios cru_build_app)
