@@ -4,7 +4,7 @@ import CONSTANTS, { REDUX_ACTIONS } from 'utils/constants';
 import { userBlockedAction } from 'actions/auth';
 
 import configureStore from '../store';
-const { store } = configureStore();
+const { store } = configureStore({});
 let baseUrl;
 let authUrl;
 
@@ -64,7 +64,7 @@ function buildParams(options) {
     return params;
   }
 
-  const token = store.getState().auth.authToken;
+  const token = options.authToken;
 
   return {
     access_token: token,
@@ -74,8 +74,6 @@ function buildParams(options) {
 // TODO: Needs refactoring.
 export default function request<T>(options): Promise<T> {
   let finalUrl = replaceUrlParam(options.url, options.pathParams);
-  console.log('store:');
-  console.log(store);
   const params = qs.stringify(buildParams(options));
   // finalUrl = `${API_BASE_URL}${finalUrl}?${params}`;
   if (options.isAuth) {
@@ -93,7 +91,7 @@ export default function request<T>(options): Promise<T> {
   };
 
   if (!options.anonymous) {
-    const userToken = store.getState().auth.authToken;
+    const userToken = options.authToken;
     newObj.headers['x-access-token'] = userToken;
   }
 

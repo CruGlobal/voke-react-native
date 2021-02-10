@@ -94,7 +94,7 @@ const ROUTES = {
   },
   GET_AVAILABLE_ADVENTURES: {
     method: 'get',
-    url: `organization_journeys?language_code={languageCode}`,
+    url: `organization_journeys`,
   },
   GET_MY_ADVENTURES: {
     method: 'get',

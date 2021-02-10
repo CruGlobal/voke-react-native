@@ -58,9 +58,12 @@ export function updateMe(data) {
       };
     }
 
-    return dispatch(
-      request({ ...ROUTES.UPDATE_ME, pathParams: { userId }, data }),
-    ).then(
+    return await request({
+      ...ROUTES.UPDATE_ME,
+      pathParams: { userId },
+      data,
+      authToken: getState().auth.authToken,
+    }).then(
       userData => {
         // Update redux store with data received.
         return dispatch(setUser(userData));
@@ -263,9 +266,12 @@ export function logoutAction() {
  * Update store.auth.user branch with user data fetched from the server.
  */
 export function getMeAction() {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     // Fetch user data from the server.
-    return dispatch(request({ ...ROUTES.GET_ME })).then(
+    return await request({
+      ...ROUTES.GET_ME,
+      authToken: getState().auth.authToken,
+    }).then(
       userData => {
         // eslint-disable-next-line no-console
         console.log('👤 getMe > Updated user data:\n', userData);
@@ -303,7 +309,11 @@ export function facebookLoginAction(accessToken) {
       data.anonymous_user_id = userId;
     }
 
-    return dispatch(request({ ...ROUTES.FACEBOOK_LOGIN, data })).then(
+    return await request({
+      ...ROUTES.FACEBOOK_LOGIN,
+      data,
+      authToken: getState().auth.authToken,
+    }).then(
       authData => {
         // eslint-disable-next-line no-console
         console.log('🚪🚶‍♂️Facebook loginResults:\n', authData);
@@ -444,7 +454,11 @@ export function appleLoginAction({
       data.anonymous_user_id = userId;
     }
 
-    return dispatch(request({ ...ROUTES.APPLE_SIGNIN, data })).then(
+    return await request({
+      ...ROUTES.APPLE_SIGNIN,
+      data,
+      authToken: getState().auth.authToken,
+    }).then(
       authData => {
         LOG('🔑 Apple APPLE_SIGNIN results:\n', authData);
         logoutAction(); // Received login response reset local state (logout).
@@ -552,7 +566,11 @@ export function passwordResetAction(email) {
           email,
         },
       };
-      return dispatch(request({ ...ROUTES.FORGOT_PASSWORD, data })).then(
+      return await request({
+        ...ROUTES.FORGOT_PASSWORD,
+        data,
+        authToken: getState().auth.authToken,
+      }).then(
         result => {
           // eslint-disable-next-line no-console
           console.log('🗝 Reset Password:\n', result);
@@ -597,7 +615,11 @@ export function userLogin(username, password) {
       data.anonymous_user_id = userId;
     }
 
-    return dispatch(request({ ...ROUTES.LOGIN, data })).then(
+    return await request({
+      ...ROUTES.LOGIN,
+      data,
+      authToken: getState().auth.authToken,
+    }).then(
       authData => {
         // eslint-disable-next-line no-console
         console.log('🚪🚶‍♂️loginResults:\n', authData);
@@ -633,13 +655,12 @@ export function createAccount(user) {
       },
     };
 
-    return dispatch(
-      request({
-        ...ROUTES.CREATE_ACCOUNT,
-        data,
-        description: 'Request CREATE_ACCOUNT',
-      }),
-    ).then(
+    return await request({
+      ...ROUTES.CREATE_ACCOUNT,
+      data,
+      authToken: getState().auth.authToken,
+      description: 'Request CREATE_ACCOUNT',
+    }).then(
       userData => {
         // eslint-disable-next-line no-console
         console.log('👤 createAccount \n\n', userData);
@@ -661,13 +682,12 @@ export function deleteAccountAction() {
   console.log('Auth > deleteAccount');
   return async (dispatch, getState) => {
     const data = {};
-    return dispatch(
-      request({
-        ...ROUTES.DELETE_ACCOUNT,
-        data,
-        description: 'Request DELETE_ACCOUNT',
-      }),
-    ).then(
+    return await request({
+      ...ROUTES.DELETE_ACCOUNT,
+      data,
+      authToken: getState().auth.authToken,
+      description: 'Request DELETE_ACCOUNT',
+    }).then(
       success => {
         // eslint-disable-next-line no-console
         console.log('👤 Account Deleted \n\n', success);
