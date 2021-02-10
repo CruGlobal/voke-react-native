@@ -90,7 +90,7 @@ jobs:
         - gem install bundler:2.1.4
         - (cd ios && bundler install)
         - defaults write com.apple.dt.XCBuild IgnoreFileSystemDeviceInodeChanges -bool YES
-        - npm run react-native-inhibit-warnings
+        - npx react-native-inhibit-warnings
 
       script:
         - (cd ios && travis_wait 60 fastlane ios cru_build_app)
