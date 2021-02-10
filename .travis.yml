@@ -81,17 +81,18 @@ jobs:
 
       install:
         - npm install
-        - npx react-native-fix-image
+        # - npx react-native-fix-image
         - echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
         - gem install bundler:2.1.4
         - (cd ios && bundler install)
         - defaults write com.apple.dt.XCBuild IgnoreFileSystemDeviceInodeChanges -bool YES
 
       script:
-        - (cd ios && travis_wait 50 fastlane ios cru_build_app)
+        - (cd ios && travis_wait 60 fastlane ios cru_build_app)
 
       cache:
         - npm
+        - yarn
         - cocoapods
         - bundler
         - directories:
