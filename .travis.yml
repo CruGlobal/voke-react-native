@@ -94,7 +94,7 @@ jobs:
         # - cat /Users/travis/Library/Logs/gym/Voke-Voke.log
 
       script:
-        - (cd ios && travis_wait 60 fastlane ios cru_build_app)
+        - (cd ios && travis_wait 70 fastlane ios cru_build_app)
 
       cache:
         - npm
