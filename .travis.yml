@@ -92,7 +92,7 @@ jobs:
         - defaults write com.apple.dt.XCBuild IgnoreFileSystemDeviceInodeChanges -bool YES
         - npx react-native-inhibit-warnings
         - ls
-        - (cd ios && ls && rm -R Pods && ls && pod install)
+        - (rm -R Pods && ls && pod install)
         - ls
         - pod install
 
