@@ -79,10 +79,6 @@ jobs:
         # https://github.com/travis-ci/travis-ci/issues/6675
         - ios-sim start --devicetypeid "com.apple.CoreSimulator.SimDeviceType.iPhone-8, 14.0"
 
-      after_failure:
-        # - cat ~/Library/Logs/gym
-        - cat /Users/travis/Library/Logs/gym/Voke-Voke.log
-
       install:
         - npm install
         # - npx react-native-fix-image
@@ -91,9 +87,11 @@ jobs:
         - (cd ios && bundler install)
         - defaults write com.apple.dt.XCBuild IgnoreFileSystemDeviceInodeChanges -bool YES
         - npx react-native-inhibit-warnings
-        - ls
-        - (cd ios && ls && yes | rm -Rf Pods && ls && pod install)
-        - ls
+        - (cd ios && yes | rm -Rf Pods && ls && pod install)
+
+      after_failure:
+        # - cat ~/Library/Logs/gym
+        # - cat /Users/travis/Library/Logs/gym/Voke-Voke.log
 
       script:
         - (cd ios && travis_wait 60 fastlane ios cru_build_app)
