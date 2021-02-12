@@ -351,7 +351,7 @@ const RootStackScreens = React.memo(
                   <Text style={[st.white, st.mr4, st.fs16]}>{t('done')}</Text>
                 </Touchable>
               ),
-              headerLeft: (): ReactElement => { },
+              headerLeft: (): ReactElement => {},
               headerLeft: (): ReactElement => {},
               cardStyle: { backgroundColor: theme.colors.transparent },
               headerStyle: {
@@ -584,7 +584,8 @@ const RootStackScreens = React.memo(
                 paddingTop: insets.top, // TODO: Check if it really works here?
               },
               title: '',
-              headerLeft: (): ReactElement => <HeaderLeft testID="VideoDetails" />,
+              headerLeft: (): ReactElement => (
+                <HeaderLeft testID="VideoDetails" />
               ),
             }}
           />
@@ -632,7 +633,9 @@ const RootStackScreens = React.memo(
               },
               title: '',
               headerLeft: (): ReactElement => (
-                <HeaderLeft resetTo="AdventureActive" testID="AdventureManage" />
+                <HeaderLeft
+                  resetTo="AdventureActive"
+                  testID="AdventureManage"
                 />
               ),
 
@@ -679,7 +682,6 @@ const RootStackScreens = React.memo(
               headerRight: undefined,
             }}
           />
-
         </RootStack.Navigator>
       </>
     );
@@ -812,8 +814,8 @@ const App = () => {
           // Save the current route name for later comparision
           routeNameRef.current = currentRouteName;
         }}
-      // linking={linking} - not working.
-      // initialState={ ( isLoggedIn ? ({ index: 0, routes: [{ name: 'LoggedInApp' }] }) : ({ index: 0, routes: [{ name: 'WelcomeApp' }] }) ) }
+        // linking={linking} - not working.
+        // initialState={ ( isLoggedIn ? ({ index: 0, routes: [{ name: 'LoggedInApp' }] }) : ({ index: 0, routes: [{ name: 'WelcomeApp' }] }) ) }
         // initialState={ ( isLoggedIn ? ({ index: 0, routes: [{ name: 'LoggedInApp' }] }) : ({ index: 0, routes: [{ name: 'WelcomeApp' }] }) ) }
       >
         <Host>

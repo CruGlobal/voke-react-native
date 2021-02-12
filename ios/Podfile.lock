@@ -400,8 +400,8 @@ PODS:
   - react-native-fbsdk/Share (3.0.0):
     - FBSDKShareKit (~> 8.1)
     - React
-  - react-native-image-picker (3.1.2):
-    - React
+  - react-native-image-picker (3.1.4):
+    - React-Core
   - react-native-orientation-locker (1.2.0):
     - React-Core
   - react-native-safe-area-context (3.1.9):
@@ -487,19 +487,19 @@ PODS:
     - React-Core
   - RNAppleAuthentication (2.1.0):
     - React-Core
-  - RNBootSplash (3.1.2):
+  - RNBootSplash (3.1.3):
     - React-Core
-  - RNCAsyncStorage (1.13.2):
-    - React
+  - RNCAsyncStorage (1.13.4):
+    - React-Core
   - RNCClipboard (1.5.1):
     - React-Core
   - RNCMaskedView (0.1.10):
     - React
   - RNCPushNotificationIOS (1.8.0):
     - React-Core
-  - RNDateTimePicker (3.0.8):
+  - RNDateTimePicker (3.0.9):
     - React-Core
-  - RNDeviceInfo (7.3.1):
+  - RNDeviceInfo (7.4.0):
     - React-Core
   - RNFastImage (8.3.4):
     - React-Core
@@ -525,14 +525,14 @@ PODS:
     - Firebase/Performance (~> 7.5.0)
     - React-Core
     - RNFBApp
-  - RNGestureHandler (1.9.0):
+  - RNGestureHandler (1.10.0):
     - React-Core
-  - RNImageCropPicker (0.35.2):
+  - RNImageCropPicker (0.35.3):
     - React-Core
     - React-RCTImage
-    - RNImageCropPicker/QBImagePickerController (= 0.35.2)
+    - RNImageCropPicker/QBImagePickerController (= 0.35.3)
     - TOCropViewController
-  - RNImageCropPicker/QBImagePickerController (0.35.2):
+  - RNImageCropPicker/QBImagePickerController (0.35.3):
     - React-Core
     - React-RCTImage
     - TOCropViewController
@@ -544,9 +544,9 @@ PODS:
     - React-Core
   - RNReanimated (1.13.2):
     - React-Core
-  - RNScreens (2.16.1):
+  - RNScreens (2.17.1):
     - React-Core
-  - RNShare (4.1.1):
+  - RNShare (4.1.2):
     - React-Core
   - SDWebImage (5.10.4):
     - SDWebImage/Core (= 5.10.4)
@@ -824,7 +824,7 @@ SPEC CHECKSUMS:
   CocoaLibEvent: 2fab71b8bd46dd33ddb959f7928ec5909f838e3f
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: 9cafb8520d334de0720e1119b41db4cc16d3fbc9
-  FBReactNativeSpec: c798fa051e4fdca7dfcac1533f38291ac0c6646b
+  FBReactNativeSpec: f82f042ea8674fb7b6a14b882a168aa31f4a36c2
   FBSDKCoreKit: 4afd6ff53d8133a433dbcda44451c9498f8c6ce4
   FBSDKLoginKit: 7181765f2524d7ebf82d9629066c8e6caafc99d0
   FBSDKShareKit: 0c0d51b3af47075a85ed9bea0e28b2fc70e3594b
@@ -870,7 +870,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 09567a7aa3dcb281caf25eeba87280b1ea3e09f4
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-fbsdk: 8e92c7a334fd8d9c2b5d8b8fcd7ae2c314161099
-  react-native-image-picker: a2b7ee36dabe1e511dab6fb79918633a4fd3d7ce
+  react-native-image-picker: 28d8d1f5a643119876b8b2c7d4d1dcfb2b232dd4
   react-native-orientation-locker: a4a6574b179629698f0facebcc2e8551378a127d
   react-native-safe-area-context: b6e0e284002381d2ff29fa4fff42b4d8282e3c94
   react-native-slider: e99fc201cefe81270fc9d81714a7a0f5e566b168
@@ -892,27 +892,27 @@ SPEC CHECKSUMS:
   ReactCommon: 33191ccc8250b4e206884a1e3b68b2011b6b7899
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNAppleAuthentication: 46cbc67739bae83ca229497f9b0038f3f5431443
-  RNBootSplash: a9544ba7f1a68b561e61e9efc68e2b3eec05dcef
-  RNCAsyncStorage: 05bae7ecfab1cbd5441993f1ca098f7c3b3f8d0e
+  RNBootSplash: 43868f415d2a2c7b5365ebc8dd0f93abbce0f00c
+  RNCAsyncStorage: 44539979e1f234262d64d3ce86ec21cceb1b2c5e
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNCPushNotificationIOS: 61a7c72bd1ebad3568025957d001e0f0e7b32191
-  RNDateTimePicker: 8eba76de1afd556bc00c874f4d0c0616e30e32f1
-  RNDeviceInfo: 6ecb1d1c87d20e4c62354be0348de23362824dcd
+  RNDateTimePicker: 8a51a2216c307769e69ef827293d59549ab1ca23
+  RNDeviceInfo: 9538a884f862fe4aa0d7cead9f34e292d41ba8f6
   RNFastImage: d4870d58f5936111c56218dbd7fcfc18e65b58ff
   RNFBAnalytics: ed354ca7caccaa97a2885c3bc9d0efdfceddf07b
   RNFBApp: e7d6692573cf6174bc790e07f327d270030cd653
   RNFBCrashlytics: 1fdb22f863593081c5e9bfc4139a4ab42ec465ef
   RNFBDynamicLinks: fccf9ac56a6679cb3746c9eabeb9782b17eb4a66
   RNFBPerf: 73ada3b43cf317cc5577f00a0332e2e5aa8ed9aa
-  RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
-  RNImageCropPicker: 9e0bf18cf4184a846fed55747c8e622208b39947
+  RNGestureHandler: 03f587ba19a7e2d9fe48fb9aa6e33ace5fd07dd5
+  RNImageCropPicker: 08ba3a2e2f4f8833d606f01906c371e382c4dea9
   RNLocalize: 41026b7c14878f1a1b381bc79f668f1fbf841adb
   RNPermissions: 99dd8d4a30ff13509b949ca63cd1f69edc461775
   RNReactNativeHapticFeedback: 653a8c126a0f5e88ce15ffe280b3ff37e1fbb285
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
-  RNScreens: 45c457af3d2ee9e08fc01e70da87e653d46b1198
-  RNShare: 26cad4c6f7e0229cc6f7e143444928f36c0ee3d1
+  RNScreens: b6c9607e6fe47c1b6e2f1910d2acd46dd7ecea3a
+  RNShare: d22507fa5e80c72f236b5622556cf831de5b1e93
   SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
   SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
@@ -921,4 +921,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 394cc2f1f19c4e912b3a22a8d208e7734a44fcec
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.10.1

@@ -27,7 +27,7 @@
     "onesky:download": "babel-node ./bin/oneskyDownload.js",
     "postinstall": "react-native-inhibit-warnings",
     "pods": "npx pod-install",
-    "clean": "npx react-native-clean-project --remove-iOS-build --remove-iOS-pods --keep-brew"
+    "clean": "rm -rf $TMPDIR/react-* && rm -rf $TMPDIR/metro-* && watchman watch-del-all && rm -rf node_modules && npm cache verify && rm -rf ios/build && rm -rf ios/pods && rm -rf android/build && npm install --force && npm run pods && npm run postinstall"
   },
   "dependencies": {
     "@invertase/react-native-apple-authentication": "^2.1.0",
