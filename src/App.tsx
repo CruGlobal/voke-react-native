@@ -5,6 +5,7 @@ import {
   NavigationContainer,
   useNavigationState,
   StackActions,
+  getFocusedRouteNameFromRoute,
 } from '@react-navigation/native';
 import analytics from '@react-native-firebase/analytics';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
@@ -125,7 +126,9 @@ const NotificationStackScreens = () => {
   return (
     <NotificationStack.Navigator
       mode="card"
-      screenOptions={defaultHeaderConfig}
+      screenOptions={{
+        headerShown: false,
+      }}
     >
       <NotificationStack.Screen
         name="Notifications"
@@ -229,20 +232,31 @@ const RootStackScreens = React.memo(
             <RootStack.Screen
               name="LoggedInApp"
               component={isBlocked ? AccountBlocked : LoggedInAppContainer}
-              options={{
-                headerShown: false,
+              options={({
+                route,
+              }): { headerShown: boolean; headerTitle: string | undefined } => {
+                // https://reactnavigation.org/docs/screen-options-resolution/
+                // If the focused route is not found, we need to assume it's the initial screen
+                // This can happen during if there hasn't been any navigation inside the screen
+                // In our case, it's "Adventures" as that's the first screen inside the navigator
+                const routeName =
+                  getFocusedRouteNameFromRoute(route) ?? t('adventures');
+                return {
+                  headerShown: isBlocked ? false : true,
+                  headerTitle: routeName,
+                };
               }}
             />
           ) : (
-              <RootStack.Screen
-                name="Welcome"
-                component={Welcome}
-                options={{
-                  title: '',
-                  headerShown: false,
-                }}
-              />
-            )}
+            <RootStack.Screen
+              name="Welcome"
+              component={Welcome}
+              options={{
+                title: '',
+                headerShown: false,
+              }}
+            />
+          )}
           {/* <AppStack.Screen name="WelcomeApp" component={WelcomeAppContainer} /> */}
           {/* <AppStack.Screen name="Welcome" component={Welcome} /> */}
           {/* Don't hide these Welcome screens under !isLoggedIn
@@ -338,6 +352,7 @@ const RootStackScreens = React.memo(
                 </Touchable>
               ),
               headerLeft: (): ReactElement => { },
+              headerLeft: (): ReactElement => {},
               cardStyle: { backgroundColor: theme.colors.transparent },
               headerStyle: {
                 backgroundColor: theme.colors.primary,
@@ -570,6 +585,7 @@ const RootStackScreens = React.memo(
               },
               title: '',
               headerLeft: (): ReactElement => <HeaderLeft testID="VideoDetails" />,
+              ),
             }}
           />
           <RootStack.Screen
@@ -617,6 +633,7 @@ const RootStackScreens = React.memo(
               title: '',
               headerLeft: (): ReactElement => (
                 <HeaderLeft resetTo="AdventureActive" testID="AdventureManage" />
+                />
               ),
 
               /* navigation.navigate('AdventureActive', {
@@ -662,7 +679,6 @@ const RootStackScreens = React.memo(
               headerRight: undefined,
             }}
           />
-
 
         </RootStack.Navigator>
       </>
@@ -798,14 +814,13 @@ const App = () => {
         }}
       // linking={linking} - not working.
       // initialState={ ( isLoggedIn ? ({ index: 0, routes: [{ name: 'LoggedInApp' }] }) : ({ index: 0, routes: [{ name: 'WelcomeApp' }] }) ) }
+        // initialState={ ( isLoggedIn ? ({ index: 0, routes: [{ name: 'LoggedInApp' }] }) : ({ index: 0, routes: [{ name: 'WelcomeApp' }] }) ) }
       >
         <Host>
           <AppStack.Navigator
-            screenOptions={
-              {
-                // headerShown: false
-              }
-            }
+            screenOptions={{
+              headerShown: true,
+            }}
           >
             <AppStack.Screen
               name="Root"
