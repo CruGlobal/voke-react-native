@@ -125,6 +125,8 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
+
+
 android {
     ndkVersion rootProject.ext.ndkVersion
 
@@ -137,12 +139,13 @@ android {
 
     defaultConfig {
         applicationId "org.cru.voke"
+        multiDexEnabled true // Voke.
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode grgit.log(includes:['HEAD']).size() // Voke: Fastline Travis
         versionName "5.6.6"
-        multiDexEnabled true // Voke.
+        versionCode grgit.log(includes:['HEAD']).size() // Voke: Fastline Travis
     }
+
     splits {
         abi {
             reset()
@@ -213,7 +216,7 @@ dependencies {
 
     // Voke: Add the Firebase Crashlytics SDK.
     implementation 'com.google.firebase:firebase-crashlytics:17.3.0'
-    implementation 'com.android.support:multidex:1.0.3' // https://medium.com/@jQN/react-native-multidex-error-8f9a1daf8c34
+    implementation 'com.android.support:multidex:2.0.1' // https://medium.com/@jQN/react-native-multidex-error-8f9a1daf8c34
 
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
@@ -222,7 +225,7 @@ dependencies {
     } else {
         implementation jscFlavor
     }
-    androidTestImplementation('com.wix:detox:+')
+    // androidTestImplementation('com.wix:detox:+')
 }
 
 // Run this once to be able to run the application with BUCK
