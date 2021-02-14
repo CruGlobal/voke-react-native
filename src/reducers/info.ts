@@ -14,6 +14,9 @@ const initialState = {
   duoTutorialCount: 0,
   tutorialMode: false,
   remindToUpdateOn: '',
+  debugData: {
+    startupTime: [],
+  },
 };
 
 export function info(
@@ -31,6 +34,9 @@ export function info(
     duoTutorialCount: number;
     tutorialMode: any;
     remindToUpdateOn: string;
+    debugData: {
+      startupTime: { date: string; duration: number }[] | [];
+    };
   },
 ) {
   switch (action.type) {
@@ -89,6 +95,23 @@ export function info(
         ...state,
         videoIsPlaying: action.state || false,
       };
+    case REDUX_ACTIONS.SET_STARTUP_TIME: {
+      // Keep up to 100 recent startup duration stats.
+      const newStartupTime = [
+        ...(state?.debugData?.startupTime || []),
+        { date: Date.now(), duration: action.data },
+      ];
+      if (newStartupTime.length > 100) {
+        newStartupTime.shift();
+      }
+      return {
+        ...state,
+        debugData: {
+          ...state.debugData,
+          startupTime: newStartupTime,
+        },
+      };
+    }
     default:
       return state;
   }

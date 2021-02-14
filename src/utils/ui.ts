@@ -1,7 +1,4 @@
 /* Global Styles */
-import styled, { css } from '@emotion/native';
-import { Platform, Dimensions } from 'react-native';
-
 import theme from 'utils/theme';
 
 // const { width, height } = Dimensions.get('window');
@@ -10,79 +7,81 @@ const ui: { [key: string]: any } = {
   ...theme,
   button: {
     size: {
-      m: css`
-        padding: 4px 14px;
-        border-radius: ${theme.radius.s + 'px'};
-      `,
+      m: {
+        paddingVertical: 4,
+        paddingHorizontal: 14,
+        borderRadius: theme.radius.s,
+      },
       l: {
         paddingVertical: 20,
         paddingHorizontal: theme.spacing.s,
         borderRadius: theme.radius.xxl,
       },
-      outlinel: css`
-        padding: 16px 16px;
-        border-radius: ${theme.radius.m + 'px'};
-      `,
+      outlinel: {
+        padding: 16,
+        borderRadius: theme.radius.m,
+      },
     },
     style: {
       primary: {
         backgroundColor: theme.colors.primary,
       },
-      solid: css`
-        background-color: ${theme.colors.white};
-      `,
-      outline: css`
-        border: solid 1px ${theme.colors.white};
-      `,
+      solid: {
+        backgroundColor: theme.colors.white,
+      },
+      outline: {
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: theme.colors.white,
+      },
     },
   },
   buttonText: {
     size: {
-      m: css`
-        /* color: ${theme.colors.secondary}; */
-        font-size: ${theme.fontSizes.l + 'px'};
-        font-family: ${theme.fonts.regular};
-        text-align:center;
-      `,
+      m: {
+        /* color: theme.colors.secondary}; */
+        fontSize: theme.fontSizes.l,
+        fontFamily: theme.fonts.regular,
+        textAlign: 'center',
+      },
       l: {
         fontSize: theme.fontSizes.xl,
         lineHeight: theme.fontSizes.xl * 1.35,
         fontFamily: theme.fonts.regular,
         textAlign: 'center',
       },
-      wl: css`
-        /* color: ${theme.colors.secondary}; */
-        font-size: ${theme.fontSizes.xl + 'px'};
-        line-height: ${theme.fontSizes.xl * 1.35 + 'px'};
-        font-family: ${theme.fonts.regular};
-        text-align:center;
-      `,
-      wm: css`
-        /* color: ${theme.colors.lightGrey}; */
-        font-size: ${theme.fontSizes.l + 'px'};
-        font-family: ${theme.fonts.semiBold};
-        text-align:center;
-      `,
+      wl: {
+        /* color: theme.colors.secondary}; */
+        fontSize: theme.fontSizes.xl,
+        lineHeight: theme.fontSizes.xl * 1.35,
+        fontFamily: theme.fonts.regular,
+        textAlign: 'center',
+      },
+      wm: {
+        fontSize: theme.fontSizes.l,
+        fontFamily: theme.fonts.semiBold,
+        textAlign: 'center',
+      },
     },
     style: {
-      primary: css`
-        color: ${theme.colors.white};
-      `,
-      solid: css`
-        color: ${theme.colors.secondary};
-      `,
-      outline: css`
-        color: ${theme.colors.white};
-      `,
+      primary: {
+        color: theme.colors.white,
+      },
+      solid: {
+        color: theme.colors.secondary,
+      },
+      outline: {
+        color: theme.colors.white,
+      },
     },
   },
   container: {
-    default: css`
-      align-items: center;
-      justify-content: space-between;
-      background-color: ${theme.colors.primary};
-      width: 100%;
-    `,
+    default: {
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      backgroundColor: theme.colors.primary,
+      width: '100%',
+    },
   },
 };
 

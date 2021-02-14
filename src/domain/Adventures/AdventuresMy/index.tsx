@@ -17,13 +17,7 @@ import { setCurrentScreen } from '../../../actions/info';
 
 import styles from './styles';
 
-type AdventuresMyProps = {
-  route: {
-    name: string;
-  };
-};
-
-const AdventuresMy = ({ route }: AdventuresMyProps): React.ReactElement => {
+const AdventuresMy = (): React.ReactElement => {
   const dispatch = useDispatch();
   const myAdventuresIds =
     useSelector(

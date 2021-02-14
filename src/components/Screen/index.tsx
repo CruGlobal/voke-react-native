@@ -6,7 +6,7 @@ import {
   ScrollView,
   Platform,
 } from 'react-native';
-import useKeyboard from '@rnhooks/keyboard';
+import { useKeyboard } from '@react-native-community/hooks';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import DismissKeyboardView from '../DismissKeyboardHOC';
@@ -18,7 +18,7 @@ const InnerContent = ({
   children,
 }: // ...rest
 Props): React.ReactElement => {
-  const [isKeyboardVisible] = useKeyboard();
+  const keyboard = useKeyboard()
   return (
     <>
       {layout === 'embed' ? (
@@ -26,7 +26,7 @@ Props): React.ReactElement => {
       ) : (
         <SafeAreaView
           style={
-            isKeyboardVisible
+              keyboard.keyboardShown
               ? styles.safeAreaViewWithKeyboard
               : styles.safeAreaView
           }
@@ -58,9 +58,7 @@ const Screen = ({
   layout,
   bounces = true,
 }: // ...rest
-Props): React.ReactElement => {
-  // https://github.com/react-native-hooks/keyboard#configuration
-  const [isKeyboardVisible] = useKeyboard();
+  Props): React.ReactElement => {
   return (
     <KeyboardAvoidingView
       enabled={!noKeyboard}

@@ -1,9 +1,8 @@
 import React, { ReactElement } from 'react';
 import { View } from 'react-native';
-
-import Flex from '../Flex';
-import VokeIcon from '../VokeIcon';
-import Touchable from '../Touchable';
+import Flex from 'components/Flex';
+import VokeIcon from 'components/VokeIcon';
+import Touchable from 'components/Touchable';
 
 import styles from './styles';
 

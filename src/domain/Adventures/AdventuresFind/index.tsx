@@ -29,15 +29,11 @@ const AdventuresFind = (): React.ReactElement => {
   };
 
   return (
-    <ScrollView
+    <View
       style={{
         flex: 1,
         backgroundColor: theme.colors.primary,
       }}
-      scrollIndicatorInsets={{ right: 1 }}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
     >
       {/* Block: Have Adventure Code? */}
       <AdventuresActions />
@@ -46,11 +42,11 @@ const AdventuresFind = (): React.ReactElement => {
           return item?.id ? <AvailableAdventureItem {...item} /> : <></>;
         }}
         data={availableAdventures}
-        style={{ width: '100%' }}
+        style={{ width: '100%', paddingBottom: 120 }}
+        onRefresh={onRefresh}
+        refreshing={refreshing}
       />
-      {/* Extra spacing for bottom navigation tabs */}
-      <View style={{ height: 120 }} />
-    </ScrollView>
+    </View>
   );
 };
 

@@ -1,27 +1,20 @@
+import LanguageSwitch from 'domain/Common/LanguageSwitch';
+
 import React from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { Alert, ScrollView, View, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import i18next from 'i18next';
 import Flex from 'components/Flex';
 import Image from 'components/Image';
 import Text from 'components/Text';
 import Touchable from 'components/Touchable';
-import TextField from 'components/TextField';
-import StatusBar from 'components/StatusBar';
 import OldButton from 'components/OldButton';
-import Triangle from 'components/Triangle';
 import VokeIcon from 'components/VokeIcon';
 import { logoutAction, deleteAccountAction, facebookLogin } from 'actions/auth';
-import { appleAuth } from '@invertase/react-native-apple-authentication';
-import CONSTANTS from 'utils/constants';
 import theme from 'utils/theme';
-
 import st from 'utils/st';
-import languageCodes from '../../../../i18n/languageCodes';
-import { createBaseLocaleAliases } from '../../../../i18n';
 
 import styles from './styles';
 
@@ -33,11 +26,6 @@ const AccountProfile = () => {
   const authType = useSelector(({ auth }) => auth?.authType);
   const me = useSelector(({ auth }) => auth.user);
   const windowDimensions = Dimensions.get('window');
-
-  // To change language use:
-  // https://www.i18next.com/overview/api#changelanguage
-  // change the language
-  // i18next.changeLanguage("en-US-xx");
 
   // Facebook Login.
   // TODO: Create FB Button component.
@@ -52,8 +40,6 @@ const AccountProfile = () => {
       navigation.navigate('LoggedInApp');
     }
   };
-
-  const currLang = languageCodes[i18next.language.substr(0, 2).toLowerCase()];
 
   return (
     <Flex
@@ -197,146 +183,69 @@ const AccountProfile = () => {
                   marginBottom: theme.spacing.l,
                 }}
               >
-                {/* <Touchable onPress={ () => navigation.navigate('AccountEmailPass')}> */}
-                <Flex direction="row" align="start" justify="start">
-                  <Flex
-                    style={{
-                      width: 80,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: '#fff',
-                        fontSize: theme.fontSizes.l,
-                      }}
-                    >
-                      {t('language')}
-                    </Text>
-                  </Flex>
-                  <Flex
-                    value={1}
-                    style={{
-                      paddingLeft: theme.spacing.m,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: '#fff',
-                        fontSize: theme.fontSizes.l,
-                      }}
-                    >
-                      {currLang.name}{' '}
-                      {currLang.name !== 'English'
-                        ? '(' + currLang.nativeName + ')'
-                        : ''}
-                    </Text>
-                  </Flex>
-                </Flex>
-                <View style={{ minHeight: theme.spacing.xs }} />
-                { authType === 'apple' ? null : <>
-                  <Flex direction="row" align="start" justify="start">
-                    <Flex
-                      style={{
-                        width: 80,
-                      }}
-                    >
-                      <Text
-                        style={{
-                          color: '#fff',
-                          fontSize: theme.fontSizes.l,
-                        }}
-                      >
+                <View style={styles.settingRow}>
+                  <Text style={styles.settingLabel}>{t('language')}</Text>
+                  <LanguageSwitch />
+                </View>
+                {authType === 'apple' ? null : (
+                  <>
+                    <View style={styles.settingRow}>
+                      <Text style={styles.settingLabel}>
                         {t('placeholder:email')}
                       </Text>
-                    </Flex>
-                    <Flex
-                      value={1}
-                      style={{
-                        paddingLeft: theme.spacing.m,
-                      }}
-                    >
                       <Touchable
                         onPress={() => navigation.navigate('AccountEmail')}
                       >
                         <Text
-                          style={{
-                            // width:'100%',
-                            color: '#fff',
-                            fontSize: theme.fontSizes.l,
-                          }}
+                          style={styles.settingOption}
                           numberOfLines={2}
                           testID={'textEmail'}
                         >
                           {me.email}
                         </Text>
                       </Touchable>
-                    </Flex>
-                  </Flex>
-                  <View style={{ minHeight: theme.spacing.xs }} />
-                  <Flex direction="row" align="start" justify="start">
-                    <Flex
-                      style={{
-                        width: 80,
-                      }}
-                    >
-                      <Text
-                        style={{
-                          color: '#fff',
-                          fontSize: theme.fontSizes.l,
-                        }}
-                      >
+                    </View>
+                    <View style={styles.settingRow}>
+                      <Text style={styles.settingLabel}>
                         {t('placeholder:password')}
                       </Text>
-                    </Flex>
-                    <Flex
-                      value={1}
-                      style={{
-                        paddingLeft: theme.spacing.m,
-                      }}
-                    >
                       <Touchable
                         onPress={() => navigation.navigate('AccountPass')}
                       >
-                        <Text
-                          style={{
-                            color: '#fff',
-                            fontSize: theme.fontSizes.xl,
-                          }}
-                          numberOfLines={2}
-                        >
+                        <Text style={styles.settingOption} numberOfLines={2}>
                           ********
-                      </Text>
+                        </Text>
                       </Touchable>
-                    </Flex>
-                  </Flex>
-                  <View style={{ minHeight: theme.spacing.m }} />
+                    </View>
+                    <View style={{ minHeight: theme.spacing.m }} />
 
-                <Flex
-                  direction="row"
-                  align="start"
-                  justify="start"
-                  style={{
-                    paddingHorizontal: theme.spacing.l,
-                  }}
-                >
-                  <VokeIcon
-                    name="create"
-                    size={18}
-                    style={{
-                      color: theme.colors.white,
-                    }}
-                  />
-                  <Text
-                    style={{
-                      color: theme.colors.white,
-                      fontSize: theme.fontSizes.xs,
-                      paddingLeft: theme.spacing.s,
-                    }}
-                  >
-                    {t('profile:toEdit')}
-                  </Text>
-                  </Flex>
-                </>}
+                    <Flex
+                      direction="row"
+                      align="start"
+                      justify="start"
+                      style={{
+                        paddingHorizontal: theme.spacing.l,
+                      }}
+                    >
+                      <VokeIcon
+                        name="create"
+                        size={18}
+                        style={{
+                          color: theme.colors.white,
+                        }}
+                      />
+                      <Text
+                        style={{
+                          color: theme.colors.white,
+                          fontSize: theme.fontSizes.xs,
+                          paddingLeft: theme.spacing.s,
+                        }}
+                      >
+                        {t('profile:toEdit')}
+                      </Text>
+                    </Flex>
+                  </>
+                )}
               </Flex>
             ) : (
               <></>

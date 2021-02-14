@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import st from 'utils/st';
-import { TextInput } from 'react-native-gesture-handler';
+import { TextInput } from 'react-native';
 
 import Icon from '../Icon';
 

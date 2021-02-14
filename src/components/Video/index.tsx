@@ -19,13 +19,13 @@ import st from 'utils/st';
 import theme from 'utils/theme';
 import { ui } from 'assets';
 import { TStep } from 'utils/types';
+import Flex from 'components/Flex';
+import VokeIcon from 'components/VokeIcon';
+import Touchable from 'components/Touchable';
+import Text from 'components/Text';
 
 import BackButton from '../BackButton';
 import { updateVideoIsPlayingState } from '../../actions/requests';
-import Flex from '../Flex';
-import Touchable from '../Touchable';
-import VokeIcon from '../VokeIcon';
-import Text from '../Text';
 
 import styles from './styles';
 
@@ -89,6 +89,7 @@ function Video({
   if (!item) {
     return <></>;
   }
+  console.log( "🐸 item:", item );
   let youtubeVideo = useRef<RefYouTube>(null);
   let arclightVideo = useRef<RefArcLight>(null);
   const lockOrientationRef = useRef<boolean>(lockOrientation);
@@ -372,7 +373,7 @@ function Video({
         <RNVideo
           ref={arclightVideo}
           source={{
-            uri: item.hls || item.url,
+            uri: item.hls.replace('http:', 'https:') || item.url.replace('http:', 'https:'),
             type: item.hls ? 'm3u8' : undefined,
           }}
           onLoad={e => {

@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-
 import theme from 'utils/theme';
 
 const styles = StyleSheet.create({
@@ -19,7 +18,7 @@ const styles = StyleSheet.create({
     ...theme.shadow,
   },
   backFill: {
-    ...StyleSheet.absoluteFill,
+    ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0, 0, 0, 0.35)',
     borderRadius: theme.radius.s,
   },

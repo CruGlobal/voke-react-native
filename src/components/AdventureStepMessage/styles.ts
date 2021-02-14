@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
   messageContainer: {
     paddingHorizontal: theme.spacing.l,
     paddingBottom: theme.spacing.m,
+    zIndex: 1, // Needed to make context menu covering all other elements.
   },
   messageContent: {
     paddingHorizontal: theme.spacing.l,

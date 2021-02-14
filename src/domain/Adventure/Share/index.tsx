@@ -61,15 +61,17 @@ function AdventureShareCode(props) {
       {
         dialogTitle: t('share'),
       }, */
-    ).then((res) => {
-      // Google Analytics: Record share action.
-      // https://rnfirebase.io/reference/analytics#logShare
-      analytics().logShare({
-        content_type: isVideoInvite ? 'Video' : 'Adventure',
-        item_id: invitation.organization_journey.name,
-        method: res?.app || '', //ex: "com.apple.UIKit.activity.CopyToPasteboard"
-      });
-    }).catch(err => console.log('Share Error', err));
+    )
+      .then(res => {
+        // Google Analytics: Record share action.
+        // https://rnfirebase.io/reference/analytics#logShare
+        analytics().logShare({
+          content_type: isVideoInvite ? 'Video' : 'Adventure',
+          item_id: invitation.organization_journey.name,
+          method: res?.app || '', //ex: "com.apple.UIKit.activity.CopyToPasteboard"
+        });
+      })
+      .catch(err => console.log('Share Error', err));
   };
 
   const copyToClipboard = value => {

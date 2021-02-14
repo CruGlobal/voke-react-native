@@ -1,0 +1,628 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly binary question - default 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#1d1d26",
+      "borderRadius": 10,
+      "overflow": "hidden",
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "overflow": "hidden",
+        },
+        Object {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+      ]
+    }
+  >
+    <FastImageView
+      resizeMode="cover"
+      source={
+        Object {
+          "uri": "https://cru-vokeapi-prod.s3.amazonaws.com/platform/organization/journey/steps/images/811/1ed/6d-/small/data.jpg?1581968878",
+        }
+      }
+      style={
+        Object {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        }
+      }
+    />
+  </View>
+  <Text
+    style={
+      Array [
+        Object {
+          "color": "#1d1d26",
+        },
+        Object {
+          "fontFamily": "TitilliumWeb-Regular",
+        },
+        Object {
+          "color": "#fff",
+          "fontSize": 21,
+          "paddingBottom": 8,
+          "paddingHorizontal": 22,
+          "paddingTop": 22,
+        },
+      ]
+    }
+  >
+    PRAYER
+  </Text>
+  <Text
+    style={
+      Array [
+        Object {
+          "color": "#1d1d26",
+        },
+        Object {
+          "fontFamily": "TitilliumWeb-Regular",
+        },
+        Object {
+          "color": "#fff",
+          "fontSize": 17,
+          "paddingHorizontal": 22,
+        },
+      ]
+    }
+  >
+    Jesus, thank you for loving me, thank you for the worth you speak into
+  </Text>
+  <BVLinearGradient
+    colors={
+      Array [
+        0,
+        4278190080,
+      ]
+    }
+    endPoint={
+      Object {
+        "x": 0.5,
+        "y": 1,
+      }
+    }
+    locations={null}
+    startPoint={
+      Object {
+        "x": 0.5,
+        "y": 0,
+      }
+    }
+    style={
+      Object {
+        "paddingBottom": 30.799999999999997,
+        "paddingHorizontal": 16,
+        "paddingTop": 22,
+        "width": "100%",
+      }
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#1d1d26",
+          },
+          Object {
+            "fontFamily": "TitilliumWeb-Regular",
+          },
+          Object {
+            "color": "#fff",
+            "flex": 1,
+            "fontSize": 21,
+            "lineHeight": 27.3,
+            "textAlign": "center",
+          },
+        ]
+      }
+    >
+      Have you made this commitment today?
+    </Text>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "justifyContent": "space-around",
+          "paddingHorizontal": 8,
+          "paddingTop": 16,
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "backgroundColor": "#FF9900",
+            "borderRadius": 88,
+            "opacity": 1,
+            "paddingHorizontal": 22,
+            "paddingVertical": 8,
+          }
+        }
+        testID="binaryButton-0"
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "center",
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "fontFamily": "TitilliumWeb-Regular",
+                  "textAlign": "center",
+                },
+                Object {
+                  "fontSize": 21,
+                  "lineHeight": 31.5,
+                },
+                Object {
+                  "color": "#fff",
+                },
+                undefined,
+                undefined,
+              ]
+            }
+          >
+            Not yet
+          </Text>
+        </View>
+      </View>
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "backgroundColor": "#FF9900",
+            "borderRadius": 88,
+            "opacity": 1,
+            "paddingHorizontal": 22,
+            "paddingVertical": 8,
+          }
+        }
+        testID="binaryButton-1"
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "center",
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "fontFamily": "TitilliumWeb-Regular",
+                  "textAlign": "center",
+                },
+                Object {
+                  "fontSize": 21,
+                  "lineHeight": 31.5,
+                },
+                Object {
+                  "color": "#fff",
+                },
+                undefined,
+                undefined,
+              ]
+            }
+          >
+            I just did
+          </Text>
+        </View>
+      </View>
+    </View>
+  </BVLinearGradient>
+</View>
+`;
+
+exports[`renders correctly binary question - partial data 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#1d1d26",
+      "borderRadius": 10,
+      "overflow": "hidden",
+    }
+  }
+>
+  <Text
+    style={
+      Array [
+        Object {
+          "color": "#1d1d26",
+        },
+        Object {
+          "fontFamily": "TitilliumWeb-Regular",
+        },
+        Object {
+          "color": "#fff",
+          "fontSize": 21,
+          "paddingBottom": 8,
+          "paddingHorizontal": 22,
+          "paddingTop": 22,
+        },
+      ]
+    }
+  >
+    
+  </Text>
+  <Text
+    style={
+      Array [
+        Object {
+          "color": "#1d1d26",
+        },
+        Object {
+          "fontFamily": "TitilliumWeb-Regular",
+        },
+        Object {
+          "color": "#fff",
+          "fontSize": 17,
+          "paddingHorizontal": 22,
+        },
+      ]
+    }
+  >
+    
+  </Text>
+  <BVLinearGradient
+    colors={
+      Array [
+        0,
+        4278190080,
+      ]
+    }
+    endPoint={
+      Object {
+        "x": 0.5,
+        "y": 1,
+      }
+    }
+    locations={null}
+    startPoint={
+      Object {
+        "x": 0.5,
+        "y": 0,
+      }
+    }
+    style={
+      Object {
+        "paddingBottom": 30.799999999999997,
+        "paddingHorizontal": 16,
+        "paddingTop": 22,
+        "width": "100%",
+      }
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#1d1d26",
+          },
+          Object {
+            "fontFamily": "TitilliumWeb-Regular",
+          },
+          Object {
+            "color": "#fff",
+            "flex": 1,
+            "fontSize": 21,
+            "lineHeight": 27.3,
+            "textAlign": "center",
+          },
+        ]
+      }
+    >
+      
+    </Text>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "justifyContent": "space-around",
+          "paddingHorizontal": 8,
+          "paddingTop": 16,
+        }
+      }
+    />
+  </BVLinearGradient>
+</View>
+`;
+
+exports[`renders correctly binary question - selected 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#1d1d26",
+      "borderRadius": 10,
+      "overflow": "hidden",
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "overflow": "hidden",
+        },
+        Object {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+      ]
+    }
+  >
+    <FastImageView
+      resizeMode="cover"
+      source={
+        Object {
+          "uri": "https://cru-vokeapi-prod.s3.amazonaws.com/platform/organization/journey/steps/images/811/1ed/6d-/small/data.jpg?1581968878",
+        }
+      }
+      style={
+        Object {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        }
+      }
+    />
+  </View>
+  <Text
+    style={
+      Array [
+        Object {
+          "color": "#1d1d26",
+        },
+        Object {
+          "fontFamily": "TitilliumWeb-Regular",
+        },
+        Object {
+          "color": "#fff",
+          "fontSize": 21,
+          "paddingBottom": 8,
+          "paddingHorizontal": 22,
+          "paddingTop": 22,
+        },
+      ]
+    }
+  >
+    PRAYER
+  </Text>
+  <Text
+    style={
+      Array [
+        Object {
+          "color": "#1d1d26",
+        },
+        Object {
+          "fontFamily": "TitilliumWeb-Regular",
+        },
+        Object {
+          "color": "#fff",
+          "fontSize": 17,
+          "paddingHorizontal": 22,
+        },
+      ]
+    }
+  >
+    Jesus, thank you for loving me, thank you for the worth you speak into
+  </Text>
+  <BVLinearGradient
+    colors={
+      Array [
+        0,
+        4278190080,
+      ]
+    }
+    endPoint={
+      Object {
+        "x": 0.5,
+        "y": 1,
+      }
+    }
+    locations={null}
+    startPoint={
+      Object {
+        "x": 0.5,
+        "y": 0,
+      }
+    }
+    style={
+      Object {
+        "paddingBottom": 30.799999999999997,
+        "paddingHorizontal": 16,
+        "paddingTop": 22,
+        "width": "100%",
+      }
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#1d1d26",
+          },
+          Object {
+            "fontFamily": "TitilliumWeb-Regular",
+          },
+          Object {
+            "color": "#fff",
+            "flex": 1,
+            "fontSize": 21,
+            "lineHeight": 27.3,
+            "textAlign": "center",
+          },
+        ]
+      }
+    >
+      Have you made this commitment today?
+    </Text>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "justifyContent": "space-around",
+          "paddingHorizontal": 8,
+          "paddingTop": 16,
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "backgroundColor": "#fff",
+            "borderRadius": 88,
+            "opacity": 1,
+            "paddingHorizontal": 22,
+            "paddingVertical": 8,
+          }
+        }
+        testID="binaryButton-0"
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "center",
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "fontFamily": "TitilliumWeb-Regular",
+                  "textAlign": "center",
+                },
+                Object {
+                  "fontSize": 21,
+                  "lineHeight": 31.5,
+                },
+                Object {
+                  "color": "#186078",
+                },
+                undefined,
+                undefined,
+              ]
+            }
+          >
+            Not yet
+          </Text>
+        </View>
+      </View>
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "backgroundColor": "#FF9900",
+            "borderRadius": 88,
+            "opacity": 0.4,
+            "paddingHorizontal": 22,
+            "paddingVertical": 8,
+          }
+        }
+        testID="binaryButton-1"
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "center",
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "fontFamily": "TitilliumWeb-Regular",
+                  "textAlign": "center",
+                },
+                Object {
+                  "fontSize": 21,
+                  "lineHeight": 31.5,
+                },
+                Object {
+                  "color": "#fff",
+                },
+                undefined,
+                undefined,
+              ]
+            }
+          >
+            I just did
+          </Text>
+        </View>
+      </View>
+    </View>
+  </BVLinearGradient>
+</View>
+`;

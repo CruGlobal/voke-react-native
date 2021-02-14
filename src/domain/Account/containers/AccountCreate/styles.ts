@@ -1,5 +1,4 @@
 // import { ReactText } from 'react';
-import { css } from '@emotion/native';
 import theme from 'utils/theme';
 import ui from 'utils/ui';
 
@@ -7,67 +6,68 @@ const styles: { [key: string]: any } = {
   ...ui,
   MainContainer: [
     ui.container.default,
-    css`
-      flex: 1;
-      background-color: ${theme.colors.primary};
-    `,
+    {
+      flex: 1,
+      backgroundColor: theme.colors.primary,
+    },
   ],
-  PrimaryContent: css`
-    width: 100%;
-    background-color: ${theme.colors.primary};
-    padding-left: ${`${theme.spacing.xl}px`};
-    padding-right: ${`${theme.spacing.xl}px`};
-    margin-top: -35px;
-  `,
-  Divider: css`
-    width: 100%;
-    background-color: ${theme.colors.primary};
-  `,
-  SectionAction: css`
-    width: 100%;
-    background-color: ${theme.colors.primary};
-    padding-left: ${`${theme.spacing.xl}px`};
-    padding-right: ${`${theme.spacing.xl}px`};
-    padding-bottom: ${`${theme.spacing.l}px`};
-    margin-top: ${`${theme.spacing.m}px`};
-  `,
+  PrimaryContent: {
+    width: '100%',
+    backgroundColor: theme.colors.primary,
+    paddingLeft: theme.spacing.xl,
+    paddingRight: theme.spacing.xl,
+    marginTop: -35,
+  },
+  Divider: {
+    width: '100%',
+    backgroundColor: theme.colors.primary,
+  },
+  SectionAction: {
+    width: '100%',
+    backgroundColor: theme.colors.primary,
+    paddingLeft: theme.spacing.xl,
+    paddingRight: theme.spacing.xl,
+    paddingBottom: theme.spacing.l,
+    marginTop: theme.spacing.m,
+  },
   ButtonStart: [
     ui.button.size.l,
     ui.button.style.solid,
-    css`
-      margin-top: ${`${theme.spacing.m}px`};
-      margin-left: ${`${theme.spacing.l}px`};
-      margin-right: ${`${theme.spacing.l}px`};
-      margin-bottom: ${`${theme.spacing.l}px`};
-    `,
+    {
+      marginTop: theme.spacing.m,
+      marginLeft: theme.spacing.l,
+      marginRight: theme.spacing.l,
+      marginBottom: theme.spacing.l,
+    },
   ],
-  Link: css`
-    text-align: center;
-    text-decoration-line: underline;
-    color: ${theme.colors.white};
-  `,
+  Link: {
+    textAlign: 'center',
+    textDecorationLine: 'underline',
+    color: theme.colors.white,
+  },
   ButtonStartLabel: [ui.buttonText.size.l],
-  SectionNotice: css`
-    padding-top: ${`${theme.spacing.m}px`};
-    padding-left: ${`${theme.spacing.xl}px`};
-    padding-right: ${`${theme.spacing.xl}px`};
-    padding-bottom: ${`${theme.spacing.l}px`};
-  `,
-  TextSmall: css`
-    color: ${theme.colors.white};
-    font-size: 12px;
-    font-family: ${theme.fonts.regular};
-    text-align: center;
-    margin-top: -${`${theme.spacing.l}px`};
-  `,
-  SectionFB: css`
-    background-color: ${theme.colors.primary};
-    padding-top: ${`${theme.spacing.l}px`};
-    padding-bottom: ${`${theme.spacing.l}px`};
-    border-top-width: 1px;
-    border-top-color: rgba(0, 0, 0, 0.2);
-    width: 100%;
-  `,
+  SectionNotice: {
+    paddingTop: theme.spacing.m,
+    paddingLeft: theme.spacing.xl,
+    paddingRight: theme.spacing.xl,
+    paddingBottom: theme.spacing.l,
+  },
+  TextSmall: {
+    color: theme.colors.white,
+    fontSize: 12,
+    fontFamily: theme.fonts.regular,
+    textAlign: 'center',
+    marginTop: -theme.spacing.l,
+  },
+  SectionFB: {
+    backgroundColor: theme.colors.primary,
+    paddingTop: theme.spacing.l,
+    paddingBottom: theme.spacing.l,
+
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(0, 0, 0, 0.2)',
+    width: '100%',
+  },
   ButtonFBSignIn: [ui.button.size.outlinel, ui.button.style.outline],
   ButtonFBSignInLabel: [ui.buttonText.size.m],
 };

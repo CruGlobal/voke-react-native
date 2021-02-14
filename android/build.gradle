@@ -3,28 +3,36 @@
 buildscript {
     ext {
         // https://source.android.com/setup/start/build-numbers
-        buildToolsVersion = "29.0.2"
+        buildToolsVersion = "29.0.3"
         minSdkVersion = 21
         compileSdkVersion = 29
         targetSdkVersion = 29
+        ndkVersion = "20.1.5948944"
         // https://github.com/wix/Detox/blob/master/docs/Introduction.Android.md#4-add-kotlin
-        kotlinVersion = '1.4.21-2' // needed for Detox
+        // kotlinVersion = '1.4.21-2' // needed for Detox
     }
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath('com.android.tools.build:gradle:4.1.1')
+        classpath("com.android.tools.build:gradle:4.1.0")
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+
+        // Voke: Crashlytics
+        classpath 'com.google.gms:google-services:4.3.4'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.4.1'
         classpath 'com.google.firebase:perf-plugin:1.3.4'
-        classpath 'com.google.gms:google-services:4.3.4'
+        // Voke: Fastline Travis
         classpath 'org.ajoberstar:gradle-git:1.7.2'
+
         // https://github.com/wix/Detox/blob/master/docs/Introduction.Android.md#4-add-kotlin
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        // classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     }
 }
 
+// Voke: Fastline Travis
 apply plugin: 'org.ajoberstar.grgit'
 ext.grgit = org.ajoberstar.grgit.Grgit.open()
 
@@ -48,16 +56,15 @@ allprojects {
         jcenter()
         // https://github.com/ivpusic/react-native-image-crop-picker
         maven { url 'https://maven.google.com' }
-        maven { url 'https://jitpack.io' }
+        maven { url 'https://www.jitpack.io' }
 
         // https://github.com/facebook/SoLoader/issues/59#issuecomment-669161376
         // force dependency versions on all subprojects
         configurations.all {
             resolutionStrategy {
-
                 // use 0.9.0 to fix crash on Android 11
                 force "com.facebook.soloader:soloader:0.9.0"
 			}
 		}
-	}
+    }
 }

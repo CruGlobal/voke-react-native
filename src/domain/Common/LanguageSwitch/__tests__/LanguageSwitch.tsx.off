@@ -1,0 +1,147 @@
+/**
+ * @format
+ */
+
+import 'react-native';
+import React from 'react';
+import { fireEvent, render, waitFor } from '@testing-library/react-native';
+
+import LanguageSwitch from '../index';
+
+// the modal component is automatically mocked by RN and apparently contains
+// a bug which make the modal (and it's children) always visible in the test tree
+// this is a hack which fix this issue
+jest.mock('react-native/Libraries/Modal/Modal', () => {
+	const Modal = jest.requireActual('react-native/Libraries/Modal/Modal');
+	// @ts-ignore
+	return props => <Modal {...props} />;
+});
+
+// jest.mock('react-native-material-menu', () => {
+// 	const Menu = jest.requireActual('react-native-material-menu/src/Menu')
+// 	// @ts-ignore
+// 	return props => <Menu {...props} />
+// })
+// jest.mock('react-native-material-menu', () => 'Menu');
+// jest.mock('react-native-material-menu');
+
+/* jest.mock('react-native-material-menu', () => {
+	const RealComponent = jest.requireActual('react-native-material-menu');
+	const React = require('react');
+	class Menu extends React.Component {
+		render() {
+			return React.createElement('Menu', this.props, this.props.children);
+		}
+	}
+	Menu.propTypes = RealComponent.propTypes;
+	return RealComponent;
+}); */
+
+jest.mock(
+	'react-native/Libraries/Components/Touchable/TouchableOpacity',
+	() => {
+		const TouchableOpacity = jest.requireActual(
+			'react-native/Libraries/Components/Touchable/TouchableOpacity',
+		);
+
+		TouchableOpacity.displayName = 'TouchableOpacity';
+
+		return TouchableOpacity;
+	},
+);
+
+jest.mock(
+	'react-native/Libraries/Components/Touchable/TouchableHighlight',
+	() => {
+		const TouchableHighlight = jest.requireActual(
+			'react-native/Libraries/Components/Touchable/TouchableHighlight',
+		);
+
+		TouchableHighlight.displayName = 'TouchableHighlight';
+
+		return TouchableHighlight;
+	},
+);
+
+/* it('renders modal screen correctly', async () => {
+	const { getByText, debug } = render(<ModalScreen />)
+
+	expect(() => getByText(/hello world/i)).toThrow(/no instances found/i) //modal is initially closed
+
+	fireEvent.press(getByText(/show modal/i))
+	await waitFor(() => getByText(/hello world/i)) //modal is now visible
+
+	fireEvent.press(getByText(/hide modal/i))
+	expect(() => getByText(/hide modal/i)).toThrow(/no instances found/i) //modal is closed again
+}) */
+
+it('renders correctly', () => {
+	const {
+		getByTestId,
+		getByText,
+		queryByTestId,
+		queryByText,
+		getByRole,
+		toJSON,
+		findByText,
+		debug,
+	} = render(<LanguageSwitch />);
+	expect(toJSON()).toMatchSnapshot();
+	// debug('initial state');
+	// console.log(queryByText(/ES/i));
+	// console.log(findByText(/english/i));
+	// await waitFor(() => findByText(/english/i));
+	expect(queryByText(/english/i)).toBeTruthy();
+	// expect(queryByText('EN')).not.toBeTruthy()
+});
+
+it('opens when user clicks on it', async () => {
+	const {
+		getByTestId,
+		getByText,
+		queryByTestId,
+		queryByText,
+		getByRole,
+		findByText,
+		toJSON,
+		debug,
+	} = render(<LanguageSwitch />);
+	const famousProgrammerInHistory = 'Ada Lovelace';
+
+	const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+	/* const switch = getByTestId('languageSwitch')
+	fireEvent.changeText(switch, famousProgrammerInHistory) */
+
+	// console.log(getByTestId('languageSwitchButton'));
+
+	// const button = getByText('English');
+	fireEvent.press(getByTestId('languageSwitchButton'));
+	/* setTimeout(() => {
+		debug('current state');
+	}, 1000); */
+	// expect(await findByText(/fr/i)).toBeTruthy()
+	await waitFor(() => getByText('EN')); //modal is now visible
+	// await waitFor(() => delay(3000)); //modal is now visible
+	// expect(queryByText('EN')).toBeTruthy();
+	// expect(queryByText('EN')).toBeTruthy()
+	// await waitFor(() => expect(queryByText('EN')).toBeTruthy());
+
+	/* 	await waitFor(() => expect(queryByTestId('printed-username')).toBeTruthy())
+		expect(getByTestId('printed-username').props.children).toBe(
+			famousProgrammerInHistory
+		)
+		expect(toJSON()).toMatchSnapshot() */
+});
+
+/* it('closes when user clicks outside', () => {
+	// to add
+});
+
+it('closes when user select the item', () => {
+	// to add
+});
+
+it('selects new language when user clicks on it', () => {
+	// to add
+});
+ */

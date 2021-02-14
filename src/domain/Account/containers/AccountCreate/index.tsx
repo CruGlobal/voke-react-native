@@ -20,7 +20,7 @@ import {
   Transition,
   TransitioningView,
 } from 'react-native-reanimated';
-import useKeyboard from '@rnhooks/keyboard';
+import { useKeyboard } from '@react-native-community/hooks';
 import DismissKeyboardView from 'components/DismissKeyboardHOC';
 import TextField from 'components/TextField';
 import OldButton from 'components/OldButton';
@@ -76,11 +76,7 @@ const AccountCreate = (props: Props): React.ReactElement => {
   const passwordRef = useRef<TextInput>(null);
   // const passwordRef = useRef<HTMLInputElement>(null);
   // https://github.com/react-native-hooks/keyboard#configuration
-  const [isKeyboardVisible] = useKeyboard({
-    useWillShow: Platform.OS === 'android' ? false : true,
-    useWillHide: Platform.OS === 'android' ? false : true,
-    // Not availabe on Android https://reactnative.dev/docs/keyboard#addlistener
-  });
+  const keyboard = useKeyboard();
   // const refBotBlock = useRef();
   const refBotBlock = useRef<TransitioningView>(null);
   const headerHeight = useHeaderHeight();
@@ -152,20 +148,20 @@ const AccountCreate = (props: Props): React.ReactElement => {
         <>
           <Flex
             style={{
-              display: isKeyboardVisible ? 'none' : 'flex',
+              display: keyboard.keyboardShown ? 'none' : 'flex',
               height: 240,
             }}
           >
             <BotTalking
               heading={t('profile:saveProgress')}
               style={{
-                opacity: isKeyboardVisible ? 0 : 1,
+                opacity: keyboard.keyboardShown ? 0 : 1,
               }}
             >
               {t('login:enterValid')}
             </BotTalking>
           </Flex>
-          {isKeyboardVisible && (
+          {keyboard.keyboardShown && (
             <Flex style={{ minHeight: theme.spacing.xxl }} />
           )}
         </>
