@@ -215,7 +215,7 @@ dependencies {
     }
 
     // Voke: Add the Firebase Crashlytics SDK.
-    implementation 'com.google.firebase:firebase-crashlytics:17.3.0'
+    implementation 'com.google.firebase:firebase-crashlytics:17.3.1'
     implementation 'com.android.support:multidex:2.0.1' // https://medium.com/@jQN/react-native-multidex-error-8f9a1daf8c34
 
     if (enableHermes) {
