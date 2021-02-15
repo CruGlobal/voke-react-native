@@ -125,6 +125,7 @@ jobs:
         - gem install bundler:2.1.4
         - (cd ios && bundler install)
         - defaults write com.apple.dt.XCBuild IgnoreFileSystemDeviceInodeChanges -bool YES
+        - (cd ios && yes | rm -Rf Pods && ls && pod install)
 
       script:
         - (cd ios && travis_wait 50 fastlane ios beta )
