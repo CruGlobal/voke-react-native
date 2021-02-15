@@ -158,7 +158,7 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
               if (
                 notification?.category === 'CREATE_MESSAGE_CATEGORY' ||
                 notification?.category ===
-                'CREATE_JOURNEY_STEP_MESSAGE_MESSAGE_CATEGORY'
+                  'CREATE_JOURNEY_STEP_MESSAGE_MESSAGE_CATEGORY'
               ) {
                 // When new message posted by another user.
                 if (message && message['adventure_message?']) {
@@ -249,7 +249,7 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
                 notification.category === 'BLOCK_JOURNEY_CATEGORY'
                 // If user blocked from Voke.
               ) {
-                dispatch(userBlockedAction());
+                // dispatch(userBlockedAction());
               }
             };
 
@@ -258,7 +258,7 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
               console.log('🛑 socket error\n', error.message);
               // throw error;
               // Try to restart:
-             /*  setTimeout(
+              /*  setTimeout(
                 () =>
                   dispatch({
                     type: REDUX_ACTIONS.STARTUP,
@@ -279,7 +279,7 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
           // Do nothing with the error
           console.log('🛑 socketErr:\n', socketErr);
           // Try to restart:
-         /*  setTimeout(
+          /*  setTimeout(
             () =>
               dispatch({
                 type: REDUX_ACTIONS.STARTUP,

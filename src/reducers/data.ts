@@ -349,6 +349,27 @@ export function data(state = initialState, action: any): TDataState {
       };
     }
 
+    case REDUX_ACTIONS.UPDATE_MESSAGE: {
+      const adventureStepId = action.message.grouping_journey_step_id;
+      const updatedMessages = [];
+
+      state.adventureStepMessages[adventureStepId].forEach(msg => {
+        if (msg.id === action.message.id) {
+          updatedMessages.push(action.message);
+        } else {
+          updatedMessages.push(msg);
+        }
+      });
+
+      return {
+        ...state,
+        adventureStepMessages: {
+          ...state.adventureStepMessages,
+          [adventureStepId]: updatedMessages,
+        },
+      };
+    }
+
     case REDUX_ACTIONS.CREATE_ADVENTURE_STEP_MESSAGE: {
       const adventureStepId = action.message?.grouping_journey_step_id;
       const { adventureId } = action;

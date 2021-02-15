@@ -37,16 +37,6 @@ const styles: { [key: string]: any } = {
     flexDirection: 'row',
     width: '100%',
   },
-  langOptionText: {
-    color: theme.colors.secondary,
-    fontSize: theme.fontSizes.m,
-  },
-  langOptionCheckmark: {
-    color: theme.colors.secondary,
-    alignSelf: 'center',
-    paddingLeft: theme.spacing.s,
-    opacity: 0.5,
-  },
 };
 
 export default styles;

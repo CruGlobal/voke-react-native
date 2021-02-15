@@ -71,12 +71,12 @@ export type RootState = ReturnType<typeof store>;
 export type AsyncAction<ReturnType = void> = ThunkAction<
   Promise<ReturnType>,
   RootState,
-  undefined,
-  AnyAction
+  null,
+  Action
 >;
 export type DispatchAction<T extends AnyAction = Action> = ThunkDispatch<
   RootState,
-  undefined,
+  null,
   T
 >;
 export const useSelectorTs: TypedUseSelectorHook<RootState> = useSelector;

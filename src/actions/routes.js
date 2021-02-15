@@ -92,7 +92,10 @@ const ROUTES = {
     method: 'get',
     url: 'me',
   },
-  GET_AVAILABLE_ADVENTURES: { method: 'get', url: `organization_journeys` },
+  GET_AVAILABLE_ADVENTURES: {
+    method: 'get',
+    url: `organization_journeys`,
+  },
   GET_MY_ADVENTURES: {
     method: 'get',
     url: `me/journeys`,
@@ -218,6 +221,11 @@ const ROUTES = {
   DELETE_MEMBER: {
     method: 'patch',
     url: `me/conversations/{conversationId}/messengers/{messengerId}/block`,
+  },
+  // Message Reactions:
+  CREATE_REACTION: {
+    method: 'patch',
+    url: `me/conversations/{conversationId}/messages/{messageId}/add_reaction/`,
   },
 };
 

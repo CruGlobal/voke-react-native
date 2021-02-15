@@ -6,8 +6,9 @@ import { REDUX_ACTIONS } from 'utils/constants';
 import st from 'utils/st';
 import request from 'actions/utils';
 import { isEqualObject, exists } from 'utils';
-import { TAdventureSingle, TError } from 'src/utils/types';
-import { AsyncAction } from 'src/reducers';
+import { TAdventureSingle, TError, TAdventures, TDataState } from 'utils/types';
+import { AsyncAction } from 'reducers';
+import { Action } from 'redux';
 
 import { DataKeys } from '../reducers/data';
 import { AuthDataKeys } from '../reducers/auth';
@@ -15,7 +16,8 @@ import { AuthDataKeys } from '../reducers/auth';
 import { setAppIconBadgeNumber } from './notifications';
 import ROUTES from './routes';
 
-type Dispatch = ThunkDispatch<any, any, any>;
+// type Dispatch = ThunkDispatch<any, any, any>;
+type Dispatch = ThunkDispatch<TDataState, void, Action>;
 
 export function setUser(userData: any) {
   return async (dispatch: Dispatch, getState: any) => {
@@ -48,9 +50,12 @@ export function setUser(userData: any) {
 }
 
 export function getNotificationsTabUnreads() {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     // Fetch user data from the server.
-    return dispatch(request({ ...ROUTES.GET_ME })).then(
+    return await request({
+      ...ROUTES.GET_ME,
+      authToken: getState().auth.authToken,
+    }).then(
       userData => {
         // eslint-disable-next-line no-console
         const newNotificationsCounter = userData?.pending_notifications || 0;
@@ -87,17 +92,54 @@ export function setAuthData(key: AuthDataKeys, data: any) {
   };
 }
 
-export function getAvailableAdventures() {
-  return async (dispatch: Dispatch, getState: any) => {
-    const results: any = await dispatch(
-      request({
+interface AdventuresResult {
+  organization_journeys: TAdventures;
+  _links: {
+    first: {
+      href: string;
+      page_number: number;
+    } | null;
+    previous: {
+      href: string;
+      page_number: number;
+    } | null;
+    self: {
+      href: string;
+      page_number: number;
+    } | null;
+    next: null;
+    last: {
+      href: string;
+      page_number: number;
+    } | null;
+    root: {
+      href: string;
+      total_pages: number;
+      total_count: number;
+      limit_value: number;
+    };
+  };
+}
+
+export function getAvailableAdventures(languageCode = 'en'): AsyncAction<void> {
+  return async (dispatch, getState): Promise<void> => {
+    try {
+      const results = await request<AdventuresResult>({
         ...ROUTES.GET_AVAILABLE_ADVENTURES,
+        params: { languageCode: languageCode.toUpperCase() },
+        authToken: getState().auth.authToken,
         description: 'Get Available Adventures',
-      }),
-    );
-    const adventures = results.organization_journeys;
-    dispatch(setData('availableAdventures', adventures));
-    return results;
+      });
+      if (results?.organization_journeys) {
+        const adventures = results?.organization_journeys;
+        dispatch(setData('availableAdventures', adventures));
+      }
+    } catch (error) {
+      console.log(
+        'Error downloading adventures (language:' + languageCode + '):',
+        error,
+      );
+    }
   };
 }
 
@@ -106,12 +148,11 @@ export function getAvailableAdventures() {
  */
 export function getMyAdventures(comment = '') {
   return async (dispatch: Dispatch, getState: any) => {
-    await dispatch(
-      request({
-        ...ROUTES.GET_MY_ADVENTURES,
-        description: 'Get My Adventures. Called from ' + comment,
-      }),
-    ).then(
+    await request({
+      ...ROUTES.GET_MY_ADVENTURES,
+      description: 'Get My Adventures. Called from ' + comment,
+      authToken: getState().auth.authToken,
+    }).then(
       data => {
         const myAdventures = data.journeys;
         // Update my adventures in store.
@@ -139,13 +180,12 @@ export function getMyAdventures(comment = '') {
 // It's not listed with other adventures as it have status: "pending"
 export function getMyAdventure(adventureId: any) {
   return async (dispatch: Dispatch, getState: any) => {
-    await dispatch(
-      request({
-        ...ROUTES.GET_MY_ADVENTURE,
-        pathParams: { adventureId },
-        description: 'Get My Adventure',
-      }),
-    ).then(
+    await request({
+      ...ROUTES.GET_MY_ADVENTURE,
+      pathParams: { adventureId },
+      authToken: getState().auth.authToken,
+      description: 'Get My Adventure',
+    }).then(
       data => {
         // const myAdventures = data.journeys;
         // Add pending adventure to store.
@@ -168,12 +208,11 @@ export function getMyAdventure(adventureId: any) {
 
 export function getAdventuresInvitations() {
   return async (dispatch: Dispatch, getState: any) => {
-    const results: any = await dispatch(
-      request({
-        ...ROUTES.GET_ADVENTURE_INVITATIONS,
-        description: 'Get Adventures Invitations',
-      }),
-    );
+    const results: any = await request({
+      ...ROUTES.GET_ADVENTURE_INVITATIONS,
+      authToken: getState().auth.authToken,
+      description: 'Get Adventures Invitations',
+    });
     const adventureInvitations = results.journey_invites;
     dispatch({
       type: REDUX_ACTIONS.UPDATE_INVITATIONS,
@@ -186,13 +225,12 @@ export function getAdventuresInvitations() {
 
 export function acceptAdventureInvitation(adventureCode: string) {
   return async (dispatch: Dispatch, getState: any) => {
-    const results: any = await dispatch(
-      request({
-        ...ROUTES.ACCEPT_ADVENTURE_INVITATION,
-        data: { code: adventureCode },
-        description: 'Accept Adventure Invitation',
-      }),
-    );
+    const results: any = await request({
+      ...ROUTES.ACCEPT_ADVENTURE_INVITATION,
+      data: { code: adventureCode },
+      authToken: getState().auth.authToken,
+      description: 'Accept Adventure Invitation',
+    });
     await dispatch(getMyAdventures('Accept Adventure Invitation'));
     return results;
   };
@@ -220,14 +258,13 @@ export function updateTotalUnreadCounter() {
 // We are calling for updated adventure steps after each message,
 // that can be expensive so we have to debounce this action.
 const getAdventureStepsDebounced = debounce(
-  async (dispatch, adventureId) => {
-    const results: any = await dispatch(
-      request({
-        ...ROUTES.GET_ADVENTURE_STEPS,
-        pathParams: { adventureId },
-        description: 'Get Adventure Steps',
-      }),
-    );
+  async (dispatch, getState, adventureId) => {
+    const results: any = await request({
+      ...ROUTES.GET_ADVENTURE_STEPS,
+      pathParams: { adventureId },
+      authToken: getState().auth.authToken,
+      description: 'Get Adventure Steps',
+    });
     const adventureSteps = results.steps;
     dispatch({
       type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEPS,
@@ -246,7 +283,7 @@ const getAdventureStepsDebounced = debounce(
 
 export function getAdventureSteps(adventureId: any) {
   return async (dispatch: Dispatch, getState: any) => {
-    return await getAdventureStepsDebounced(dispatch, adventureId);
+    return await getAdventureStepsDebounced(dispatch, getState, adventureId);
   };
 }
 
@@ -256,18 +293,17 @@ export function getAdventureStepMessages(
 ) {
   return async (dispatch: Dispatch, getState: any) => {
     try {
-      const results: any = await dispatch(
-        request({
-          ...ROUTES.GET_ADVENTURE_STEP_MESSAGES,
-          pathParams: { adventureConversationId },
-          params: adventureStepId
-            ? { messenger_journey_step_id: adventureStepId }
-            : null,
-          description:
-            'Get Adventure Step Messages for conversation id: ' +
-            adventureConversationId,
-        }),
-      );
+      const results: any = await request({
+        ...ROUTES.GET_ADVENTURE_STEP_MESSAGES,
+        pathParams: { adventureConversationId },
+        params: adventureStepId
+          ? { messenger_journey_step_id: adventureStepId }
+          : null,
+        authToken: getState().auth.authToken,
+        description:
+          'Get Adventure Step Messages for conversation id: ' +
+          adventureConversationId,
+      });
       const adventureStepMessages = results.messages;
       dispatch({
         type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEP_MESSAGES,
@@ -282,13 +318,12 @@ export function getAdventureStepMessages(
 
 export function startAdventure(data: any) {
   return async (dispatch: Dispatch, getState: any) => {
-    const result = await dispatch(
-      request({
-        ...ROUTES.START_ADVENTURE,
-        data,
-        description: 'Start Adventure',
-      }),
-    );
+    const result = await request({
+      ...ROUTES.START_ADVENTURE,
+      data,
+      authToken: getState().auth.authToken,
+      description: 'Start Adventure',
+    });
 
     dispatch({
       type: REDUX_ACTIONS.START_ADVENTURE,
@@ -300,13 +335,12 @@ export function startAdventure(data: any) {
 
 export function sendAdventureInvitation(data: any) {
   return async (dispatch: Dispatch, getState: any) => {
-    const result = await dispatch(
-      request({
-        ...ROUTES.SEND_ADVENTURE_INVITATION,
-        data,
-        description: 'Send Adventure Invitation',
-      }),
-    );
+    const result = await request({
+      ...ROUTES.SEND_ADVENTURE_INVITATION,
+      data,
+      authToken: getState().auth.authToken,
+      description: 'Send Adventure Invitation',
+    });
     dispatch({
       type: REDUX_ACTIONS.SEND_ADVENTURE_INVITATION,
       result,
@@ -318,13 +352,12 @@ export function sendAdventureInvitation(data: any) {
 }
 
 export function resendAdventureInvitation(inviteId: string) {
-  return async dispatch => {
-    const result = await dispatch(
-      request({
-        ...ROUTES.RESEND_ADVENTURE_INVITATION,
-        pathParams: { inviteId },
-      }),
-    );
+  return async (dispatch, getState) => {
+    const result = await request({
+      ...ROUTES.RESEND_ADVENTURE_INVITATION,
+      pathParams: { inviteId },
+      authToken: getState().auth.authToken,
+    });
 
     dispatch({
       type: REDUX_ACTIONS.UPDATE_ADVENTURE_INVITATION,
@@ -337,25 +370,23 @@ export function resendAdventureInvitation(inviteId: string) {
 }
 
 export function deleteAdventureInvitation(inviteId: string) {
-  return async dispatch => {
-    const result = await dispatch(
-      request({
-        ...ROUTES.DELETE_ADVENTURE_INVITATION,
-        pathParams: { inviteId },
-      }),
-    );
+  return async (dispatch, getState) => {
+    const result = await request({
+      ...ROUTES.DELETE_ADVENTURE_INVITATION,
+      pathParams: { inviteId },
+      authToken: getState().auth.authToken,
+    });
     return result;
   };
 }
 
 export function deleteAdventure(adventureId: string) {
-  return async dispatch => {
-    const result = await dispatch(
-      request({
-        ...ROUTES.DELETE_ADVENTURE,
-        pathParams: { adventureId },
-      }),
-    );
+  return async (dispatch, getState) => {
+    const result = await request({
+      ...ROUTES.DELETE_ADVENTURE,
+      pathParams: { adventureId },
+      authToken: getState().auth.authToken,
+    });
 
     if (result?.errors) {
       // eslint-disable-next-line no-console
@@ -549,30 +580,28 @@ export function createAdventureStepMessage(params: {
       });
 
       // Send message to the server in a non-async manner.
-      dispatch(
-        request({
-          ...ROUTES.CREATE_ADVENTURE_STEP_MESSAGE,
-          pathParams: {
-            adventureConversationId: params.adventure.conversation.id,
-          },
-          data,
-          description: 'Create Adventure Step Message',
-        }),
-      );
+      await request({
+        ...ROUTES.CREATE_ADVENTURE_STEP_MESSAGE,
+        pathParams: {
+          adventureConversationId: params.adventure.conversation.id,
+        },
+        data,
+        authToken: getState().auth.authToken,
+        description: 'Create Adventure Step Message',
+      });
     } else {
       // If not a plain text message: go a slow route -
       // send message to the server in async manner and only then updatie the store.
       // SEND MESSAGE TO THE SERVER.
-      const result = await dispatch(
-        request({
-          ...ROUTES.CREATE_ADVENTURE_STEP_MESSAGE,
-          pathParams: {
-            adventureConversationId: params.adventure.conversation.id,
-          },
-          data,
-          description: 'Create Adventure Step Message',
-        }),
-      );
+      const result = await request({
+        ...ROUTES.CREATE_ADVENTURE_STEP_MESSAGE,
+        pathParams: {
+          adventureConversationId: params.adventure.conversation.id,
+        },
+        data,
+        authToken: getState().auth.authToken,
+        description: 'Create Adventure Step Message',
+      });
 
       // SAVE RESPONSE FROM THE SERVER TO THE STORE.
       dispatch({
@@ -614,13 +643,12 @@ export function createAdventureStepMessage(params: {
 export function getVideos(params: any = {}) {
   return async (dispatch: Dispatch, getState: any) => {
     let results: any;
-    results = await dispatch(
-      request({
-        ...ROUTES.GET_VIDEOS,
-        params: { ...params },
-        description: 'Get Videos',
-      }),
-    );
+    results = await request({
+      ...ROUTES.GET_VIDEOS,
+      params: { ...params },
+      authToken: getState().auth.authToken,
+      description: 'Get Videos',
+    });
     dispatch({
       type: REDUX_ACTIONS.UPDATE_VIDEO_PAGINATION,
       result: { results, params },
@@ -633,12 +661,11 @@ export function getVideos(params: any = {}) {
 export function getVideoTags() {
   return async (dispatch: Dispatch, getState: any) => {
     let results: any;
-    results = await dispatch(
-      request({
-        ...ROUTES.GET_VIDEO_TAGS,
-        description: 'Get Video Tags',
-      }),
-    );
+    results = await request({
+      ...ROUTES.GET_VIDEO_TAGS,
+      authToken: getState().auth.authToken,
+      description: 'Get Video Tags',
+    });
 
     dispatch(setData('videoTags', results.tags));
 
@@ -649,13 +676,12 @@ export function getVideoTags() {
 export function destroyDevice(deviceId: string) {
   return async (dispatch: Dispatch, getState: any) => {
     let results: any;
-    results = await dispatch(
-      request({
-        ...ROUTES.DESTROY_DEVICE,
-        pathParams: { deviceId },
-        description: 'Destroy Device',
-      }),
-    );
+    results = await request({
+      ...ROUTES.DESTROY_DEVICE,
+      pathParams: { deviceId },
+      authToken: getState().auth.authToken,
+      description: 'Destroy Device',
+    });
 
     return results;
   };
@@ -665,14 +691,13 @@ export function updateDevice(newDeviceData: any) {
   return async (dispatch: Dispatch, getState: any) => {
     const deviceId = getState().auth.device.id;
     let results: any;
-    const returnedDevice = await dispatch(
-      request({
-        ...ROUTES.UPDATE_DEVICE,
-        pathParams: { deviceId },
-        data: newDeviceData,
-        description: 'Update device data on our server',
-      }),
-    );
+    const returnedDevice = await request({
+      ...ROUTES.UPDATE_DEVICE,
+      pathParams: { deviceId },
+      data: newDeviceData,
+      authToken: getState().auth.authToken,
+      description: 'Update device data on our server',
+    });
     // dispatch(setAuthData('device', results));
     // Update info in store.auth.device.
     dispatch({
@@ -688,12 +713,11 @@ export function updateDevice(newDeviceData: any) {
 
 export function getDevices() {
   return async (dispatch: Dispatch, getState: any) => {
-    const results = await dispatch(
-      request({
-        ...ROUTES.GET_DEVICES,
-        description: 'Get Devices',
-      }),
-    );
+    const results = await request({
+      ...ROUTES.GET_DEVICES,
+      authToken: getState().auth.authToken,
+      description: 'Get Devices',
+    });
     return results;
   };
 }
@@ -703,13 +727,12 @@ export function getDevices() {
 export function createDevice(newDeviceData: any) {
   return async (dispatch: Dispatch, getState: any) => {
     // Fetch user data from the server.
-    return dispatch(
-      request({
-        ...ROUTES.CREATE_DEVICE,
-        data: newDeviceData,
-        description: 'Create Device',
-      }),
-    ).then(
+    return await request({
+      ...ROUTES.CREATE_DEVICE,
+      data: newDeviceData,
+      authToken: getState().auth.authToken,
+      description: 'Create Device',
+    }).then(
       returnedDeviceData => {
         // eslint-disable-next-line no-console
         // Update info in store.auth.device if it's a cable device not apple/adnriod.
@@ -732,13 +755,12 @@ export function createDevice(newDeviceData: any) {
 
 export function revokeAuthToken(data: any) {
   return async (dispatch: Dispatch, getState: any) => {
-    const results = await dispatch(
-      request({
-        ...ROUTES.REVOKE_TOKEN,
-        data,
-        description: 'Revoke Auth Token',
-      }),
-    );
+    const results = await request({
+      ...ROUTES.REVOKE_TOKEN,
+      data,
+      authToken: getState().auth.authToken,
+      description: 'Revoke Auth Token',
+    });
     return results;
   };
 }
@@ -840,14 +862,13 @@ export function getNotifications(params: any = {}) {
     // Request new value for Notifications Unreads counter.
     dispatch(getNotificationsTabUnreads());
 
-    const results: any = await dispatch(
-      request({
-        ...ROUTES.GET_NOTIFICATIONS,
-        pathParams: { notificationId },
-        params: { ...params },
-        description: 'Get Notifications',
-      }),
-    );
+    const results: any = await request({
+      ...ROUTES.GET_NOTIFICATIONS,
+      pathParams: { notificationId },
+      params: { ...params },
+      authToken: getState().auth.authToken,
+      description: 'Get Notifications',
+    });
     dispatch({
       type: REDUX_ACTIONS.UPDATE_NOTIFICATION_PAGINATION,
       result: { results, params },
@@ -875,16 +896,15 @@ export function markReadNotification(params: markReadNotification) {
     };
 
     // SEND INTERACTION DATA TO THE SERVER.
-    const result = await dispatch(
-      request({
-        ...ROUTES.CREATE_INTERACTION_READ,
-        pathParams: {
-          conversationId,
-          messageId: notificationId,
-        },
-        data,
-      }),
-    );
+    const result = await request({
+      ...ROUTES.CREATE_INTERACTION_READ,
+      pathParams: {
+        conversationId,
+        messageId: notificationId,
+      },
+      data,
+      authToken: getState().auth.authToken,
+    });
 
     if (!result?.errors) {
       dispatch({
@@ -906,13 +926,12 @@ export function sendVideoInvitation(params: any = {}) {
       },
     };
 
-    const results = await dispatch(
-      request({
-        ...ROUTES.SEND_VIDEO_INVITATION,
-        data: createData,
-        description: 'Send Video Invitation',
-      }),
-    );
+    const results = await request({
+      ...ROUTES.SEND_VIDEO_INVITATION,
+      data: createData,
+      authToken: getState().auth.authToken,
+      description: 'Send Video Invitation',
+    });
 
     return results;
   };
@@ -927,21 +946,19 @@ export function toggleFavoriteVideo(shouldFavorite: boolean, video: any) {
     const favoriteVideos = getState().data.favoriteVideos || [];
     let results: any;
     if (shouldFavorite) {
-      results = await dispatch(
-        request({
-          ...ROUTES.FAVORITE_VIDEO,
-          pathParams: { videoId: video.id },
-          description: 'Toggle Favorite Video: Add',
-        }),
-      );
+      results = await request({
+        ...ROUTES.FAVORITE_VIDEO,
+        pathParams: { videoId: video.id },
+        authToken: getState().auth.authToken,
+        description: 'Toggle Favorite Video: Add',
+      });
     } else {
-      results = await dispatch(
-        request({
-          ...ROUTES.UNFAVORITE_VIDEO,
-          pathParams: { videoId: video.id },
-          description: 'Toggle Favorite Video: Remove',
-        }),
-      );
+      results = await request({
+        ...ROUTES.UNFAVORITE_VIDEO,
+        pathParams: { videoId: video.id },
+        authToken: getState().auth.authToken,
+        description: 'Toggle Favorite Video: Remove',
+      });
     }
 
     // let hello = async () => { return "Hello" };
@@ -1039,17 +1056,16 @@ export function markMessageAsRead(params: markMessageAsRead) {
     };
 
     // SEND INTERACTION DATA TO THE SERVER.
-    const result = await dispatch(
-      request({
-        ...ROUTES.CREATE_INTERACTION_READ,
-        pathParams: {
-          conversationId,
-          messageId,
-        },
-        data,
-        description: 'Mark message as read on the server.' + messageId,
-      }),
-    );
+    const result = await request({
+      ...ROUTES.CREATE_INTERACTION_READ,
+      pathParams: {
+        conversationId,
+        messageId,
+      },
+      data,
+      authToken: getState().auth.authToken,
+      description: 'Mark message as read on the server.' + messageId,
+    });
 
     return result;
   };
@@ -1067,16 +1083,15 @@ export function interactionAdventureVideoPlay({ adventureId, stepId }) {
       },
     };
     // SEND INTERACTION DATA TO THE SERVER.
-    const result = await dispatch(
-      request({
-        ...ROUTES.CREATE_INTERACTION_PLAY_ADVENTURE_VIDEO,
-        pathParams: {
-          adventureId,
-          stepId,
-        },
-        data,
-      }),
-    );
+    const result = await request({
+      ...ROUTES.CREATE_INTERACTION_PLAY_ADVENTURE_VIDEO,
+      pathParams: {
+        adventureId,
+        stepId,
+      },
+      data,
+      authToken: getState().auth.authToken,
+    });
     return result;
   };
 }
@@ -1100,15 +1115,14 @@ export function interactionVideoPlay(params: interactionVideoPlay) {
       },
     };
     // SEND INTERACTION DATA TO THE SERVER.
-    const result = await dispatch(
-      request({
-        ...ROUTES.CREATE_INTERACTION_PLAY_VIDEO,
-        pathParams: {
-          videoId: params.videoId,
-        },
-        data,
-      }),
-    );
+    const result = await request({
+      ...ROUTES.CREATE_INTERACTION_PLAY_VIDEO,
+      pathParams: {
+        videoId: params.videoId,
+      },
+      data,
+      authToken: getState().auth.authToken,
+    });
     return result;
   };
 }
@@ -1126,14 +1140,13 @@ export function updateAdventure(newAdventureData: any) {
   return async (dispatch: Dispatch, getState: any) => {
     const adventureId = newAdventureData.id;
     // let results: any;
-    const data = await dispatch(
-      request({
-        ...ROUTES.UPDATE_ADVENTURE,
-        pathParams: { adventureId },
-        data: newAdventureData,
-        description: 'Update adventure release date on the server',
-      }),
-    );
+    const data = await request({
+      ...ROUTES.UPDATE_ADVENTURE,
+      pathParams: { adventureId },
+      data: newAdventureData,
+      authToken: getState().auth.authToken,
+      description: 'Update adventure release date on the server',
+    });
 
     // Update data in the store.
     dispatch({
@@ -1156,57 +1169,53 @@ export function createComplain({
   comment: string;
 }) {
   return async (dispatch: Dispatch, getState: any) => {
-    const data = await dispatch(
-      request({
-        ...ROUTES.CREATE_COMPLAIN,
-        pathParams: { adventureId },
-        data: {
-          message_id: messageId,
-          comment: comment,
-        },
-        description: 'Create complain on the server',
-      }),
-    );
+    const data = await request({
+      ...ROUTES.CREATE_COMPLAIN,
+      pathParams: { adventureId },
+      data: {
+        message_id: messageId,
+        comment: comment,
+      },
+      authToken: getState().auth.authToken,
+      description: 'Create complain on the server',
+    });
     return data;
   };
 }
 
 export function ignoreComplain({ reportId, adventureId }) {
   return async (dispatch: Dispatch, getState: any) => {
-    const data = await dispatch(
-      request({
-        ...ROUTES.DELETE_COMPLAIN,
-        pathParams: { adventureId, reportId },
-        description: 'Ignore/Delete complain on the server',
-      }),
-    );
+    const data = await request({
+      ...ROUTES.DELETE_COMPLAIN,
+      pathParams: { adventureId, reportId },
+      authToken: getState().auth.authToken,
+      description: 'Ignore/Delete complain on the server',
+    });
     return data;
   };
 }
 
 export function approveComplain({ reportId, adventureId }) {
   return async (dispatch: Dispatch, getState: any) => {
-    const data = await dispatch(
-      request({
-        ...ROUTES.APPROVE_COMPLAIN,
-        pathParams: { adventureId, reportId },
-        description: 'Approve complain on the server',
-      }),
-    );
+    const data = await request({
+      ...ROUTES.APPROVE_COMPLAIN,
+      pathParams: { adventureId, reportId },
+      authToken: getState().auth.authToken,
+      description: 'Approve complain on the server',
+    });
     return data;
   };
 }
 
 export function getComplains({ adventureId }) {
   return async (dispatch: Dispatch, getState: any) => {
-    const data = await dispatch(
-      request({
-        ...ROUTES.GET_COMPLAINS,
-        pathParams: { adventureId },
-        description:
-          'Get complains from the server for adventureId: ' + adventureId,
-      }),
-    );
+    const data = await request({
+      ...ROUTES.GET_COMPLAINS,
+      pathParams: { adventureId },
+      authToken: getState().auth.authToken,
+      description:
+        'Get complains from the server for adventureId: ' + adventureId,
+    });
     return data;
   };
 }
@@ -1214,14 +1223,13 @@ export function getComplains({ adventureId }) {
 export function getAdventureSummary(adventureId: string) {
   return async (dispatch: Dispatch, getState: any) => {
     try {
-      const results: any = await dispatch(
-        request({
-          ...ROUTES.GET_ADVENTURE_SUMMARY,
-          pathParams: { adventureId },
-          description:
-            'Get Adventure Members by step for adventure id: ' + adventureId,
-        }),
-      );
+      const results: any = await request({
+        ...ROUTES.GET_ADVENTURE_SUMMARY,
+        pathParams: { adventureId },
+        authToken: getState().auth.authToken,
+        description:
+          'Get Adventure Members by step for adventure id: ' + adventureId,
+      });
       return results;
     } catch (error) {
       console.log('getAdventureStepMessages error:', error);
@@ -1232,16 +1240,14 @@ export function getAdventureSummary(adventureId: string) {
 export function unlockNextAdventureStep(
   adventureId: string,
 ): AsyncAction<TAdventureSingle | TError> {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     try {
-      const results: Promise<TAdventureSingle | TError> = await dispatch(
-        request({
-          ...ROUTES.UNLOCK_NEXT_ADVENTURE_STEP,
-          pathParams: { adventureId },
-          description:
-            'Unlock next Adventure step. Adventure id: ' + adventureId,
-        }),
-      );
+      const results: Promise<TAdventureSingle | TError> = await request({
+        ...ROUTES.UNLOCK_NEXT_ADVENTURE_STEP,
+        pathParams: { adventureId },
+        authToken: getState().auth.authToken,
+        description: 'Unlock next Adventure step. Adventure id: ' + adventureId,
+      });
       return results;
     } catch (error) {
       return error;
@@ -1252,20 +1258,58 @@ export function unlockNextAdventureStep(
 export function deleteMember({ conversationId, messengerId }) {
   return async (dispatch: Dispatch, getState: any) => {
     try {
-      const results: any = await dispatch(
-        request({
-          ...ROUTES.DELETE_MEMBER,
-          // url: `me/conversations/{conversationId}/messengers/{messengerId}/block`,
-          pathParams: {
-            conversationId,
-            messengerId,
-          },
-          description: 'Delete member with messengerId: ' + messengerId,
-        }),
-      );
+      const results: any = await request({
+        ...ROUTES.DELETE_MEMBER,
+        // url: `me/conversations/{conversationId}/messengers/{messengerId}/block`,
+        pathParams: {
+          conversationId,
+          messengerId,
+        },
+        authToken: getState().auth.authToken,
+        description: 'Delete member with messengerId: ' + messengerId,
+      });
       return results;
     } catch (error) {
       console.log('deleteMember error:', error);
     }
+  };
+}
+
+interface CreateReactionParams {
+  reaction: string;
+  messageId: string;
+  conversationId: string;
+}
+
+export function createReaction(params: CreateReactionParams) {
+  return async (dispatch: Dispatch, getState): Promise<any> => {
+    const { reaction, messageId, conversationId } = params;
+
+    const data = {
+      reaction: reaction,
+    };
+
+    // SEND INTERACTION DATA TO THE SERVER.
+    const result = await request({
+      ...ROUTES.CREATE_REACTION,
+      pathParams: {
+        conversationId,
+        messageId,
+      },
+      data,
+      authToken: getState().auth.authToken,
+    });
+
+    // Server returns modified message object.
+    if (!result?.errors) {
+      // Update message with new reaction in the store.
+      dispatch({
+        type: REDUX_ACTIONS.UPDATE_MESSAGE,
+        message: result,
+        description: 'createReaction(): Update message reaction in the store',
+      });
+    }
+
+    return result;
   };
 }
