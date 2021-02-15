@@ -110,6 +110,17 @@
 			name = Voke;
 			sourceTree = "<group>";
 		};
+		15671C8725DA26A000CBFAE9 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				157C36D180E248F4AF400FF3 /* icomoon.ttf */,
+				1029390F75BD4DC8AA3B1B8F /* TitilliumWeb-Bold.ttf */,
+				77E88D6A087D46399CBD8EE7 /* TitilliumWeb-Regular.ttf */,
+				CC30F96C24CE4A229FB3AD71 /* TitilliumWeb-SemiBold.ttf */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		17C086B6FEE3BB968764F26D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -118,7 +129,6 @@
 				5F3D0A89B3A5CDFB71C1A2CD /* Pods-Voke-VokeTests.debug.xcconfig */,
 				D903B01D47FB25147B5531A5 /* Pods-Voke-VokeTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -150,6 +160,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				17C086B6FEE3BB968764F26D /* Pods */,
+				15671C8725DA26A000CBFAE9 /* Recovered References */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -532,6 +543,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "Voke - Dev 2020-11-16";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -562,6 +574,7 @@
 				PRODUCT_NAME = Voke;
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore org.cru.voke";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
