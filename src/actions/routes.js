@@ -219,6 +219,11 @@ const ROUTES = {
     method: 'patch',
     url: `me/conversations/{conversationId}/messengers/{messengerId}/block`,
   },
+  // Message Reactions:
+  CREATE_REACTION: {
+    method: 'patch',
+    url: `me/conversations/{conversationId}/messages/{messageId}/add_reaction/`,
+  },
 };
 
 export default ROUTES;

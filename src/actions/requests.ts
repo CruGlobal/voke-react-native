@@ -1269,3 +1269,42 @@ export function deleteMember({ conversationId, messengerId }) {
     }
   };
 }
+
+interface CreateReactionParams {
+  reaction: string;
+  messageId: string;
+  conversationId: string;
+}
+
+export function createReaction(params: CreateReactionParams) {
+  return async (dispatch: Dispatch, getState): Promise<any> => {
+    const { reaction, messageId, conversationId } = params;
+
+    const data = {
+      reaction: reaction,
+    };
+
+    // SEND INTERACTION DATA TO THE SERVER.
+    const result = await request({
+      ...ROUTES.CREATE_REACTION,
+      pathParams: {
+        conversationId,
+        messageId,
+      },
+      data,
+      authToken: getState().auth.authToken,
+    });
+
+    // Server returns modified message object.
+    if (!result?.errors) {
+      // Update message with new reaction in the store.
+      dispatch({
+        type: REDUX_ACTIONS.UPDATE_MESSAGE,
+        message: result,
+        description: 'createReaction(): Update message reaction in the store',
+      });
+    }
+
+    return result;
+  };
+}
