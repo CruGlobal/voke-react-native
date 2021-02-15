@@ -2,11 +2,11 @@ import { StyleSheet } from 'react-native';
 import theme from 'utils/theme';
 
 const styles = StyleSheet.create({
-  container: {
+  AdventureActions: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: theme.spacing.m,
+    paddingHorizontal: theme.spacing.l,
   },
   haveCode: {
     paddingVertical: theme.spacing.m * 1.25,

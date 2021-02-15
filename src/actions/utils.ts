@@ -207,7 +207,8 @@ export default function request<T>(options): Promise<T> {
       // }
 
       // Couldn't parse the JSON
-      throw e;
+      // throw e;
+      return e;
     });
 }
 
@@ -296,7 +297,8 @@ function imageUpload(url, headers, data) {
       // }
 
       // Couldn't parse the JSON
-      throw e;
+      // throw e;
+      return e;
     });
 
   /* 
