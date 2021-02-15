@@ -107,7 +107,7 @@ const AccountSignIn: FunctionComponent<Props> = props => {
       } else if (e?.error === 'invalid_grant') {
         Alert.alert(t('login:invalid'), t('login:enterValid'));
       } else if (e?.status === 403) {
-        // dispatch(userBlockedAction());
+        dispatch(userBlockedAction());
       } else if (e?.error_description) {
         Alert.alert(error_description);
       }
