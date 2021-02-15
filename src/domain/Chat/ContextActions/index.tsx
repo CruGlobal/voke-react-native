@@ -38,6 +38,7 @@ const ContextActions = ({
             style={styles.actionButton}
             onPress={onReport}
             testID="report"
+            disabled={canReport ? false : true}
           >
             <Text
               style={[

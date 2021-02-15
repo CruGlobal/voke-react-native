@@ -89,7 +89,6 @@ function Video({
   if (!item) {
     return <></>;
   }
-  console.log( "🐸 item:", item );
   let youtubeVideo = useRef<RefYouTube>(null);
   let arclightVideo = useRef<RefArcLight>(null);
   const lockOrientationRef = useRef<boolean>(lockOrientation);
