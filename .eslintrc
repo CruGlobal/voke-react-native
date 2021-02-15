@@ -31,7 +31,12 @@
           "messenger_journey_steps",
           "messenger_journey_step_id",
           "step_kind",
-          "vokebot_action"
+          "vokebot_action",
+          "organization_journeys",
+          "page_number",
+          "total_pages",
+          "total_count",
+          "limit_value"
         ]
       }
     ]

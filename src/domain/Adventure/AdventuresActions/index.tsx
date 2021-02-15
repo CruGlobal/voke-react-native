@@ -1,13 +1,16 @@
+import AdvLanguageSwitch from 'domain/Adventures/AdvLanguageSwitch';
+
 import React, { useState, useRef, forwardRef, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import lodash from 'lodash';
 import Flex from 'components/Flex';
 import Text from 'components/Text';
 import st from 'utils/st';
-import theme from 'utils/theme';
 import Touchable from 'components/Touchable';
+import { View } from 'react-native';
+
+import styles from './styles';
 
 function AdventuresActions() {
   const dispatch = useDispatch();
@@ -21,21 +24,16 @@ function AdventuresActions() {
     setAdventures(availableAdventures);
   }, [availableAdventures]);
   return (
-    <Flex direction="row" align="flex-start" justify="flex-start">
+    <View style={styles.container}>
       <Touchable
-        style={[st.p4, st.mt6]}
-        onPress={() => navigation.navigate('AdventureCode')}
+        style={styles.haveCode}
+        onPress={(): void => navigation.navigate('AdventureCode')}
         testID="ctaHaveCode"
       >
-        <Flex direction="column" align="center" justify="center">
-          <Text
-            style={[st.white, st.fs18, { textDecorationLine: 'underline' }]}
-          >
-            {t('adventureCodeHaveCode')}
-          </Text>
-        </Flex>
+        <Text style={styles.haveCodeLabel}>{t('adventureCodeHaveCode')}</Text>
       </Touchable>
-    </Flex>
+      <AdvLanguageSwitch />
+    </View>
   );
 }
 
