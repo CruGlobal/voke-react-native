@@ -207,7 +207,8 @@ export default function request<T>(options): Promise<T> {
       // }
 
       // Couldn't parse the JSON
-      throw e;
+      // throw e;
+      return e;
     });
 }
 
@@ -244,7 +245,6 @@ function imageUpload(url, headers, data) {
           throw e;
         }); */
         /* return response.blob().then(({ message }) => {
-          console.log( "message:" ); console.log( message );
           // Got valid JSON with error response, use it
           throw new Error(message || response.status);
         })
@@ -296,14 +296,13 @@ function imageUpload(url, headers, data) {
       // }
 
       // Couldn't parse the JSON
-      throw e;
+      // throw e;
+      return e;
     });
 
   /* 
   .then((res) => {
     let status = res.info().status;
-
-    console.log( "status:" ); console.log( status );
 
     if(status == 200) {
       // the conversion is done in native code
@@ -311,7 +310,6 @@ function imageUpload(url, headers, data) {
       // the following conversions are done in js, it's SYNC
       let text = res.text()
       let json = res.json()
-      console.log( "json:" ); console.log( json );
       return json;
     } else {
       // handle other status codes
@@ -321,8 +319,8 @@ function imageUpload(url, headers, data) {
   // Something went wrong:
   .catch((errorMessage, statusCode) => {
     // error handling
-    console.log( "errorMessage:" ); console.log( errorMessage );
-    console.log( "statusCode:" ); console.log( statusCode );
+    console.warn( "errorMessage:" ); console.log( errorMessage );
+    console.warn( "statusCode:" ); console.log( statusCode );
   }) */
 }
 

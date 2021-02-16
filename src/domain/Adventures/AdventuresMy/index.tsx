@@ -1,10 +1,9 @@
-import AdventuresActions from 'domain/Adventure/AdventuresActions';
-
 import React, { useEffect, useCallback } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, FlatList, View, Text } from 'react-native';
+import Touchable from 'components/Touchable';
 import AdventureInvite from 'components/AdventureInvite';
 import AdventureCard from 'components/AdventureCard';
 import NotificationBanner from 'components/NotificationBanner';
@@ -20,6 +19,7 @@ import styles from './styles';
 
 const AdventuresMy = (): React.ReactElement => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const myAdventuresIds =
     useSelector(
       ({ data }: { data: TDataState }) => data.myAdventures?.allIds,
@@ -69,7 +69,15 @@ const AdventuresMy = (): React.ReactElement => {
         scrollIndicatorInsets={{ right: 1 }}
       >
         <View style={styles.AdventureActions}>
-          <AdventuresActions />
+          <Touchable
+            style={styles.haveCode}
+            onPress={(): void => navigation.navigate('AdventureCode')}
+            testID="ctaHaveCode"
+          >
+            <Text style={styles.haveCodeLabel}>
+              {t('adventureCode:adventureCodeHaveCode')}
+            </Text>
+          </Touchable>
         </View>
         {invitationsIds.length > 0 && (
           <>

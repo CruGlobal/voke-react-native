@@ -1,15 +1,23 @@
-import AdventuresActions from 'domain/Adventure/AdventuresActions';
+import AdvLanguageSwitch from 'domain/Adventures/AdvLanguageSwitch';
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { View, ScrollView, FlatList, RefreshControl } from 'react-native';
+import Touchable from 'components/Touchable';
 import AvailableAdventureItem from 'components/AvailableAdventureItem';
 import theme from 'utils/theme';
 import { RootState } from 'reducers';
+import { useTranslation } from 'react-i18next';
+import Text from 'components/Text';
+import { useNavigation } from '@react-navigation/native';
 
 import { getAvailableAdventures } from '../../../actions/requests';
 
+import styles from './styles';
+
 const AdventuresFind = (): React.ReactElement => {
+  const { t } = useTranslation('adventureCode');
+  const navigation = useNavigation();
   const [refreshing, setRefreshing] = useState(false);
   const availableAdventures = useSelector(
     ({ data }: RootState) => data.availableAdventures,
@@ -37,7 +45,16 @@ const AdventuresFind = (): React.ReactElement => {
       }}
     >
       {/* Block: Have Adventure Code? */}
-      <AdventuresActions />
+      <View style={styles.AdventureActions}>
+        <Touchable
+          style={styles.haveCode}
+          onPress={(): void => navigation.navigate('AdventureCode')}
+          testID="ctaHaveCode"
+        >
+          <Text style={styles.haveCodeLabel}>{t('adventureCodeHaveCode')}</Text>
+        </Touchable>
+        <AdvLanguageSwitch />
+      </View>
       <FlatList
         renderItem={({ item }): React.ReactElement => {
           return item?.id ? <AvailableAdventureItem {...item} /> : <></>;

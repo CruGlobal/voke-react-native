@@ -15,7 +15,20 @@ const styles = StyleSheet.create({
   },
   AdventureActions: {
     marginLeft: -12,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: theme.spacing.m,
   },
+  haveCode: {
+    paddingVertical: theme.spacing.m * 1.25,
+  },
+  haveCodeLabel: {
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.l,
+    textDecorationLine: 'underline',
+  },
+
   Heading: {
     color: theme.colors.secondary,
     fontSize: theme.fontSizes.m,
