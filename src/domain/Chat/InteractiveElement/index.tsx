@@ -86,16 +86,18 @@ const InteractiveElement = ({
     const answers = internalMessage
       ? internalMessage?.metadata?.answers
       : step?.metadata?.answers;
-    <MultiQuestion
-      answers={answers}
-      isComplete={isComplete}
-      isLocked={isLocked}
-      selected={value}
-      onItemSelected={(item): void => {
-        setValue(item.label || '');
-        handleSendMessage(item.value);
-      }}
-    />;
+    return (
+      <MultiQuestion
+        answers={answers}
+        isComplete={isComplete}
+        isLocked={isLocked}
+        selected={value}
+        onItemSelected={(item): void => {
+          setValue(item.label || '');
+          handleSendMessage(item.value);
+        }}
+      />
+    );
   }
 
   // Question with two options or request to share decision.

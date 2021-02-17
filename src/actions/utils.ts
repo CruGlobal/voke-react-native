@@ -135,14 +135,6 @@ export default function request<T>(options): Promise<T> {
         : JSON.stringify({ ...options.data, ...(options.customData || {}) });
   }
 
-  // Log redux action.
-  /* dispatch({
-      description: options.description,
-      type: REDUX_ACTIONS.REQUEST_FETCH,
-      options,
-      // body: options.data,
-    }); */
-
   // Do request.
   return fetch(finalUrl, newObj)
     .then(response => {

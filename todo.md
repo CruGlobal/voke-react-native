@@ -14,15 +14,14 @@ TODO: give react-native-fast-image another try
 
 TODO: still need react-native-image-crop-picker ?
 
-TODO: still need react-native-picker-select ?
-
 TODO: still need react-native-scalable-image ?
 
-TODO: get rid of rn-fetch-blob https://github.com/joltup/rn-fetch-blob/issues/666 
+TODO: get rid of rn-fetch-blob https://github.com/joltup/rn-fetch-blob/issues/666
 TODO: delete ts-jest
 TODO: get rid of Titilium Bold font
 TODO: get rid of 'react-native-material-menu'
 
 Android:
+
 - https://rnfirebase.io/#2-android-setup
-- 
+-

@@ -20,7 +20,7 @@ const MultiQuestion = ({
   selected,
   onItemSelected,
 }: Props): ReactElement => {
-  if (!answers || (answers || []).length !== 0) {
+  if (!answers || answers.length === 0) {
     // No options available for rendering.
     return <></>;
   } else {

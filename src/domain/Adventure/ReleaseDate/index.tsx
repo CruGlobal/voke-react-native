@@ -1,4 +1,6 @@
-/* eslint-disable @typescript-eslint/camelcase */
+import Select from 'domain/Common/Select'; /* eslint-disable @typescript-eslint/camelcase */
+import ReleaseDaySwitch from 'domain/Adventures/ReleaseDaySwitch';
+
 import React, { useState, useEffect } from 'react';
 import { Alert, View } from 'react-native';
 import Clipboard from '@react-native-community/clipboard';
@@ -8,13 +10,13 @@ import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import Image from 'react-native-scalable-image';
 import Touchable from 'components/Touchable';
-import Dropdown from 'components/Dropdown';
 import Datepicker from 'components/Datepicker';
 import OldButton from 'components/OldButton';
 import Text from 'components/Text';
 import Screen from 'components/Screen';
 import Spacer from 'components/Spacer';
 import { tutorials } from 'assets';
+import VokeIcon from 'components/VokeIcon';
 
 import { toastAction } from '../../../actions/info';
 import {
@@ -49,6 +51,7 @@ const GroupReleaseDate = (props): React.ReactElement => {
   const [date, setDate] = useState(releaseDate);
   const [gatingPeriod, setGatingPeriod] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     if (releaseSchedule === 'weekly') {
@@ -173,21 +176,9 @@ const GroupReleaseDate = (props): React.ReactElement => {
           </>
         )}
         {releaseSchedule === 'weekly' && (
-          <Dropdown
-            label={t('releaseDay')}
-            items={[
-              { label: t('monday'), value: 'Monday' },
-              { label: t('tuesday'), value: 'Tuesday' },
-              { label: t('wednesday'), value: 'Wednesday' },
-              { label: t('thursday'), value: 'Thursday' },
-              { label: t('friday'), value: 'Friday' },
-              { label: t('saturday'), value: 'Saturday' },
-              { label: t('sunday'), value: 'Sunday' },
-            ]}
-            onChange={(newDay: string): void => {
-              setWeekday(newDay);
-            }}
-            initialValue={weekday}
+          <ReleaseDaySwitch
+            selected={weekday}
+            setOption={value => setWeekday(value)}
           />
         )}
         {releaseSchedule !== 'manual' && (
