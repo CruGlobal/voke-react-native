@@ -21,8 +21,9 @@ import Text from 'components/Text';
 import styles from './styles';
 
 interface Option {
-  selected?: boolean;
   label: string;
+  value?: string | number;
+  selected?: boolean;
 }
 
 interface Props {

@@ -18,7 +18,12 @@ type Option = {
   selected?: boolean;
 };
 
-const availableTranslations = ['EN', 'ES', 'PR', 'FR'];
+const availableTranslations = [
+  'EN',
+  'ES',
+  // 'PR',
+  // 'FR'
+];
 
 const AdvLanguageSwitch = (): ReactElement => {
   const [currentLang, setCurrentLang] = useState('EN');

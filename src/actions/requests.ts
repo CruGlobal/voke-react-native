@@ -126,7 +126,7 @@ export function getAvailableAdventures(languageCode = 'en'): AsyncAction<void> {
     try {
       const results = await request<AdventuresResult>({
         ...ROUTES.GET_AVAILABLE_ADVENTURES,
-        params: { languageCode: languageCode.toUpperCase() },
+        params: { language_code: languageCode.toUpperCase() },
         authToken: getState().auth.authToken,
         description: 'Get Available Adventures',
       });
@@ -416,6 +416,7 @@ export function createAdventureStepMessage(params: {
 }) {
   return async (dispatch: Dispatch, getState: any) => {
     const { internalMessage, value, kind, adventure, step } = params;
+    let result = {};
     const data: any = {
       message: {},
     };
@@ -580,7 +581,7 @@ export function createAdventureStepMessage(params: {
       });
 
       // Send message to the server in a non-async manner.
-      await request({
+      result = await request({
         ...ROUTES.CREATE_ADVENTURE_STEP_MESSAGE,
         pathParams: {
           adventureConversationId: params.adventure.conversation.id,
@@ -593,7 +594,7 @@ export function createAdventureStepMessage(params: {
       // If not a plain text message: go a slow route -
       // send message to the server in async manner and only then updatie the store.
       // SEND MESSAGE TO THE SERVER.
-      const result = await request({
+      result = await request({
         ...ROUTES.CREATE_ADVENTURE_STEP_MESSAGE,
         pathParams: {
           adventureConversationId: params.adventure.conversation.id,
@@ -617,6 +618,7 @@ export function createAdventureStepMessage(params: {
     // Refresh all messages when answering a quiestion to multi challenge.
     if (
       data.message.kind === 'answer' ||
+      data.message.kind === 'question' ||
       params.kind === 'multi' ||
       params.kind === 'binary' ||
       params.kind === 'share'
@@ -636,6 +638,12 @@ export function createAdventureStepMessage(params: {
     // and unlock the next one.
     dispatch(getAdventureSteps(params.adventure.id));
 
+    /* dispatch({
+      description: 'Create Adventure Step Message',
+      type: REDUX_ACTIONS.LOG,
+      params,
+    }); */
+    console.log('⚠️ Create Adventure Step Message:', result);
     return result;
   };
 }

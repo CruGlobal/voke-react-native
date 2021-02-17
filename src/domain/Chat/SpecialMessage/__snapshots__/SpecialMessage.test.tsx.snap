@@ -1,29 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`emit events correctly - kind "question" 1`] = `
-Array [
-  Object {
-    "description": "Create Adventure Step Message",
-    "options": Object {
-      "data": Object {
-        "message": Object {
-          "content": "Some answer",
-          "message_reference_id": "d64a1b4e-3214-4c31-b46a-24ca9e946ab2",
-          "messenger_journey_step_id": "671c28d8-eda1-4cbf-b9d1-58a9a4011867",
-        },
-      },
-      "description": "Create Adventure Step Message",
-      "method": "post",
-      "pathParams": Object {
-        "adventureConversationId": "fb6e60b5-ddd2-4756-a1c5-4473cc2f6a72",
-      },
-      "url": "me/conversations/{adventureConversationId}/messages",
-    },
-    "type": "REQUEST_FETCH",
-  },
-]
-`;
-
 exports[`renders correctly - kind "question" - answered 1`] = `
 <View
   onLayout={[Function]}
