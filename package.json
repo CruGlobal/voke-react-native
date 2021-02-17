@@ -73,7 +73,7 @@
     "react-native-material-menu": "^1.2.0",
     "react-native-modal-datetime-picker": "^9.1.0",
     "react-native-modalize": "^2.0.8",
-    "react-native-orientation-locker": "git+https://github.com/wonday/react-native-orientation-locker.git#master",
+    "react-native-orientation-locker": "wonday/react-native-orientation-locker#master",
     "react-native-permissions": "^3.0.0",
     "react-native-portalize": "^1.0.7",
     "react-native-push-notification": "^6.1.3",
