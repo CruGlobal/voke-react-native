@@ -643,7 +643,6 @@ export function createAdventureStepMessage(params: {
       type: REDUX_ACTIONS.LOG,
       params,
     }); */
-    console.log('⚠️ Create Adventure Step Message:', result);
     return result;
   };
 }
