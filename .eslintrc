@@ -26,6 +26,8 @@
       {
         "allow": [
           "message_id",
+          "messenger_id",
+          "messenger_answer",
           "messenger_journeys",
           "messenger_journey_reports",
           "messenger_journey_steps",

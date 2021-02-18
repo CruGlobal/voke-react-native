@@ -3,11 +3,16 @@
 exports[`blur others decision messages in multichoise until I answer 1`] = `
 <View
   style={
-    Object {
-      "paddingBottom": 16,
-      "paddingHorizontal": 22,
-      "zIndex": 1,
-    }
+    Array [
+      Object {
+        "paddingBottom": 16,
+        "paddingHorizontal": 22,
+        "zIndex": 1,
+      },
+      Object {
+        "zIndex": -1,
+      },
+    ]
   }
 >
   <View
@@ -944,11 +949,16 @@ exports[`render binary step (decision/pray) - one selected 1`] = `
 exports[`renders correctly bot message in solo adventure 1`] = `
 <View
   style={
-    Object {
-      "paddingBottom": 16,
-      "paddingHorizontal": 22,
-      "zIndex": 1,
-    }
+    Array [
+      Object {
+        "paddingBottom": 16,
+        "paddingHorizontal": 22,
+        "zIndex": 1,
+      },
+      Object {
+        "zIndex": -1,
+      },
+    ]
   }
 >
   <View
@@ -1083,11 +1093,16 @@ exports[`renders correctly bot message in solo adventure 1`] = `
 exports[`renders correctly in group adventure 1`] = `
 <View
   style={
-    Object {
-      "paddingBottom": 16,
-      "paddingHorizontal": 22,
-      "zIndex": 1,
-    }
+    Array [
+      Object {
+        "paddingBottom": 16,
+        "paddingHorizontal": 22,
+        "zIndex": 1,
+      },
+      Object {
+        "zIndex": -1,
+      },
+    ]
   }
 >
   <View
@@ -1400,11 +1415,16 @@ exports[`renders correctly in group adventure 1`] = `
 exports[`renders correctly in solo adventure 1`] = `
 <View
   style={
-    Object {
-      "paddingBottom": 16,
-      "paddingHorizontal": 22,
-      "zIndex": 1,
-    }
+    Array [
+      Object {
+        "paddingBottom": 16,
+        "paddingHorizontal": 22,
+        "zIndex": 1,
+      },
+      Object {
+        "zIndex": -1,
+      },
+    ]
   }
 >
   <View

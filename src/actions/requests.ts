@@ -621,7 +621,8 @@ export function createAdventureStepMessage(params: {
       data.message.kind === 'question' ||
       params.kind === 'multi' ||
       params.kind === 'binary' ||
-      params.kind === 'share'
+      params.kind === 'share' ||
+      params.internalMessage
     ) {
       dispatch(
         getAdventureStepMessages(

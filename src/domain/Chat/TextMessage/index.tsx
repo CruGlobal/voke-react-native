@@ -2,7 +2,7 @@ import ContextMode from 'domain/Chat/ContextMode';
 import MessageFooter from 'domain/Chat/MessageFooter';
 import BluredBlock from 'domain/Chat/BluredBlock';
 
-import React from 'react';
+import React, { useState } from 'react';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import { Image as ReactNativeImage, Text, View, Pressable } from 'react-native';
 import { TMessage, TMessenger, TUser } from 'utils/types';
@@ -17,8 +17,6 @@ interface Props {
   message: TMessage;
   user: TUser;
   messenger: TMessenger;
-  contextActive: boolean;
-  setContextActive: (value: boolean) => void;
   canReport: boolean;
   onReport: () => void;
   onCopy: () => void;
@@ -32,8 +30,6 @@ const TextMessage = (props: Props): React.ReactElement => {
     message,
     user,
     messenger,
-    contextActive,
-    setContextActive,
     canReport,
     onReport,
     onCopy,
@@ -45,6 +41,7 @@ const TextMessage = (props: Props): React.ReactElement => {
   const { t } = useTranslation('journey');
   const messengerId = message?.messenger_id; // User who left this message.
   const isCurrUsrMessage = messengerId === user.id; // Is it my message?
+  const [contextActive, setContextActive] = useState(false);
 
   const getContent = (): string => {
     if (isSharedAnswer) {
@@ -60,6 +57,21 @@ const TextMessage = (props: Props): React.ReactElement => {
     } else {
       return isCurrUsrMessage ? '#44c8e8' : '#fff';
     }
+  };
+
+  // Don't allow to open message context if:
+  // – it's blurred;
+  // – it's from the VokeBot (in Duo or in Multichoice);
+  // – it's a shared message by VokeBot (in Multichoice);
+  const canOpenContext = (): boolean => {
+    return (
+      !isBlured &&
+      message?.metadata?.vokebot_action !== 'journey_step_comment' &&
+      message?.metadata?.vokebot_action !== 'journey_step' &&
+      message?.metadata?.vokebot_action !== 'share_answers'
+      // TODO: 👆 remove it once the bug fixed in API (should not able to report/block VokeBot).
+      // https://jesusfilmmedia.atlassian.net/browse/VC-1355
+    );
   };
 
   // Shared by VokeBot message block.
@@ -89,24 +101,38 @@ const TextMessage = (props: Props): React.ReactElement => {
     // In case user submits an empty message, don't render it.
     <></>
   ) : (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          // Need it to dim other message out of current context mode.
+          zIndex: contextActive ? 1 : -1,
+        },
+      ]}
+    >
       <View style={styles.content}>
         {/* Wrapper to show/hide context mode modal. */}
         <ContextMode
           active={contextActive}
           canReport={canReport}
-          onReport={onReport}
-          onCopy={onCopy}
+          onReport={(): void => {
+            onReport();
+            setContextActive(false);
+          }}
+          onCopy={(): void => {
+            onCopy();
+            setContextActive(false);
+          }}
           onClose={(): void => {
             setContextActive(false);
           }}
           onReaction={(reaction: string): void => {
             onReaction(reaction);
+            setContextActive(false);
           }}
         >
           <>
             <View>
-              {isCurrUsrMessage ? <View style={{ flex: 1 }} /> : null}
               {/* Long press block to activate context menu. */}
               <Pressable
                 testID="messagePressArea"
@@ -119,6 +145,7 @@ const TextMessage = (props: Props): React.ReactElement => {
                     ? styles.messageBubbleMine
                     : styles.messageBubbleOthers
                 }
+                disabled={!canOpenContext()}
               >
                 <View>
                   {/* User's Name */}
@@ -159,7 +186,8 @@ const TextMessage = (props: Props): React.ReactElement => {
             <MessageFooter
               date={message.created_at}
               isMyMessage={isCurrUsrMessage}
-              reactions={message?.reactions || {}}
+              // Don't show reaction if message is blured.
+              reactions={isBlured ? {} : message?.reactions || {}}
               onReaction={(reaction: string): void => {
                 onReaction(reaction);
               }}
