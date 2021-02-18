@@ -69,7 +69,7 @@ platform :ios do
             # BUILT_PRODUCTS_DIR=/a/b/c "${PODS_ROOT}/Target Support Files/Pods-Voke/Pods-Voke-resources.sh"
 
             fastlane_require 'xcodeproj'
-            project = Xcodeproj::Project.open("../ios/Voke.xcodeproj")
+            project = Xcodeproj::Project.open("./Voke.xcodeproj")
             target = project.targets.select { |target| target.name == 'Voke' }.first
             phase = target.shell_script_build_phases.select { |phase| phase.name && phase.name.include?('Copy Pods Resources') }.first
             if (!phase.shell_script.start_with?('BUILT_PRODUCTS_DIR'))
@@ -81,7 +81,7 @@ platform :ios do
             gym(
                 scheme: ENV["CRU_SCHEME"],
                 clean: false,
-                project: './ios/Voke.xcodeproj',
+                project: './Voke.xcodeproj',
                 configuration: 'Release',
                 export_method: export_method,
                 destination: 'generic/platform=iOS',
@@ -105,7 +105,7 @@ platform :ios do
             # Step 4) Build full app .xcworkspace
             gym(
                 scheme: ENV["CRU_SCHEME"],
-                workspace: "./ios/Voke.xcworkspace",
+                workspace: "./Voke.xcworkspace",
                 derived_data_path: ios_derived_data_path,
                 export_method: export_method,
                 configuration: 'Release',
