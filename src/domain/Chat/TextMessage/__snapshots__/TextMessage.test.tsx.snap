@@ -16,11 +16,16 @@ Array [
   >
     <View
       style={
-        Object {
-          "paddingBottom": 16,
-          "paddingHorizontal": 22,
-          "zIndex": 1,
-        }
+        Array [
+          Object {
+            "paddingBottom": 16,
+            "paddingHorizontal": 22,
+            "zIndex": 1,
+          },
+          Object {
+            "zIndex": 1,
+          },
+        ]
       }
     >
       <View
@@ -823,11 +828,16 @@ Array [
 exports[`renders correctly 1`] = `
 <View
   style={
-    Object {
-      "paddingBottom": 16,
-      "paddingHorizontal": 22,
-      "zIndex": 1,
-    }
+    Array [
+      Object {
+        "paddingBottom": 16,
+        "paddingHorizontal": 22,
+        "zIndex": 1,
+      },
+      Object {
+        "zIndex": -1,
+      },
+    ]
   }
 >
   <View
