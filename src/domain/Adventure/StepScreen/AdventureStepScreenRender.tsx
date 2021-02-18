@@ -572,7 +572,7 @@ const AdventureStepScreenRender = ({
                 </>
               )}
               {/* Extra spacing on the bottom */}
-              {isPortrait && <View style={{ height: 60 }} />}
+              {isPortrait && <View style={{ height: 80 }} />}
             </>
           </DismissKeyboardView>
         </ScrollView>

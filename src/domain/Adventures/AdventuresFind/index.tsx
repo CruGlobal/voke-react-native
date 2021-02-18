@@ -46,21 +46,27 @@ const AdventuresFind = (): React.ReactElement => {
     >
       {/* Block: Have Adventure Code? */}
       <View style={styles.AdventureActions}>
-        <Touchable
-          style={styles.haveCode}
-          onPress={(): void => navigation.navigate('AdventureCode')}
-          testID="ctaHaveCode"
-        >
-          <Text style={styles.haveCodeLabel}>{t('adventureCodeHaveCode')}</Text>
-        </Touchable>
-        <AdvLanguageSwitch />
+        <View style={styles.AdventureActionsContent}>
+          <Touchable
+            style={styles.haveCode}
+            onPress={(): void => navigation.navigate('AdventureCode')}
+            testID="ctaHaveCode"
+          >
+            <Text style={styles.haveCodeLabel}>
+              {t('adventureCodeHaveCode')}
+            </Text>
+          </Touchable>
+          <AdvLanguageSwitch />
+        </View>
+        <View style={styles.AdventureActionsBg} />
       </View>
       <FlatList
         renderItem={({ item }): React.ReactElement => {
           return item?.id ? <AvailableAdventureItem {...item} /> : <></>;
         }}
         data={availableAdventures}
-        style={{ width: '100%', paddingBottom: 120 }}
+        style={{ width: '100%' }}
+        contentContainerStyle={{ paddingTop: 70, paddingBottom: 110 }}
         onRefresh={onRefresh}
         refreshing={refreshing}
       />
