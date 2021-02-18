@@ -7,7 +7,7 @@ import_from_git(
 )
 
 platform :ios do
-    lane :cru_build_app do |options|
+    override_lane :cru_build_app do |options|
         profile_name = options[:profile_name] || ENV["CRU_APPSTORE_PROFILE_NAME"]
         type = options[:type] || 'appstore'
         export_method = options[:export_method] || 'app-store'
