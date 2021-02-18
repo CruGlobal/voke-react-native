@@ -7,62 +7,54 @@ on:
     branches: [develop, master]
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 12
-      - name: 🗝 Configure GitHub login
-        run: echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
-        env:
-          CI_USER_TOKEN: ${{ secrets.CI_USER_TOKEN }}
-      - uses: bahmutov/npm-install@v1
-      - name: 🧪 Test
-        run: npm run test --ci
+  # test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #       with:
+  #         ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
+  #     - uses: actions/setup-node@v2
+  #       with:
+  #         node-version: 12
+  #     - uses: bahmutov/npm-install@v1
+  #     - name: 🧪 Test
+  #       run: npm run test --ci
 
-  eslint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 12
-      - name: 🗝 Configure GitHub login
-        run: echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
-        env:
-          CI_USER_TOKEN: ${{ secrets.CI_USER_TOKEN }}
-      - uses: bahmutov/npm-install@v1
-      - name: 💨 ESLint
-        run: npm run lint
+  # eslint:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #       with:
+  #         ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
+  #     - uses: actions/setup-node@v2
+  #       with:
+  #         node-version: 12
+  #     - uses: bahmutov/npm-install@v1
+  #     - name: 💨 ESLint
+  #       run: npm run lint
 
-  typescript:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 12
-      - name: 🗝 Configure GitHub login
-        run: echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
-        env:
-          CI_USER_TOKEN: ${{ secrets.CI_USER_TOKEN }}
-      - uses: bahmutov/npm-install@v1
-      - name: ✅ TypeScript lint
-        run: npm run lint:ts
+  # typescript:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #       with:
+  #         ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
+  #     - uses: actions/setup-node@v2
+  #       with:
+  #         node-version: 12
+  #     - uses: bahmutov/npm-install@v1
+  #     - name: ✅ TypeScript lint
+  #       run: npm run lint:ts
 
   prettier:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
       - uses: actions/setup-node@v2
         with:
           node-version: 12
-      - name: 🗝 Configure GitHub login
-        run: echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
-        env:
-          CI_USER_TOKEN: ${{ secrets.CI_USER_TOKEN }}
       - uses: bahmutov/npm-install@v1
       - name: 💅 Prettier Check
         run: npm run prettier
@@ -73,13 +65,11 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
     steps:
       - uses: actions/checkout@v2
+        with:
+          ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
       - uses: actions/setup-node@v2
         with:
           node-version: 12
-      - name: 🗝 Configure GitHub login
-        run: echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
-        env:
-          CI_USER_TOKEN: ${{ secrets.CI_USER_TOKEN }}
       - uses: bahmutov/npm-install@v1
       - name: ⛅🔼 OneSky Upload
         env:
@@ -93,13 +83,11 @@ jobs:
   #   if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
   #   steps:
   #     - uses: actions/checkout@v2
+  #       with:
+  #         ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 12
-  #     - name: 🗝 Configure GitHub login
-  #       run: echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
-  #       env:
-  #         CI_USER_TOKEN: ${{ secrets.CI_USER_TOKEN }}
   #     - uses: bahmutov/npm-install@v1
   #     - name: ⛅ OneSky Download
   #       env:
@@ -127,13 +115,11 @@ jobs:
   #   if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
   #   steps:
   #     - uses: actions/checkout@v2
+  #       with:
+  #         ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 12
-  #     - name: 🗝 Configure GitHub login
-  #       run: echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
-  #       env:
-  #         CI_USER_TOKEN: ${{ secrets.CI_USER_TOKEN }}
   #     - uses: bahmutov/npm-install@v1
   #     - name: ⛅ OneSky Download
   #       env:
@@ -160,13 +146,11 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
     steps:
       - uses: actions/checkout@v2
+        with:
+          ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
       - uses: actions/setup-node@v2
         with:
           node-version: 12
-      - name: 🗝 Configure GitHub login
-        run: echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
-        env:
-          CI_USER_TOKEN: ${{ secrets.CI_USER_TOKEN }}
       - uses: bahmutov/npm-install@v1
       - name: ⛅ OneSky Download
         env:
@@ -196,13 +180,11 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
     steps:
       - uses: actions/checkout@v2
+        with:
+          ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
       - uses: actions/setup-node@v2
         with:
           node-version: 12
-      - name: 🗝 Configure GitHub login
-        run: echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
-        env:
-          CI_USER_TOKEN: ${{ secrets.CI_USER_TOKEN }}
       - uses: bahmutov/npm-install@v1
       - name: ⛅ OneSky Download
         env:
