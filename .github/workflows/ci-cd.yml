@@ -161,6 +161,8 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7.2
+          working-directory: './ios'
+          bundler-cache: true
       - name: 🗝 Configure GitHub login
         run: echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
         env:
@@ -205,6 +207,8 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7.2
+          working-directory: './android'
+          bundler-cache: true
       - name: 🔓 Decrypt GooglePlayAPI.json
         run: openssl aes-256-cbc -K $GOOGLE_PLAY_API_FILE_KEY -iv $GOOGLE_PLAY_API_FILE_IV -in ./android/fastlane/GooglePlayAPI.enc -out ./android/fastlane/GooglePlayAPI.json -d
         env:
