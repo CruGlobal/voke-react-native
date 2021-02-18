@@ -62,7 +62,7 @@ jobs:
           node-version: 12
       - uses: bahmutov/npm-install@v1
       - name: 💅 Prettier Check
-        run: npm run prettier
+        run: npm run prettier:check
 
   onesky-upload:
     runs-on: ubuntu-latest
