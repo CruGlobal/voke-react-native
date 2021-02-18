@@ -11,6 +11,8 @@ jobs:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v2
+  #       with:
+  #         ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 12
@@ -22,6 +24,8 @@ jobs:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v2
+  #       with:
+  #         ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 12
@@ -33,6 +37,8 @@ jobs:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v2
+  #       with:
+  #         ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 12
@@ -44,6 +50,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
       - uses: actions/setup-node@v2
         with:
           node-version: 12
@@ -57,6 +65,8 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
     steps:
       - uses: actions/checkout@v2
+        with:
+          ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
       - uses: actions/setup-node@v2
         with:
           node-version: 12
@@ -73,6 +83,8 @@ jobs:
   #   if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
   #   steps:
   #     - uses: actions/checkout@v2
+  #       with:
+  #         ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 12
@@ -103,6 +115,8 @@ jobs:
   #   if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
   #   steps:
   #     - uses: actions/checkout@v2
+  #       with:
+  #         ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 12
@@ -132,6 +146,8 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
     steps:
       - uses: actions/checkout@v2
+        with:
+          ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
       - uses: actions/setup-node@v2
         with:
           node-version: 12
@@ -145,10 +161,6 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7
-      - name: 🗝 Configure GitHub login
-        run: echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
-        env:
-          CI_USER_TOKEN: ${{ secrets.CI_USER_TOKEN }}
       - name: 🏗️🚀🍏 Build and push to Testflight
         uses: maierj/fastlane-action@v2.0.0
         with:
@@ -168,6 +180,8 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
     steps:
       - uses: actions/checkout@v2
+        with:
+          ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
       - uses: actions/setup-node@v2
         with:
           node-version: 12
@@ -192,10 +206,6 @@ jobs:
         env:
           GOOGLE_PLAY_API_FILE_KEY: ${{ secrets.GOOGLE_PLAY_API_FILE_KEY }}
           GOOGLE_PLAY_API_FILE_IV: ${{ secrets.GOOGLE_PLAY_API_FILE_IV }}
-      - name: 🗝 Configure GitHub login
-        run: echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
-        env:
-          CI_USER_TOKEN: ${{ secrets.CI_USER_TOKEN }}
       - name: 🏗️🚀🤖 Build and push to Android Beta
         uses: maierj/fastlane-action@v2.0.0
         with:
