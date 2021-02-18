@@ -14,6 +14,8 @@ jobs:
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 12
+  #     - name: Configure git
+  #       run: git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
   #     - uses: bahmutov/npm-install@v1
   #     - name: 🧪 Test
   #       run: npm run test --ci
@@ -25,6 +27,8 @@ jobs:
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 12
+  #     - name: Configure git
+  #       run: git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
   #     - uses: bahmutov/npm-install@v1
   #     - name: 💨 ESLint
   #       run: npm run lint
@@ -36,6 +40,8 @@ jobs:
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 12
+  #     - name: Configure git
+  #       run: git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
   #     - uses: bahmutov/npm-install@v1
   #     - name: ✅ TypeScript lint
   #       run: npm run lint:ts
@@ -47,6 +53,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 12
+      - name: Configure git
+        run: git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
       - uses: bahmutov/npm-install@v1
       - name: 💅 Prettier Check
         run: npm run prettier
@@ -60,6 +68,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 12
+      - name: Configure git
+        run: git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
       - uses: bahmutov/npm-install@v1
       - name: ⛅🔼 OneSky Upload
         env:
@@ -76,6 +86,8 @@ jobs:
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 12
+  #     - name: Configure git
+  #       run: git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
   #     - uses: bahmutov/npm-install@v1
   #     - name: ⛅ OneSky Download
   #       env:
@@ -106,6 +118,8 @@ jobs:
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 12
+  #     - name: Configure git
+  #       run: git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
   #     - uses: bahmutov/npm-install@v1
   #     - name: ⛅ OneSky Download
   #       env:
@@ -135,6 +149,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 12
+      - name: Configure git
+        run: git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
       - uses: bahmutov/npm-install@v1
       - name: ⛅ OneSky Download
         env:
@@ -171,6 +187,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 12
+      - name: Configure git
+        run: git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
       - uses: bahmutov/npm-install@v1
       - name: ⛅ OneSky Download
         env:
