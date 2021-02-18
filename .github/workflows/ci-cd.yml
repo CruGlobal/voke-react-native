@@ -1,5 +1,10 @@
 name: CI/CD
 
+env:
+  XCPRETTY_TEST_FORMAT: true
+  GYM_SILENT: true
+  SUPPRESS_OUTPUT: true
+
 on:
   push:
     branches: [develop, master]
