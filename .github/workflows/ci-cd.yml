@@ -193,6 +193,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
+          fetch-depth: 0
       - uses: actions/setup-node@v2
         with:
           node-version: 12

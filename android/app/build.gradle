@@ -143,7 +143,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionName "5.6.7"
-        versionCode grgit.log(includes:['HEAD']).size() // Voke: Fastline Travis
+        versionCode grgit.log(includes:['HEAD']).size()
     }
 
     splits {
