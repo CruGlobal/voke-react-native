@@ -2,22 +2,22 @@ import React, { forwardRef } from 'react';
 import { View, StyleProp, ViewStyle } from 'react-native';
 
 type FlexProps = {
-  value?: number,
-  direction?: string,
-  align?: string,
-  justify?: 'center' | 'start' | 'end' | 'around' | 'between' | 'evenly',
-  self?: string,
-  grow?: number,
-  wrap?: string,
-  children?: React.ReactNode,
-  style?: StyleProp<ViewStyle>,
-  [key: string]: any,
-}
+  value?: number;
+  direction?: string;
+  align?: string;
+  justify?: 'center' | 'start' | 'end' | 'around' | 'between' | 'evenly';
+  self?: string;
+  grow?: number;
+  wrap?: string;
+  children?: React.ReactNode;
+  style?: StyleProp<ViewStyle>;
+  [key: string]: any;
+};
 // export type Ref = string | null | void;
 // const Flex = React.forwardRef<Ref, FlexProps>(( props:FlexProps, ref) => {
 // Passing reference disabled for now.
 // see https://github.com/typescript-cheatsheets/react-typescript-cheatsheet/blob/master/README.md#forwardrefcreateref
-const Flex = ( props:FlexProps) => {
+const Flex = (props: FlexProps) => {
   const {
     value,
     direction,
@@ -31,7 +31,7 @@ const Flex = ( props:FlexProps) => {
     ...rest
   } = props;
 
-  let styleObj:any = {};
+  let styleObj: any = {};
   if (value) styleObj.flex = value;
   if (direction) styleObj.flexDirection = direction;
   if (wrap) styleObj.flexWrap = wrap;
@@ -62,7 +62,8 @@ const Flex = ( props:FlexProps) => {
     <View
       // ref={ref}
       {...rest}
-      style={[style, styleObj]}>
+      style={[style, styleObj]}
+    >
       {children}
     </View>
   );

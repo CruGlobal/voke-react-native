@@ -3,13 +3,12 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import DeviceInfo from 'react-native-device-info';
 // Following https://github.com/react-native-community/push-notification-ios
 // - Added these configs: https://d.pr/i/AoUUxy
-
 import { ThunkDispatch } from 'redux-thunk';
 import { checkNotifications, openSettings } from 'react-native-permissions';
 import { REDUX_ACTIONS } from 'utils/constants';
+import { Platform } from 'react-native';
 
 import * as RootNavigation from '../RootNavigation';
-import st from 'utils/st';
 
 import { establishPushDevice, establishCableDevice } from './requests';
 
@@ -124,11 +123,13 @@ function handleNotifications(state: string, notification: { data?: any }) {
     // Get the namespace and link differently for ios and android
     let namespace;
     let link;
-    if (!st.isAndroid) {
+    let category;
+    if (Platform.OS !== 'android') {
       // iOS
       if (data && data.data && data.data.namespace) {
         namespace = data.data.namespace;
         link = data.data.link;
+        category = data.data?.category;
       }
     } else if (notification) {
       if (notification?.link) {
@@ -137,6 +138,7 @@ function handleNotifications(state: string, notification: { data?: any }) {
       if (notification?.namespace) {
         namespace = notification.namespace;
       }
+      category = notification?.category;
     }
 
     if (state === 'open' && namespace && link) {
@@ -156,7 +158,12 @@ function handleNotifications(state: string, notification: { data?: any }) {
               routes: [{ name: 'LoggedInApp' }],
             });
           }
-        } else if ('messenger_journey_reports' in linkParams) {
+        } else if (
+          // If complain/report filed in our adventure.
+          'messenger_journey_reports' in linkParams ||
+          // If someone joined our adventure.
+          category === 'JOIN_JOURNEY_CATEGORY'
+        ) {
           // TODO: maybe use reportID to scroll the screen to this report?
           // const reportId = linkParams.messenger_journey_reports;
           try {
@@ -218,7 +225,7 @@ function establishDevice(): Promise<void> {
       },
     };
 
-    if (st.isAndroid) {
+    if (Platform.OS === 'android') {
       // Android only configs
       configs = {
         ...configs,

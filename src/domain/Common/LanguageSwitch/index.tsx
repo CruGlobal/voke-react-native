@@ -8,7 +8,7 @@ import styles from './styles';
 
 // Can't use import for json:
 // https://github.com/microsoft/TypeScript/issues/24715
-const languageCodes = require('i18n/langaugeCodes.json')
+const languageCodes = require('i18n/langaugeCodes.json');
 type Option = {
   label: string;
   selected?: boolean;
@@ -28,13 +28,16 @@ const LanguageSwitch = (): ReactElement => {
     availableTranslations.map(lang => {
       const stepLang = lang.toUpperCase();
       if (stepLang !== 'EN-US') {
-        if (appLang === stepLang || stepLang === 'EN' && appLang === 'EN-US') {
-          setSelectOptions((current) => [
+        if (
+          appLang === stepLang ||
+          (stepLang === 'EN' && appLang === 'EN-US')
+        ) {
+          setSelectOptions(current => [
             ...current,
-            { label: lang, selected: true }
+            { label: lang, selected: true },
           ]);
         } else {
-          setSelectOptions((current) => [...current, { label: lang }]);
+          setSelectOptions(current => [...current, { label: lang }]);
         }
       }
     });
@@ -45,8 +48,10 @@ const LanguageSwitch = (): ReactElement => {
     const appLang = i18next.language.toUpperCase();
     const newSelectOptions: Option[] = selectOptions;
     selectOptions.map((value, index) => {
-      if (value.label === option.label ||
-        (appLang === 'EN-US' && option.label.toUpperCase() === 'EN')) {
+      if (
+        value.label === option.label ||
+        (appLang === 'EN-US' && option.label.toUpperCase() === 'EN')
+      ) {
         // Mark selected language as current in the options object.
         newSelectOptions[index].selected = true;
         // Change current language in i18next instance:
@@ -71,7 +76,7 @@ const LanguageSwitch = (): ReactElement => {
       onClose={() => setModalVisible(false)}
       onSelect={option => newLangSelected(option)}
       // Single option:
-      optionEl={(option) => {
+      optionEl={option => {
         return (
           <>
             {/* Item Label */}

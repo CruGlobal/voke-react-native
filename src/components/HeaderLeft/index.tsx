@@ -24,14 +24,15 @@ const HeaderLeft = ({ resetTo, testID }: HeaderLeftProps): ReactElement => {
         navigation.reset({
           index: 0,
           type: 'stack', // Required to make dynamic nav bar to work properly.
-          routes: [{
-            name: resetTo,
-            // Pass params from the previous screen if nav history is missing.
-            // Needed to pass over adventureId when going this way:
-            // Find Adventure >  Create > Manage/Leader Zone > Active Adventure.
-            params:
-              routes[routes.length - 1]?.params,
-          }],
+          routes: [
+            {
+              name: resetTo,
+              // Pass params from the previous screen if nav history is missing.
+              // Needed to pass over adventureId when going this way:
+              // Find Adventure >  Create > Manage/Leader Zone > Active Adventure.
+              params: routes[routes.length - 1]?.params,
+            },
+          ],
         });
       }
     } else if (resetTo === 'Menu') {
