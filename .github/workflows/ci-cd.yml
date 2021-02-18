@@ -230,6 +230,8 @@ jobs:
           echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" >> "$ANDROID_HOME/licenses/android-sdk-license"
       - name: convert node_modules dependencies to AndroidX
         run: npx jetify
+      - name: set version code environment variable
+        run: echo ::set-env VERSION_CODE=$(git rev-list --count HEAD)
       - name: 🏗️🚀🤖 Build and push to Android Beta
         uses: maierj/fastlane-action@v2.0.0
         with:

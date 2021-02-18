@@ -125,7 +125,7 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
-
+def appVersionCode = Integer.valueOf(System.env.VERSION_CODE ?: 0)
 
 android {
     ndkVersion rootProject.ext.ndkVersion
@@ -143,7 +143,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionName "5.6.7"
-        versionCode grgit.log(includes:['HEAD']).size()
+        versionCode appVersionCode
     }
 
     splits {

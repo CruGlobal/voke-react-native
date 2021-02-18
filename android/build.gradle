@@ -32,10 +32,6 @@ buildscript {
     }
 }
 
-// Voke: Fastline Travis
-apply plugin: 'org.ajoberstar.grgit'
-ext.grgit = org.ajoberstar.grgit.Grgit.open()
-
 allprojects {
     repositories {
         mavenLocal()
