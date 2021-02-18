@@ -18,7 +18,7 @@ const InnerContent = ({
   children,
 }: // ...rest
 Props): React.ReactElement => {
-  const keyboard = useKeyboard()
+  const keyboard = useKeyboard();
   return (
     <>
       {layout === 'embed' ? (
@@ -26,7 +26,7 @@ Props): React.ReactElement => {
       ) : (
         <SafeAreaView
           style={
-              keyboard.keyboardShown
+            keyboard.keyboardShown
               ? styles.safeAreaViewWithKeyboard
               : styles.safeAreaView
           }
@@ -58,7 +58,7 @@ const Screen = ({
   layout,
   bounces = true,
 }: // ...rest
-  Props): React.ReactElement => {
+Props): React.ReactElement => {
   return (
     <KeyboardAvoidingView
       enabled={!noKeyboard}

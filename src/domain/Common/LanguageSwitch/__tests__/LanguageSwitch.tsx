@@ -16,82 +16,79 @@ import i18n from 'i18next';
 // a bug which make the modal (and it's children) always visible in the test tree
 // this is a hack which fix this issue
 jest.mock('react-native/Libraries/Modal/Modal', () => {
-	const Modal = jest.requireActual('react-native/Libraries/Modal/Modal');
-	// @ts-ignore
-	return props => <Modal {...props} />;
+  const Modal = jest.requireActual('react-native/Libraries/Modal/Modal');
+  // @ts-ignore
+  return props => <Modal {...props} />;
 });
 
 beforeEach(() => {
-	// https://github.com/facebook/jest/issues/6434#issuecomment-525576660
-	jest.useFakeTimers();
+  // https://github.com/facebook/jest/issues/6434#issuecomment-525576660
+  jest.useFakeTimers();
 });
 
 it('renders correctly', () => {
-	const {
-		queryByText,
-		toJSON,
-	} = render(<LanguageSwitch />);
+  const { queryByText, toJSON } = render(<LanguageSwitch />);
 
-	expect(toJSON()).toMatchSnapshot();
-	expect(queryByText(/English/i)).toBeTruthy();
-	expect(queryByText(/FR/i)).not.toBeTruthy();
+  expect(toJSON()).toMatchSnapshot();
+  expect(queryByText(/English/i)).toBeTruthy();
+  expect(queryByText(/FR/i)).not.toBeTruthy();
 });
 
 it('renders correct languages when open', async () => {
-	const {
-		getByTestId,
-		queryByTestId,
-		getByText,
-		queryByText,
-		toJSON,
-		debug,
-	} = render(<LanguageSwitch />);
+  const {
+    getByTestId,
+    queryByTestId,
+    getByText,
+    queryByText,
+    toJSON,
+    debug,
+  } = render(<LanguageSwitch />);
 
-	// FR language should be hidden first.
-	expect(queryByText(/FR/i)).not.toBeTruthy();
-	// Press on the language switch.
-	fireEvent.press(getByTestId('languageSwitchButton'));
-	// FR language present in the dropdown.
-	expect(queryByText(/FR/i)).toBeTruthy();
-	expect(queryByText(/ES/i)).toBeTruthy();
-	expect(queryByText(/PT/i)).toBeTruthy();
-	expect(queryByText(/\bEN\b/i)).toBeTruthy();
-	expect(queryByTestId(/selected-fr/i)).not.toBeTruthy();
-	expect(queryByTestId(/selected-en/i)).toBeTruthy();
-	expect(toJSON()).toMatchSnapshot();
+  // FR language should be hidden first.
+  expect(queryByText(/FR/i)).not.toBeTruthy();
+  // Press on the language switch.
+  fireEvent.press(getByTestId('languageSwitchButton'));
+  // FR language present in the dropdown.
+  expect(queryByText(/FR/i)).toBeTruthy();
+  expect(queryByText(/ES/i)).toBeTruthy();
+  expect(queryByText(/PT/i)).toBeTruthy();
+  expect(queryByText(/\bEN\b/i)).toBeTruthy();
+  expect(queryByTestId(/selected-fr/i)).not.toBeTruthy();
+  expect(queryByTestId(/selected-en/i)).toBeTruthy();
+  expect(toJSON()).toMatchSnapshot();
 });
 
 it('select new language when pressed', async () => {
-	const {
-		getByTestId,
-		queryByTestId,
-		getByText,
-		queryByText,
-		toJSON,
-		debug,
-	} = render(
-		<View>
-			<Text>{i18n.t('welcome:botMessageTitle')}</Text>
-			<LanguageSwitch />
-		</View>);
+  const {
+    getByTestId,
+    queryByTestId,
+    getByText,
+    queryByText,
+    toJSON,
+    debug,
+  } = render(
+    <View>
+      <Text>{i18n.t('welcome:botMessageTitle')}</Text>
+      <LanguageSwitch />
+    </View>,
+  );
 
-
-	// FR language should be hidden first.
-	expect(queryByText(/French/i)).not.toBeTruthy();
-	// Check current string output.
-	expect(queryByText(/Welcome to Voke!/i)).toBeTruthy();
-	// Press on the language switch.
-	fireEvent.press(getByTestId('languageSwitchButton'));
-	// FR language present in the dropdown.
-	fireEvent.press(getByText(/FR/i));
-	// Dropdown should disappear.
-	expect(queryByText(/ES/i)).not.toBeTruthy();
-	// Current language label changed.
-	expect(queryByText(/French/i)).toBeTruthy();
-	// Check output change in i18n.
-	expect(i18n.t('welcome:botMessageTitle') === 'Bienvenue à Voke!');
-	// Check checkmark inside of the modal.
-	fireEvent.press(getByTestId('languageSwitchButton'));
-	expect(queryByTestId(/selected-en/i)).not.toBeTruthy();
-	expect(queryByTestId(/selected-fr/i)).toBeTruthy();
+  // FR language should be hidden first.
+  expect(queryByText(/French/i)).not.toBeTruthy();
+  // Check current string output.
+  expect(queryByText(/Welcome to Voke!/i)).toBeTruthy();
+  // Press on the language switch.
+  fireEvent.press(getByTestId('languageSwitchButton'));
+  // FR language present in the dropdown.
+  fireEvent.press(getByText(/FR/i));
+  // Dropdown should disappear.
+  expect(queryByText(/ES/i)).not.toBeTruthy();
+  // Current language label changed.
+  expect(queryByText(/French/i)).toBeTruthy();
+  // Check output change in i18n.
+  expect(i18n.t('welcome:botMessageTitle') === 'Bienvenue à Voke!');
+  // Check checkmark inside of the modal.
+  fireEvent.press(getByTestId('languageSwitchButton'));
+  expect(queryByTestId(/selected-en/i)).not.toBeTruthy();
+  expect(queryByTestId(/selected-fr/i)).toBeTruthy();
 });

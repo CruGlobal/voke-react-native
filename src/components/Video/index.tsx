@@ -372,7 +372,9 @@ function Video({
         <RNVideo
           ref={arclightVideo}
           source={{
-            uri: item.hls.replace('http:', 'https:') || item.url.replace('http:', 'https:'),
+            uri:
+              item.hls.replace('http:', 'https:') ||
+              item.url.replace('http:', 'https:'),
             type: item.hls ? 'm3u8' : undefined,
           }}
           onLoad={e => {

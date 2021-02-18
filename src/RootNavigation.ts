@@ -23,7 +23,7 @@ export function reset(...args) {
   navigationRef.current?.dispatch(CommonActions.reset(...args));
 }
 
-export const insertBeforeLast = (routeName, params) => (state) => {
+export const insertBeforeLast = (routeName, params) => state => {
   const routes = [
     ...state.routes.slice(0, -1),
     { name: routeName, params },

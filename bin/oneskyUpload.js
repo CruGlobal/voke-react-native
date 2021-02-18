@@ -57,7 +57,7 @@ async function uploadTranslations() {
   try {
     // console.log( options );
     const result = await oneSky.postFile(options);
-    console.log( result );
+    console.log(result);
     console.log('Successfully Uploaded.');
   } catch (error) {
     console.log('Error uploading to OneSky:');
