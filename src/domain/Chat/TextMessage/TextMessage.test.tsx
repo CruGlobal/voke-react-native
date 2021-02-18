@@ -14,10 +14,6 @@ it('renders correctly', () => {
       messenger={messengerMock}
       isBlured={false}
       isSharedAnswer={false}
-      contextActive={false}
-      setContextActive={(): void => {
-        // void.
-      }}
       canReport={true}
       onReport={(): void => {
         // void.
@@ -40,7 +36,7 @@ it('renders correctly', () => {
 });
 
 it('context mode renders correctly', () => {
-  const { queryByText, queryByTestId, toJSON } = render(
+  const { queryByText, queryByTestId, getByTestId, toJSON } = render(
     <Host>
       <TextMessage
         user={mockUser}
@@ -48,10 +44,6 @@ it('context mode renders correctly', () => {
         messenger={messengerMock}
         isBlured={false}
         isSharedAnswer={false}
-        contextActive={true}
-        setContextActive={(): void => {
-          // void.
-        }}
         canReport={true}
         onReport={(): void => {
           // void.
@@ -65,7 +57,9 @@ it('context mode renders correctly', () => {
       />
     </Host>,
   );
-
+  // Activate message context mode.
+  fireEvent(getByTestId('messagePressArea'), 'onLongPress');
+  // Do all the checks.
   expect(toJSON()).toMatchSnapshot();
   expect(queryByText(/John Doe/i)).toBeTruthy();
   expect(queryByText(/Test message content/i)).toBeTruthy();
@@ -83,10 +77,6 @@ it('reactions calculated correctly', () => {
       messenger={messengerMock}
       isBlured={false}
       isSharedAnswer={false}
-      contextActive={false}
-      setContextActive={(): void => {
-        // void.
-      }}
       canReport={true}
       onReport={(): void => {
         // void.
@@ -107,7 +97,6 @@ it('reactions calculated correctly', () => {
 });
 
 it('emit events correctly', () => {
-  const onContextChange = jest.fn();
   const onReport = jest.fn();
   const onCopy = jest.fn();
   const onReaction = jest.fn();
@@ -119,10 +108,6 @@ it('emit events correctly', () => {
         messenger={messengerMock}
         isBlured={false}
         isSharedAnswer={false}
-        contextActive={true}
-        setContextActive={(): void => {
-          onContextChange();
-        }}
         canReport={true}
         onReport={onReport}
         onCopy={onCopy}
@@ -132,25 +117,28 @@ it('emit events correctly', () => {
       />
     </Host>,
   );
-
+  // Activate context mode.
   fireEvent(getByTestId('messagePressArea'), 'onLongPress');
-  expect(onContextChange).toHaveBeenCalled(); // Close modal.
   expect(queryByTestId('reactionsPopup')).toBeTruthy();
 
   fireEvent(getByTestId('reaction-1'), 'onPressIn');
   expect(onReaction).toHaveBeenCalled();
-  expect(onContextChange).toHaveBeenCalled(); // Close modal.
+  expect(queryByTestId('reactionsPopup')).not.toBeTruthy(); // Context mode close.
 
   fireEvent.press(getByTestId('reactionPill-1'));
   expect(onReaction).toHaveBeenCalled();
 
+  // Open context mode again.
+  fireEvent(getByTestId('messagePressArea'), 'onLongPress');
   fireEvent.press(getByTestId('report'));
   expect(onReport).toHaveBeenCalled();
-  expect(onContextChange).toHaveBeenCalled(); // Close modal.
+  expect(queryByTestId('report')).not.toBeTruthy(); // Context mode close.
 
+  // Open context mode again.
+  fireEvent(getByTestId('messagePressArea'), 'onLongPress');
   fireEvent.press(getByTestId('copy'));
   expect(onCopy).toHaveBeenCalled();
-  expect(onContextChange).toHaveBeenCalled(); // Close modal.
+  expect(queryByTestId('copy')).not.toBeTruthy(); // Context mode close.
 });
 
 it('emit reaction pill events correctly', () => {
@@ -163,10 +151,6 @@ it('emit reaction pill events correctly', () => {
         messenger={messengerMock}
         isBlured={false}
         isSharedAnswer={false}
-        contextActive={false}
-        setContextActive={(): void => {
-          // void
-        }}
         canReport={true}
         onReport={(): void => {
           // void

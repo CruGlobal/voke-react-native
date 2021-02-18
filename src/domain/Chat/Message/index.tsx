@@ -25,7 +25,6 @@ const Message = (props: Props): React.ReactElement => {
 
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const [contextActive, setContextActive] = useState(false);
   const isSharedAnswer = item?.metadata?.vokebot_action === 'share_answers';
   // Current User:
   const user = useCurrentUser();
@@ -107,10 +106,6 @@ const Message = (props: Props): React.ReactElement => {
         isBlured={isBlured}
         messenger={messenger}
         isSharedAnswer={isSharedAnswer}
-        contextActive={contextActive}
-        setContextActive={(newState): void => {
-          setContextActive(newState);
-        }}
         canReport={showMessageReporting}
         onReport={(): void => {
           // Prevent reporting the group leader.
@@ -127,10 +122,8 @@ const Message = (props: Props): React.ReactElement => {
               t('reportModal:reportingLeaderBody'),
             );
           }
-          setContextActive(false);
         }}
         onCopy={(): void => {
-          setContextActive(false);
           Clipboard.setString(item?.content);
           dispatch(toastAction(t('copied'), 'short'));
         }}
@@ -142,7 +135,6 @@ const Message = (props: Props): React.ReactElement => {
               conversationId: item.conversation_id,
             }),
           );
-          setContextActive(false);
         }}
       />
     );

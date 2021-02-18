@@ -55,7 +55,6 @@ function AdventureStepMessage({
   const dispatch = useDispatch();
   const user = useCurrentUser();
   const [answerPosY, setAnswerPosY] = useState(0);
-  const [contextActive, setContextActive] = useState(false);
   const isAndroid = Platform.OS === 'android';
 
   const isMyMessage = item?.messenger_id === user.id;
