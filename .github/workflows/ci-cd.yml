@@ -7,44 +7,50 @@ on:
     branches: [develop, master]
 
 jobs:
-  # test:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@v2
-  #       with:
-  #         node-version: 12
-  #     - name: Configure git
-  #       run: git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
-  #     - uses: bahmutov/npm-install@v1
-  #     - name: 🧪 Test
-  #       run: npm run test --ci
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+      - name: 🗝 Configure GitHub login
+        run: echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
+        env:
+          CI_USER_TOKEN: ${{ secrets.CI_USER_TOKEN }}
+      - uses: bahmutov/npm-install@v1
+      - name: 🧪 Test
+        run: npm run test --ci
 
-  # eslint:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@v2
-  #       with:
-  #         node-version: 12
-  #     - name: Configure git
-  #       run: git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
-  #     - uses: bahmutov/npm-install@v1
-  #     - name: 💨 ESLint
-  #       run: npm run lint
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+      - name: 🗝 Configure GitHub login
+        run: echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
+        env:
+          CI_USER_TOKEN: ${{ secrets.CI_USER_TOKEN }}
+      - uses: bahmutov/npm-install@v1
+      - name: 💨 ESLint
+        run: npm run lint
 
-  # typescript:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@v2
-  #       with:
-  #         node-version: 12
-  #     - name: Configure git
-  #       run: git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
-  #     - uses: bahmutov/npm-install@v1
-  #     - name: ✅ TypeScript lint
-  #       run: npm run lint:ts
+  typescript:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+      - name: 🗝 Configure GitHub login
+        run: echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
+        env:
+          CI_USER_TOKEN: ${{ secrets.CI_USER_TOKEN }}
+      - uses: bahmutov/npm-install@v1
+      - name: ✅ TypeScript lint
+        run: npm run lint:ts
 
   prettier:
     runs-on: ubuntu-latest
@@ -53,8 +59,10 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 12
-      - name: Configure git
-        run: git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
+      - name: 🗝 Configure GitHub login
+        run: echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
+        env:
+          CI_USER_TOKEN: ${{ secrets.CI_USER_TOKEN }}
       - uses: bahmutov/npm-install@v1
       - name: 💅 Prettier Check
         run: npm run prettier
@@ -68,8 +76,10 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 12
-      - name: Configure git
-        run: git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
+      - name: 🗝 Configure GitHub login
+        run: echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
+        env:
+          CI_USER_TOKEN: ${{ secrets.CI_USER_TOKEN }}
       - uses: bahmutov/npm-install@v1
       - name: ⛅🔼 OneSky Upload
         env:
@@ -86,8 +96,10 @@ jobs:
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 12
-  #     - name: Configure git
-  #       run: git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
+  #     - name: 🗝 Configure GitHub login
+  #       run: echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
+  #       env:
+  #         CI_USER_TOKEN: ${{ secrets.CI_USER_TOKEN }}
   #     - uses: bahmutov/npm-install@v1
   #     - name: ⛅ OneSky Download
   #       env:
@@ -118,8 +130,10 @@ jobs:
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 12
-  #     - name: Configure git
-  #       run: git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
+  #     - name: 🗝 Configure GitHub login
+  #       run: echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
+  #       env:
+  #         CI_USER_TOKEN: ${{ secrets.CI_USER_TOKEN }}
   #     - uses: bahmutov/npm-install@v1
   #     - name: ⛅ OneSky Download
   #       env:
@@ -149,8 +163,10 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 12
-      - name: Configure git
-        run: git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
+      - name: 🗝 Configure GitHub login
+        run: echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
+        env:
+          CI_USER_TOKEN: ${{ secrets.CI_USER_TOKEN }}
       - uses: bahmutov/npm-install@v1
       - name: ⛅ OneSky Download
         env:
@@ -161,10 +177,6 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7
-      - name: 🗝 Configure GitHub login
-        run: echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
-        env:
-          CI_USER_TOKEN: ${{ secrets.CI_USER_TOKEN }}
       - name: 🏗️🚀🍏 Build and push to Testflight
         uses: maierj/fastlane-action@v2.0.0
         with:
@@ -187,8 +199,10 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 12
-      - name: Configure git
-        run: git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
+      - name: 🗝 Configure GitHub login
+        run: echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
+        env:
+          CI_USER_TOKEN: ${{ secrets.CI_USER_TOKEN }}
       - uses: bahmutov/npm-install@v1
       - name: ⛅ OneSky Download
         env:
