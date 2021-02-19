@@ -822,9 +822,9 @@ SPEC CHECKSUMS:
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   CocoaLibEvent: 2fab71b8bd46dd33ddb959f7928ec5909f838e3f
-  DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
+  DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   FBLazyVector: 9cafb8520d334de0720e1119b41db4cc16d3fbc9
-  FBReactNativeSpec: f82f042ea8674fb7b6a14b882a168aa31f4a36c2
+  FBReactNativeSpec: bacf05d4ca668f6dc1e64cfac2815f2eb0267155
   FBSDKCoreKit: 4afd6ff53d8133a433dbcda44451c9498f8c6ce4
   FBSDKLoginKit: 7181765f2524d7ebf82d9629066c8e6caafc99d0
   FBSDKShareKit: 0c0d51b3af47075a85ed9bea0e28b2fc70e3594b
@@ -845,7 +845,7 @@ SPEC CHECKSUMS:
   Flipper-PeerTalk: 116d8f857dc6ef55c7a5a75ea3ceaafe878aadc9
   Flipper-RSocket: a3acb8812d6adf127deb0a5edae2793b97e6b641
   FlipperKit: ab353d41aea8aae2ea6daaf813e67496642f3d7d
-  glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
+  glog: 1f3da668190260b06b429bb211bfbee5cd790c28
   GoogleAppMeasurement: 65a1071e5f52f63ab03d0a4d814a54fd762d885a
   GoogleDataTransport: 1024b1a4dfbd7a0e92cb20d7e0a6f1fb66b449a4
   GoogleUtilities: 31c5b01f978a70c6cff2afc6272b3f1921614b43
@@ -919,6 +919,6 @@ SPEC CHECKSUMS:
   Yoga: 31313df467e58b5b53f26a0319fa100159c79fa3
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 394cc2f1f19c4e912b3a22a8d208e7734a44fcec
+PODFILE CHECKSUM: da687292817e500cbc89dcffa28da182dc984e63
 
 COCOAPODS: 1.10.1
