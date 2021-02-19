@@ -1,0 +1,222 @@
+env:
+  global:
+    # CI_USER_TOKEN={token}
+    - secure: RSqYn5LantFyIMOHDiMzylSeRb/yPyJaBARBKWhiQjXawIE+5oTshYEKYYzVZMP6t7wfmqciedM76lQ2JXJV5aGTTeHQN7ULxUpmjq48KQXlecIPwvXV2O4Qe12+RoYKU51Vr8xVBaJQq6L2xH55VCIDsiC1UKD2Jskxvv67J0uIc2GZuzDt/TqTD5ZXnScdN+B8v7lj4NzQl+I5SG/jDg//cSbQ5fjbQlXwGBW+mW0uOoHcEBuTK+JzkY6vz4O69HsIMrtGNsRwzzaASjBiXIBBQS7AjV4aDY+ujuuC6fI75iRvtIC9AcpRu+WNjKWIo+GzLucABzM1uWhjvsELzUXyFgFCMhIgmBFXBlT8Wgckdb443imnNTL632dO0WLByxgyUnpw7PRNxtyLrZI/ovc/AbJQlBdyC9fmpMFqC6SObOw+OM52FvRIaNw/k72688CAMHMkQOTmR8rZNj7/REZrcpXcNhV450PUcFJnwJFvPJePMlLjvH/FH4/9jgwKI0GJW+3XE3RZ8kvIgkjLUNlwOqZPhVi5KDRy8r9LU1GpLizE0vfmxNbfr4XqKtm1TdAv4mvCp7CLdUvWPhi2Lp4wtMaCQQT9csQw9kuC/GQT7WJqz0+iIxnT+CI+fMdkuPJyEmTs0RtGEKW+/Ia4gB12ysArOEdNNnXbSb2JzUw=
+    # FASTLANE_PASSWORD={password}
+    - secure: j9de5vNOqMIohC52pIWfzyDNjkpgqc5725ahpfC1AyB+LTPnJS1rsY2E3Y3HReQyg1mRDrwF2gI080AW37WvNzd4gll28qs5yu6ySc5jUOnls8o5ZIkqEmY7Ma/hAnKw5K9BinqlMjEudtpQsKVsdgEmOfyB4X+bXO1wcXECqPGc6hWJeIxakIFMcBEuFbo4BSE94tVPYR27qyxT+e0Cxt3+MCAlQ6++gCuK07mrNlcYbvOieR6kz3bjF4K4jd1RNtqXUXiWEL03N9gDDY/GSKQZg/xkDRlld9idzTLvsBOndDIL8CtNwrPvjP6HKj74QTQ3nH+//U2Fkx1gG2WXtAWAdWqFwkMZE3jc3/j/kV5dy9anNxzLdC6DDtzZ1BVtptziLqcmwcvuHkpluo11zsvluYw/daHa5NYgM0HlH5A3aTaJ2Lz4S8tjZLpGhK808WmLvyfpII9uISWyCOqXxna+5/IIjYWD1fZNAaY2potJinWe5zVJ9wYzYt1VWYN7D8fOHywLknux2XGUE1wC7QLRO63AxpTRim4j6UkAlyh5RjY8NUTqryO+E3lLjUsyzIOKEnuq9/RLLkyd/Ua+ecVjjGqIzXw/i6RrtpJ/wTsXLcAj30hNBQOmmSKzj/mAHmsreT7oqgqW0/6u9HWLNV4BWPZLRu/ozu1Kc6vE58A=
+    # MATCH_PASSWORD={password}
+    - secure: VXh9XD8fKZ5/uuxF+2Vj8thBWTptCi1sOp1H7KPN+D69lXK+GxK3FvFeA9hfHCGLuTN4JJ3RL3gDVD4xZVNHs3PZ3UO/03583hGXPvh3pASrnQJqJtiSfgODMcRkmdL4dCAtgtQCVA67YODYny1J58HiRECyhcePTtxY8L7QweamucUcpwWYDt9G2biLXEk1nY2494+izPTmUvuYI4XxYv5sHOIMVSg1tOe1K2wI4IX/KBNzuexdUI8oPzSgSbf9V9xQ8lBHuhQJbUqSPLnIYq/VJcjBN0Rc8rmX8B8k9zOo9LkIXs98HV2rmAYX6PJaw2YqZhVpUHGRpexQ07DJwYilmXuyN425ZjXE6+L/SRNSd9IMtR/kkguAKOaNRXYThbB1zEABXIz5BtYA/ks/mfeoEIbyZrSQlY9PnMgp3oi/E5kuQOKYB53HfWucIsMHZbFaKpqQkJw7m1dBIzp9lMf/Jz7LAlLQNBxwbEwRx+fc833DaOqLyD/rgbXsmWPqYiWiuatNd5Wth0ZF5OcAIlBjReEt5ZCNa53zGUWyQzQunM6YocRfeM/sscBDdD8sZUyBrXcqHzvokI7x3vmWNIS6at/5w78yOqmDf4OWSTROuJcj10WLp2e4hfJsiM8DrRcv02OwifOIppiv7vnfBv7WigwQLQjYq6sRjOLLbHs=
+    # GOOGLE_PLAY_API_FILE_KEY={key}
+    - secure: 'mZjJVrfhszHxUKzDktlK5x8rRAoiytGL9ibIOpa18QXnEPOJqwHqBtuOvlXl/ODZq3OGJhIBzl7pFf+M0fVFQ5F2NaLDpAUXyi4OGBrDOUefZ6cdEi3k3+hBnNNz9UaU5DirihWHQyKi8wFrJZmCNMkZr/rr1jIOzQuXPPP97cTl4N8I81+rzhwB6FrR+AGIs+qotZCaJLfsAYzKgShqVKmwuDsRWi0LU0zF8Y/DAqae1RsKqxrLxCAh4FPx3MO6493cn80ijGGtJ9KKIKrsfJNZfaTPhjbZ4s00zp3LmI++1wbuKAU22BTBrftCbNw0b/rtGnYVqZ1ZnaiZrwocEBcyVUaZarLDWzrOyuhFhKP/u/vYUCfA8qzu32omBJCNzg+fvEPoNClOLAE0y4XNaCu9JdSy8+uFGGH2TTZzKGgCGhb5Lt5ltgbFKHnbcxDY/pgsNPN5GWuNlz3hMqptgodVI8O63ZwwGFHX6AT8wTPGYi0drkshXTeZfHVDWQ6egGZQiVY9nhRMPufPdjIP792qQBjIvycdEV/zkIkPXRdoTpX1GRk1DyPNexD8kShvpBg07JO69/eHPVll2TEp040e2spQxUvx6wYvc3K4ubIojtYEVj8qayX1oBJj3RW72WjVczOZy5ctBHzdt+ktbEF0uj5sUpoZwYMiyXKWr28='
+    # GOOGLE_PLAY_API_FILE_IV={key}
+    - secure: 'QNjuMCLUCF/MrZ+YArDBcDqhdaqEXlNW8XpuDf0B55uKHn0WbONYJEAWr5xJrXEBW7o5S66IzW041GHWpEfFSNFslRh9gBtiz+MUXnwpbvjsw8j1aLIkp/FP8FGbLgn0xlrRW8Ybe8JVSXL99jTrtLsycM5Q7B7QdRFf6ix4PGxaDxKEtJeeM8eVeMN/OcO5iQKLLBMB+R4qd2tpL6cBu0NztnHSLilbfk1fZhWGG5VHP4347sBh0Fqm6gOrd/twDBO41707BmIgo1di/FSnV38hrCj7rbHBvyjvH+ehd6eba24ICEG7OyklwPzAoSQSjiotiGinbtY6vu3yGDgx9dNiyane1+PvfmxfGe05Dzko7M+NXdtqFCPkYZBbmM2+3gA4ssq3F6MsNHDxzoaDfo3e2nNFjk8URq9/6sZxbweMXUOw5Ntn13Zwq65O5gLRCooLJmmwxl478OxoRI1GkR1ScSCKpBlo7ycaWEF2Kw5RElzheiZ5gPYx/Tib0drG7t/4yLEfzsNoI5dZj8ZJuXZFPgkKepGHj4E2IJ6/MjeQrSCJMn1GDFEIY/lRWJbf+KKIpN+MfHRQz+xvevzOIOsu1LgB/eZswUf2vo+8SXGXgKd/rO4V+sVysfcswyxieMeWcH5DHPtAlvaYryT3lM/2cEDG/2+BxgcbG0o16DI='
+    # GOOGLE_PLAY_UPLOAD_KEY_PASSWORD={password}
+    - secure: Bvy6+b6u+avJDACeOBEht5mXUn11GUHk96XMpFQfu47RXTtl398FMYL9phrxJRgsAkHVr0LcmwjJa5AfQupLcnCIIXhaJLyFn+vegzn82XelCvWT26JdXineH1pVIYq6vRS1XFmgvaf/ohRuZQ/epVq563AsRWr/CbNmRMEvo6/oSglYDnSdommKuOngd4VoDMU0dyBB55tnOJkWZlDXZT6ObsskzNUyLNJVjZlPTCIyTY9Tf14Pu0/lksUv+JGCpTUq20M866veUQASjAo3xXFUspJ8lu+P/LR6Gt9NUBh40YwwTlu7NZxLm1fLX29i5md+zU0yuDNAJuY1wrROpT5h1iQRo1K/Ap+m1wFTYQx4y7zj1+Nz2VLgcIbl1V8DFwJ9XwbG3pHDuqkry8vnSf/ieQtmVnwGV2OzSO2jUvLqwKyGaCODwy+fqNv2ABbbc74bZouwQNCRQDjGTWol88QpV/W7dskAJd9U7QctBXA/EpxVgo3b/blZ9awoh7m8C1T0is491r0Pq183eb9ylJeIjPQUgVxZl5ZiWHxaRu1CGjI+LrVdnT2xoWEXc0mgRIdUhzHyZQITzkRpe55rRtbGymQJHdR6hrEKMkI5GEgCmABkopJDFRZIKML7fNki4HLObs/UKgB2ZwqSqDysHFqDt9t8UrEZEDC8+x0J0GE=
+    # OneSky Configs:
+    - ONESKY_ENABLED_LOCALIZATIONS: 'en, pt-BR, es-419, fr-CA'
+    - ONESKY_FILENAME: strings.json
+    - CRU_SCHEME: 'Voke'
+    # - ONESKY_PUBLIC_KEY:
+    - secure: 'eFrV6K6GOxVw0fAcCN6tvaqMj9OHzBGHm1iDm6KewZdeM897dtc7TmcRZQok6PrETTOfwCCb3Cr/xPoP93k1ICytsE0bNbqnB5iW4Yrs6aah1kiwVWGxULYejPt2MKnaDV+TgCVlDbGkBzLv/xmHkk3LOSfotMzUYhaa8HmmtS8A03mI2aYllmOuS+Jm4IzNONt+8b02V+fAreZqb609I7lKFPp73dBaV5LtCwZcLt/9Xr8uTVTHFuvFqHKoBu06obhxk2y/TrtEXPULcnskprGFDVXdjKpDnBStHeCMfbrrBz29En5RPrnTLupck49AozowIg54UHaA7zb5CSnrfpA6x+fhLVkE56g2ay4oqhIZm16Q5lkXViaeQbltaj2fam3FxtmW1+VD8omvLE23QCduIqouXlWMULaPyJX7yFAgfPrLQAJ4bjagL8ASlFlCwj8J+C7N5rbIUMGwJAx9Vh1a0fePanAae7NjojgxDdB3CYj/jw292sXc5TIi1g0KWh1D0JhOdkz4fIMi1Hpe2+N4vkXiPKXygc03NeX6X0HZwz++rKQWBOfIG31n+sJzMU7Pdb3p6psU+6JKpHYOuclcVSpNO5yTxz8g6Nt1Oi+EgEnnrCu/JR40uXQBl3BpwhNxojtTRzkTaMw8DMZ54ELPP1TCjNaFGSrq0R/QaZM='
+    # - ONESKY_SECRET_KEY:
+    - secure: 'cPzINq9XFbwsDl4jqXYUzyw3vbCv8w7pRzIk2L7A2wTdlxMD85TRV5XiFOZoa0yGCI2k9ArQBhyRHwG0U+wIqZ7aK9UxgJPsCBQHUdroMfGMXqiIA2mkvU+Qq6Q9j6mVfgu8fBCDp38MtS/FhVWlWrzAJZSBzmBAi+Pz3viBROQMsX5+Qhhoehbns5XExtQnBrXQMDyVjnuJ1w1mLEBLTDFNlv1q+r2SnWJ1uRmQo0Loy1YHH526fJA+QfMi5cvICqExMs9v2/4WRMOTi4ydjwHAkThnIT2Gv9xysDay8Qj84UzvzSeIlENoE8GNYQqGCRuxioYOgUPumGS8VxUEI6BHe5+4GoKy0vjoZ782SCI2JAkA4KCgLzrWNUMiqmTftqJgymrw/t0nm20ZdwWtIHDBdyptLKv8GbSLzAqs+l6P8gT7AauLNuY2Rg3GcHdfpzazzBQ/nba02uTmaPim8Bkx8dJ0cWLHpVg82wSdaHnSVyTFYwHN25/1/fjkiayeTksz0GfwfZxCplXQWNim7ZglIYj+EaJWsN9X9gyAKwRg8P0yCKcvZm0jj4aPSx87d14QDI93vaYu+25SyKA31uT71pv9R1AmNO5gkSgplUTXnZ4XqHNBkN26q9FepCMZdpkycqi1Vlbd5S4Mf66nGa+wdoap2zLjLuSR5lQ4oyk='
+    - ONESKY_PROJECT_ID: 363848
+
+branches:
+  only:
+    - develop
+    - master
+
+stages:
+  - test
+  - deploy
+
+jobs:
+  include:
+    # - name: 'JS lint, test, i18n, and Codepush'
+
+    #   language: node_js
+    #   node_js: '11'
+
+    #   before_install:
+    #   # Fix node file watchers issue https://github.com/gatsbyjs/gatsby/issues/11406#issuecomment-458769756
+    #   - echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+
+    #   before_script:
+    #   - echo "TRAVIS_COMMIT=$TRAVIS_COMMIT" >> ./.env.production
+    #   - |
+    #     if [ "$TRAVIS_BRANCH" == "master" ]; then
+    #       echo "Setting ENVFILE to .env.production"
+    #       export ENVFILE=.env.production
+    #     else
+    #       echo "Setting ENVFILE to .env.staging"
+    #       export ENVFILE=.env.staging
+    #     fi
+    #   script:
+    #   - yarn lint
+    #   - yarn lint:ts
+    #   - yarn prettier:check
+
+    #   cache:
+    #   - yarn
+
+    - name: 'Build iOS app'
+      stage: test
+      if: branch != master or type != push
+
+      language: objective-c
+      podfile: ios/Podfile
+      gemfile: ios/Gemfile
+      xcode_workspace: ios/Voke.xcworkspace
+      os: osx
+      osx_image: xcode12
+
+      before_install:
+        - npm install ios-sim -g
+        # - ios-sim showdevicetypes
+        # - ios-sim showsdks
+        # Pre-start iPhone simulator
+        # https://github.com/travis-ci/travis-ci/issues/6675
+        - ios-sim start --devicetypeid "com.apple.CoreSimulator.SimDeviceType.iPhone-8, 14.0"
+
+      install:
+        - npm install
+        # - npx react-native-fix-image
+        - echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
+        - gem install bundler:2.1.4
+        - (cd ios && bundler install)
+        - defaults write com.apple.dt.XCBuild IgnoreFileSystemDeviceInodeChanges -bool YES
+        - npx react-native-inhibit-warnings
+        - (cd ios && yes | rm -Rf Pods && ls && pod install)
+
+      after_failure:
+        # - cat ~/Library/Logs/gym
+        # - cat /Users/travis/Library/Logs/gym/Voke-Voke.log
+
+      script:
+        - (cd ios && travis_wait 70 fastlane ios cru_build_app)
+
+      cache:
+        - npm
+        - yarn
+        - cocoapods
+        - bundler
+        - directories:
+            - Pods
+            - $HOME/.cocoapods
+            - $HOME/Library/Caches/CocoaPods
+            - $HOME/Library/Developer/Xcode/DerivedData
+
+    - name: 'Upload Build to iOS Testflight'
+      stage: deploy
+      if: branch = master and type = push
+
+      language: objective-c
+      podfile: ios/Podfile
+      gemfile: ios/Gemfile
+      xcode_workspace: ios/Voke.xcworkspace
+      os: osx
+      osx_image: xcode12
+
+      install:
+        - npm install
+        - npx react-native-fix-image
+        - echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
+        - gem install bundler:2.1.4
+        - (cd ios && bundler install)
+        - defaults write com.apple.dt.XCBuild IgnoreFileSystemDeviceInodeChanges -bool YES
+        - (cd ios && yes | rm -Rf Pods && ls && pod install)
+
+      script:
+        - (cd ios && travis_wait 50 fastlane ios beta )
+
+      cache:
+        - npm
+        - cocoapods
+        - bundler
+        - directories:
+            - $HOME/Library/Developer/Xcode/DerivedData
+
+    - name: 'Build Android app'
+      stage: test
+      if: branch != master or type != push
+
+      language: android
+
+      before_install:
+        # Fix node file watchers issue https://github.com/gatsbyjs/gatsby/issues/11406#issuecomment-458769756
+        - echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+        - rvm install 2.6.5
+        - gem install bundler
+        - git fetch --unshallow
+        - curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+        - sudo apt-get install nodejs -y
+
+        # Accept Android SDK licenses so Android Gradle plugin can install dependencies.
+        - mkdir "$ANDROID_HOME/licenses" || true
+        - echo "8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
+        - echo "d56f5187479451eabf01fb78af6dfcb131a6481e" >> "$ANDROID_HOME/licenses/android-sdk-license"
+        - echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" >> "$ANDROID_HOME/licenses/android-sdk-license"
+
+      install:
+        - npm install
+        - npx jetify
+        - (cd android && bundle update --bundler && bundler install)
+
+      script:
+        - (cd android && fastlane android cru_build_app)
+
+      before_cache:
+        - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+        - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+      cache:
+        - npm
+        - bundler
+        - directories:
+            - $HOME/.android/build-cache
+            - $HOME/.gradle/caches/
+            - $HOME/.gradle/wrapper/
+
+    - name: 'Upload Build to Play Store Internal Test Channel'
+      stage: deploy
+      if: branch = master and type = push
+
+      language: android
+
+      before_install:
+        # Fix node file watchers issue https://github.com/gatsbyjs/gatsby/issues/11406#issuecomment-458769756
+        - echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+        - rvm install 2.6.5
+        - gem install bundler
+        - git fetch --unshallow
+        - openssl aes-256-cbc -K $GOOGLE_PLAY_API_FILE_KEY -iv $GOOGLE_PLAY_API_FILE_IV -in ./android/fastlane/GooglePlayAPI.enc -out ./android/fastlane/GooglePlayAPI.json -d
+        - curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+        - sudo apt-get install nodejs -y
+
+        # Accept Android SDK licenses so Android Gradle plugin can install dependencies.
+        - mkdir "$ANDROID_HOME/licenses" || true
+        - echo "8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
+        - echo "d56f5187479451eabf01fb78af6dfcb131a6481e" >> "$ANDROID_HOME/licenses/android-sdk-license"
+        - echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" >> "$ANDROID_HOME/licenses/android-sdk-license"
+
+      install:
+        - npm install
+        - npx jetify
+        - (cd android && bundle update --bundler && bundler install)
+
+      script:
+        - (cd android && fastlane android beta)
+
+      before_cache:
+        - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+        - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+      cache:
+        - npm
+        - bundler
+        - directories:
+            - $HOME/.android/build-cache
+            - $HOME/.gradle/caches/
+            - $HOME/.gradle/wrapper/
+
+notifications:
+  email: false
