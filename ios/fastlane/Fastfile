@@ -75,7 +75,7 @@ platform :ios do
       # BUILT_PRODUCTS_DIR=/a/b/c "${PODS_ROOT}/Target Support Files/Pods-${CRU_SCHEME}/Pods-${CRU_SCHEME}-resources.sh"
 
       fastlane_require 'xcodeproj'
-      project = Xcodeproj::Project.open("./#{ENV['CRU_XCODEPROJ']}")
+      project = Xcodeproj::Project.open("../#{ENV['CRU_XCODEPROJ']}")
       target = project.targets.select { |project_target| project_target.name == ENV['CRU_SCHEME'] }.first
       phase = target.shell_script_build_phases.select do |build_phase|
         build_phase&.name&.include?('Copy Pods Resources')
