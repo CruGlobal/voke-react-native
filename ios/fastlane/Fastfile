@@ -11,6 +11,7 @@ platform :ios do
     profile_name = options[:profile_name] || ENV['CRU_APPSTORE_PROFILE_NAME']
     type = options[:type] || 'appstore'
     export_method = options[:export_method] || 'app-store'
+    configuration = options[:configuration] || 'Release'
 
     cru_download_localizations if ENV['CRU_SKIP_LOCALIZATION_DOWNLOAD'].nil?
 
@@ -60,7 +61,7 @@ platform :ios do
     # !!! Path to the folder that you will cache on CI !!!
     ios_derived_data_path = File.expand_path('../.local_derived_data')
     base_cache_path = "#{ios_derived_data_path}/Build/Intermediates.noindex/ArchiveIntermediates/#{ENV['CRU_SCHEME']}"
-    cache_folder = File.expand_path("#{base_cache_path}/BuildProductsPath/Release-iphoneos")
+    cache_folder = File.expand_path("#{base_cache_path}/BuildProductsPath/#{configuration}-iphoneos")
 
     # Step 0) Check if cache exists
     ipa_path = ''
@@ -90,7 +91,7 @@ platform :ios do
         scheme: ENV['CRU_SCHEME'],
         clean: false,
         project: "./#{ENV['CRU_XCODEPROJ']}",
-        configuration: 'Release',
+        configuration: configuration,
         export_method: export_method,
         destination: 'generic/platform=iOS',
         export_options: {
@@ -115,8 +116,8 @@ platform :ios do
         scheme: ENV['CRU_SCHEME'],
         workspace: "./#{ENV['CRU_XCODEWORKSPACE']}",
         derived_data_path: ios_derived_data_path,
+        configuration: configuration,
         export_method: export_method,
-        configuration: 'Release',
         export_options: {
           provisioningProfiles: {
             ENV['CRU_APP_IDENTIFIER'] => profile_name
