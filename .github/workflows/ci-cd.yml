@@ -178,12 +178,16 @@ jobs:
           path: ios/Pods
           key: ${{ runner.os }}-pods-v1-${{ hashFiles('**/Podfile.lock') }}
           restore-keys: |
-            ${{ runner.os }}-pods-
+            ${{ runner.os }}-pods-v1-
       - name: Cache Derived Data
         uses: actions/cache@v2
         with:
           path: ios/.local_derived_data
-          key: ${{ runner.os }}-pods-derived-data-v1-${{ hashFiles('**/Podfile.lock') }}
+          key: ${{ runner.os }}-local-derived-data-v2-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-local-derived-data-v2-
+      - name: Touch all cache files
+        run: find ios/.local_derived_data -exec touch -t 2004210000 {} \; || true
       - name: 🏗️🚀🍏 Build and push to Testflight
         uses: maierj/fastlane-action@v2.0.0
         with:
