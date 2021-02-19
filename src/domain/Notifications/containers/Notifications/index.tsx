@@ -158,6 +158,7 @@ function Notifications() {
             )}
             data={currentNotifications}
             contentContainerStyle={{ paddingBottom: 120 }}
+            scrollIndicatorInsets={{ right: 1 }}
             // removeClippedSubviews={true} // vc-1022
             onRefresh={() => loadMore(true)}
             refreshing={isLoading}

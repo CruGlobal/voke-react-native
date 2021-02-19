@@ -84,7 +84,7 @@ function AdventureCode(): ReactElement {
           // to the group modal or Adventure steps screen.
           if (isGroup) {
             if (acceptedAdventureInvite?.messenger_journey_id) {
-              navigation.navigate('GroupModal', {
+              return navigation.navigate('GroupModal', {
                 adventureId: acceptedAdventureInvite.messenger_journey_id,
               });
             } else {
@@ -96,13 +96,13 @@ function AdventureCode(): ReactElement {
           } else {
             if (acceptedAdventureInvite?.messenger_journey_id) {
               // Go straight into Adventure.
-              navigation.navigate('AdventureActive', {
+              return navigation.navigate('AdventureActive', {
                 adventureId: acceptedAdventureInvite?.messenger_journey_id,
               });
             }
           }
           // Backup plan: Redirect to My Adventures screen.
-          navigation.navigate('LoggedInApp');
+          return navigation.navigate('LoggedInApp');
         }
       } catch (error) {
         dispatch(toastAction(t('signUp:invalidCode'), 'short'));

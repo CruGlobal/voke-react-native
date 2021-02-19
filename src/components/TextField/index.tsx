@@ -15,10 +15,20 @@ interface CustomProps extends TextInputProps {
 const TextField = forwardRef(
   // TODO: try to find an appropriate type for ref: any?
   (
-    { label, placeholder, value, error, ...restProps }: CustomProps,
+    { label, placeholder, value = '', error, ...restProps }: CustomProps,
     ref: any,
   ) => {
     const [focused, setFocused] = useState(false);
+
+    const flexibleFontSize = () => {
+      if (value.length < 20) {
+        return theme.fontSizes.xxl;
+      } else if (value.length < 29) {
+        return theme.fontSizes.xl;
+      } else {
+        return theme.fontSizes.l;
+      }
+    };
 
     return (
       <Flex direction="column" self="stretch" align="center">
@@ -49,8 +59,7 @@ const TextField = forwardRef(
               marginBottom: 0,
               height: 50,
               color: theme.colors.white,
-              fontSize:
-                value.length < 20 ? theme.fontSizes.xxl : theme.fontSizes.xl,
+              fontSize: flexibleFontSize(),
             },
             // st.bbOffBlue,
             // st.bbw1,

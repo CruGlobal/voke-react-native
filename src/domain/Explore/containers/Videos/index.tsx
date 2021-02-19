@@ -184,6 +184,7 @@ function VideoList() {
         })}
         style={[st.f1]}
         contentContainerStyle={[st.mv5, { paddingBottom: 120 }]}
+        scrollIndicatorInsets={{ right: 1 }}
         onRefresh={() => loadMore(true)}
         refreshing={isLoading}
         onEndReached={() => loadMore()}
@@ -196,6 +197,7 @@ function VideoList() {
                 width: '100%',
                 justifyContent: 'center',
               }}
+              scrollIndicatorInsets={{ right: 1 }}
               data={[
                 {
                   id: 'allVideos',
