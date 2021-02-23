@@ -109,7 +109,7 @@ const AccountSignIn: FunctionComponent<Props> = props => {
       } else if (e?.status === 403) {
         dispatch(userBlockedAction());
       } else if (e?.error_description) {
-        Alert.alert(e?.error_description);
+        Alert.alert(e.error_description);
       }
 
       setIsLoading(false);
