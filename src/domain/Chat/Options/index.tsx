@@ -22,7 +22,7 @@ const Options = ({
 }: Props): React.ReactElement => {
   return (
     <View style={styles.optionWrapper}>
-      {options.map(item => (
+      {options.map((item) => (
         <Pressable
           onPress={(): void => {
             if (!isDisabled) {

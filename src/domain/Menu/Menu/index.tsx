@@ -99,10 +99,10 @@ function Menu() {
             }
             if (link) {
               Linking.canOpenURL(link).then(
-                isSupported => {
+                (isSupported) => {
                   isSupported && Linking.openURL(link);
                 },
-                err => console.log('opening url', err),
+                (err) => console.log('opening url', err),
               );
             }
           }}
@@ -112,10 +112,10 @@ function Menu() {
           onSelect={() => {
             const link = CONSTANTS.WEB_URLS.INSTAGRAM;
             Linking.canOpenURL(link).then(
-              isSupported => {
+              (isSupported) => {
                 isSupported && Linking.openURL(link);
               },
-              err => console.log('error opening url', err),
+              (err) => console.log('error opening url', err),
             );
           }}
         />

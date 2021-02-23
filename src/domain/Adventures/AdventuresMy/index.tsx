@@ -82,7 +82,7 @@ const AdventuresMy = (): React.ReactElement => {
         {invitationsIds.length > 0 && (
           <>
             <Text style={styles.Heading}>{t('invitations')}</Text>
-            {invitationsIds.map(value =>
+            {invitationsIds.map((value) =>
               value ? <AdventureInvite inviteID={value} key={value} /> : <></>,
             )}
           </>

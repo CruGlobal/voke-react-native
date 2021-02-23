@@ -52,7 +52,7 @@ export const NAMESPACES = {
 export const createWebSocketMiddleware = ({ dispatch, getState }) => {
   // let ws: any = null;
 
-  return next => action => {
+  return (next) => (action) => {
     // Open WebSockets on STARTUP redux action.
     if (action.type === 'STARTUP' || action.type === 'SET_DEVICE') {
       // Check if we have websockets already defined and running in the memory.
@@ -111,7 +111,7 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
             };
             // Message received from the server.
             // Example: https://d.pr/i/IvhXzq
-            global.ws.onmessage = e => {
+            global.ws.onmessage = (e) => {
               const data = JSON.parse(e.data) || {};
               const type = data && data.type;
 
@@ -253,7 +253,7 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
               }
             };
 
-            global.ws.onerror = error => {
+            global.ws.onerror = (error) => {
               // an error occurred
               console.log('🛑 socket error\n', error.message);
               // throw error;
@@ -267,7 +267,7 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
               ); */
             };
 
-            global.ws.onclose = error => {
+            global.ws.onclose = (error) => {
               // connection closed
               console.log('🛑 socket closed\n', error.code, error.reason);
             };

@@ -31,7 +31,7 @@ const Flex = (props: FlexProps) => {
     ...rest
   } = props;
 
-  let styleObj: any = {};
+  const styleObj: any = {};
   if (value) styleObj.flex = value;
   if (direction) styleObj.flexDirection = direction;
   if (wrap) styleObj.flexWrap = wrap;

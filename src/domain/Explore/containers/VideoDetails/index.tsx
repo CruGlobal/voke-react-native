@@ -175,7 +175,7 @@ function VideoDetails(props: Props) {
               <Text style={[st.blue, st.fs16, st.mb6, st.semi]}>
                 {t('kickstarters')}
               </Text>
-              {item.questions.map(q => (
+              {item.questions.map((q) => (
                 <Flex key={q.id} direction="column">
                   <Text style={[st.darkGrey, st.fs14, st.mb7]}>
                     {q.content}

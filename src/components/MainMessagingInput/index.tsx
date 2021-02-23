@@ -55,11 +55,11 @@ function MainMessagingInput({ adventure, step, onFocus, ...rest }) {
         // blurOnSubmit={true}
         // onSubmitEditing={handleSendMessage}
         placeholder={t('chatHere')} // TODO: Translate it.
-        onChangeText={t => setText(t)}
+        onChangeText={(t) => setText(t)}
         value={text}
         placeholderTextColor={theme.colors.secondary}
         underlineColorAndroid={st.colors.transparent}
-        onContentSizeChange={event =>
+        onContentSizeChange={(event) =>
           setInputHeight(event.nativeEvent.contentSize.height + 20)
         }
         style={styles.input}

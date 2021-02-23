@@ -57,7 +57,7 @@ function AdventureName(props: any): ReactElement {
       name: '',
     },
     validationSchema: NameValidationSchema,
-    onSubmit: async values => {
+    onSubmit: async (values) => {
       Keyboard.dismiss();
       // Before sending a group name to the server
       // we need to check if user isn't a guest user.
@@ -223,7 +223,7 @@ function AdventureName(props: any): ReactElement {
       </Flex>
       <Modalize
         ref={modalizeRef}
-        contentRef={ref => {
+        contentRef={(ref) => {
           if (ref) {
             contentRef.current = ref;
           }
@@ -240,7 +240,7 @@ function AdventureName(props: any): ReactElement {
         modalStyle={{
           backgroundColor: theme.colors.primary,
         }}
-        onLayout={e => {
+        onLayout={(e) => {
           setModalHeight(e.layout.height);
         }}
       >

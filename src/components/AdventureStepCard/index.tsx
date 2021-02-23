@@ -77,12 +77,12 @@ function AdventureStepCard({
   let invitedUserName = '';
 
   const otherUser = messengers.find(
-    i => i.id !== userId && i.first_name !== 'VokeBot',
+    (i) => i.id !== userId && i.first_name !== 'VokeBot',
   );
 
   const allMessengers = adventure?.conversation?.messengers || [];
   const isLeader =
-    allMessengers.find(m => m.group_leader && m.id === userId) || false;
+    allMessengers.find((m) => m.group_leader && m.id === userId) || false;
 
   if (otherUser && otherUser.first_name) {
     invitedUserName = otherUser.first_name;

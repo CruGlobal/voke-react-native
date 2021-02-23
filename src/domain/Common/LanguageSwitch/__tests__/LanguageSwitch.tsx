@@ -2,15 +2,16 @@
  * @format
  */
 
-import 'react-native';
+import { Text, View } from 'react-native';
 import React from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react-native';
+
 // import { toHaveStyle } from '@testing-library/jest-native'; - causes TS error.
 // https://github.com/testing-library/jest-dom/issues/123
 import '@testing-library/jest-native';
-import LanguageSwitch from '../index';
-import { Text, View } from 'react-native';
 import i18n from 'i18next';
+
+import LanguageSwitch from '../index';
 
 // the modal component is automatically mocked by RN and apparently contains
 // a bug which make the modal (and it's children) always visible in the test tree
@@ -18,7 +19,7 @@ import i18n from 'i18next';
 jest.mock('react-native/Libraries/Modal/Modal', () => {
   const Modal = jest.requireActual('react-native/Libraries/Modal/Modal');
   // @ts-ignore
-  return props => <Modal {...props} />;
+  return (props) => <Modal {...props} />;
 });
 
 beforeEach(() => {

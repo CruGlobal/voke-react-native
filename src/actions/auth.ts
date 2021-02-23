@@ -64,11 +64,11 @@ export function updateMe(data) {
       data,
       authToken: getState().auth.authToken,
     }).then(
-      userData => {
+      (userData) => {
         // Update redux store with data received.
         return dispatch(setUser(userData));
       },
-      error => {
+      (error) => {
         console.log('🛑 Error while updating the user.', error);
         throw error;
       },
@@ -78,7 +78,7 @@ export function updateMe(data) {
 
 export function loginAction(authToken) {
   // const authToken = authData.access_token;
-  return async dispatch => {
+  return async (dispatch) => {
     await dispatch({ type: REDUX_ACTIONS.LOGIN, authToken });
   };
 }
@@ -129,7 +129,7 @@ export function checkCurrentLanguage() {
 
 // When app starts.
 export function startupAction() {
-  return async dispatch => {
+  return async (dispatch) => {
     await dispatch({
       type: REDUX_ACTIONS.STARTUP,
     });
@@ -213,7 +213,7 @@ export function wakeupAction() {
 // When app goes to background.
 export function sleepAction() {
   LOG('🌘 function sleepAction');
-  return async dispatch => {
+  return async (dispatch) => {
     // No need to close/reopen WebSocket connection anymore:
     // https://github.com/facebook/react-native/issues/26731
     // Not so fast! We need to close sockets to tell the backend to send
@@ -223,7 +223,7 @@ export function sleepAction() {
 }
 
 export function requestPremissions(askPermission = true) {
-  return async dispatch => {
+  return async (dispatch) => {
     await dispatch(permissionsAndNotifications(askPermission));
   };
 }
@@ -272,7 +272,7 @@ export function getMeAction() {
       ...ROUTES.GET_ME,
       authToken: getState().auth.authToken,
     }).then(
-      userData => {
+      (userData) => {
         // eslint-disable-next-line no-console
         console.log('👤 getMe > Updated user data:\n', userData);
         // Update redux store with data received.
@@ -283,7 +283,7 @@ export function getMeAction() {
 
         return me;
       },
-      error => {
+      (error) => {
         // eslint-disable-next-line no-console
         console.log('👤 getMe > Fetch error', error);
         throw error;
@@ -293,7 +293,7 @@ export function getMeAction() {
 }
 
 export function hasSeenSubscriptionModal(bool) {
-  return async dispatch => {
+  return async (dispatch) => {
     dispatch({ type: REDUX_ACTIONS.HAS_SEEN_SUBSCRIPTION_MODAL, bool });
   };
 }
@@ -314,7 +314,7 @@ export function facebookLoginAction(accessToken) {
       data,
       authToken: getState().auth.authToken,
     }).then(
-      authData => {
+      (authData) => {
         // eslint-disable-next-line no-console
         console.log('🚪🚶‍♂️Facebook loginResults:\n', authData);
         // Received login response do Logout/reset state.
@@ -324,7 +324,7 @@ export function facebookLoginAction(accessToken) {
         // After all download user details from server.
         return dispatch(getMeAction());
       },
-      error => {
+      (error) => {
         // eslint-disable-next-line no-console
         console.log('facebookLoginAction > Login error', error);
         throw error;
@@ -397,7 +397,7 @@ export async function facebookGetAccessToken() {
 }
 
 export function facebookLogin() {
-  return async dispatch => {
+  return async (dispatch) => {
     // 1. Request permission to use Facebook for Sign In.
     const fbPermissions = await facebookRequestPermissions();
     if (fbPermissions) {
@@ -459,13 +459,13 @@ export function appleLoginAction({
       data,
       authToken: getState().auth.authToken,
     }).then(
-      authData => {
+      (authData) => {
         LOG('🔑 Apple APPLE_SIGNIN results:\n', authData);
         logoutAction(); // Received login response reset local state (logout).
         dispatch(loginAction(authData.access_token)); // Add user data to state.
         return dispatch(getMeAction()); // Download user details from the server
       },
-      error => {
+      (error) => {
         LOG('🛑 appleLoginAction > Login error', error);
         return error;
       },
@@ -474,7 +474,7 @@ export function appleLoginAction({
 }
 
 export function appleSignIn() {
-  return async dispatch => {
+  return async (dispatch) => {
     // 1. - Performs login request
     const appleAuthRequestResponse = await appleAuth.performRequest({
       requestedOperation: appleAuth.Operation.LOGIN,
@@ -571,7 +571,7 @@ export function passwordResetAction(email) {
         data,
         authToken: getState().auth.authToken,
       }).then(
-        result => {
+        (result) => {
           // eslint-disable-next-line no-console
           console.log('🗝 Reset Password:\n', result);
           // Received login response do Logout/reset state.
@@ -581,7 +581,7 @@ export function passwordResetAction(email) {
           // After all download user details from server.
           return;
         },
-        error => {
+        (error) => {
           // eslint-disable-next-line no-console
           console.log('🛑 Login error', error);
           throw error;
@@ -620,7 +620,7 @@ export function userLogin(username, password) {
       data,
       authToken: getState().auth.authToken,
     }).then(
-      authData => {
+      (authData) => {
         // eslint-disable-next-line no-console
         console.log('🚪🚶‍♂️loginResults:\n', authData);
         // Received login response do Logout/reset state.
@@ -631,7 +631,7 @@ export function userLogin(username, password) {
         // After all download user details from server.
         return dispatch(getMeAction());
       },
-      error => {
+      (error) => {
         // eslint-disable-next-line no-console
         console.log('🛑 Login error', error);
         throw error;
@@ -661,7 +661,7 @@ export function createAccount(user) {
       authToken: getState().auth.authToken,
       description: 'Request CREATE_ACCOUNT',
     }).then(
-      userData => {
+      (userData) => {
         // eslint-disable-next-line no-console
         console.log('👤 createAccount \n\n', userData);
         // Received login response do Logout/reset state.
@@ -669,7 +669,7 @@ export function createAccount(user) {
         // Update user data in the state with ones received.
         return dispatch(setUser(userData));
       },
-      error => {
+      (error) => {
         // eslint-disable-next-line no-console
         console.log('🛑 Create account error', error);
         throw error;
@@ -688,7 +688,7 @@ export function deleteAccountAction() {
       authToken: getState().auth.authToken,
       description: 'Request DELETE_ACCOUNT',
     }).then(
-      success => {
+      (success) => {
         // eslint-disable-next-line no-console
         console.log('👤 Account Deleted \n\n', success);
         setAppIconBadgeNumber(0);
@@ -696,7 +696,7 @@ export function deleteAccountAction() {
         // AsyncStorage.clear(); - we do that in the parrent functions
         // return;
       },
-      error => {
+      (error) => {
         // eslint-disable-next-line no-console
         console.log('🛑 Delete account error', error);
         // return;

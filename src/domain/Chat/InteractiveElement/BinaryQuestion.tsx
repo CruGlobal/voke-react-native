@@ -24,7 +24,7 @@ const BinaryQuestion = ({
   const comment = metadata?.comment || '';
   const answers = metadata?.answers || [];
   const question = metadata?.question || '';
-  const hasSelected = answers.find(a => a.selected) ? true : false;
+  const hasSelected = answers.find((a) => a.selected) ? true : false;
   return (
     <View style={isShareRequest ? styles.shareQBubble : styles.binaryBubble}>
       {image ? (

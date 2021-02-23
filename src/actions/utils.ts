@@ -107,7 +107,7 @@ export default function request<T>(options): Promise<T> {
       [options.data],
     )
       .then(json)
-      .then(resp => {
+      .then((resp) => {
         // resp.data;
         console.log('RNFetchBlob > resp:');
         console.log(resp);
@@ -122,7 +122,7 @@ export default function request<T>(options): Promise<T> {
 
         return resp;
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('fetch blob err', err);
         return err;
       });
@@ -137,16 +137,16 @@ export default function request<T>(options): Promise<T> {
 
   // Do request.
   return fetch(finalUrl, newObj)
-    .then(response => {
+    .then((response) => {
       if (!response.ok) {
         return response
           .json()
-          .then(message => {
+          .then((message) => {
             // Got valid JSON with error response, use it
             // throw new Error(message || response.status); << not working.
             throw message;
           })
-          .catch(e => {
+          .catch((e) => {
             // Couldn't parse the JSON
             throw { ...e, ...{ status: response.status } };
           });
@@ -155,7 +155,7 @@ export default function request<T>(options): Promise<T> {
         return response.blob();
       }
       // Successful response, parse the JSON and return the data
-      return response.json().then(r => {
+      return response.json().then((r) => {
         /* dispatch({
             description: options.description,
             type: REDUX_ACTIONS.REQUEST_SUCCESS,
@@ -166,7 +166,7 @@ export default function request<T>(options): Promise<T> {
         return r as Promise<T>;
       });
     })
-    .catch(e => {
+    .catch((e) => {
       console.log('fetch error', e);
       /* dispatch({
           type: REDUX_ACTIONS.REQUEST_FAIL,
@@ -216,7 +216,7 @@ function imageUpload(url, headers, data) {
     [data],
   )
 
-    .then(response => {
+    .then((response) => {
       console.log('⤵️ imageUpload response \n', response);
       const { status } = response.info();
 
@@ -261,7 +261,7 @@ function imageUpload(url, headers, data) {
         result: json,
     }); */
     })
-    .catch(e => {
+    .catch((e) => {
       console.log('imageUpload fetch error', e);
       /*  dispatch({
       type: REDUX_ACTIONS.REQUEST_FAIL,

@@ -68,7 +68,7 @@ function AdventureStepReportCard({
 
   if (stepId === 'graduated' && adventure?.id) {
     const allUsers = adventure?.conversation?.messengers;
-    const garduatedUsers = allUsers.filter(user => user.completed);
+    const garduatedUsers = allUsers.filter((user) => user.completed);
     step.id = 'graduated';
     step.name = 'Graduated Users';
     step.active_messengers = garduatedUsers;

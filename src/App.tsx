@@ -170,13 +170,13 @@ const LoggedInAppContainer = (navigation, route) => {
   useEffect(() => {
     // Check notifications permission and setup sockets.
     dispatch(startupAction()).then(
-      success => LOG(' 🧛‍♂️ startupAction > SUCCESS'),
-      error => WARN(' 🧚‍♂️ startupAction > ERROR', error),
+      (success) => LOG(' 🧛‍♂️ startupAction > SUCCESS'),
+      (error) => WARN(' 🧚‍♂️ startupAction > ERROR', error),
     );
   }, []);
 
   return (
-    <Tabs.Navigator tabBar={props => <TabBar {...props} />}>
+    <Tabs.Navigator tabBar={(props) => <TabBar {...props} />}>
       <Tabs.Screen
         name="Adventures"
         component={Adventures}
@@ -203,7 +203,7 @@ const LoggedInAppContainer = (navigation, route) => {
 };
 
 // Gets the current screen id from navigation state
-const getActiveRouteName = state => {
+const getActiveRouteName = (state) => {
   const route = state.routes[state.index];
 
   if (route.state) {
@@ -703,7 +703,7 @@ const App = () => {
   const { t } = useTranslation(['common', 'profile']);
   const [deeplink, setDeeplink] = useState(null);
 
-  const deepLinkListener = event => {
+  const deepLinkListener = (event) => {
     if (event?.url) {
       setDeeplink(event?.url);
     }
@@ -719,7 +719,7 @@ const App = () => {
 
   // Hide splash screen on load.
   useMount(() => {
-    getTimeSinceStartup().then(time => {
+    getTimeSinceStartup().then((time) => {
       dispatch({
         type: REDUX_ACTIONS.SET_STARTUP_TIME,
         data: time,
@@ -799,7 +799,7 @@ const App = () => {
     <>
       <NavigationContainer
         ref={navigationRef}
-        onStateChange={async state => {
+        onStateChange={async (state) => {
           const previousRouteName = routeNameRef.current;
           const currentRouteName = getActiveRouteName(state);
 

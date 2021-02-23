@@ -1,6 +1,6 @@
 jest.mock('rn-fetch-blob', () => {
   return {
-    DocumentDir: () => { },
-    polyfill: () => { },
-  }
+    DocumentDir: () => {},
+    polyfill: () => {},
+  };
 });

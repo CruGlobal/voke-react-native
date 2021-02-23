@@ -58,7 +58,9 @@ function AdventureStepMessage({
   const isAndroid = Platform.OS === 'android';
 
   const isMyMessage = item?.messenger_id === user.id;
-  const adminUser = adventure.conversation.messengers.find(i => i.group_leader);
+  const adminUser = adventure.conversation.messengers.find(
+    (i) => i.group_leader,
+  );
 
   const isAdminMessage = item?.messenger_id === adminUser?.id;
   const isAdmin = user.id === adminUser?.id;
@@ -67,7 +69,7 @@ function AdventureStepMessage({
   const isSharedAnswer = item?.metadata?.vokebot_action === 'share_answers';
   // User who left the message.
   const messenger: TMessenger = adventure.conversation.messengers.find(
-    i => i.id === item?.messenger_id,
+    (i) => i.id === item?.messenger_id,
   ) || {
     id: item?.messenger_id || '',
     first_name: '',
@@ -89,8 +91,8 @@ function AdventureStepMessage({
 
   const msgKind = item?.metadata?.step_kind;
   let selectedAnswer =
-    (((item?.metadata || {}).answers || []).find(i => i?.selected) || {}).key ||
-    '';
+    (((item?.metadata || {}).answers || []).find((i) => i?.selected) || {})
+      .key || '';
 
   const showMessageReporting =
     item?.messenger_id !== user.id && // Can't report themselves.

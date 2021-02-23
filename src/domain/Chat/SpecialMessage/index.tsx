@@ -21,7 +21,7 @@ const SpecialMessage = (props: Props): React.ReactElement => {
   const [answerPosY, setAnswerPosY] = useState(0);
 
   let selectedAnswer =
-    (((message?.metadata || {}).answers || []).find(i => i?.selected) || {})
+    (((message?.metadata || {}).answers || []).find((i) => i?.selected) || {})
       .key || '';
 
   // If current message is a question box and next message is answer,

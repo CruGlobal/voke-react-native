@@ -98,12 +98,12 @@ function AllMembersModal(props: Props) {
   };
 
   useEffect(() => {
-    setMessengers(allMessengers.filter(i => i.first_name !== 'VokeBot'));
+    setMessengers(allMessengers.filter((i) => i.first_name !== 'VokeBot'));
   }, [allMessengers.length, allMessengers]);
 
   useEffect(() => {
     setIsLeaderView(
-      messengers.find(i => i.id === me.id && i.group_leader) !== undefined ||
+      messengers.find((i) => i.id === me.id && i.group_leader) !== undefined ||
         false,
     );
   }, [messengers.length, messengers, me.id]);
@@ -152,13 +152,13 @@ function AllMembersModal(props: Props) {
       // Remove element instantly
       // without waiting for an adventure update from the server.
       messengers.splice(
-        messengers.findIndex(i => i.id === messengerId),
+        messengers.findIndex((i) => i.id === messengerId),
         1,
       );
       setMessengers(() => messengers.splice(0, messengers.length));
       // Update current adventure to reflect changes.
       dispatch(getMyAdventure(adventureId));
-      setDeleteUser(user => ({ ...user, deleted: true }));
+      setDeleteUser((user) => ({ ...user, deleted: true }));
     }
   };
 

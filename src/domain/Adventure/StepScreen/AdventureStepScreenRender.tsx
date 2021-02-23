@@ -85,7 +85,7 @@ const markConversationAsRead = ({
     ? messages
         .slice()
         .reverse()
-        .find(message => message?.messenger_id !== userId)
+        .find((message) => message?.messenger_id !== userId)
     : null;
 
   // In some cases there is bug in API that shows unread messages even when
@@ -228,7 +228,7 @@ const AdventureStepScreenRender = ({
 
   const isSolo = adventure?.kind !== 'duo' && adventure?.kind !== 'multiple';
   const botId = useMemo(() => {
-    return messengers.find(i => i.first_name === 'VokeBot')?.id || '';
+    return messengers.find((i) => i.first_name === 'VokeBot')?.id || '';
   }, [messengers]);
 
   // Find a reply to the main question (if already answered).
@@ -242,7 +242,7 @@ const AdventureStepScreenRender = ({
     // Find the first message of the current author from the start.
     const mainAnswer: TMessage | undefined = currentMessages
       .slice()
-      .find(m => m?.messenger_id === currentUser.id);
+      .find((m) => m?.messenger_id === currentUser.id);
     if (mainAnswer) {
       myMainAnswer.id = mainAnswer.id;
       myMainAnswer.content = mainAnswer.content;
@@ -284,7 +284,7 @@ const AdventureStepScreenRender = ({
     // If solo adventure, render pseudo message from VokeBot.
     if (isSolo) {
       const existingBotMessage =
-        currentMessages.find(m => m.messenger_id === botId) || null;
+        currentMessages.find((m) => m.messenger_id === botId) || null;
       if (!existingBotMessage) {
         createBotMessage({
           adventureId,

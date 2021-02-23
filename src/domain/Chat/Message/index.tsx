@@ -29,11 +29,13 @@ const Message = (props: Props): React.ReactElement => {
   // Current User:
   const user = useCurrentUser();
   // Group Leader:
-  const grLeader = adventure.conversation.messengers.find(i => i.group_leader);
+  const grLeader = adventure.conversation.messengers.find(
+    (i) => i.group_leader,
+  );
   // Message author (user who left this message):
   const messengerId = item?.messenger_id;
   const messenger: TMessenger = adventure.conversation.messengers.find(
-    msngr => msngr.id === messengerId,
+    (msngr) => msngr.id === messengerId,
   ) || {
     status: 'blocked',
     id: messengerId || '',

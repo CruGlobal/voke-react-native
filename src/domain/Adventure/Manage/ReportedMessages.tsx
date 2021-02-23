@@ -35,7 +35,7 @@ const ReportedMessages = ({ adventureId }) => {
   const modalizeRef = useRef<Modalize>(null);
   const isAndroid = Platform.OS === 'android';
 
-  const getAdventureComplains = async adventureId => {
+  const getAdventureComplains = async (adventureId) => {
     const complains = await dispatch(
       getComplains({ adventureId: adventureId }),
     );

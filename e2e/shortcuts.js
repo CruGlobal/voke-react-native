@@ -60,7 +60,7 @@ exports.waitForToast = async () => {
   await expect(element(by.id('textToast'))).toBeVisible();
 };
 
-exports.goBackFrom = async screenTestId => {
+exports.goBackFrom = async (screenTestId) => {
   // Need it as push notice is covering top of the screen.
   await waitFor(element(by.id('ctaGoBack').withAncestor(by.id(screenTestId))))
     .toBeVisible()

@@ -53,7 +53,7 @@ type Props = {
   route: RoutePropType;
 };
 
-const AccountSignIn: FunctionComponent<Props> = props => {
+const AccountSignIn: FunctionComponent<Props> = (props) => {
   const {
     layout,
     parentScroll,

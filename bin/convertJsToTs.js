@@ -35,10 +35,10 @@ const getTscOutputLines = async () => {
   }
 };
 
-const addTsIgnore = tscOutputLines => {
+const addTsIgnore = (tscOutputLines) => {
   const allErrorLines = tscOutputLines
-    .filter(line => line.includes('error TS'))
-    .map(line => {
+    .filter((line) => line.includes('error TS'))
+    .map((line) => {
       const [filename, rest] = line.split('(');
       const [lineNum] = rest.split(',');
       return `${filename}:${lineNum}`;

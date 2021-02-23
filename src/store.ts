@@ -9,7 +9,7 @@ import createRootReducer from 'reducers';
 
 import { createWebSocketMiddleware } from './actions/socket';
 
-const reduxLog = store => next => action => {
+const reduxLog = (store) => (next) => (action) => {
   // console.log( 'REDUX: ' + action?.description, action)
   return next(action);
 };

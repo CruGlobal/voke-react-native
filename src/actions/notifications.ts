@@ -44,7 +44,7 @@ const getLinkParams = (link: string) => {
   };
   let currParm: keyof typeof params | '' = '';
   // Extract components of the link provided.
-  components.forEach(str => {
+  components.forEach((str) => {
     if (str in params) {
       currParm = str as typeof currParm;
     } else if (currParm && str !== '') {
@@ -61,19 +61,19 @@ const getLinkParams = (link: string) => {
   return result;
 };
 
-const getCID = l =>
+const getCID = (l) =>
   l.substring(l.indexOf('conversations/') + 14, l.indexOf('/messages'));
 
-const getJID = l =>
+const getJID = (l) =>
   l.substring(
     l.indexOf('messenger_journeys/') + 19,
     l.indexOf('/messenger_journey_steps'),
   );
 
-const getOnlyJID = l =>
+const getOnlyJID = (l) =>
   l.substring(l.indexOf('messenger_journeys/') + 19, l.length);
 
-const getSID = l =>
+const getSID = (l) =>
   l.substring(l.indexOf('messenger_journey_steps/') + 24, l.length);
 
 export function setAppIconBadgeNumber(newValue: number) {
@@ -330,7 +330,7 @@ export function permissionsAndNotifications(askPermission = false) {
         // User  selected: ALLOW notifications.
         // 1. Register Apple/Google device on server
         // 2. Create a WebSocket cable.
-        DeviceInfo.isEmulator().then(isEmulator => {
+        DeviceInfo.isEmulator().then((isEmulator) => {
           // if (isEmulator && false) { // -- use when testing push notifications in Emulator.
           if (isEmulator) {
             // Notifications won't work in simulator.

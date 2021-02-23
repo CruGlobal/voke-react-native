@@ -113,7 +113,7 @@ function AdventureManage({ navigation, route }: Props): React.ReactElement {
 
   // Exist screen if user is not a group admin.
   useEffect(() => {
-    messengers.some(user => {
+    messengers.some((user) => {
       if (user.id === me.id) {
         if (!user.group_leader) {
           navigation.navigate('AdventureActive', { adventureId });

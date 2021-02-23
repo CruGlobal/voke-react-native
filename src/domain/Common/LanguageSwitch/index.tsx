@@ -1,6 +1,7 @@
+import Select from 'domain/Common/Select';
+
 import React, { ReactElement, useEffect, useState } from 'react';
 import i18next from 'i18next';
-import Select from 'domain/Common/Select';
 import VokeIcon from 'components/VokeIcon';
 import Text from 'components/Text';
 
@@ -25,19 +26,19 @@ const LanguageSwitch = (): ReactElement => {
     // for development purposes only.
     const appLang = i18next.language.toUpperCase();
 
-    availableTranslations.map(lang => {
+    availableTranslations.map((lang) => {
       const stepLang = lang.toUpperCase();
       if (stepLang !== 'EN-US') {
         if (
           appLang === stepLang ||
           (stepLang === 'EN' && appLang === 'EN-US')
         ) {
-          setSelectOptions(current => [
+          setSelectOptions((current) => [
             ...current,
             { label: lang, selected: true },
           ]);
         } else {
-          setSelectOptions(current => [...current, { label: lang }]);
+          setSelectOptions((current) => [...current, { label: lang }]);
         }
       }
     });
@@ -74,9 +75,9 @@ const LanguageSwitch = (): ReactElement => {
       isOpen={modalVisible}
       onOpen={() => setModalVisible(true)}
       onClose={() => setModalVisible(false)}
-      onSelect={option => newLangSelected(option)}
+      onSelect={(option) => newLangSelected(option)}
       // Single option:
-      optionEl={option => {
+      optionEl={(option) => {
         return (
           <>
             {/* Item Label */}

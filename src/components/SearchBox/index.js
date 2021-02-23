@@ -30,7 +30,7 @@ function SearchBox({ source, style, badge, onPress, ...rest }) {
         placeholderTextColor={st.colors.normalText}
         value={searchText}
         autoCapitalize={'characters'}
-        onChangeText={text => setSearchText(text)}
+        onChangeText={(text) => setSearchText(text)}
         autoFocus={true}
         keyboardAppearance={'dark'}
         returnKeyType={'search'}

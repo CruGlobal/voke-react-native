@@ -40,16 +40,16 @@ const AdvLanguageSwitch = (): ReactElement => {
 
   const fillLanguages = (): void => {
     const appLang = i18next.language.toUpperCase();
-    availableTranslations.map(lang => {
+    availableTranslations.map((lang) => {
       const stepLang = lang.toUpperCase();
       if (appLang === stepLang || (stepLang === 'EN' && appLang === 'EN-US')) {
-        setSelectOptions(current => [
+        setSelectOptions((current) => [
           ...current,
           { label: lang, selected: true },
         ]);
         setCurrentLang(stepLang);
       } else {
-        setSelectOptions(current => [...current, { label: lang }]);
+        setSelectOptions((current) => [...current, { label: lang }]);
       }
     });
   };

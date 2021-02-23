@@ -52,7 +52,7 @@ function GroupModal(props: Props) {
   }
   const allMessengers = adventure?.conversation?.messengers;
   const messengers = allMessengers.filter(
-    i => i.first_name !== 'VokeBot' && (i || {}).id !== (me || {}).id,
+    (i) => i.first_name !== 'VokeBot' && (i || {}).id !== (me || {}).id,
   );
   const hasMoreMembers = messengers.length > 5;
 

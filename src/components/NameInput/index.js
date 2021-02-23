@@ -1,8 +1,9 @@
 import React, { forwardRef } from 'react';
 import { TextInput } from 'react-native';
+import st from 'utils/st';
+
 import Text from '../Text';
 import Flex from '../Flex';
-import st from 'utils/st';
 
 const NameInput = forwardRef(({ ...rest }, ref) => {
   return (

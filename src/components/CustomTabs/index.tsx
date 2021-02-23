@@ -39,7 +39,7 @@ const CustomTabs = ({
   });
 
   useEffect(() => {
-    tabs.forEach(tab => {
+    tabs.forEach((tab) => {
       scenes.current[tab.key] = {
         component: tab.component,
         params: tab.params || {},

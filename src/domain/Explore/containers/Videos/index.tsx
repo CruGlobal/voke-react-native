@@ -174,7 +174,7 @@ function VideoList() {
       <FlatList
         initialNumToRender={4}
         data={videos}
-        renderItem={props => (
+        renderItem={(props) => (
           <VideoItem key={props.item} id={props.item} category={filterId} />
         )}
         getItemLayout={(data, index) => ({

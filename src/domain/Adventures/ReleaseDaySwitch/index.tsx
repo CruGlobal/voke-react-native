@@ -36,7 +36,7 @@ const ReleaseDaySwitch = ({ selected, setOption }: Params): ReactElement => {
     ];
 
     const fillOptions = (): void => {
-      availableOptions.map(option => {
+      availableOptions.map((option) => {
         if (selected === option.label) {
           setSelectOptions((current: string) => [
             ...current,

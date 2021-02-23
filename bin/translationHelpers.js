@@ -1,7 +1,7 @@
 export function filterReadyTranslations(translationsRaw, languagesRaw) {
   const readyLanguages = JSON.parse(languagesRaw)
-    .data.filter(language => language.is_ready_to_publish)
-    .map(language => language.code);
+    .data.filter((language) => language.is_ready_to_publish)
+    .map((language) => language.code);
 
   const translations = JSON.parse(translationsRaw);
 

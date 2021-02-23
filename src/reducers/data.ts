@@ -275,7 +275,7 @@ export function data(state = initialState, action: any): TDataState {
       const { adventureId } = action.result;
 
       let advUnreadCount = 0;
-      action.result.adventureSteps.forEach(advStep => {
+      action.result.adventureSteps.forEach((advStep) => {
         advUnreadCount = advUnreadCount + advStep.unread_messages;
       });
 
@@ -353,7 +353,7 @@ export function data(state = initialState, action: any): TDataState {
       const adventureStepId = action.message.grouping_journey_step_id;
       const updatedMessages = [];
 
-      state.adventureStepMessages[adventureStepId].forEach(msg => {
+      state.adventureStepMessages[adventureStepId].forEach((msg) => {
         if (msg.id === action.message.id) {
           updatedMessages.push(action.message);
         } else {

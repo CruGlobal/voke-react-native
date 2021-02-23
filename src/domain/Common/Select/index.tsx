@@ -87,7 +87,7 @@ const Select = (props: Props): ReactElement => {
   return (
     <View collapsable={false}>
       <TouchableOpacity
-        ref={newRef => (toggleRef.current = newRef)}
+        ref={(newRef) => (toggleRef.current = newRef)}
         onPress={(): void => {
           show();
         }}

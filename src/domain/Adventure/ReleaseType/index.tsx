@@ -50,7 +50,7 @@ function GroupReleaseType(props: any): ReactElement {
       name: '',
     },
     validationSchema: NameValidationSchema,
-    onSubmit: async values => {
+    onSubmit: async (values) => {
       Keyboard.dismiss();
       // Before sending a group name to the server
       // we need to check if user isn't a guest user.
@@ -103,7 +103,7 @@ function GroupReleaseType(props: any): ReactElement {
     },
   });
 
-  const cardAction = type => {
+  const cardAction = (type) => {
     navigation.navigate('GroupReleaseDate', {
       groupName: groupName,
       itemId: itemId,
@@ -153,7 +153,7 @@ function GroupReleaseType(props: any): ReactElement {
     );
   };
 
-  const initalItem = currentSchedule => {
+  const initalItem = (currentSchedule) => {
     switch (currentSchedule) {
       case 'daily':
         return 1;

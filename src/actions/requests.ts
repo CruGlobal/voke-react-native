@@ -56,7 +56,7 @@ export function getNotificationsTabUnreads() {
       ...ROUTES.GET_ME,
       authToken: getState().auth.authToken,
     }).then(
-      userData => {
+      (userData) => {
         // eslint-disable-next-line no-console
         const newNotificationsCounter = userData?.pending_notifications || 0;
         // Update unread broadcast notifications counter.
@@ -67,7 +67,7 @@ export function getNotificationsTabUnreads() {
 
         return newNotificationsCounter;
       },
-      error => {
+      (error) => {
         // eslint-disable-next-line no-console
         console.log('👤 getNotificationsTabUnreads > Fetch error', error);
         throw error;
@@ -153,7 +153,7 @@ export function getMyAdventures(comment = '') {
       description: 'Get My Adventures. Called from ' + comment,
       authToken: getState().auth.authToken,
     }).then(
-      data => {
+      (data) => {
         const myAdventures = data.journeys;
         // Update my adventures in store.
         // return dispatch(setData('myAdventures', myAdventures));
@@ -165,7 +165,7 @@ export function getMyAdventures(comment = '') {
 
         return dispatch(updateTotalUnreadCounter());
       },
-      error => {
+      (error) => {
         // eslint-disable-next-line no-console
         console.log('🛑 getMyAdventures error', error);
         throw error;
@@ -186,7 +186,7 @@ export function getMyAdventure(adventureId: any) {
       authToken: getState().auth.authToken,
       description: 'Get My Adventure',
     }).then(
-      data => {
+      (data) => {
         // const myAdventures = data.journeys;
         // Add pending adventure to store.
         dispatch({
@@ -197,7 +197,7 @@ export function getMyAdventure(adventureId: any) {
 
         return data;
       },
-      error => {
+      (error) => {
         // eslint-disable-next-line no-console
         console.log('🛑 getMyAdventure error', error);
         throw error;
@@ -485,7 +485,7 @@ export function createAdventureStepMessage(params: {
       if (params.adventure.kind === 'duo') {
         const otherUser =
           params.adventure.conversation.messengers.find(
-            i => i.id !== userId && i.first_name !== 'VokeBot',
+            (i) => i.id !== userId && i.first_name !== 'VokeBot',
           ) || {};
         let otherUserReplied = false;
         if (otherUser?.id) {
@@ -741,7 +741,7 @@ export function createDevice(newDeviceData: any) {
       authToken: getState().auth.authToken,
       description: 'Create Device',
     }).then(
-      returnedDeviceData => {
+      (returnedDeviceData) => {
         // eslint-disable-next-line no-console
         // Update info in store.auth.device if it's a cable device not apple/adnriod.
         if (returnedDeviceData.kind === 'cable') {
@@ -752,7 +752,7 @@ export function createDevice(newDeviceData: any) {
         }
         return returnedDeviceData;
       },
-      error => {
+      (error) => {
         // eslint-disable-next-line no-console
         console.log('📱🛑 createDevice > error', error);
         throw error;

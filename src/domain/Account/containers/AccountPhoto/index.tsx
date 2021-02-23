@@ -111,7 +111,7 @@ function AccountPhoto(props: Props) {
     };
     if (mode === 'camera') {
       ImagePickerWithCrop.openCamera({ ...options, useFrontCamera: true }).then(
-        image => {
+        (image) => {
           setAvatarSource({ uri: image.path });
         },
       );
@@ -119,7 +119,7 @@ function AccountPhoto(props: Props) {
       ImagePickerWithCrop.openPicker({
         ...options,
         smartAlbums: ['SelfPortraits', 'UserLibrary', 'PhotoStream'],
-      }).then(image => {
+      }).then((image) => {
         setAvatarSource({ uri: image.path });
       });
     }
@@ -148,7 +148,7 @@ function AccountPhoto(props: Props) {
           { name: 'gallery', title: t('imagePicker:gallery') },
         ],
       },
-      response => {
+      (response) => {
         if (response.didCancel) {
           // eslint-disable-next-line no-console
           console.log('User cancelled image picker');

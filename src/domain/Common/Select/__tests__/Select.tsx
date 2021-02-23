@@ -2,14 +2,14 @@
  * @format
  */
 
-import 'react-native';
+import { Text } from 'react-native';
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react-native';
+
 // import { toHaveStyle } from '@testing-library/jest-native'; - causes TS error.
 // https://github.com/testing-library/jest-dom/issues/123
 import '@testing-library/jest-native';
 import Select from '../index';
-import { Text } from 'react-native';
 
 const toggleLabel = 'Toggle Text Test';
 const testOptions = [
@@ -29,7 +29,7 @@ const testOptions = [
 jest.mock('react-native/Libraries/Modal/Modal', () => {
   const Modal = jest.requireActual('react-native/Libraries/Modal/Modal');
   // @ts-ignore
-  return props => <Modal {...props} />;
+  return (props) => <Modal {...props} />;
 });
 
 beforeEach(() => {

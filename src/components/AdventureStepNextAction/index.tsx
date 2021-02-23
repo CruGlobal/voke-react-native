@@ -44,7 +44,7 @@ const AdventureStepNextAction = ({
   const step = steps ? steps[stepId] : null;
   if (!step) return null;
   const nextStep = steps
-    ? steps[stepsIds[stepsIds.findIndex(el => el === stepId) + 1]]
+    ? steps[stepsIds[stepsIds.findIndex((el) => el === stepId) + 1]]
     : null;
   const nextStepLocked = nextStep?.locked;
   const isComplete = step?.status === 'completed';
@@ -176,7 +176,7 @@ const AdventureStepNextAction = ({
       return null;
     }
     const otherUser = adventure.conversation.messengers.find(
-      i => i.id !== userId && i.first_name !== 'VokeBot',
+      (i) => i.id !== userId && i.first_name !== 'VokeBot',
     );
     // TODO: Pass through invite name
     // if (journey.conversation.messengers.length === 2 && inviteName) {

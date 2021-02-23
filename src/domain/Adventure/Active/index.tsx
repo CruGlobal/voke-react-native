@@ -68,7 +68,7 @@ function AdventureActive({ navigation, route }: Props): React.ReactElement {
   const allMessengers = adventure?.conversation?.messengers || [];
   const userId = getCurrentUserId();
   const isLeader =
-    allMessengers.find(m => m.group_leader && m.id == userId) || false;
+    allMessengers.find((m) => m.group_leader && m.id == userId) || false;
   // TODO: don't need useSelector here:
   const adventureContent = useSelector(
     ({ data }: { data: TDataState }) =>
@@ -89,11 +89,11 @@ function AdventureActive({ navigation, route }: Props): React.ReactElement {
 
   const getPendingAdventure = async () => {
     await dispatch(getMyAdventure(adventureId)).then(
-      data => {
+      (data) => {
         // Received Adventure from the server.
         // getSteps();
       },
-      error => {
+      (error) => {
         // Can't Find Adventure.
         // eslint-disable-next-line no-consolegetSteps
         console.log('🛑 Can not Find Adventure.', adventureId);

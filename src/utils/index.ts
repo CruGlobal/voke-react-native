@@ -57,30 +57,30 @@ export const isEqualObject = (a, b) => {
   return true;
 };
 
-export const toCamelCase = str =>
+export const toCamelCase = (str) =>
   str
     .replace(/(?:^\w|[A-Z]|\b\w)/g, (ltr, idx) =>
       idx === 0 ? ltr.toLowerCase() : ltr.toUpperCase(),
     )
     .replace(/\s+/g, '');
 
-export const capitalize = string => {
+export const capitalize = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-export const isFunction = fn => typeof fn === 'function';
-export const isArray = arr => Array.isArray(arr);
-export const isObject = obj => typeof obj === 'object' && !isArray(obj);
-export const isString = str => typeof str === 'string';
-export const isNumber = n => typeof n === 'number';
-export const exists = v => typeof v !== 'undefined';
-export const isObjectEmpty = o =>
+export const isFunction = (fn) => typeof fn === 'function';
+export const isArray = (arr) => Array.isArray(arr);
+export const isObject = (obj) => typeof obj === 'object' && !isArray(obj);
+export const isString = (str) => typeof str === 'string';
+export const isNumber = (n) => typeof n === 'number';
+export const exists = (v) => typeof v !== 'undefined';
+export const isObjectEmpty = (o) =>
   Object.entries(o).length === 0 && o.constructor === Object;
-export const clone = obj => (!obj ? obj : JSON.parse(JSON.stringify(obj)));
-export const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
-export const sum = arr => arr.reduce((a, b) => a + b, 0);
-export const uniqArr = arr => [...new Set(arr)];
-export const formatNumber = num =>
+export const clone = (obj) => (!obj ? obj : JSON.parse(JSON.stringify(obj)));
+export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+export const sum = (arr) => arr.reduce((a, b) => a + b, 0);
+export const uniqArr = (arr) => [...new Set(arr)];
+export const formatNumber = (num) =>
   !Number.isNaN(Number(num)) ? Number(num).toLocaleString() : num;
 export const randomBetween = (a, b) => Math.floor(Math.random() * (b - a)) + a;
 export const randomStr = () =>
@@ -151,7 +151,7 @@ export async function asyncForEach(arr, callback) {
   }
 }
 export function formatSelect(arr) {
-  return (arr || []).map(a => ({ label: a, value: a }));
+  return (arr || []).map((a) => ({ label: a, value: a }));
 }
 export function generateId() {
   return `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
@@ -179,7 +179,7 @@ export function useMount(cb) {
 
 // Pull dates out of UTC format into a moment object
 export const UTC_FORMAT = 'YYYY-MM-DD HH:mm:ss UTC';
-export const momentUtc = time => moment.utc(time, UTC_FORMAT);
+export const momentUtc = (time) => moment.utc(time, UTC_FORMAT);
 
 export function useInterval(callback, delay) {
   const savedCallback = useRef();

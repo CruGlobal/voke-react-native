@@ -168,7 +168,7 @@ const AccountName = (props: Props): React.ReactElement => {
           onSubmitEditing={() => lastNameRef.current.focus()}
           placeholder={t('tryItNow:firstNamePlaceholder')}
           value={firstName}
-          onChangeText={text => setFirstName(text)}
+          onChangeText={(text) => setFirstName(text)}
           returnKeyType="next"
           testID={'inputFirstName'}
         />
@@ -178,7 +178,7 @@ const AccountName = (props: Props): React.ReactElement => {
           label={t('tryItNow:lastName')}
           placeholder={t('tryItNow:lastNamePlaceholder')}
           value={lastName}
-          onChangeText={text => setLastName(text)}
+          onChangeText={(text) => setLastName(text)}
           returnKeyType="done"
           onSubmitEditing={handleContinue}
           testID={'inputLastName'}

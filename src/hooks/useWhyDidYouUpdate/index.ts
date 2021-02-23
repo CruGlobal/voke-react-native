@@ -15,7 +15,7 @@ const useWhyDidYouUpdate = (name, props) => {
       const changesObj = {};
 
       // Iterate through keys
-      allKeys.forEach(key => {
+      allKeys.forEach((key) => {
         // If previous is different from current
         if (previousProps.current[key] !== props[key]) {
           // Add to changesObj

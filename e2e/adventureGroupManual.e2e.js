@@ -20,7 +20,7 @@ describe('Group Adventure With Manual Release', () => {
     await expect(element(by.id('textToast'))).toBeVisible();
   };
 
-  const goBackFrom = async screenTestId => {
+  const goBackFrom = async (screenTestId) => {
     // Need it as push notice is covering top of the screen.
     await waitFor(element(by.id('ctaGoBack').withAncestor(by.id(screenTestId))))
       .toBeVisible()
@@ -102,7 +102,9 @@ describe('Group Adventure With Manual Release', () => {
     ).toBeVisible();
     await element(by.id('ctaReleaseNow')).tap();
     waitForToast();
-    await waitFor(element(by.id('ctaReleaseNow').withAncestor(by.id('stepPart-3'))))
+    await waitFor(
+      element(by.id('ctaReleaseNow').withAncestor(by.id('stepPart-3'))),
+    )
       .toBeVisible()
       .withTimeout(3000);
     await expect(element(by.id('allMembersPart-2'))).toHaveText(

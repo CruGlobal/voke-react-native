@@ -178,7 +178,7 @@ const GroupReleaseDate = (props): React.ReactElement => {
         {releaseSchedule === 'weekly' && (
           <ReleaseDaySwitch
             selected={weekday}
-            setOption={value => setWeekday(value)}
+            setOption={(value) => setWeekday(value)}
           />
         )}
         {releaseSchedule !== 'manual' && (

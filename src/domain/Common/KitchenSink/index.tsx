@@ -7,7 +7,7 @@ import Button from 'components/Button';
 import Datepicker from 'components/Datepicker';
 import Spacer from 'components/Spacer';
 
-const KitchenSink = props => {
+const KitchenSink = (props) => {
   const [date, setDate] = useState(new Date(1598051730000));
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
@@ -18,7 +18,7 @@ const KitchenSink = props => {
     setDate(currentDate);
   };
 
-  const showMode = currentMode => {
+  const showMode = (currentMode) => {
     setShow(true);
     setMode(currentMode);
   };

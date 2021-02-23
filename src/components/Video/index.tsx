@@ -211,7 +211,7 @@ function Video({
         Orientation.unlockAllOrientations();
       }
 
-      Orientation.getOrientation(orientation => {
+      Orientation.getOrientation((orientation) => {
         onOrientationChange(getLandscapeOrPortrait(orientation));
       });
     }
@@ -377,22 +377,22 @@ function Video({
               item.url.replace('http:', 'https:'),
             type: item.hls ? 'm3u8' : undefined,
           }}
-          onLoad={e => {
+          onLoad={(e) => {
             handleVideoStateChange('ready');
           }}
           paused={!isPlaying}
-          onProgress={e => {
+          onProgress={(e) => {
             if (e.currentTime !== sliderValue) {
               setSliderValue(e.currentTime);
             }
           }}
-          onEnd={e => {
+          onEnd={(e) => {
             if (sliderValue >= 1) {
               handleVideoStateChange('paused');
               setSliderValue(0);
             }
           }}
-          onError={e => {
+          onError={(e) => {
             console.log('🆘 onError e:', e);
           }}
           playInBackground={false}

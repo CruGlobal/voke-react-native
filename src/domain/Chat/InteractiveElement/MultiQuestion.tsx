@@ -24,12 +24,12 @@ const MultiQuestion = ({
     // No options available for rendering.
     return <></>;
   } else {
-    let formattedAnswers = answers.map(a => ({
+    let formattedAnswers = answers.map((a) => ({
       value: a.value,
       label: a.key,
     }));
     if (isComplete) {
-      formattedAnswers = formattedAnswers.map(a => ({
+      formattedAnswers = formattedAnswers.map((a) => ({
         ...a,
         disabled: true,
       }));

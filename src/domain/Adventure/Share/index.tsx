@@ -62,7 +62,7 @@ function AdventureShareCode(props) {
         dialogTitle: t('share'),
       }, */
     )
-      .then(res => {
+      .then((res) => {
         // Google Analytics: Record share action.
         // https://rnfirebase.io/reference/analytics#logShare
         analytics().logShare({
@@ -71,10 +71,10 @@ function AdventureShareCode(props) {
           method: res?.app || '', //ex: "com.apple.UIKit.activity.CopyToPasteboard"
         });
       })
-      .catch(err => console.log('Share Error', err));
+      .catch((err) => console.log('Share Error', err));
   };
 
-  const copyToClipboard = value => {
+  const copyToClipboard = (value) => {
     Clipboard.setString(value);
     dispatch(toastAction(t('copied'), 'short'));
   };

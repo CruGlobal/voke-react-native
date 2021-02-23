@@ -9,7 +9,6 @@ import Touchable from 'components/Touchable';
 import OldButton from 'components/OldButton';
 import VokeIcon from 'components/VokeIcon';
 import Image from 'components/Image';
-
 import { TAdventureSingle, TMessenger, TUser } from 'utils/types';
 
 import styles from './styles';
@@ -46,7 +45,8 @@ const ManageMembers = ({
   }
 
   const otherUsers =
-    messengers.filter(i => i.id !== me.id && i.first_name !== 'VokeBot') || [];
+    messengers.filter((i) => i.id !== me.id && i.first_name !== 'VokeBot') ||
+    [];
 
   const totalGroupUsers = otherUsers.length;
   let subGroup = otherUsers;
@@ -175,7 +175,7 @@ const ManageMembers = ({
               ) : (
                 <></>
               )}
-              {subGroup.map(i => (
+              {subGroup.map((i) => (
                 <Image
                   source={{ uri: i?.avatar?.small }}
                   style={styles.avatarInGroup}

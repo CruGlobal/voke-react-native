@@ -25,16 +25,22 @@ describe('Welcome Screen', () => {
 
   it('should be able to go back to Welcome from Sign In', async () => {
     await element(by.id('ctaGoBack')).tap();
-    await waitFor(element(by.id('welcomeScreen'))).toBeVisible().withTimeout(2000);
+    await waitFor(element(by.id('welcomeScreen')))
+      .toBeVisible()
+      .withTimeout(2000);
   });
 
   it('should be able to go to Adventure Code', async () => {
     await element(by.id('ctaAdventureCode')).tap();
-    await waitFor(element(by.id('inputAdventureCode'))).toBeVisible().withTimeout(2000);
+    await waitFor(element(by.id('inputAdventureCode')))
+      .toBeVisible()
+      .withTimeout(2000);
   });
 
   it('should be able to go back to Welcome from Adventure Code', async () => {
     await element(by.id('ctaGoBack')).tap();
-    await waitFor(element(by.id('welcomeScreen'))).toBeVisible().withTimeout(2000);
+    await waitFor(element(by.id('welcomeScreen')))
+      .toBeVisible()
+      .withTimeout(2000);
   });
 });

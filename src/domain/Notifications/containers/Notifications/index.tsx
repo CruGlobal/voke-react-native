@@ -149,10 +149,10 @@ function Notifications() {
           ]}
         >
           <FlatList
-            renderItem={props => (
+            renderItem={(props) => (
               <NotificationItem
                 key={props.item.id}
-                onSelectVideo={message => handleSelectVideo(message)}
+                onSelectVideo={(message) => handleSelectVideo(message)}
                 {...props}
               />
             )}

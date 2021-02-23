@@ -98,7 +98,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
     return <></>;
   }
 
-  const resendInvite = async inviteID => {
+  const resendInvite = async (inviteID) => {
     try {
       await dispatch(resendAdventureInvitation(inviteID));
     } finally {
@@ -110,7 +110,7 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
     }
   };
 
-  const deleteInvite = inviteID => {
+  const deleteInvite = (inviteID) => {
     // dispatch(
     Alert.alert(
       t('areYouSureDelete', { name: inviteItem?.name || '' }),
