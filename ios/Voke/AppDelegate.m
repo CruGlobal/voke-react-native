@@ -68,10 +68,10 @@ static void InitializeFlipper(UIApplication *application) {
 
   // Voke: Configure Firebase
   // https://rnfirebase.io/#validate-ios-credentials
-  // if ([FIRApp defaultApp] == nil) {
+  if ([FIRApp defaultApp] == nil) {
     [FIRApp configure];
     // [Fabric with:@[CrashlyticsKit]];
-  // }
+  }
 
   // VOKE: Facebook Login SDK
 //  [[FBSDKApplicationDelegate sharedInstance] application:application
@@ -105,9 +105,7 @@ static void InitializeFlipper(UIApplication *application) {
     openURL:url
     options:options
   ];
-  // Voke: Deeplink for Firebase?
-  // BOOL handleFirebase = [[RNFBDynamicLinksAppDelegateInterceptor sharedInstance] application:application openURL:url options:options];
-//  return handleFBSDK || handleRCT;
+
   return handleRCT;
 }
 // Voke: Needed for handling orientation changes
