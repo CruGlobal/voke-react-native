@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { View, ScrollView, FlatList, Alert } from 'react-native';

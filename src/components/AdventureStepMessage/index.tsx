@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-/* eslint-disable @typescript-eslint/camelcase */
 import ContextMode from 'domain/Chat/ContextMode';
 import InteractiveElement from 'domain/Chat/InteractiveElement';
 

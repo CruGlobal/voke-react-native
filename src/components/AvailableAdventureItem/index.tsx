@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { useState, useEffect, ReactElement } from 'react';
 import { View, Dimensions } from 'react-native';
 import { useSelector } from 'react-redux';

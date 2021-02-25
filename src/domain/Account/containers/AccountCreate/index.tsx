@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import React, { useState, useRef, useEffect } from 'react';
 import {
   KeyboardAvoidingView,

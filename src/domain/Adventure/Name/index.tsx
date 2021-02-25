@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-/* eslint-disable @typescript-eslint/camelcase */
 import AccountSignIn from 'domain/Account/containers/AccountSignIn';
 import AccountCreate from 'domain/Account/containers/AccountCreate';
 

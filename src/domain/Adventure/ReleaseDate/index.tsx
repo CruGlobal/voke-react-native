@@ -1,4 +1,4 @@
-import Select from 'domain/Common/Select'; /* eslint-disable @typescript-eslint/camelcase */
+import Select from 'domain/Common/Select';
 import ReleaseDaySwitch from 'domain/Adventures/ReleaseDaySwitch';
 
 import React, { useState, useEffect } from 'react';
@@ -110,16 +110,13 @@ const GroupReleaseDate = (props): React.ReactElement => {
         result = await dispatch(
           // TODO NOT CREATE EDIT ADVENTURE!
           sendAdventureInvitation({
-            // eslint-disable-next-line camelcase
             organization_journey_id: itemId,
             name: groupName,
             kind: 'multiple',
-            // eslint-disable-next-line camelcase
             gating_period: releaseSchedule === 'manual' ? 0 : gatingPeriod,
             // Total of days between every step (default 0)
             // - if you want it to be daily it should be: 1;
             // - if you want it to be weekly it should be: 7
-            // eslint-disable-next-line camelcase
             gating_start_at:
               // releaseSchedule === 'manual' ? null : moment(date).utc().format(),
               moment(date).utc().format(),

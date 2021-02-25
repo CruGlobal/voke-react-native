@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
-/* eslint-disable camelcase */
 import Message from 'domain/Chat/Message';
 import InteractiveElement from 'domain/Chat/InteractiveElement';
 

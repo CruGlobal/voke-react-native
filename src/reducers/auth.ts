@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { REDUX_ACTIONS } from 'utils/constants';
 import { TUser } from 'utils/types';
 import { exists } from 'utils';

@@ -105,12 +105,9 @@ export function checkCurrentLanguage() {
       const userData = {
         me: {
           ...user,
-          /* eslint-disable @typescript-eslint/camelcase, camelcase */
           timezone_name: getTimeZone(),
-          /* eslint-disable @typescript-eslint/camelcase, camelcase */
           country_code: getCountry(),
           language: {
-            /* eslint-disable @typescript-eslint/camelcase, camelcase */
             language_code: languageCurrent,
           },
         },
@@ -238,7 +235,6 @@ export function logoutAction() {
         if (deviceId.length > 0) {
           dispatch(
             revokeAuthToken({
-              // eslint-disable-next-line @typescript-eslint/camelcase
               device_ids: [deviceId],
               token: authToken ? authToken : null,
             }),
@@ -305,7 +301,6 @@ export function facebookLoginAction(accessToken) {
     const userId = getState().auth.user.id;
     const data = { assertion: accessToken };
     if (userId) {
-      // eslint-disable-next-line @typescript-eslint/camelcase
       data.anonymous_user_id = userId;
     }
 
@@ -435,22 +430,17 @@ export function appleLoginAction({
   return async (dispatch, getState) => {
     const data = {
       assertion: appleUser,
-      // eslint-disable-next-line @typescript-eslint/camelcase, camelcase
       user_data: {
         token: identityToken,
         email: email,
-        // eslint-disable-next-line @typescript-eslint/camelcase, camelcase
         first_name: firstName,
-        // eslint-disable-next-line @typescript-eslint/camelcase, camelcase
         last_name: lastName,
       },
-      // eslint-disable-next-line @typescript-eslint/camelcase, camelcase
       anonymous_user_id: '',
     };
     // It tells the server to merge anonymous_user_id with provided logins.
     const userId: string = getState().auth.user.id || '';
     if (userId) {
-      // eslint-disable-next-line @typescript-eslint/camelcase, camelcase
       data.anonymous_user_id = userId;
     }
 
@@ -611,7 +601,6 @@ export function userLogin(username, password) {
     // with provided login details.
     const userId = getState().auth.user.id;
     if (userId) {
-      // eslint-disable-next-line @typescript-eslint/camelcase
       data.anonymous_user_id = userId;
     }
 

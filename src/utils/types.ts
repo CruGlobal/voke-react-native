@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 /* Global Types to be reused inside the components */
 // import type { TAdventure } from "./types.ts";
 // export type { SomeThing };

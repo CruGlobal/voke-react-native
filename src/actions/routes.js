@@ -38,7 +38,6 @@ const ROUTES = {
     isAuth: true, // Request to be made on auth subdomain.
     customData: {
       client: CLIENT,
-      // eslint-disable-next-line @typescript-eslint/camelcase, camelcase
       grant_type: 'assertion',
       provider: 'apple',
       scope: 'messenger',

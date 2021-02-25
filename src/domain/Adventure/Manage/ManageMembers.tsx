@@ -36,7 +36,6 @@ const ManageMembers = ({
     (i: TMessenger) => i.id === me.id,
   );
   const myAvatar = myUser ? myUser?.avatar?.small : '';
-  // eslint-disable-next-line camelcase
   const inviteItem: Invite = adventure?.journey_invite;
   // Move preview_journey_url from parent into the inviteItem data structure.
   // Don't delete unless Pablo moves preview_journey_url from adventure to inviteItem.

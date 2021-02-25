@@ -20,7 +20,6 @@ import styles from './styles';
 
 type StepReportProps = {
   status: string;
-  // eslint-disable-next-line camelcase
   unread_messages: number;
   'completed_by_messenger?': boolean;
 };

@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-/* eslint-disable @typescript-eslint/camelcase */
 import React, { useState, useEffect, useMemo } from 'react';
 import { Alert } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
