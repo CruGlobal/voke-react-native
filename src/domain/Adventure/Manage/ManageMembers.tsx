@@ -61,19 +61,7 @@ const ManageMembers = ({
       check if it's expired.
       Renew invite on the server if it is expired.
       Otherwise go ahead and show a screen with a share code. */
-      // const { isTimeExpired } = getExpiredTime(invite.expires_at);
-      // let readyToShare = true;
-      // if (isTimeExpired) {
-      // readyToShare = false;
-      // const result = await dispatch(resendAdventureInvitation(invite.id));
-      /* if (!result.error) {
-          readyToShare = true;
-        } else {
-          throw false;
-        } */
-      // }
 
-      // if (readyToShare) {
       navigation.navigate('AdventureShareCode', {
         invitation: invite,
         withGroup: true,

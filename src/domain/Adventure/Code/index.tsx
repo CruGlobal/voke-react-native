@@ -2,13 +2,7 @@ import React, { useState, ReactElement } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import {
-  KeyboardAvoidingView,
-  View,
-  Dimensions,
-  ScrollView,
-  Platform,
-} from 'react-native';
+import { View, Dimensions, Platform } from 'react-native';
 import { useKeyboard } from '@react-native-community/hooks';
 import Flex from 'components/Flex';
 import Text from 'components/Text';
@@ -24,8 +18,6 @@ import { toastAction } from '../../../actions/info';
 import { createAccount } from '../../../actions/auth';
 import { acceptAdventureInvitation } from '../../../actions/requests';
 
-import styles from './styles';
-
 function AdventureCode(): ReactElement {
   const { t } = useTranslation('haveCode');
   const windowDimensions = Dimensions.get('window');
@@ -38,7 +30,6 @@ function AdventureCode(): ReactElement {
   const dispatch = useDispatch();
   // https://github.com/react-native-hooks/keyboard#configuration
   const keyboard = useKeyboard();
-  // const Screen = useScreenContainer();
 
   async function handleContinue() {
     if (adventureCode.length > 3) {

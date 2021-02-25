@@ -31,19 +31,15 @@ const styles = StyleSheet.create({
     color: theme.colors.white,
   },
   ButtonReset: {
-    // ui.button.size.m:
     paddingVertical: 4,
     paddingHorizontal: 14,
     borderRadius: theme.radius.xl,
     backgroundColor: theme.colors.accent,
   },
-  ButtonResetLabel: {
-    // ui.buttonText.size.s
-  },
+  ButtonResetLabel: {},
   thumbnail: {
     flex: 1,
     width: THUMBNAIL_WIDTH,
-    // borderRadius: theme.radius.s,
     borderTopLeftRadius: theme.radius.s,
     borderBottomLeftRadius: theme.radius.s,
   },

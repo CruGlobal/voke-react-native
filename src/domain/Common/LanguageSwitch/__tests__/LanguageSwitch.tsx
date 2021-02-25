@@ -4,9 +4,8 @@
 
 import { Text, View } from 'react-native';
 import React from 'react';
-import { fireEvent, render, waitFor } from '@testing-library/react-native';
+import { fireEvent, render } from '@testing-library/react-native';
 
-// import { toHaveStyle } from '@testing-library/jest-native'; - causes TS error.
 // https://github.com/testing-library/jest-dom/issues/123
 import '@testing-library/jest-native';
 import i18n from 'i18next';
@@ -35,14 +34,9 @@ it('renders correctly', () => {
 });
 
 it('renders correct languages when open', async () => {
-  const {
-    getByTestId,
-    queryByTestId,
-    getByText,
-    queryByText,
-    toJSON,
-    debug,
-  } = render(<LanguageSwitch />);
+  const { getByTestId, queryByTestId, queryByText, toJSON } = render(
+    <LanguageSwitch />,
+  );
 
   // FR language should be hidden first.
   expect(queryByText(/FR/i)).not.toBeTruthy();
@@ -59,14 +53,7 @@ it('renders correct languages when open', async () => {
 });
 
 it('select new language when pressed', async () => {
-  const {
-    getByTestId,
-    queryByTestId,
-    getByText,
-    queryByText,
-    toJSON,
-    debug,
-  } = render(
+  const { getByTestId, queryByTestId, getByText, queryByText } = render(
     <View>
       <Text>{i18n.t('welcome:botMessageTitle')}</Text>
       <LanguageSwitch />

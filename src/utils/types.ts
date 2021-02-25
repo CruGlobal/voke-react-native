@@ -1,7 +1,3 @@
-/* Global Types to be reused inside the components */
-// import type { TAdventure } from "./types.ts";
-// export type { SomeThing };
-
 import { ScrollView } from 'react-native';
 
 // Types for React Navigation router:
@@ -34,7 +30,6 @@ export type AdventureStackParamList = {
         onComplete: () => {};
       }
     | undefined;
-  // ExampleRouteName: { sort: 'latest' | 'top' } | undefined;
 };
 
 export type VideoStackParamList = {

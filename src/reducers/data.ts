@@ -127,8 +127,6 @@ export function data(state = initialState, action: any): TDataState {
     }
 
     case REDUX_ACTIONS.START_ADVENTURE: {
-      const updatedMyAdventures: any = lodash.cloneDeep(state.myAdventures);
-
       const allIds = state.myAdventures.allIds || [];
       return {
         ...state,
@@ -450,9 +448,6 @@ export function data(state = initialState, action: any): TDataState {
         existingVideos = lodash.cloneDeep(state.searchVideos);
         videoArrToUpdate = 'searchVideos';
       }
-      /* if (action.result.params.page && action.result.params.page > 1) {
-
-      } */
       const newPagination = {
         hasMore: action.result.results._links
           ? !!action.result.results._links.next
@@ -469,7 +464,6 @@ export function data(state = initialState, action: any): TDataState {
         videosSchema, // Transformation schema.
       );
 
-      const newItems = action.result.results.items || [];
       newVideos = {
         byId:
           newPagination.page === 1 // Override data if it's page 1.
@@ -483,11 +477,6 @@ export function data(state = initialState, action: any): TDataState {
           newPagination.page === 1
             ? normalizedVideos.result
             : [...existingVideos.allIds, ...normalizedVideos.result],
-        /*  lodash.union(
-              [],
-              existingVideos.allIds,
-              normalizedVideos.result,
-            ), */
       };
       return {
         ...state,

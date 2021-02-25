@@ -67,10 +67,6 @@ const NotificationBanner = (): React.ReactElement => {
           <ModalNotifications
             closeAction={(): void => {
               modalizeRef.current?.close();
-              /* navigation.navigate('AdventureName', {
-                item,
-                withGroup: true,
-              }); */
             }}
           />
         </Modalize>

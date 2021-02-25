@@ -82,7 +82,7 @@ describe('Group Adventure With Daily Release', () => {
     const inviteCodeTemp = attributes.text.split(': ');
     inviteCode = inviteCodeTemp[1];
     await expect(element(by.id('ctaShareLink'))).toBeVisible();
-    // await element(by.id('ctaShareLink')).tap();
+
     await element(by.id('ctaHeaderDone')).tap();
   });
 

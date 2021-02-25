@@ -2,7 +2,7 @@ import React, { useEffect, useCallback } from 'react';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, FlatList, View, Text } from 'react-native';
+import { ScrollView, View, Text } from 'react-native';
 import Touchable from 'components/Touchable';
 import AdventureInvite from 'components/AdventureInvite';
 import AdventureCard from 'components/AdventureCard';
@@ -53,7 +53,7 @@ const AdventuresMy = (): React.ReactElement => {
         }),
       );
       // Update adventures so we have up to date unreads badge.
-      // dispatch( getMyAdventures('AdventuresMy - Use Focus Effect') );
+
       return () => {
         // Do something when the screen is unfocused
         // Useful for cleanup functions

@@ -16,7 +16,6 @@ import { AuthDataKeys } from '../reducers/auth';
 import { setAppIconBadgeNumber } from './notifications';
 import ROUTES from './routes';
 
-// type Dispatch = ThunkDispatch<any, any, any>;
 type Dispatch = ThunkDispatch<TDataState, void, Action>;
 
 export function setUser(userData: any) {
@@ -154,7 +153,7 @@ export function getMyAdventures(comment = '') {
       (data) => {
         const myAdventures = data.journeys;
         // Update my adventures in store.
-        // return dispatch(setData('myAdventures', myAdventures));
+
         dispatch({
           type: REDUX_ACTIONS.UPDATE_ADVENTURES,
           data: myAdventures,
@@ -184,7 +183,6 @@ export function getMyAdventure(adventureId: any) {
       description: 'Get My Adventure',
     }).then(
       (data) => {
-        // const myAdventures = data.journeys;
         // Add pending adventure to store.
         dispatch({
           type: REDUX_ACTIONS.UPDATE_ADVENTURE,
@@ -634,11 +632,6 @@ export function createAdventureStepMessage(params: {
     // and unlock the next one.
     dispatch(getAdventureSteps(params.adventure.id));
 
-    /* dispatch({
-      description: 'Create Adventure Step Message',
-      type: REDUX_ACTIONS.LOG,
-      params,
-    }); */
     return result;
   };
 }
@@ -701,7 +694,7 @@ export function updateDevice(newDeviceData: any) {
       authToken: getState().auth.authToken,
       description: 'Update device data on our server',
     });
-    // dispatch(setAuthData('device', results));
+
     // Update info in store.auth.device.
     dispatch({
       type: REDUX_ACTIONS.SET_DEVICE,
@@ -775,7 +768,6 @@ export function establishCableDevice(pushDeviceId?: string) {
     const savedDeviceInfo = getState().auth.device;
     const currentDeviceId = getState().auth.device.id;
     const currentDeviceData = {
-      // id: currentDeviceId,
       version: 1,
       local_id: deviceInfoModule.getUniqueId(),
       local_version: deviceInfoModule.getVersion(),
@@ -962,8 +954,6 @@ export function toggleFavoriteVideo(shouldFavorite: boolean, video: any) {
       });
     }
 
-    // let hello = async () => { return "Hello" };
-
     if (shouldFavorite) {
       const newFavoriteVideos = [...favoriteVideos, video];
       await dispatch(setData('favoriteVideos', newFavoriteVideos));
@@ -1140,7 +1130,7 @@ export function updateVideoIsPlayingState(newState) {
 export function updateAdventure(newAdventureData: any) {
   return async (dispatch: Dispatch, getState: any) => {
     const adventureId = newAdventureData.id;
-    // let results: any;
+
     const data = await request({
       ...ROUTES.UPDATE_ADVENTURE,
       pathParams: { adventureId },
@@ -1261,7 +1251,6 @@ export function deleteMember({ conversationId, messengerId }) {
     try {
       const results: any = await request({
         ...ROUTES.DELETE_MEMBER,
-        // url: `me/conversations/{conversationId}/messengers/{messengerId}/block`,
         pathParams: {
           conversationId,
           messengerId,

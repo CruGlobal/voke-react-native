@@ -1,12 +1,6 @@
 import { StyleSheet } from 'react-native';
 import theme from 'utils/theme';
 
-const sharedStyles = {
-  title: {
-    // fontSize: theme.fontSizes.l,
-  },
-};
-
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'space-between',

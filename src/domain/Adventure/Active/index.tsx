@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   View,
   ScrollView,
-  FlatList,
   StatusBar,
-  ActivityIndicator,
   Platform,
   useWindowDimensions,
 } from 'react-native';
@@ -16,7 +14,6 @@ import { useTranslation } from 'react-i18next';
 import SkeletonContent from 'react-native-skeleton-content-nonexpo';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { getCurrentUserId } from 'utils/get';
-import AdventureStepCard from 'components/AdventureStepCard';
 import Flex from 'components/Flex';
 import Text from 'components/Text';
 import Video from 'components/Video';
@@ -91,7 +88,6 @@ function AdventureActive({ navigation, route }: Props): React.ReactElement {
     await dispatch(getMyAdventure(adventureId)).then(
       (data) => {
         // Received Adventure from the server.
-        // getSteps();
       },
       (error) => {
         // Can't Find Adventure.
@@ -177,11 +173,6 @@ function AdventureActive({ navigation, route }: Props): React.ReactElement {
         }}
         scrollIndicatorInsets={{ right: 1 }}
       >
-        {/* <Flex value={1} direction="row" align="center" justify="center" style={{padding:5}}>
-          <Text style={[st.fs18,{ color:'white'}]}>
-            {isGroup? adventure.journey_invite.name : adventure.name}
-          </Text>
-        </Flex> */}
         <SkeletonContent
           containerStyle={styles.listOfSteps}
           isLoading={!adventureItemId}

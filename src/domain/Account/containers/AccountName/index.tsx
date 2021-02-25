@@ -68,9 +68,9 @@ const AccountName = (props: Props): React.ReactElement => {
   // https://github.com/react-native-hooks/keyboard#configuration
   const keyboard = useKeyboard();
   const windowDimensions = Dimensions.get('window');
-  // const refBotBlock = useRef();
+
   const refBotBlock = useRef<TransitioningView>(null);
-  // const transition = <Transition.Change interpolation="easeInOut" />;
+
   const transition = (
     <Transition.Together>
       <Transition.Change interpolation="easeInOut" />

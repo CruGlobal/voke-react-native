@@ -1,7 +1,5 @@
-import { ReactText } from 'react';
 import { Platform } from 'react-native';
 import theme from 'utils/theme';
-import ui from 'utils/ui';
 
 const styles: { [key: string]: any } = {
   ...theme,

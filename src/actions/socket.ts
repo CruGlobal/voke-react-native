@@ -39,8 +39,6 @@ const WEBSOCKET_STATES = {
   CLOSED: 3,
 };
 
-// let ws: any = null;
-
 export const NAMESPACES = {
   MESSAGE: 'messenger:conversation:message',
   ADVENTURE: 'platform:organization:adventure:challenge',
@@ -50,8 +48,6 @@ export const NAMESPACES = {
 // The Cable Messaging API allows you to receive events from Voke in real time.
 // It is based on Ruby on Rails Action Cable websocket implementation.
 export const createWebSocketMiddleware = ({ dispatch, getState }) => {
-  // let ws: any = null;
-
   return (next) => (action) => {
     // Open WebSockets on STARTUP redux action.
     if (action.type === 'STARTUP' || action.type === 'SET_DEVICE') {
@@ -96,8 +92,6 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
                 } finally {
                   // Update data every time sockets reopenned.
                   // Don't do it here. We have wake-up action for that.
-                  /*  dispatch(getAdventuresInvitations());
-                  dispatch(getMyAdventures()); */
 
                   // Get notifications every time sockets connections reestablished.
                   dispatch(getNotifications());
@@ -222,7 +216,6 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
                 notification.category === 'CREATE_TYPESTATE_CATEGORY' ||
                 notification.category === 'DESTROY_TYPESTATE_CATEGORY'
               ) {
-                // dispatch(typeStateChangeAction(data.message));
               } else if (notification.category === 'JOIN_JOURNEY_CATEGORY') {
                 // FRIEND JOINED OUR ADVENTURE.
                 dispatch(getAdventuresInvitations());
@@ -231,14 +224,11 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
               } else if (notification.category === 'COMPLETE_STEP_CATEGORY') {
                 const journeyId = (message.journey || {}).id;
                 if (journeyId) {
-                  // dispatch(getMyJourneys());
-                  // dispatch(getMyJourneySteps((message.journey || {}).id));
                 }
               } else if (notification.category === 'UNLOCK_STEP_CATEGORY') {
                 // Next Adventure step unlocked from the server.
                 const journeyId = (message.journey || {}).id;
                 if (journeyId) {
-                  // dispatch(getMyJourneys());
                   dispatch(getAdventureSteps(journeyId));
                 }
               } else if (
@@ -249,22 +239,12 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
                 notification.category === 'BLOCK_JOURNEY_CATEGORY'
                 // If user blocked from Voke.
               ) {
-                // dispatch(userBlockedAction());
               }
             };
 
             global.ws.onerror = (error) => {
               // an error occurred
               console.log('🛑 socket error\n', error.message);
-              // throw error;
-              // Try to restart:
-              /*  setTimeout(
-                () =>
-                  dispatch({
-                    type: REDUX_ACTIONS.STARTUP,
-                  }),
-                5000,
-              ); */
             };
 
             global.ws.onclose = (error) => {
@@ -278,14 +258,6 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
         } catch (socketErr) {
           // Do nothing with the error
           console.log('🛑 socketErr:\n', socketErr);
-          // Try to restart:
-          /*  setTimeout(
-            () =>
-              dispatch({
-                type: REDUX_ACTIONS.STARTUP,
-              }),
-            5000,
-          ); */
         }
       }
     }
@@ -330,7 +302,7 @@ export function closeSocketAction() {
     try {
       if (global.ws) {
         global.ws.close(undefined, 'client closed');
-        global.ws = null; //  to avoid multiply ws objects and eventHandligs;
+        global.ws = null;
         console.log('sockets closed', global.ws);
       }
     } catch (socketErr) {

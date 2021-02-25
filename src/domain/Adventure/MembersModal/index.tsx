@@ -55,7 +55,7 @@ function AllMembersModal(props: Props) {
     adventureId,
     isJoined,
   }: {
-    adventureId: string; // TAdventureSingle;
+    adventureId: string;
     isJoined: boolean;
   } = props.route.params;
 
@@ -66,7 +66,6 @@ function AllMembersModal(props: Props) {
       ] || {},
   );
 
-  // const adventureId = props.route.params.adventure.messenger_journey_id;
   const allMessengers = adventure?.conversation?.messengers;
 
   const [messengers, setMessengers] = useState<TMessenger[]>([]);
@@ -297,9 +296,7 @@ function AllMembersModal(props: Props) {
               openAnimationConfig={{
                 timing: { duration: 300 },
               }}
-              onClose={(): void => {
-                // clearComplain();
-              }}
+              onClose={(): void => {}}
               rootStyle={{
                 elevation: 5, // need it here to solve issue with button shadow.
               }}

@@ -1,25 +1,21 @@
-import React, { useState, useRef, forwardRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-import { useNavigation } from '@react-navigation/native';
+import { SceneMap, TabBar } from 'react-native-tab-view';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWindowDimensions, ScrollView, FlatList, View } from 'react-native';
 import Flex from 'components/Flex';
 import analytics from '@react-native-firebase/analytics';
 import Text from 'components/Text';
-import StatusBar from 'components/StatusBar';
 import VokeIcon from 'components/VokeIcon';
 import VideoItem from 'components/VideoItem';
 import OldButton from 'components/OldButton';
 import { getVideos } from 'actions/requests';
-import { toastAction } from 'actions/info';
 import theme from 'utils/theme';
 import st from 'utils/st';
 import { useMount, lockToPortrait } from 'utils';
 
 function VideoList() {
-  const navigation = useNavigation();
   const { t } = useTranslation();
 
   const allVideos = useSelector(({ data }) => data.allVideos.allIds) || [];
@@ -43,9 +39,6 @@ function VideoList() {
   const window = useWindowDimensions();
   const THUMBNAIL_HEIGHT = ((window.width - 20) * 1) / 2;
   const ITEM_HEIGHT = THUMBNAIL_HEIGHT + 100 + 20;
-  function handleRefresh() {
-    loadVideos();
-  }
 
   useEffect(() => {
     setUpdatedPagination(videoPagination);
@@ -131,7 +124,6 @@ function VideoList() {
 
   useEffect(() => {
     if (filterId === 'allVideos') {
-      // setFilterId('allVideos');
       if (allVideos.length === 0) {
         loadVideos();
       } else {
@@ -139,7 +131,6 @@ function VideoList() {
       }
     }
     if (filterId === 'featuredVideos') {
-      // setFilterId('featuredVideos');
       if (featuredVideos.length === 0) {
         loadVideos();
       } else {
@@ -147,17 +138,12 @@ function VideoList() {
       }
     }
     if (filterId === 'popularVideos') {
-      // setFilterId('popularVideos');
       if (popularVideos.length === 0) {
         loadVideos();
       } else {
         setVideos(popularVideos);
       }
     }
-    /* if (filter === 'Favorite') {
-      setFilterId('favoriteVideos');
-      loadVideos();
-    } */
   }, [filterId]);
 
   const registerAnalyticsEvent = (newSelection: string) => {
@@ -210,9 +196,6 @@ function VideoList() {
                   title: t('popular'),
                 },
               ]}
-              /* 'Favorite', 'Search' */
-              // data={['allVideos','featuredVideos','popularVideos' ]}
-              // keyExtractor={item => item.id}
               renderItem={({ item, index, separators }) => (
                 <OldButton
                   key={item.id}
@@ -260,61 +243,14 @@ function VideoList() {
   );
 }
 
-function ChannelList() {
-  const dispatch = useDispatch();
-  useMount(() => {});
-  return (
-    <ScrollView style={[st.f1, st.bgBlue]} scrollIndicatorInsets={{ right: 1 }}>
-      <Text>NOTHING YET</Text>
-    </ScrollView>
-  );
-}
-
-function CustomTabBar(props) {
-  return (
-    <TabBar
-      {...props}
-      indicatorStyle={[theme.colors.primary]}
-      style={{ backgroundColor: theme.colors.primary }}
-      activeColor={st.colors.white}
-      inactiveColor={st.colors.blue}
-      renderLabel={({ route, focused, color }) => (
-        <Text style={[{ color }, st.fs16, st.fontFamilyMain, st.pv5]}>
-          {route.title}
-        </Text>
-      )}
-    />
-  );
-}
-
 function Videos() {
-  const insets = useSafeArea();
-  const dispatch = useDispatch();
-  const [index, setIndex] = React.useState(0);
-
   useMount(() => {
     lockToPortrait();
   });
 
-  const [routes] = React.useState([
-    { key: 'videos', title: 'Videos' },
-    { key: 'channels', title: 'Channels' },
-  ]);
-
-  const renderScene = SceneMap({
-    videos: VideoList,
-    channels: ChannelList,
-  });
   return (
     <>
       <Flex direction="column" justify="end" style={[st.w100, st.h100]}>
-        {/* <TabView
-          navigationState={{ index, routes }}
-          renderScene={renderScene}
-          onIndexChange={setIndex}
-          initialLayout={{ width: st.fullWidth }}
-          renderTabBar={props => <CustomTabBar {...props} />}
-        /> */}
         <VideoList />
       </Flex>
     </>

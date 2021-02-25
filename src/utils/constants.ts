@@ -314,13 +314,10 @@ const CONSTANTS: { [key: string]: { [key: string]: string | number } | any } = {
   IS_STAGING,
   EMAIL_REGEX: new RegExp(/^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/),
   GA_TRACKER: 'UA-39188989-7', // Google Analytics
-  // APPSEE_KEY: 'f12ec0fba0e24c6e80fa2f8fcbf1eb04',
 
   FACEBOOK_VERSION: 'v2.8',
   FACEBOOK_FIELDS: 'name,email,picture,about,cover,first_name,last_name',
   FACEBOOK_SCOPE: ['public_profile', 'email'], // FB data we want access to.
-  // FACEBOOK_FIELDS: 'name,picture,about,cover,first_name,last_name',
-  // FACEBOOK_SCOPE: ['public_profile'],
 
   PAGE_SIZE: 25, // This is the default page size from the API
   CONVERSATIONS_PAGE_SIZE: 12,
@@ -337,9 +334,6 @@ const CONSTANTS: { [key: string]: { [key: string]: string | number } | any } = {
   CLIENT_ID: IS_STAGING ? CLIENT_ID_STAGING : CLIENT_ID_PROD,
   CLIENT_SECRET: IS_STAGING ? CLIENT_SECRET_STAGING : CLIENT_SECRET_PROD,
   SALT_HASH: IS_STAGING ? SALT_HASH_STAGING : SALT_HASH_PROD,
-
-  // API_KEY: '69f02db1aff5035578e9',
-  // FB_ID: '443564615845137',
 
   WEB_URLS: {
     INSTAGRAM: 'https://instagram.com/_u/vokeapp',

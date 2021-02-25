@@ -24,8 +24,6 @@ const WEBSOCKET_STATES = {
   CLOSED: 3,
 };
 
-// let ws: any = null;
-
 export const NAMESPACES = {
   MESSAGE: 'messenger:conversation:message',
   ADVENTURE: 'platform:organization:adventure:challenge',
@@ -165,7 +163,7 @@ function handleNotifications(state: string, notification: { data?: any }) {
           category === 'JOIN_JOURNEY_CATEGORY'
         ) {
           // TODO: maybe use reportID to scroll the screen to this report?
-          // const reportId = linkParams.messenger_journey_reports;
+
           try {
             RootNavigation.navigate('AdventureManage', {
               adventureId,
@@ -339,7 +337,6 @@ export function permissionsAndNotifications(askPermission = false) {
             return dispatch(establishDevice());
           }
         });
-        // return dispatch(establishDevice());
       } else {
         // User selected: DON'T ALLOW notifications.
         // blocked

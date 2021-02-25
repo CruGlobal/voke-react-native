@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import { RouteProp, useFocusEffect } from '@react-navigation/native';
-// import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import AdventureStepReportCard from 'components/AdventureStepReportCard';
 import Flex from 'components/Flex';
@@ -41,7 +40,6 @@ type RootStackParamList = {
     editing: boolean;
     adventureId: string;
   };
-  // Feed: { sort: 'latest' | 'top' } | undefined;
 };
 
 type AdventureManageProps = {
@@ -130,9 +128,8 @@ function AdventureManage({ navigation, route }: Props): React.ReactElement {
   // Request steps from server if nothing stored locally.
   // useEffect(() => {
   //   if (!steps.allIds.length) {
-  //     dispatch(getAdventureSteps(adventureId));
+
   //   }
-  // }, [steps.allIds]);
 
   const replacePrevScreen = useCallback((): void => {
     const { routes } = navigation.dangerouslyGetState();

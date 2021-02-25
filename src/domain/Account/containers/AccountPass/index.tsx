@@ -3,7 +3,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
-  useWindowDimensions,
   TextInput,
   ScrollView,
 } from 'react-native';
@@ -12,11 +11,8 @@ import { useSafeArea } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useKeyboard } from '@react-native-community/hooks';
-import { useHeaderHeight } from '@react-navigation/stack';
 import DismissKeyboardView from 'components/DismissKeyboardHOC';
-import VokeIcon from 'components/VokeIcon';
 import TextField from 'components/TextField';
-import Triangle from 'components/Triangle';
 import OldButton from 'components/OldButton';
 import Flex from 'components/Flex';
 import Text from 'components/Text';
@@ -40,16 +36,7 @@ const AccountPass: React.FC = (): React.ReactElement => {
   const passwordRef = useRef<TextInput>(null);
   const newPasswordRef = useRef<TextInput>(null);
   const confirmNewPasswordRef = useRef<TextInput>(null);
-  const [topMargin, setTopMargin] = useState(0);
   const keyboard = useKeyboard();
-
-  useEffect(() => {
-    if (keyboard.keyboardShown) {
-      setTopMargin(-50);
-    } else {
-      setTopMargin(0);
-    }
-  }, [keyboard.keyboardShown]);
 
   useMount(() => {
     lockToPortrait();
@@ -206,7 +193,6 @@ const AccountPass: React.FC = (): React.ReactElement => {
                 <Text style={styles.ButtonStartLabel}>{t('save')}</Text>
               </OldButton>
             </Flex>
-            {/* Safe area at the bottom for phone with exotic notches */}
             <Flex
               style={{ height: keyboard.keyboardShown ? 0 : insets.bottom }}
             />

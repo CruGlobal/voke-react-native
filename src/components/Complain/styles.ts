@@ -7,13 +7,11 @@ const styles = StyleSheet.create({
     marginHorizontal: theme.spacing.s,
   },
   childrenStyle: {
-    // backgroundColor: 'rgba(255,255,255,.3)',
     borderRadius: theme.radius.l,
     overflow: 'hidden',
   },
   modalBlur: {
     ...StyleSheet.absoluteFillObject,
-    // backgroundColor: 'rgba(255,255,255,.3)',
   },
   modalBlurAndroid: {
     ...StyleSheet.absoluteFillObject,

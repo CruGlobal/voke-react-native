@@ -82,11 +82,6 @@ const SignOut = ({
               }, 10);
             })
           }
-          style={
-            {
-              /* padding: theme.spacing.m, */
-            }
-          }
           testID={'ctaSignOut'}
         >
           <Flex

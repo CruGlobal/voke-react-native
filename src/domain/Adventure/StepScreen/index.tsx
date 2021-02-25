@@ -131,7 +131,6 @@ const AdventureStepScreen = ({ navigation, route }: Props): ReactElement => {
     adventureIdStore,
     replacePrevScreen,
   ]);
-  // }, [currentStep?.id, adventure?.id]);
 
   useEffect(() => {
     if (!adventureIdStore) {

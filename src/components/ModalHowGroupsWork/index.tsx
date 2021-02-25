@@ -1,9 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, View } from 'react-native';
-// import Image from 'react-native-scalable-image';
-// import Image from '../../components/Image';
-
 import { tutorials } from 'assets';
 import theme from 'utils/theme';
 import Touchable from 'components/Touchable';

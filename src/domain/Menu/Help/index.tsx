@@ -1,10 +1,8 @@
 import React from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { ScrollView, Linking } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import Communications from 'react-native-communications';
-import { useDispatch } from 'react-redux';
 import Flex from 'components/Flex';
 import Text from 'components/Text';
 import Touchable from 'components/Touchable';
@@ -26,10 +24,8 @@ function SettingsRow({ title, onSelect }) {
   );
 }
 
-function MenuHelp(props) {
+function MenuHelp() {
   const insets = useSafeArea();
-  const navigation = useNavigation();
-  const dispatch = useDispatch();
   const { t } = useTranslation('settings');
 
   return (

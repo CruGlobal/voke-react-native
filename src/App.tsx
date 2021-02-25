@@ -257,8 +257,6 @@ const RootStackScreens = React.memo(
               }}
             />
           )}
-          {/* <AppStack.Screen name="WelcomeApp" component={WelcomeAppContainer} /> */}
-          {/* <AppStack.Screen name="Welcome" component={Welcome} /> */}
           {/* Don't hide these Welcome screens under !isLoggedIn
             as we need to access these when editing name and image
             for already logged in users.   */}
@@ -303,23 +301,7 @@ const RootStackScreens = React.memo(
                 ...transparentHeaderConfig.headerStyle,
                 paddingTop: insets.top, // TODO: Check if it really works here?
               },
-              headerRight: () => (
-                <>
-                  {/* <Touchable
-                // style={[st.p5, st.pl4, st.mb3]}
-                onPress={ () => {
-                    try {
-                      navigation.navigate('LoggedInApp', { screen: 'Adventures' });
-                    } catch (error) {
-                      navigation.navigate('Adventures');
-                    }
-                  }
-                }
-              >
-                <Text style={[st.white, st.fs16, st.pr5]}>Skip</Text>
-              </Touchable> */}
-                </>
-              ),
+              headerRight: () => <></>,
               headerLeft: (): ReactElement => (
                 <HeaderLeft testID="AccountPhoto" />
               ),
@@ -445,27 +427,7 @@ const RootStackScreens = React.memo(
               title: t('title:profile'),
             })}
           />
-          {/* RELEASE Check this case! */}
-          {/* <RootStack.Screen
-            name="SignUp"
-            component={AccountCreate}
-            options={({ navigation }) => ({
-              headerShown: true,
-              headerLeft: ():ReactElement => <HeaderLeft testID="SignUp" />,
-              cardStyle: { backgroundColor: theme.colors.transparent },
-              headerStyle: {
-                backgroundColor: theme.colors.primary,
-                elevation: 0,
-                shadowOpacity: 0,
-              },
-              headerTitleStyle: {
-                color: theme.colors.white,
-                fontSize: 18,
-                fontWeight: 'normal',
-              },
-              title: t('signUp'),
-            })}
-          /> */}
+
           <RootStack.Screen
             name="AccountEmail"
             component={AccountEmail}
@@ -638,10 +600,6 @@ const RootStackScreens = React.memo(
                   testID="AdventureManage"
                 />
               ),
-
-              /* navigation.navigate('AdventureActive', {
-                adventureId: adventureItem.id,
-              }); */
             })}
           />
           <RootStack.Screen
@@ -736,7 +694,6 @@ const App = () => {
 
   useEffect(() => {
     if (deeplink) {
-      // Alert.alert('deeplink:', deeplink);
     }
   }, [deeplink]);
 
@@ -746,9 +703,7 @@ const App = () => {
     routeNameRef.current = getActiveRouteName(state);
     Linking.addEventListener('url', deepLinkListener);
 
-    // const unsubscribe = dynamicLinks().onLink(handleDynamicLink);
     // When the is component unmounted, remove the listener
-    // return () => unsubscribe();
   }, []);
 
   const linking = {

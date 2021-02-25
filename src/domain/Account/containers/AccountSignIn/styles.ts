@@ -10,8 +10,6 @@ const sharedStyles = {
     borderWidth: 1,
     borderColor: theme.colors.white,
     flex: 1,
-    // width: '80%',
-    // minWidth: 170,
     alignSelf: 'center',
   },
   ButtonSignInLabel: {
@@ -48,7 +46,6 @@ const styles = StyleSheet.create({
   mainContainer: {
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: theme.colors.primary,
     width: '100%',
     height: '100%',
     backgroundColor: theme.colors.primary,
@@ -57,8 +54,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center', // Vertical.
     flexGrow: 1,
     width: '100%',
-    // paddingLeft: theme.spacing.xl,
-    // paddingRight: theme.spacing.xl,
   },
   divider: {
     width: '100%',

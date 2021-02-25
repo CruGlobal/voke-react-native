@@ -13,10 +13,7 @@ import OldButton from 'components/OldButton';
 import Image from 'components/Image';
 import VokeIcon from 'components/VokeIcon';
 import Spacer from 'components/Spacer';
-
-// import SingleReport from './SingleReport';
 import Button from 'components/Button';
-import theme from 'utils/theme';
 
 import {
   getComplains,
@@ -202,9 +199,7 @@ const ReportedMessages = ({ adventureId }) => {
           openAnimationConfig={{
             timing: { duration: 300 },
           }}
-          onClose={() => {
-            // clearComplain();
-          }}
+          onClose={() => {}}
           rootStyle={{
             elevation: 5, // need it here to solve issue with button shadow.
           }}
@@ -265,15 +260,12 @@ const ReportedMessages = ({ adventureId }) => {
                   <Text style={styles.modalText}>{t('reportModalText')}</Text>
                   <Spacer size="l" />
                   <Button
-                    onPress={
-                      () => {
-                        complainActionBlock({
-                          adventureId: adventureId,
-                          reportId: currentReport?.id,
-                        });
-                      }
-                      // modalizeRef.current?.close();
-                    }
+                    onPress={() => {
+                      complainActionBlock({
+                        adventureId: adventureId,
+                        reportId: currentReport?.id,
+                      });
+                    }}
                     // onPress={() => modalizeRef.current?.open()}
                     // testID={'ctaContinue' + index}
                     touchableStyle={styles.complainActionBlock}

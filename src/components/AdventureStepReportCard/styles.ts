@@ -71,10 +71,7 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.m,
     fontFamily: theme.fonts.semiBold,
   },
-  stepMembers: {
-    // paddingVertical: theme.spacing.l,
-    // paddingHorizontal: theme.spacing.l,
-  },
+  stepMembers: {},
   modalTitle: {
     color: theme.colors.secondary,
     fontSize: theme.fontSizes.xl,

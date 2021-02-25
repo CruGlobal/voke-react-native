@@ -41,7 +41,6 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
   //   name: '',
   //   expires_at: '',
   //   ...item,
-  // };
 
   const inviteItem: TInvitation =
     useSelector(
@@ -128,7 +127,6 @@ const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
         },
       ],
     );
-    // );
   };
 
   const showStatus = (): string => {

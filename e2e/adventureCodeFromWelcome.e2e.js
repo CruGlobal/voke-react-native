@@ -17,7 +17,6 @@ describe('Welcome > Have an Adventure Code', () => {
     await waitFor(element(by.id('textToast')))
       .toHaveText('Invalid code')
       .withTimeout(2000);
-    // await expect(element(by.id('textToast'))).toHaveText('Invalid Code');
   });
 
   it('should be able to input Adventure Code', async () => {
@@ -29,7 +28,6 @@ describe('Welcome > Have an Adventure Code', () => {
   });
 
   it('should error when entering wrong Name', async () => {
-    // await element(by.id('inputFirstName')).replaceText(adventureCode);
     await element(by.id('ctaNameContinue')).tap();
     await element(by.text('OK')).tap();
     await expect(element(by.id('inputFirstName'))).toBeVisible();

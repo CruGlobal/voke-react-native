@@ -103,14 +103,6 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
 
       try {
         const result = await dispatch(updateMe(data));
-        /* .then(() => {
-          this.resetState();
-        })
-        .catch(e => {
-          if (e && e.errors && e.errors[0]) {
-            Alert.alert(e.errors[0]);
-          }
-        }); */
         setIsLoading(false);
         navigation.navigate('AccountProfile');
       } catch (e) {
@@ -242,7 +234,6 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
                 <Text style={styles.ButtonStartLabel}>{t('save')}</Text>
               </OldButton>
             </Flex>
-            {/* Safe area at the bottom for phone with exotic notches */}
             <Flex
               style={{ height: keyboard.keyboardShown ? 0 : insets.bottom }}
             />

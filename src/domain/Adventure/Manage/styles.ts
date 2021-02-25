@@ -20,7 +20,6 @@ const sharredStyles = {
     elevation: 4,
     shadowRadius: 5,
     shadowOffset: { width: 1, height: 8 },
-    // width: '60%',
   },
   smallButtonLabel: {
     fontSize: theme.fontSizes.l,
@@ -58,11 +57,9 @@ const styles = StyleSheet.create({
   releaseSchedule: {
     paddingTop: theme.spacing.l,
     paddingHorizontal: theme.spacing.l,
-    // textAlign: 'center',
   },
   releaseScheduleText: {
     color: theme.colors.white,
-    // textAlign: 'center',
   },
   members: {
     paddingTop: theme.spacing.l,
@@ -79,8 +76,6 @@ const styles = StyleSheet.create({
     color: theme.colors.white,
     fontSize: theme.fontSizes.l,
     paddingTop: theme.spacing.m,
-    // paddingHorizontal: theme.spacing.l,
-    // paddingHorizontal: theme.spacing.l,
   },
   manageMembers: {
     color: theme.colors.secondary,
@@ -105,13 +100,6 @@ const styles = StyleSheet.create({
     borderRadius: theme.radius.xs,
     paddingHorizontal: theme.spacing.m,
     paddingVertical: theme.spacing.s,
-
-    /* shadowColor: 'rgba(0, 0, 0, 0.5)',
-    shadowOpacity: 0.5,
-    elevation: 4,
-    shadowRadius: 5,
-    shadowOffset: { width: 1, height: 2 },
-     */
   },
   membersAddButtonLabel: {
     color: theme.colors.secondary,
@@ -181,11 +169,9 @@ const styles = StyleSheet.create({
   },
   complains: {
     paddingVertical: theme.spacing.l,
-    // paddingHorizontal: theme.spacing.l,
   },
   complainsTitle: {
     paddingHorizontal: theme.spacing.l,
-    /* paddingTop: theme.spacing.l, */
     paddingBottom: theme.spacing.l,
   },
   complainsBlock: {
@@ -249,7 +235,6 @@ const styles = StyleSheet.create({
   },
   reportedMessageSecondary: {
     backgroundColor: theme.colors.secondary,
-    // flexDirection: 'row',
     width: '100%',
     alignItems: 'center',
     paddingVertical: theme.spacing.m,
@@ -282,10 +267,6 @@ const styles = StyleSheet.create({
   complainActions: {
     ...sharredStyles.complainActions,
   },
-  /*  complainActionsInactive: {
-    ...sharredStyles.complainActions,
-    opacity:.5,
-  }, */
   complainActionBlock: {
     ...sharredStyles.smallButton,
   },
@@ -310,7 +291,6 @@ const styles = StyleSheet.create({
     marginHorizontal: theme.spacing.s,
   },
   childrenStyle: {
-    // backgroundColor: 'rgba(255,255,255,.3)',
     borderRadius: theme.radius.l,
     overflow: 'hidden',
   },
@@ -374,11 +354,6 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.l,
     textAlign: 'center',
   },
-
-  /* modalTitleArea: {
-    paddingBottom: theme.spacing.s,
-    flexDirection: 'row',
-  }, */
 });
 
 export default styles;

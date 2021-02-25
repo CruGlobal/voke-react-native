@@ -9,8 +9,7 @@ import createRootReducer from 'reducers';
 
 import { createWebSocketMiddleware } from './actions/socket';
 
-const reduxLog = (store) => (next) => (action) => {
-  // console.log( 'REDUX: ' + action?.description, action)
+const reduxLog = (_store) => (next) => (action) => {
   return next(action);
 };
 
@@ -60,7 +59,7 @@ function configureStore(initialState) {
 
   return {
     store,
-    persistor: persistStore(store, null, async (fsError, fsResult) => {
+    persistor: persistStore(store, null, async (_fsError, _fsResult) => {
       const oldStore = await getOldData();
       const auth = store.getState()?.auth;
       if (

@@ -2,7 +2,7 @@ import AdvLanguageSwitch from 'domain/Adventures/AdvLanguageSwitch';
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { View, ScrollView, FlatList, RefreshControl } from 'react-native';
+import { View, FlatList } from 'react-native';
 import Touchable from 'components/Touchable';
 import AvailableAdventureItem from 'components/AvailableAdventureItem';
 import theme from 'utils/theme';

@@ -60,22 +60,7 @@ const AccountProfile = () => {
         scrollIndicatorInsets={{ right: 1 }}
         testID={'screenProfile'}
       >
-        <Flex
-          value={1}
-          style={[
-            styles.SectionOnboarding,
-            // { paddingTop: insets.top }
-          ]}
-        >
-          {/* Overscroll background color protection */}
-          {/* <Flex style={{
-          backgroundColor: styles.colors.primary,
-          height: 400,
-          position: 'absolute',
-          zIndex:0,
-          width: '100%',
-        }} /> */}
-          {/* <ScrollView> */}
+        <Flex value={1} style={[styles.SectionOnboarding]}>
           <Flex
             style={{
               height: '100%',
@@ -382,9 +367,6 @@ const AccountProfile = () => {
               />
             </Flex>
           </Flex>
-          {/* </ScrollView> */}
-
-          {/* Safe area bottom spacing */}
           <Flex
             style={{
               backgroundColor: styles.colors.primary,

@@ -28,17 +28,6 @@ const TouchableAndroid = forwardRef(
     useMount(() => clearTimeout(clickDisableTimeout));
 
     function handlePress(...args) {
-      /* if (clickDisabled) {
-        return;
-      }
-      // Prevent the user from being able to click twice
-      setClickDisabled(true);
-      // Re-enable the button after the timeout
-      clickDisableTimeout = setTimeout(() => {
-        setClickDisabled(false);
-      }, disableTimeout || 200);
-      // Call the users click function with all the normal click parameters */
-
       onPress(...args);
     }
 

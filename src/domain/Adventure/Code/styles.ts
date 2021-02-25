@@ -16,13 +16,10 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.primary,
     flex: 1,
     height: '100%',
-    // justifyContent: 'center',
   },
   scrollView: {
     minHeight: '100%',
     alignContent: 'stretch',
-    // flexDirection: 'column',
-    // justifyContent: 'center',
   },
   dismissKeyboard: {
     flex: 1,

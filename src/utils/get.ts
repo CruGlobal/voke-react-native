@@ -41,39 +41,8 @@ export function getNextReleaseDate({ startDate, releasePeriod }): string {
       timesReleased = 1;
     }
 
-    // const lastReleaseDaysAgo = timesReleased * releasePeriod + diffDurationDays;
-    // daysStartToNext = lastReleaseDaysAgo + releasePeriod;
-    // daysStartToNext = timesReleased * releasePeriod + releasePeriod;
     daysStartToNext = timesReleased * releasePeriod;
   }
-  // If daily release and released today and next release is today.
-  // Set daysStartToNext to zero.
-  /* if (
-    (releasePeriod === 1 && diffDurationDays === 0) ||
-    (releasePeriod === 7 && diffDurationDays === 0)
-  ) {
-    // Extract Release Time Only.
-    const releaseTime = moment(startDate).format('h:mm A');
-    // Add Release Time to Today's date.
-    const releaseToday = moment(
-      moment().format('DD MM YYYY') + ' ' + releaseTime,
-      'DD MM YYYY h:mm a',
-    )
-      .utc()
-      .format();
-
-    // Check if Today's release is in the past or in the future.
-    const releaseTodayDiff = moment(releaseToday).diff(moment());
-
-    const releaseInFuture = moment(startDate).diff(moment());
-
-    if (releaseTodayDiff > 0) {
-      // If Today's release didn't happed yet, don't add extra days.
-      daysStartToNext = 0;
-    }
-  } */
-
-  // First release is in the future
   if (diff > 0) {
     daysStartToNext = 0;
   }

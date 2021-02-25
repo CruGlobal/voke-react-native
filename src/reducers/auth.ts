@@ -1,6 +1,5 @@
 import { REDUX_ACTIONS } from 'utils/constants';
 import { TUser } from 'utils/types';
-import { exists } from 'utils';
 
 export type AuthDataKeys = 'device' | 'authType' | 'adventureInvitations';
 interface InitialStateTypes {
@@ -82,17 +81,6 @@ export default function (
           lastName: action.user.last_name,
           avatar: action.user.avatar,
           vokebotConversationId: action.user.vokebot_conversation_id,
-          // beliefScale: action.user.belief_scale,
-
-          /*  pendingNotifications: action.user.pending_notifications,
-          pendingConversations: action.user.pending_conversations,
-          pendingAdventures: action.user.pending_adventures, */
-
-          // Not used
-          // mainAdventureId: action.user.main_adventure_id,
-          // state: action.user.state, - don't use it.
-          // initials: action.user.initials, - don't use it.
-          // presentAt: action.user.present_at,
         },
       };
     case REDUX_ACTIONS.SET_DEVICE:
@@ -108,14 +96,6 @@ export default function (
           family: action.device.family,
           name: action.device.name,
           os: action.device.os,
-          /*
-          Not stored data:
-          queue_name(pin):null
-          queue_url(pin):null
-          backup_queue_name(pin):null
-          backup_queue_url(pin):null
-          created_at(pin):"2020-04-18T16:39:37.620Z"
-          updated_at(pin):"2020-04-19T03:29:31.587Z" */
         },
       };
     case REDUX_ACTIONS.SET_PUSH_TOKEN:

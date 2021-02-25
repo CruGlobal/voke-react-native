@@ -1,4 +1,3 @@
-import { ReactText } from 'react';
 import theme from 'utils/theme';
 import ui from 'utils/ui';
 

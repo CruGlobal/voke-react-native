@@ -60,11 +60,6 @@ function AdventureStepReportCard({
       data.adventureSteps[adventureId]?.byId[stepId]?.locked || false,
   );
 
-  /*  const step = useSelector(
-    ({ data }: RootState) =>
-      data.adventureSteps[adventureId].byId[step.id] || {},
-  ); */
-
   if (stepId === 'graduated' && adventure?.id) {
     const allUsers = adventure?.conversation?.messengers;
     const garduatedUsers = allUsers.filter((user) => user.completed);

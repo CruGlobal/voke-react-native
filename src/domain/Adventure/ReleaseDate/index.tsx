@@ -1,4 +1,3 @@
-import Select from 'domain/Common/Select';
 import ReleaseDaySwitch from 'domain/Adventures/ReleaseDaySwitch';
 
 import React, { useState, useEffect } from 'react';
@@ -16,7 +15,6 @@ import Text from 'components/Text';
 import Screen from 'components/Screen';
 import Spacer from 'components/Spacer';
 import { tutorials } from 'assets';
-import VokeIcon from 'components/VokeIcon';
 
 import { toastAction } from '../../../actions/info';
 import {
@@ -51,7 +49,6 @@ const GroupReleaseDate = (props): React.ReactElement => {
   const [date, setDate] = useState(releaseDate);
   const [gatingPeriod, setGatingPeriod] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     if (releaseSchedule === 'weekly') {
@@ -115,13 +112,13 @@ const GroupReleaseDate = (props): React.ReactElement => {
             kind: 'multiple',
             gating_period: releaseSchedule === 'manual' ? 0 : gatingPeriod,
             // Total of days between every step (default 0)
-            // - if you want it to be daily it should be: 1;
+
             // - if you want it to be weekly it should be: 7
             gating_start_at:
               // releaseSchedule === 'manual' ? null : moment(date).utc().format(),
               moment(date).utc().format(),
             // defines when the journey should start,
-            // and all of the operations are going to be over this period;
+
             // you have to send a datetime on this field
             // and it should be on UTC
           }),

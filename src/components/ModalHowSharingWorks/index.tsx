@@ -106,16 +106,6 @@ function ModalHowSharingWorks({ closeAction }): React.ReactElement {
               <Image width={130} source={tutorials.code} />
             </Flex>
           </>
-          {/* <View style={{minHeight:theme.spacing.l}} /> */}
-          {/* <Text style={{
-                  fontSize: 20,
-                  paddingHorizontal: 25,
-                  paddingVertical: 25,
-                  color: 'white',
-                  textAlign:"center"
-                  }}>{modalId === 'howDuoWorks' ?
-                  t('howDuoWorksStart') :
-                  t('howGroupsWorkStart')}</Text> */}
           <View style={{ minHeight: theme.spacing.xxl }} />
           <Flex>
             <OldButton
@@ -129,8 +119,6 @@ function ModalHowSharingWorks({ closeAction }): React.ReactElement {
               ]}
               onPress={() => {
                 closeAction();
-                // props.navigation.popToTop(); // Reset all modal of modal stacks. (this is available since 1.0.0 I think).
-                // props.navigation.goBack(null) // Then close modal itself to display the main app screen nav.
               }}
             >
               <Flex direction="row" align="center" justify="center">

@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
     borderRadius: theme.radius.s,
     paddingHorizontal: theme.spacing.m,
     paddingVertical: theme.spacing.m,
-    // justifyContent: 'flex-end',
     alignContent: 'center',
     flexDirection: 'row',
   },

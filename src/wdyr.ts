@@ -7,7 +7,4 @@ if (__DEV__) {
     trackAllPureComponents: true,
     trackExtraHooks: [[ReactRedux, 'useSelector']],
   });
-  /* whyDidYouRender(React, {
-    trackAllPureComponents: true,
-  }); */
 }

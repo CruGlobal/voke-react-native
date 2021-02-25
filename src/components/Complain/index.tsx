@@ -34,9 +34,7 @@ const Complain = () => {
     } else {
       modalizeRef.current?.close();
     }
-    return () => {
-      // clearComplain();
-    };
+    return () => {};
   }, [complain?.messageId]);
 
   useEffect(() => {

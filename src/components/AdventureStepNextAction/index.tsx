@@ -1,6 +1,4 @@
 import React from 'react';
-
-// import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
@@ -90,10 +88,7 @@ const AdventureStepNextAction = ({
 
   // If this is the last step and it's complete.
   if ((stepsIds[stepsIds.length - 1] || {}) === step.id) {
-    // return null;
-    /* TODO: Return this COMPLETE message; */
-    // this.props.scrollToEnd();
-
+    // TODO: Return this COMPLETE message
     return (
       <Flex
         direction="column"
@@ -180,7 +175,7 @@ const AdventureStepNextAction = ({
     );
     // TODO: Pass through invite name
     // if (journey.conversation.messengers.length === 2 && inviteName) {
-    //   otherUser = { first_name: inviteName };
+
     // }
     const inviteName = adventure.journey_invite?.name || '';
     let userName = '';
@@ -194,7 +189,6 @@ const AdventureStepNextAction = ({
   }
 
   if (isGroup && scheduledRelease && nextStepLocked) {
-    // text = t('share:nextVideoRelease') + "\n " + nextReleaseIn;
     text = printNextReleaseDate({
       nextReleaseDate,
       nextReleaseIn,

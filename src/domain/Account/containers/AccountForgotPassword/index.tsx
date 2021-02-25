@@ -62,8 +62,6 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
     <DismissKeyboardView
       style={{ backgroundColor: styles.colors.primary, height: '100%' }}
     >
-      {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
-
       {/* Makes possible to hide keyboard when tapping outside. */}
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // TODO: Verify!
@@ -158,7 +156,6 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
               <Text style={styles.ButtonSignInLabel}>Support</Text>
             </OldButton>
           </Flex>
-          {/* Safe area at the bottom for phone with exotic notches */}
           <Flex
             style={{
               paddingBottom: insets.bottom,

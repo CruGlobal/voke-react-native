@@ -1,14 +1,8 @@
 import process from 'process';
 
-// import dotenv from 'dotenv';
 import oneSky from '@brainly/onesky-utils';
 
 import translations from '../src/i18n/locales/en-US';
-// import translations from '../src/i18n/locales/es';
-// import translations from '../src/i18n/locales/pt-BR';
-// import translations from '../src/i18n/locales/fr';
-
-// dotenv.config({ path: '.env.local' });
 
 async function uploadTranslations() {
   const options = {
@@ -57,7 +51,6 @@ async function uploadTranslations() {
 
   console.log('Uploading to OneSky...', JSON.stringify(translations));
   try {
-    // console.log( options );
     const result = await oneSky.postFile(options);
     console.log(result);
     console.log('Successfully Uploaded.');

@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.m,
     fontFamily: theme.fonts.regular,
     textAlign: 'center',
-    // textShadowColor: 'rgba(32, 20, 16, .8)',
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 2,
     paddingTop: 20,

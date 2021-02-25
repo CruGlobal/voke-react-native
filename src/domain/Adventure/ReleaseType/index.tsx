@@ -1,18 +1,14 @@
-import React, { useState, ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import { useKeyboard } from '@react-native-community/hooks';
 import Carousel from 'react-native-snap-carousel';
-import { Alert, Platform, Keyboard, View, Dimensions } from 'react-native';
+import { View, Dimensions } from 'react-native';
 import VokeIcon from 'components/VokeIcon';
 import Flex from 'components/Flex';
 import Text from 'components/Text';
 import OldButton from 'components/OldButton';
 import BotTalking from 'components/BotTalking';
-import { sendAdventureInvitation, sendVideoInvitation } from 'actions/requests';
 import Screen from 'components/Screen';
 import theme from 'utils/theme';
 
@@ -29,77 +25,9 @@ function GroupReleaseType(props: any): ReactElement {
   } = props.route.params;
   const { t } = useTranslation('share');
   const navigation = useNavigation();
-  const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
-  const [showHelp, setShowHelp] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalHeight, setModalHeight] = useState(0);
-  const { width, height } = Dimensions.get('window');
-  // const email = useSelector(({ auth }: any) => auth?.user?.email);
+  const { width } = Dimensions.get('window');
 
   const keyboard = useKeyboard();
-
-  const NameValidationSchema = Yup.object().shape({
-    name: Yup.string().required(t('required')),
-  });
-
-  const formik = useFormik({
-    initialValues: {
-      name: '',
-    },
-    validationSchema: NameValidationSchema,
-    onSubmit: async (values) => {
-      Keyboard.dismiss();
-      // Before sending a group name to the server
-      // we need to check if user isn't a guest user.
-      if (!email) {
-        setModalOpen(true);
-      } else {
-        try {
-          setIsLoading(true);
-          let result;
-          if (isVideoInvite) {
-            // TODO: check this scenario.
-            result = await dispatch(
-              sendVideoInvitation({
-                name: values.name,
-                item_id: `${itemId}`,
-              }),
-            );
-          } else {
-            result = await dispatch(
-              sendAdventureInvitation({
-                organization_journey_id: itemId,
-                name: values.name,
-                kind: withGroup ? 'multiple' : 'duo',
-              }),
-            );
-          }
-
-          if (result?.id) {
-            navigation.navigate('AdventureShareCode', {
-              invitation: result,
-              withGroup: true,
-              isVideoInvite: false,
-            });
-          } else {
-            Alert.alert(
-              'Failed to create a valid invite.',
-              'Please try again.',
-            );
-          }
-        } catch (e) {
-          if (e?.message === 'Network request failed') {
-            Alert.alert(e?.message, t('checkInternet'));
-          } else if (e?.message) {
-            Alert.alert(e?.message);
-          } else {
-            console.error(e);
-          }
-        }
-      }
-    },
-  });
 
   const cardAction = (type) => {
     navigation.navigate('GroupReleaseDate', {
@@ -199,7 +127,6 @@ function GroupReleaseType(props: any): ReactElement {
               marginHorizontal:
                 theme.window.width < 375 ? -theme.spacing.l : -theme.spacing.xl,
             }}
-            // ref={(c) => { this._carousel = c; }}
             data={[
               {
                 icon: 'month',

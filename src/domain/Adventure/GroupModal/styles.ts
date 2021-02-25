@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 import theme from 'utils/theme';
-const THUMBNAIL_WIDTH = 140;
 
 const styles = StyleSheet.create({
   container: {
@@ -16,7 +15,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.secondaryAlt,
     borderRadius: 10,
     paddingTop: theme.spacing.m,
-    // width: '100%',
   },
 });
 

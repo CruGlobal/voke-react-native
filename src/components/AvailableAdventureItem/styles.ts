@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
   },
   card: {
     borderRadius: theme.radius.s,
-    // paddingHorizontal: theme.spacing.m,
     minHeight: 200,
 
     borderStyle: 'solid',
@@ -43,11 +42,6 @@ const styles = StyleSheet.create({
     color: theme.colors.white,
     paddingVertical: theme.spacing.s,
   },
-  /* shareLabel: {
-    color: theme.colors.white,
-    lineHeight: 20,
-  }, */
-
   bottomLine: {
     backgroundColor: 'rgba(0,0,0,0.5)',
     paddingHorizontal: theme.spacing.m,

@@ -34,9 +34,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 1, height: 8 },
   },
 
-  buttonStylingSolid: {
-    // ...ui.button.style.solid,
-  },
+  buttonStylingSolid: {},
 
   buttonStylingOutline: {
     ...sharedStyles.buttonOutline,
@@ -122,9 +120,7 @@ const styles = StyleSheet.create({
     color: theme.colors.white,
   },
 
-  textColorSolid: {
-    // color: theme.colors.secondary,
-  },
+  textColorSolid: {},
 
   iconColorSolid: {
     color: theme.colors.secondary,
@@ -140,12 +136,10 @@ const styles = StyleSheet.create({
   buttonSizeM: {
     paddingVertical: theme.spacing.s,
     paddingHorizontal: theme.spacing.l,
-    // borderRadius: theme.radius.xxl,
   },
   buttonSizeL: {
     paddingVertical: theme.spacing.m,
     paddingHorizontal: theme.spacing.l,
-    // borderRadius: theme.radius.xxl,
   },
 
   // TEXT SIZE:
@@ -157,13 +151,11 @@ const styles = StyleSheet.create({
   textSizeS: {
     fontSize: theme.fontSizes.m,
     lineHeight: theme.fontSizes.m * 1.35,
-    // backgroundColor: theme.colors.red,
   },
   iconSizeS: {
     fontSize: theme.fontSizes.l,
     lineHeight: theme.fontSizes.m * 1.35,
     marginRight: theme.spacing.xs,
-    // backgroundColor: theme.colors.black,
   },
   textSizeM: {
     fontSize: theme.fontSizes.xl,
@@ -202,77 +194,7 @@ const styles = StyleSheet.create({
 
   // -------------------------
 
-  icon: {
-    // marginRight: theme.spacing.l,
-  },
-
-  /* outerSolidPrimaryL: {
-    ...sharedStyles.buttonLarge,
-    backgroundColor: theme.colors.primary,
-  },
-  textSolidPrimaryL: {
-    ...sharedStyles.buttonText,
-    ...sharedStyles.buttonTextLarge,
-    color: theme.colors.white,
-  },
-  iconSolidPrimaryL: {
-    ...sharedStyles.buttonIcon,
-    ...sharedStyles.buttonTextLarge,
-    color: theme.colors.white,
-  }, */
-  // -------------------------
-  /* outerSolidSecondaryL: {
-    ...sharedStyles.buttonLarge,
-    backgroundColor: theme.colors.secondary,
-  },
-  textSolidSecondaryL: {
-    ...sharedStyles.buttonText,
-    ...sharedStyles.buttonTextLarge,
-    color: theme.colors.white,
-  },
-  iconSolidSecondaryL: {
-    ...sharedStyles.buttonIcon,
-    ...sharedStyles.buttonTextLarge,
-    color: theme.colors.white,
-  }, */
-  // -------------------------
-
-  /* outerSolidBlankL: {
-    ...sharedStyles.buttonLarge,
-    backgroundColor: theme.colors.white,
-  },
-
-  iconSolidBlankL: {
-    ...sharedStyles.buttonIcon,
-    ...sharedStyles.buttonTextLarge,
-    color: theme.colors.secondary,
-  }, */
-  // -------------------------
-
-  /* textOutlineBlankL: {
-    ...sharedStyles.buttonText,
-    ...sharedStyles.buttonTextLarge,
-    color: theme.colors.white,
-  },
-  textOutlineBlankL: {
-    ...sharedStyles.buttonText,
-    ...sharedStyles.buttonTextLarge,
-    color: theme.colors.white,
-  }, */
-
-  /* iconOutline: {
-    ...sharedStyles.buttonIcon,
-    ...sharedStyles.buttonTextLarge,
-  },
-  iconBlank: {
-    color: theme.colors.white,
-  }, */
-  // -------------------------
-  /* text: {
-    ...ui.buttonText.size.l,
-    paddingLeft: theme.spacing.m,
-    paddingRight: theme.spacing.m,
-  }, */
+  icon: {},
 });
 
 export default styles;

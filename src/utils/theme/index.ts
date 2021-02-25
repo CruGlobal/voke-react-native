@@ -1,4 +1,3 @@
-/* Global Styles */
 import { Platform, Dimensions } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
@@ -103,10 +102,6 @@ const theme: {
     xl: 18,
     xxl: 88,
   },
-  /*  dimensions: {
-    fullWidth: screenWidth,
-    fullHeight: screenHeight,
-  }, */
 };
 
 export default theme;

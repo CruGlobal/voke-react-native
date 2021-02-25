@@ -1,12 +1,6 @@
 import { StyleSheet } from 'react-native';
 import theme from 'utils/theme';
 
-const sharedStyles = {
-  title: {
-    // fontSize: theme.fontSizes.l,
-  },
-};
-
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'space-between',
@@ -21,17 +15,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignSelf: 'center',
   },
-  stepImage: {
-    // width: '50%',
-    // flex: 1,
-  },
+  stepImage: {},
   stepText: {
     fontSize: theme.fontSizes.l,
-    // paddingRight: theme.spacing.xl,
     color: theme.colors.white,
-    // width: '50%',
     flex: 1,
-    // backgroundColor: theme.colors.red,
   },
   startText: {
     fontSize: 20,

@@ -1,7 +1,7 @@
 import SpecialMessage from 'domain/Chat/SpecialMessage';
 import TextMessage from 'domain/Chat/TextMessage';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Clipboard from '@react-native-community/clipboard';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';

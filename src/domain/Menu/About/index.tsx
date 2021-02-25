@@ -1,10 +1,10 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { ScrollView, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import DeviceInfo from 'react-native-device-info';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Flex from 'components/Flex';
 import Image from 'components/Image';
 import Text from 'components/Text';
@@ -12,7 +12,6 @@ import Touchable from 'components/Touchable';
 import { logos } from 'assets';
 import CONSTANTS from 'utils/constants';
 import st from 'utils/st';
-import { getTimeSinceStartup } from 'react-native-startup-time';
 import { RootState } from 'reducers';
 
 function SettingsRow({ title, onSelect }) {
@@ -30,7 +29,7 @@ function SettingsRow({ title, onSelect }) {
   );
 }
 
-function MenuAbout(props) {
+function MenuAbout() {
   const [testMode, setTestMode] = useState(false);
   const [testStateCnt, setTestStateCnt] = useState(0);
   const { t } = useTranslation();

@@ -2,16 +2,14 @@ import React, { useState } from 'react';
 import ImagePicker from 'react-native-image-picker'; // Used for native selector between gallery and cammera.
 import ImagePickerWithCrop from 'react-native-image-crop-picker'; // Used for image cropping features.
 import { useSelector, useDispatch } from 'react-redux';
-import { useSafeArea } from 'react-native-safe-area-context';
 import { RouteProp, useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, Dimensions } from 'react-native';
+import { Dimensions } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import Flex from 'components/Flex';
 import Text from 'components/Text';
 import Image from 'components/Image';
 import OldButton from 'components/OldButton';
-import Triangle from 'components/Triangle';
 import VokeIcon from 'components/VokeIcon';
 import Touchable from 'components/Touchable';
 import BotTalking from 'components/BotTalking';
@@ -36,7 +34,6 @@ type Props = {
 function AccountPhoto(props: Props) {
   const { t } = useTranslation('tryItNow');
   const onComplete = props?.route?.params?.onComplete;
-  const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [loginLoading, setLoginLoading] = useState(false);

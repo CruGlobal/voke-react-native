@@ -12,7 +12,7 @@ import styles from './styles';
 
 // Can't use import for json:
 // https://github.com/microsoft/TypeScript/issues/24715
-// const languageCodes = [];
+
 type Option = {
   label: string;
   selected?: boolean;

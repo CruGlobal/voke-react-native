@@ -28,14 +28,11 @@ function ModalNotifications({ closeAction }): React.ReactElement {
     if (pushNotificationPermission === 'granted') {
       closeAction();
     }
-    return () => {
-      /* cleanup */
-    };
+    return () => {};
   }, [pushNotificationPermission]);
 
   return (
     <Screen testID="modalNotifications" background="transparent">
-      {/* ScrollView bounces={false} */}
       <Flex style={styles.container} direction="column" align="center">
         <View style={{ minHeight: theme.spacing.xl }} />
         <BotTalking type="uke">

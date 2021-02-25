@@ -47,7 +47,6 @@ type Props = {
   noKeyboard?: boolean;
   layout?: 'embed' | null;
   bounces?: boolean;
-  // [x: string]: any; // ..rest
 };
 
 const Screen = ({

@@ -60,9 +60,7 @@ const TextMessage = (props: Props): React.ReactElement => {
   };
 
   // Don't allow to open message context if:
-  // – it's blurred;
-  // – it's from the VokeBot (in Duo or in Multichoice);
-  // – it's a shared message by VokeBot (in Multichoice);
+
   const canOpenContext = (): boolean => {
     return (
       !isBlured &&

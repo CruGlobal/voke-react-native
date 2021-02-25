@@ -12,10 +12,8 @@ const API_VERSION = 'v1';
 
 let domain = '';
 if (!CONSTANTS.IS_STAGING) {
-  // setTimeout(() => console.log('🛑 POINTING TO PROD'), 1);
   domain = '';
 } else {
-  // setTimeout(() => console.log('🟢 POINTING TO STAGING'), 1);
   domain = '-stage';
 }
 
@@ -39,7 +37,7 @@ function replaceUrlParam(url, pathParams) {
     for (const [key, value] of Object.entries(pathParams)) {
       // Match the route/{routeId}
       let param = (tempUrl.match(/\{[A-Za-z0-9]*\}/) || [])[0];
-      // console.log('param, value', param, value);
+
       // Remove the brackets from the matching result
       if (param) {
         param = param.replace(/[\{\}]/g, '');
@@ -73,7 +71,7 @@ function buildParams(options) {
 export default function request<T>(options): Promise<T> {
   let finalUrl = replaceUrlParam(options.url, options.pathParams);
   const params = qs.stringify(buildParams(options));
-  // finalUrl = `${API_BASE_URL}${finalUrl}?${params}`;
+
   if (options.isAuth) {
     finalUrl = `${AUTH_URL}${finalUrl}?${params}`;
   } else {
@@ -106,17 +104,8 @@ export default function request<T>(options): Promise<T> {
     )
       .then(json)
       .then((resp) => {
-        // resp.data;
         console.log('RNFetchBlob > resp:');
         console.log(resp);
-        // return resp.data;
-        /* dispatch({
-            description: options.description,
-            type: REDUX_ACTIONS.REQUEST_SUCCESS,
-            url: finalUrl,
-            method: newObj.method,
-            result: resp,
-          }); */
 
         return resp;
       })
@@ -141,7 +130,6 @@ export default function request<T>(options): Promise<T> {
           .json()
           .then((message) => {
             // Got valid JSON with error response, use it
-            // throw new Error(message || response.status); << not working.
             throw message;
           })
           .catch((e) => {
@@ -154,50 +142,17 @@ export default function request<T>(options): Promise<T> {
       }
       // Successful response, parse the JSON and return the data
       return response.json().then((r) => {
-        /* dispatch({
-            description: options.description,
-            type: REDUX_ACTIONS.REQUEST_SUCCESS,
-            url: finalUrl,
-            method: newObj.method,
-            result: r,
-          }); */
         return r as Promise<T>;
       });
     })
     .catch((e) => {
       console.log('fetch error', e);
-      /* dispatch({
-          type: REDUX_ACTIONS.REQUEST_FAIL,
-          url: finalUrl,
-          method: newObj.method,
-          error: e,
-        }); */
 
       // If user blocked server will return 403,
       // meaning we should to mark the current user as blocked in the store.
       if (e.status === 403) {
-        // dispatch(userBlockedAction());
       }
-      // if (options.url !== ROUTES.LOGOUT.url) {
-      //   const unauthMessages = [
-      //     'Missing active access token',
-      //     'Unable to validate token',
-      //     'Sorry, that token is no longer valid',
-      //     'Valid token is missing user',
-      //   ];
-      //   if (e && unauthMessages.includes(e.message)) {
-      //     console.log('unable to validate token. User needs to login again.');
-      //     if ([ROUTES.LOGIN.url, ROUTES.LOGIN_WITH_TOKEN.url].includes(options.url)) {
-      //       // Trying to login, but got an error message, just show the toast
-      //       toast.error({ message: e.message });
-      //     } else {
-      //       dispatch(showModal({ type: 'UserUnauth' }));
-      //     }
-      //   }
-      // }
 
-      // Couldn't parse the JSON
-      // throw e;
       return e;
     });
 }
@@ -221,97 +176,12 @@ function imageUpload(url, headers, data) {
       console.log('status:');
       console.log(status);
 
-      if (status === 200) {
-        // if (!response.ok) {
-        /*
-      return response
-        .json();
-        .then(({ message }) => {
-          // Got valid JSON with error response, use it
-          throw new Error(message || response.status);
-        })
-        .catch(e => {
-          // Couldn't parse the JSON
-          throw e;
-        }); */
-        /* return response.blob().then(({ message }) => {
-          // Got valid JSON with error response, use it
-          throw new Error(message || response.status);
-        })
-        .catch(e => {
-          // Couldn't parse the JSON
-          throw e;
-        });; */
-      }
-      /* return response.blob(); */
-      /* if (options.blob) {
       return response.blob();
-    } */
-      return response.blob();
-      // let json = response.json();
-      // return json;
-      // Successful response, parse the JSON and return the data
-      /*  dispatch({
-        description: options.description,
-        type: REDUX_ACTIONS.REQUEST_SUCCESS,
-        url: url,
-        method: 'PUT',
-        result: json,
-    }); */
     })
     .catch((e) => {
       console.log('imageUpload fetch error', e);
-      /*  dispatch({
-      type: REDUX_ACTIONS.REQUEST_FAIL,
-      url: url,
-      method: 'PUT',
-      error: e,
-    }); */
-      // if (options.url !== ROUTES.LOGOUT.url) {
-      //   const unauthMessages = [
-      //     'Missing active access token',
-      //     'Unable to validate token',
-      //     'Sorry, that token is no longer valid',
-      //     'Valid token is missing user',
-      //   ];
-      //   if (e && unauthMessages.includes(e.message)) {
-      //     console.log('unable to validate token. User needs to login again.');
-      //     if ([ROUTES.LOGIN.url, ROUTES.LOGIN_WITH_TOKEN.url].includes(options.url)) {
-      //       // Trying to login, but got an error message, just show the toast
-      //       toast.error({ message: e.message });
-      //     } else {
-      //       dispatch(showModal({ type: 'UserUnauth' }));
-      //     }
-      //   }
-      // }
-
-      // Couldn't parse the JSON
-      // throw e;
       return e;
     });
-
-  /*
-  .then((res) => {
-    let status = res.info().status;
-
-    if(status == 200) {
-      // the conversion is done in native code
-      let base64Str = res.base64()
-      // the following conversions are done in js, it's SYNC
-      let text = res.text()
-      let json = res.json()
-      return json;
-    } else {
-      // handle other status codes
-      console.log( 'wrong status!' )
-    }
-  })
-  // Something went wrong:
-  .catch((errorMessage, statusCode) => {
-    // error handling
-    console.warn( "errorMessage:" ); console.log( errorMessage );
-    console.warn( "statusCode:" ); console.log( statusCode );
-  }) */
 }
 
 export function json(response) {

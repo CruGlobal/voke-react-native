@@ -10,8 +10,6 @@ import Triangle from '../Triangle';
 
 import styles from './styles';
 
-// import { Image } from 'react-native';
-
 interface IBotTalking {
   reference?: React.RefObject<HTMLButtonElement>;
   children?: React.ReactNode;

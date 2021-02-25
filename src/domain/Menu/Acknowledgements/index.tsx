@@ -1,9 +1,7 @@
 import React from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { ScrollView, Linking } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import Flex from 'components/Flex';
 import Image from 'components/Image';
 import Text from 'components/Text';
@@ -30,8 +28,6 @@ function SettingsRow({ title, onSelect }) {
 function MenuAcknowledgements() {
   const insets = useSafeArea();
   const { t } = useTranslation();
-  const navigation = useNavigation();
-  const dispatch = useDispatch();
 
   return (
     <Flex value={1} style={[st.bgWhite, { paddingBottom: insets.bottom }]}>

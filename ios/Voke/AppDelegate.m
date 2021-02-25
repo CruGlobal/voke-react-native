@@ -70,12 +70,12 @@ static void InitializeFlipper(UIApplication *application) {
   // https://rnfirebase.io/#validate-ios-credentials
   // if ([FIRApp defaultApp] == nil) {
     [FIRApp configure];
-    // [Fabric with:@[CrashlyticsKit]];
+
   // }
 
   // VOKE: Facebook Login SDK
 //  [[FBSDKApplicationDelegate sharedInstance] application:application
-//    didFinishLaunchingWithOptions:launchOptions];
+
 
   return YES;
 }
@@ -99,15 +99,15 @@ static void InitializeFlipper(UIApplication *application) {
 //    openURL:url
 //    sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
 //    annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
-//  ];
+
   // Voke: Deeplink for React Native
   BOOL handleRCT = [RCTLinkingManager application:application
     openURL:url
     options:options
   ];
   // Voke: Deeplink for Firebase?
-  // BOOL handleFirebase = [[RNFBDynamicLinksAppDelegateInterceptor sharedInstance] application:application openURL:url options:options];
-//  return handleFBSDK || handleRCT;
+
+
   return handleRCT;
 }
 // Voke: Needed for handling orientation changes

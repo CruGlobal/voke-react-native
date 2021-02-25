@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.l,
     fontFamily: theme.fonts.semiBold,
     textAlign: 'center',
-    // textTransform: 'uppercase',
     color: theme.colors.white,
   },
 

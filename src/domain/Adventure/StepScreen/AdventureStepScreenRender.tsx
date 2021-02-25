@@ -26,7 +26,6 @@ import { REDUX_ACTIONS } from 'utils/constants';
 import { RootState } from 'reducers';
 import Complain from 'components/Complain';
 import AdventureStepNextAction from 'components/AdventureStepNextAction';
-import AdventureStepMessage from 'components/AdventureStepMessage';
 import DismissKeyboardView from 'components/DismissKeyboardHOC';
 import MainMessagingInput from 'components/MainMessagingInput';
 import Flex from 'components/Flex';
@@ -34,7 +33,6 @@ import Text from 'components/Text';
 import st from 'utils/st';
 import theme from 'utils/theme';
 import Video from 'components/Video';
-import VokeIcon from 'components/VokeIcon';
 import {
   TAdventureSingle,
   TAnswer,
@@ -48,7 +46,6 @@ import {
   interactionVideoPlay,
   getAdventureSteps,
 } from 'actions/requests';
-import useWhyDidYouUpdate from 'hooks/useWhyDidYouUpdate';
 import { toastAction } from 'actions/info';
 import { bots } from 'assets';
 import Image from 'components/Image';
@@ -190,13 +187,6 @@ const AdventureStepScreenRender = ({
     ({ data }: RootState) => data.adventureStepMessages[currentStep?.id] || [],
     // Custom equalityFn comparing length of the array only.
     // Can't do that anymore as reactions/emojies data change inside the message.
-    /* (item, previousItem) => {
-      if (item.length === previousItem.length) {
-        return true;
-      } else {
-        return false;
-      }
-    }, */
   );
 
   const videoIsPlaying = useSelector(
@@ -352,14 +342,6 @@ const AdventureStepScreenRender = ({
     currentStep.unread_messages,
     userId,
   ]);
-
-  /* useWhyDidYouUpdate('🧚‍♀️', {
-    adventureId,
-    conversationId,
-    currentStep,
-    dispatch,
-    isSolo,
-  }); */
 
   return (
     <View

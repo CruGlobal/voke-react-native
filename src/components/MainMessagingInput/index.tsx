@@ -26,7 +26,6 @@ function MainMessagingInput({ adventure, step, onFocus, ...rest }) {
   const dynPadding = insets.bottom ? insets.bottom : theme.spacing.m;
   const bottomPadding = keyboard.keyboardShown ? theme.spacing.m : dynPadding;
   const handleSendMessage = () => {
-    // Keyboard.dismiss();
     // Don't send empty messages.
     if (text.length === 0) {
       return;

@@ -7,12 +7,12 @@ import Button from 'components/Button';
 import Datepicker from 'components/Datepicker';
 import Spacer from 'components/Spacer';
 
-const KitchenSink = (props) => {
+const KitchenSink = () => {
   const [date, setDate] = useState(new Date(1598051730000));
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
 
-  const onChange = (event, selectedDate) => {
+  const onChange = (_event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
     setDate(currentDate);

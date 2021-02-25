@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
     color: theme.colors.white,
     fontSize: theme.fontSizes.l,
     fontFamily: theme.fonts.semiBold,
-    // lineHeight: theme.fontSizes.xl * 1.3,
     textAlign: 'center',
   },
   buttonTitleCancel: {
@@ -36,9 +35,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: 'floralwhite',
     borderRadius: theme.radius.l,
-    // height: theme.window.width * 0.8,
     height: 300,
-    // width: 100,
     paddingHorizontal: theme.spacing.m,
     paddingVertical: theme.spacing.xl,
     alignItems: 'center',
@@ -54,7 +51,6 @@ const styles = StyleSheet.create({
   },
   cardRecommended: {
     color: theme.colors.orange,
-    // position: 'absolute',
     top: -theme.spacing.s,
   },
 });

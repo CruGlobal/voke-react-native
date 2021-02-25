@@ -1,4 +1,3 @@
-// const { lte } = require('lodash');
 const { signin, signout } = require('./shortcuts');
 
 describe('Group Adventure With Manual Release', () => {
@@ -135,7 +134,7 @@ describe('Group Adventure With Manual Release', () => {
     /* await waitFor(element(by.id('ctaPlayerPlay')))
       .toBeVisible()
       .withTimeout(5000); */
-    // await element(by.id('ctaPlayerPlay')).tap();
+
     await element(by.id('inputEnterAnswer')).replaceText('Test answer');
     await element(by.id('ctaSendAnswer')).tap();
     await expect(element(by.id('inputMainChatInput'))).toBeVisible();

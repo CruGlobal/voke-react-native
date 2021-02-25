@@ -42,7 +42,6 @@ const ReleaseDaySwitch = ({ selected, setOption }: Params): ReactElement => {
             ...current,
             { label: option.label, value: option.value, selected: true },
           ]);
-          // setCurrentOption(selected);
         } else {
           setSelectOptions((current: string) => [
             ...current,
@@ -66,7 +65,6 @@ const ReleaseDaySwitch = ({ selected, setOption }: Params): ReactElement => {
         // Mark selected language as current in the options object.
         newSelectOptions[index].selected = true;
         setOption(selectedOption?.value || '');
-        // setCurrentOption(option.label);
       } else {
         delete newSelectOptions[index].selected;
       }

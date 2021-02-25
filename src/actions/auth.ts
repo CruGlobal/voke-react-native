@@ -77,7 +77,6 @@ export function updateMe(data) {
 }
 
 export function loginAction(authToken) {
-  // const authToken = authData.access_token;
   return async (dispatch) => {
     await dispatch({ type: REDUX_ACTIONS.LOGIN, authToken });
   };
@@ -145,27 +144,6 @@ export function wakeupAction() {
     const currentScreen = getState().info?.currentScreen?.screen;
     LOG('🌝 function wakeupAction', { currentScreen });
 
-    /* await Linking.getInitialURL().then(
-      (data) => {
-        if ( data ) {
-          Alert.alert(
-            'Deep Link:',
-            data?.url,
-          );
-        }
-      }
-    ); */
-
-    /*
-    Try to extract dynamiclink with Adventure code passed by Firebase.
-    dynamicLinks()
-      .getInitialLink()
-      .then(link => {
-        if (link.url === 'https://invertase.io/offer') {
-          // ...set initial route as offers screen
-        }
-      }); */
-
     await dispatch(permissionsAndNotifications());
     const deviceId = getState().auth.device.id; // TODO: can I move it to the top?
     dispatch(openSocketAction(deviceId));
@@ -180,12 +158,6 @@ export function wakeupAction() {
     // AdventureActive (Steps)
     if (currentScreen === 'AdventureActive') {
       const { adventureId } = getState().info?.currentScreen?.data;
-      /* dispatch(
-        getAdventureStepMessages(
-          conversationId,
-          adventureStepId
-        )
-      ); */
       console.log('going to refresh steps');
       dispatch(getAdventureSteps(adventureId));
     }
@@ -492,9 +464,6 @@ export function appleSignIn() {
       identityToken,
       fullName,
       email,
-      // nonce,
-      // realUserStatus,
-      // authorizationCode,
     } = appleAuthRequestResponse;
 
     /**
@@ -554,9 +523,9 @@ export function passwordResetAction(email) {
         (result) => {
           console.log('🗝 Reset Password:\n', result);
           // Received login response do Logout/reset state.
-          // logoutAction();
+
           // Update user data in the state with ones received.
-          // dispatch(loginAction(authData.access_token));
+
           // After all download user details from server.
           return;
         },
@@ -639,7 +608,7 @@ export function createAccount(user) {
       (userData) => {
         console.log('👤 createAccount \n\n', userData);
         // Received login response do Logout/reset state.
-        // logoutAction();
+
         // Update user data in the state with ones received.
         return dispatch(setUser(userData));
       },
@@ -664,13 +633,9 @@ export function deleteAccountAction() {
       (success) => {
         console.log('👤 Account Deleted \n\n', success);
         setAppIconBadgeNumber(0);
-        // Clear data in the local storage if user logout.
-        // AsyncStorage.clear(); - we do that in the parrent functions
-        // return;
       },
       (error) => {
         console.log('🛑 Delete account error', error);
-        // return;
       },
     );
   };

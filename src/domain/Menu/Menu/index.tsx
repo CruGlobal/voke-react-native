@@ -35,7 +35,7 @@ function Menu() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const email = useSelector(({ auth }: any) => auth?.user?.email);
-  const { t, i18n } = useTranslation('share');
+  const { t } = useTranslation('share');
 
   const signOut = () => {
     dispatch(logoutAction()).then(() => {
@@ -74,18 +74,12 @@ function Menu() {
         <SettingsRow
           title={t('shareApp')}
           onSelect={() =>
-            Share.open(
-              {
-                subject: t('checkTitle'),
-                title: t('checkTitle'),
-                message: t('checkMessage'),
-                url: 'https://voke.page.link/app', // At least one of URL and message is required.
-              },
-              /* ,
-              {
-                dialogTitle: 'Share',
-              }, */
-            )
+            Share.open({
+              subject: t('checkTitle'),
+              title: t('checkTitle'),
+              message: t('checkMessage'),
+              url: 'https://voke.page.link/app', // At least one of URL and message is required.
+            })
           }
         />
         <SettingsRow

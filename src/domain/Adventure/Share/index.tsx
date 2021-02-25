@@ -1,13 +1,11 @@
-import React, { useState, useRef } from 'react';
-import { useSafeArea } from 'react-native-safe-area-context';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import React, { useRef } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import Clipboard from '@react-native-community/clipboard';
 import analytics from '@react-native-firebase/analytics';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dimensions } from 'react-native';
 import Share from 'react-native-share';
-import { useHeaderHeight } from '@react-navigation/stack';
 import { Modalize } from 'react-native-modalize';
 import { Portal } from 'react-native-portalize';
 import ModalNotifications from 'components/ModalNotifications';
@@ -29,39 +27,28 @@ function AdventureShareCode(props) {
   const { invitation, withGroup, isVideoInvite } = props.route.params;
   const modalizeRef = useRef<Modalize>(null);
   const modalizeSharingRef = useRef<Modalize>(null);
-  const insets = useSafeArea();
-  const navigation = useNavigation();
   const dispatch = useDispatch();
   const { t } = useTranslation('share');
   const { pushNotificationPermission } = useSelector(
     ({ info }: RootState) => info,
   );
   const askedNotifications = useRef(false);
-  const headerHeight = useHeaderHeight();
   const windowDimensions = Dimensions.get('window');
-  const [modalId, setModalId] = useState(null);
   let popupTimeout = null;
 
   const handleShare = () => {
-    Share.open(
-      {
-        message: isVideoInvite
-          ? t('share:shareMessageVideo', {
-              friend: ' ' + invitation?.first_name,
-              link: invitation.url,
-            })
-          : t('share:shareMessage', {
-              friend: withGroup ? '' : ' ' + invitation?.name,
-              link: invitation?.preview_journey_url,
-              code: invitation?.code,
-            }),
-        // {t('downloadMessage')}`Download Voke and join my ${invitation.name} Adventure. Use code: ${invitation.code} ${CONSTANTS.APP_URL}`,
-      },
-      /* ,
-      {
-        dialogTitle: t('share'),
-      }, */
-    )
+    Share.open({
+      message: isVideoInvite
+        ? t('share:shareMessageVideo', {
+            friend: ' ' + invitation?.first_name,
+            link: invitation.url,
+          })
+        : t('share:shareMessage', {
+            friend: withGroup ? '' : ' ' + invitation?.name,
+            link: invitation?.preview_journey_url,
+            code: invitation?.code,
+          }),
+    })
       .then((res) => {
         // Google Analytics: Record share action.
         // https://rnfirebase.io/reference/analytics#logShare
@@ -292,10 +279,6 @@ function AdventureShareCode(props) {
           <ModalNotifications
             closeAction={(): void => {
               modalizeRef.current?.close();
-              /* navigation.navigate('AdventureName', {
-                item,
-                withGroup: true,
-              }); */
             }}
           />
         </Modalize>
@@ -321,10 +304,6 @@ function AdventureShareCode(props) {
           <ModalHowSharingWorks
             closeAction={(): void => {
               modalizeSharingRef.current?.close();
-              /* navigation.navigate('AdventureName', {
-                item,
-                withGroup: true,
-              }); */
             }}
           />
         </Modalize>

@@ -94,7 +94,7 @@ function Video({
   const lockOrientationRef = useRef<boolean>(lockOrientation);
 
   // System lock (android only).
-  // const [rotationLock, setRotationLock] = useState(false);
+
   const [screenOrientation, setScreenOrientation] = useState<string>(
     'portrait',
   );
@@ -111,9 +111,6 @@ function Video({
   const [currentTime, setCurrentTime] = useState<number>(0);
   const window = useWindowDimensions();
   const dispatch = useDispatch();
-
-  // const time = youtubeVideo.current.getCurrentTime();
-  // const duration = youtubeVideo.current.getDuration();
 
   // Update progress slider every second.
   useInterval(() => {
@@ -185,7 +182,6 @@ function Video({
       onOrientationChange('portrait');
     }
 
-    /* if (Platform.OS === 'android' && Platform.Version < 26 ) { */
     if (Platform.OS === 'android') {
       // Only Device Orientation Listener works on older Android models.
       Orientation.addDeviceOrientationListener(handleOrientationChange);
@@ -278,7 +274,6 @@ function Video({
         }
         break;
       // default:
-      // break;
     }
   }
 
@@ -298,13 +293,6 @@ function Video({
   return (
     <View
       style={[
-        /*  st.h(
-         dimensions.height === VIDEO_HEIGHT && !hideInsets
-            ? dimensions.height + insets.top
-            : dimensions.height,
-
-        ), */
-        // st.w(dimensions.width), - NOT WORKING RIGHT
         st.bgDeepBlack,
         {
           ...containerStyles,

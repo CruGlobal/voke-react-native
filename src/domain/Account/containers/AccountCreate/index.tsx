@@ -37,13 +37,6 @@ import { useMount, lockToPortrait } from 'utils';
 
 import styles from './styles';
 
-/* type Props = {
-  layout?: 'embed';
-  parentScroll: object;
-  scrollTo: number;
-  onComplete: any;
-}; */
-
 type NavigationPropType = StackNavigationProp<
   RootStackParamList,
   'AccountCreate'
@@ -73,15 +66,14 @@ const AccountCreate = (props: Props): React.ReactElement => {
   const [isLoading, setIsLoading] = useState(false);
 
   const passwordRef = useRef<TextInput>(null);
-  // const passwordRef = useRef<HTMLInputElement>(null);
+
   // https://github.com/react-native-hooks/keyboard#configuration
   const keyboard = useKeyboard();
-  // const refBotBlock = useRef();
+
   const refBotBlock = useRef<TransitioningView>(null);
   const headerHeight = useHeaderHeight();
   const { width, height } = Dimensions.get('window');
 
-  // const transition = <Transition.Change interpolation="easeInOut" />;
   const transition = (
     <Transition.Together>
       <Transition.Change interpolation="easeInOut" />
@@ -141,7 +133,6 @@ const AccountCreate = (props: Props): React.ReactElement => {
 
   return (
     <Screen layout={layout} noKeyboard={layout === 'embed'}>
-      {/* <StatusBar /> <- TODO: Not sure why we need it here? */}
       {layout !== 'embed' ? (
         <>
           <Flex
@@ -197,7 +188,6 @@ const AccountCreate = (props: Props): React.ReactElement => {
         {/* INPUT FIELD: PASSWORD */}
         <TextField
           ref={passwordRef}
-          // blurOnSubmit={true}
           label={t('placeholder:password')}
           placeholder={t('placeholder:password')}
           value={password}

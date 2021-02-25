@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useKeyboard } from '@react-native-community/hooks';
-import { Alert, ScrollView, Platform, Keyboard, View } from 'react-native';
+import { Alert, ScrollView, Keyboard, View } from 'react-native';
 import CustomTabs from 'components/CustomTabs';
 import Flex from 'components/Flex';
 import Text from 'components/Text';
@@ -37,12 +37,7 @@ function AdventureName(props: any): ReactElement {
 
   const modalizeRef = useRef<Modalize>(null);
   const contentRef = useRef<React.RefObject<ScrollView>>(null);
-  const tabsHeightRef = useRef(null);
   const [tabsHeight, setTabsHeight] = useState(0);
-
-  const onOpen = () => {
-    modalizeRef.current?.open();
-  };
 
   const keyboard = useKeyboard();
 
@@ -145,7 +140,6 @@ function AdventureName(props: any): ReactElement {
 
   return (
     <Screen noKeyboard={modalOpen} bounces={false}>
-      {/* <View style={{ minHeight: keyboard.keyboardShown ? theme.spacing.xl : 0 }} /> */}
       <Flex
         value={1}
         direction="column"

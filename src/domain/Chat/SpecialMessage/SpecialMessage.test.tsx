@@ -1,11 +1,8 @@
 import React from 'react';
-import { fireEvent } from '@testing-library/react-native';
 import '@testing-library/jest-native';
 import {
   mockUser,
   mockStepDecisionInactive,
-  mockMessageBinaryDefault,
-  mockMessageBinarySelected,
   groupAdventureMock,
   mockMessageQuestion,
 } from 'mocks/vokeDataMocks';
@@ -78,34 +75,3 @@ it('renders correctly - kind "question" - answered', () => {
   expect(queryByTestId('inputEnterAnswer')).not.toBeTruthy();
   expect(queryByTestId('ctaSendAnswer')).not.toBeTruthy();
 });
-
-// TODO: FIX THIS TEST LATER
-/* it('emit events correctly - kind "question"', async () => {
-  const onFocus = jest.fn();
-  const { store, getByTestId } = renderWithContext(
-    <SpecialMessage
-      message={mockMessageQuestion}
-      nextMessage={null}
-      kind="question"
-      adventure={groupAdventureMock}
-      step={mockStepDecisionInactive}
-      onFocus={(): void => {
-        onFocus();
-      }}
-    />,
-    { initialState },
-  );
-
-  // Testing sending reply to the question.
-  // store.clearActions();
-
-  fireEvent(getByTestId('inputEnterAnswer'), 'onFocus');
-  expect(onFocus).toHaveBeenCalled();
-
-  fireEvent.changeText(getByTestId('inputEnterAnswer'), 'Some answer');
-  fireEvent.press(getByTestId('ctaSendAnswer'));
-
-  const actions = store.getActions();
-  expect(actions).toMatchSnapshot();
-});
- */

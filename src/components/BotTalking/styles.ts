@@ -31,7 +31,6 @@ const sharedStyles = {
 
 const styles = StyleSheet.create({
   BotContainer: {
-    // paddingHorizontal: theme.spacing.l,
     marginTop: theme.spacing.m,
     alignSelf: theme.window.width > 500 ? 'center' : 'auto',
   },

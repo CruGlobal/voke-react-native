@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
     color: theme.colors.white,
     fontSize: theme.fontSizes.l,
     fontFamily: theme.fonts.semiBold,
-    // lineHeight: theme.fontSizes.xl * 1.3,
     textAlign: 'center',
   },
   buttonTitleCancel: {

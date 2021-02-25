@@ -82,7 +82,6 @@ function AdventureAvailable(props: Props): React.ReactElement {
   const navigation = useNavigation();
   const [isPortrait, setIsPortrait] = useState(true);
   const { item, alreadyStartedByMe } = props.route.params;
-  const [isLoading, setIsLoading] = useState(false);
   const [soloStarted, setSoloStarted] = useState(alreadyStartedByMe);
   const [withGroup, setWithGroup] = useState(false);
   const { duoTutorialCount, groupTutorialCount } = useSelector(
@@ -128,7 +127,6 @@ function AdventureAvailable(props: Props): React.ReactElement {
 
   async function startByMyself() {
     try {
-      setIsLoading(true);
       const result = await dispatch(
         startAdventure({ organization_journey_id: item.id }),
       );
@@ -140,8 +138,6 @@ function AdventureAvailable(props: Props): React.ReactElement {
       });
     } catch (e) {
       console.log('Error starting adventure by myself', e);
-    } finally {
-      setIsLoading(false);
     }
   }
 

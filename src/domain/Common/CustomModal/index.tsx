@@ -16,27 +16,29 @@ import { RootState } from 'reducers';
 
 import { requestPremissions } from '../../../actions/auth';
 
-export default function CustomModal(props: any): React.ReactElement {
-  // const AccountForgotPassword: React.FC = (): React.ReactElement => {
+interface Props {
+  modalId: string;
+  primaryAction: () => void;
+  onClose?: () => void;
+}
+
+export default function CustomModal({
+  modalId,
+  primaryAction,
+  onClose,
+}: Props): React.ReactElement {
   const modalizeRef = useRef<Modalize>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const { t } = useTranslation('modal');
-  // const { modalId, primaryAction } = props.route.params;
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {
-    modalId,
-    primaryAction,
-    modalTopOffset = 140,
-    onClose = () => {},
-  } = props;
   // Current user tutorial mode status stored in
   // store.info.groupTutorialCount
-  const { duoTutorialCount, groupTutorialCount, tutorialMode } = useSelector(
+  const { duoTutorialCount, groupTutorialCount } = useSelector(
     ({ info }: RootState) => info,
   );
   const withGroup = props.group === 'withGroup' ? true : false;
-  const { pushNotificationPermission, notificationsRequest } = useSelector(
+  const { pushNotificationPermission } = useSelector(
     ({ info }: RootState) => info,
   );
   const me = useSelector(({ auth }) => auth.user);
@@ -54,7 +56,7 @@ export default function CustomModal(props: any): React.ReactElement {
       modalizeRef.current?.open();
     } else {
       modalizeRef.current?.close();
-      onClose();
+      onClose?.();
     }
   }, [modalOpen]);
 
@@ -103,16 +105,13 @@ export default function CustomModal(props: any): React.ReactElement {
       pushNotificationPermission === 'granted'
     ) {
       props.navigation.goBack(null);
-      // props.navigation.popToTop(); <- don't use this as it will send user
       // to my adventures screen when back from the settings to enable notifications
     }
   };
 
   useEffect(() => {
     checkNotificationsPopupVisibility();
-    return () => {
-      /* cleanup */
-    };
+    return () => {};
   }, [pushNotificationPermission]);
 
   // Events firing when user leaves the screen or comes back.
@@ -145,7 +144,7 @@ export default function CustomModal(props: any): React.ReactElement {
       }}
     >
       <View>
-        {/* // HOW DUO and GROUP WORKS */}
+        {/* HOW DUO and GROUP WORKS */}
         {(modalId === 'howDuoWorks' || modalId === 'howGroupsWork') && (
           <ScrollView bounces={false} scrollIndicatorInsets={{ right: 1 }}>
             <Flex
@@ -175,28 +174,12 @@ export default function CustomModal(props: any): React.ReactElement {
                     st.br6,
                     st.w(st.fullWidth - 120),
                   ]}
-                  onPress={primaryAction}
+                  onPress={() => primaryAction()}
                 >
                   <Flex direction="row" align="center" justify="center">
                     <Text style={[st.white, st.fs20]}>{t('getStarted')}</Text>
                   </Flex>
                 </OldButton>
-                {/* <OldButton
-                  isAndroidOpacity={true}
-                  style={[
-                    st.pd4,
-                    st.mb3,
-                    st.br6,
-                    st.w(st.fullWidth - 120),
-                    st.bw1,
-                    {borderColor: "white"}
-                  ]}
-                  onPress={() => toggleModal()}
-                >
-                  <Flex direction="row" align="center" justify="center">
-                    <Text style={[st.white, st.fs20]}>{t('cancel')}</Text>
-                  </Flex>
-                </OldButton> */}
               </Flex>
               <View style={{ minHeight: theme.spacing.xl }} />
               <Flex align="center" justify="center">
@@ -388,22 +371,6 @@ export default function CustomModal(props: any): React.ReactElement {
                     </Flex>
                   </OldButton>
                   <View style={{ minHeight: theme.spacing.xxl }} />
-                  {/* <OldButton
-                    isAndroidOpacity={true}
-                    style={[
-                      st.pd4,
-                      st.mb1,
-                      st.br6,
-                      st.w(st.fullWidth - 120),
-                      st.bw1,
-                      {borderColor: "white"}
-                    ]}
-                    onPress={() => toggleModal()}
-                    >
-                    <Flex direction="row" align="center" justify="center">
-                      <Text style={[st.white, st.fs20]}>{t('cancel')}</Text>
-                    </Flex>
-                  </OldButton> */}
                 </Flex>
               </Flex>
             </Flex>
@@ -416,47 +383,10 @@ export default function CustomModal(props: any): React.ReactElement {
               direction="column"
               align="center"
             >
-              <BotTalking
-                type="overlay"
-                /* heading={
-                  t('howSharingWorks')
-                } */
-              >
+              <BotTalking type="overlay">
                 {t('howSharingWorksBotBody')}
               </BotTalking>
-              <Flex value={1} style={{ marginTop: -15 }}>
-                {/* <OldButton
-                  isAndroidOpacity={true}
-                  style={[
-                    st.pd4,
-                    st.bgBlue,
-                    st.mb4,
-                    st.br6,
-                    st.w(st.fullWidth - 120),
-                  ]}
-                  onPress={() => primaryAction()}
-                >
-                  <Flex direction="row" align="center" justify="center">
-                    <Text style={[st.white, st.fs20]}>{t('getStarted')}</Text>
-                  </Flex>
-                </OldButton> */}
-                {/* <OldButton
-                  isAndroidOpacity={true}
-                  style={[
-                    st.pd4,
-                    st.mb3,
-                    st.br6,
-                    st.w(st.fullWidth - 120),
-                    st.bw1,
-                    {borderColor: "white"}
-                  ]}
-                  onPress={() => toggleModal()}
-                >
-                  <Flex direction="row" align="center" justify="center">
-                    <Text style={[st.white, st.fs20]}>{t('cancel')}</Text>
-                  </Flex>
-                </OldButton> */}
-              </Flex>
+              <Flex value={1} style={{ marginTop: -15 }} />
               <View style={{ minHeight: theme.spacing.xl }} />
               <Flex align="center" justify="center">
                 <>
@@ -538,16 +468,6 @@ export default function CustomModal(props: any): React.ReactElement {
                     <Image width={130} source={tutorials.code} />
                   </Flex>
                 </>
-                {/* <View style={{minHeight:theme.spacing.l}} /> */}
-                {/* <Text style={{
-                  fontSize: 20,
-                  paddingHorizontal: 25,
-                  paddingVertical: 25,
-                  color: 'white',
-                  textAlign:"center"
-                  }}>{modalId === 'howDuoWorks' ?
-                  t('howDuoWorksStart') :
-                  t('howGroupsWorkStart')}</Text> */}
                 <View style={{ minHeight: theme.spacing.xxl }} />
                 <Flex>
                   <OldButton
@@ -559,11 +479,7 @@ export default function CustomModal(props: any): React.ReactElement {
                       st.br6,
                       st.w(st.fullWidth - 120),
                     ]}
-                    onPress={() => {
-                      onClose();
-                      // props.navigation.popToTop(); // Reset all modal of modal stacks. (this is available since 1.0.0 I think).
-                      // props.navigation.goBack(null) // Then close modal itself to display the main app screen nav.
-                    }}
+                    onPress={() => onClose?.()}
                   >
                     <Flex direction="row" align="center" justify="center">
                       <Text style={[st.white, st.fs20]}>{t('gotIt')}</Text>
@@ -599,7 +515,6 @@ export default function CustomModal(props: any): React.ReactElement {
                   },
                 ]}
                 onPress={() => {
-                  // toggleModal();
                   return dispatch(requestPremissions());
                 }}
                 testID={'ctaAllowNotifications'}
@@ -632,7 +547,7 @@ export default function CustomModal(props: any): React.ReactElement {
                   },
                 ]}
                 onPress={() => {
-                  onClose();
+                  onClose?.();
                   // props.navigation.popToTop()
                 }}
               >

@@ -1,7 +1,4 @@
-/* Global Styles */
 import theme from 'utils/theme';
-
-// const { width, height } = Dimensions.get('window');
 
 const ui: { [key: string]: any } = {
   ...theme,
@@ -39,7 +36,6 @@ const ui: { [key: string]: any } = {
   buttonText: {
     size: {
       m: {
-        /* color: theme.colors.secondary}; */
         fontSize: theme.fontSizes.l,
         fontFamily: theme.fonts.regular,
         textAlign: 'center',
@@ -51,7 +47,6 @@ const ui: { [key: string]: any } = {
         textAlign: 'center',
       },
       wl: {
-        /* color: theme.colors.secondary}; */
         fontSize: theme.fontSizes.xl,
         lineHeight: theme.fontSizes.xl * 1.35,
         fontFamily: theme.fonts.regular,

@@ -60,8 +60,6 @@ const ROUTES = {
     // isAuth: true, // Request to be made on auth subdomain.
     customData: {
       client: CLIENT,
-      // grant_type: 'password',
-      // scope: 'messenger',
     },
   },
   REVOKE_TOKEN: {
@@ -77,14 +75,6 @@ const ROUTES = {
     method: 'delete',
     url: 'me',
   },
-  /* UPDATE_ME_IMAGE: {
-    url: 'me',
-    method: 'put',
-    // Force this request to use a custom imageUpload method
-    extra: {
-      imageUpload: true,
-    },
-  }, */
 
   // https://docs.vokeapp.com/#me-get-me
   GET_ME: {

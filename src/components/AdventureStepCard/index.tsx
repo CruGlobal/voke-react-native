@@ -63,7 +63,7 @@ function AdventureStepCard({
   const [isWaiting, setIsWaiting] = useState(
     isActive && step['completed_by_messenger?'],
   );
-  // const [isLocked, setIsLocked] = useState(!isCompleted && !isActive);
+
   const [isLocked, setIsLocked] = useState(true);
   const [isNext, setIsNext] = useState(false);
   const messengers = (adventure?.conversation || {}).messengers || [];
@@ -188,7 +188,6 @@ function AdventureStepCard({
           align="center"
           justify="start"
         >
-          {/* {isGroup && isLocked && isActive && ( */}
           {isGroup && isLocked && isNext && (
             <Flex
               align="center"
@@ -236,7 +235,6 @@ function AdventureStepCard({
               <Text style={isActive ? styles.partActive : styles.partInactive}>
                 {t('part')} {step.position}
               </Text>
-              {/* {isActive || isCompleted ? ( */}
               {/* UNREAD COUNTER */}
               <Spacer size="s" />
               {step.unread_messages && !isSolo ? (
@@ -257,25 +255,6 @@ function AdventureStepCard({
                   </Text>
                 </Flex>
               ) : null}
-              {/* <Flex direction="row" align="center" style={[st.pt6]}>
-                <VokeIcon
-                  name="speech-bubble-full"
-                  style={[
-                    step.unread_messages && !isSolo ? st.orange : isCompleted ? st.white : st.charcoal,
-                  ]}
-                />
-                {step.unread_messages && !isSolo ? (
-                  <Flex
-                    align="center"
-                    justify="center"
-                    style={[st.circle(20), st.bgOrange, st.ml6]}
-                  >
-                    <Text style={[st.white]}>
-                      {step.unread_messages > 99 ? '99' : step.unread_messages}
-                    </Text>
-                  </Flex>
-                ) : null}
-              </Flex> */}
             </Flex>
             <Flex style={styles.stepNumberContainer}>
               <Text

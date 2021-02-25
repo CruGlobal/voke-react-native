@@ -2,23 +2,16 @@ import { StyleSheet } from 'react-native';
 import theme from 'utils/theme';
 import ui from 'utils/ui';
 
-const sharredStyles = {};
-
 const styles = StyleSheet.create({
   Screen: {
     width: '100%',
     height: '100%',
     backgroundColor: theme.colors.primary,
   },
-  SectionOnboarding: {
-    // Responsive margin to fit everything on small devices.
-    // paddingHorizontal: theme.window.width > 700 ? theme.spacing.l : 0,
-    // paddingVertical: theme.window.width > 700 ? theme.spacing.xl : 0,
-  },
+  SectionOnboarding: {},
   mainActions: {
     // For tablets:
     justifyContent: 'center',
-    // flexDirection: theme.window.width > 500 ? 'row' : 'column',
     paddingVertical: theme.spacing.m,
     paddingBottom:
       theme.window.height > 760 ? theme.spacing.l : theme.spacing.s,
@@ -77,8 +70,6 @@ const styles = StyleSheet.create({
     bottom: -theme.spacing.l,
     // For tablets.
     right: 0,
-    // right: theme.window.width > 500 ? 'auto' : 0,
-    // left: theme.window.width > 500 ? theme.spacing.xl : 'auto',
   },
   helpSectionIcon: {
     textAlign: 'right',

@@ -79,12 +79,6 @@ function AvailableAdventureItem(
           <Text style={styles.title} testID={'adventureTitle'}>
             {adventureData.name}
           </Text>
-          {/* <Text
-            style={[st.fs(24), st.white, st.light, st.tac]}
-            numberOfLines={2}
-          >
-            {adventureData.slogan}
-          </Text> */}
 
           {shouldInviteFriend ? (
             <Flex justify="center">

@@ -24,7 +24,6 @@ function ModalAppUpdate(): ReactElement {
   const dispatch = useDispatch();
   const modalizeRef = useRef<Modalize>(null);
   const updateNeeded = useCheckUpdate();
-  // const updateNeeded = 'minor'; // - left here for testing
   const storeUrl = useStoreUrl('1056168356');
   const remindToUpdateOn: string = useSelector(
     ({ info }: RootState) => info.remindToUpdateOn,

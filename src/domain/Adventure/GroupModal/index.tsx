@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { useSafeArea } from 'react-native-safe-area-context';
+import React from 'react';
 import { RouteProp, useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { ScrollView, View } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import Flex from 'components/Flex';
@@ -32,11 +31,8 @@ type Props = {
 
 function GroupModal(props: Props) {
   const { t } = useTranslation();
-  const insets = useSafeArea();
   const navigation = useNavigation();
   const me = useSelector(({ auth }) => auth.user);
-  const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
   const { adventureId } = props.route.params;
   // We update local adventures when accepting invite.
   // If no adventures in the local store at this point - we have a problem.

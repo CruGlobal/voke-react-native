@@ -28,7 +28,6 @@ const getUpdateNeeded = async ({
   });
 
   if (isMajorUpdate.isNeeded) {
-    // Major update;
     // 1.X.X => 2.X.X
     return MAJOR_UPDATE;
   }
@@ -40,7 +39,6 @@ const getUpdateNeeded = async ({
   });
 
   if (isMinorUpdate.isNeeded) {
-    // Minor update;
     // 1.1.X => 1.2.X
     return MINOR_UPDATE;
   }

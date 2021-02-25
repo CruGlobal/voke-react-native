@@ -34,13 +34,6 @@ import CONSTANTS from 'utils/constants';
 
 import styles from './styles';
 
-/* interface Props {
-  layout: string;
-  parentScroll: React.RefObject<ScrollView>;
-  scrollTo: number;
-  onComplete: () => void;
-} */
-
 type NavigationPropType = StackNavigationProp<
   RootStackParamList,
   'AccountSignIn'
@@ -86,11 +79,11 @@ const AccountSignIn: FunctionComponent<Props> = (props) => {
     password: Yup.string().min(8, t('shortPassword')).required(t('required')),
   });
 
-  const login = async (): Promise<void> => {
+  const login = async (email: string, password: string): Promise<void> => {
     setIsLoading(true);
 
     try {
-      await dispatch(userLogin(formik.values.email, formik.values.password));
+      await dispatch(userLogin(email, password));
       setIsLoading(false);
       if (layout === 'embed') {
         onComplete();
@@ -108,7 +101,7 @@ const AccountSignIn: FunctionComponent<Props> = (props) => {
       } else if (e?.status === 403) {
         dispatch(userBlockedAction());
       } else if (e?.error_description) {
-        Alert.alert(error_description);
+        Alert.alert(e?.error_description);
       }
 
       setIsLoading(false);
@@ -121,8 +114,8 @@ const AccountSignIn: FunctionComponent<Props> = (props) => {
       password: '',
     },
     validationSchema: SigninSchema,
-    onSubmit: async () => {
-      await login();
+    onSubmit: async ({ email, password }) => {
+      await login(email, password);
     },
   });
 
@@ -193,12 +186,6 @@ const AccountSignIn: FunctionComponent<Props> = (props) => {
       navigation.navigate('LoggedInApp');
     }
   };
-
-  /* const cancelLoading = () => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-  }; */
 
   return (
     <Screen

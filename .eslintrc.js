@@ -100,5 +100,11 @@ module.exports = {
         '@typescript-eslint/explicit-function-return-type': 'off',
       },
     },
+    {
+      files: ['*.stories.tsx', '*.test.tsx', '__tests__/**.*'],
+      rules: {
+        '@typescript-eslint/no-empty-function': 'off',
+      },
+    },
   ],
 };

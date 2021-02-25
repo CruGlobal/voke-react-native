@@ -97,22 +97,6 @@ function AdventureStepsList(props: AdventureStepCardProps): React.ReactElement {
     [adventureId],
   );
 
-  // Prefetch data for the next active step and the steps with new messages.
-  /* useEffect(() => {
-    if (!loading) {
-      for (const [key, stepId] of Object.entries(stepsListIds)) {
-        if (
-          step?.unread_messages > 0 ||
-          (step?.status === 'active' && existingMessages.length > 0)
-        ) {
-          dispatch(
-            getAdventureStepMessages(adventureId, stepId),
-          );
-        }
-      }
-    }
-  }, [loading, stepsListIds]); */
-
   return (
     <>
       {loading && (

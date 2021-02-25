@@ -62,7 +62,7 @@ function AdventureStepMessage({
 
   const isAdminMessage = item?.messenger_id === adminUser?.id;
   const isAdmin = user.id === adminUser?.id;
-  // const myFirstMessage = reversed.find(m => m.messenger_id === me.id);
+
   if (isMyMessage && adventure.kind === 'solo') return null;
   const isSharedAnswer = item?.metadata?.vokebot_action === 'share_answers';
   // User who left the message.

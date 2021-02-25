@@ -1,7 +1,4 @@
-// import React, { Component } from 'react';
 import React, { Component, useState, useEffect } from 'react';
-// import './wdyr'; // Why Did You Render? tool.
-// import '@react-native-firebase/crashlytics';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
@@ -24,12 +21,8 @@ const Root = () => {
   registerLogs();
 
   const onBeforeLift = () => {
-    // crashlytics().recordError(37,"Test Error");
-    // crashlytics().log('App mounted. 13:17');
     // crashlytics().setAttribute('test', '1317'),
-    // crashlytics().sendUnsentReports();
-    // crashlytics().recordError(new Error('Something Else!'));
-    // console.log( crashlytics().recordError(new Error('I did a woopsie')) );
+
     // Add any actions here to run before the loading gate lifts...
     // Delay for at least one second to reduce loading gate flashing.
     setTimeout(() => {

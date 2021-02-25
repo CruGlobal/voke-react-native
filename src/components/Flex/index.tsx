@@ -13,7 +13,7 @@ type FlexProps = {
   style?: StyleProp<ViewStyle>;
   [key: string]: any;
 };
-// export type Ref = string | null | void;
+
 // const Flex = React.forwardRef<Ref, FlexProps>(( props:FlexProps, ref) => {
 // Passing reference disabled for now.
 // see https://github.com/typescript-cheatsheets/react-typescript-cheatsheet/blob/master/README.md#forwardrefcreateref
@@ -56,7 +56,6 @@ const Flex = (props: FlexProps) => {
     else if (justify === 'around') styleObj.justifyContent = 'space-around';
     else if (justify === 'between') styleObj.justifyContent = 'space-between';
     else if (justify === 'evenly') styleObj.justifyContent = 'space-evenly';
-    // else if (justify === 'stretch') styleObj.justifyContent = 'stretch';
   }
   return (
     <View

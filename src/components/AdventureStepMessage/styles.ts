@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
     color: theme.colors.white,
   },
   mainQuestionCard: {
-    // paddingTop: theme.spacing.l,
     paddingHorizontal: theme.spacing.l,
     paddingBottom: theme.spacing.l,
   },

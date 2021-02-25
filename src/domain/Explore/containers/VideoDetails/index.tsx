@@ -137,20 +137,6 @@ function VideoDetails(props: Props) {
                 { paddingBottom: insets.bottom + 25 },
               ]}
             >
-              {/* <OldButton
-                style={
-                  isFavorited
-                    ? styles.buttonLikeActive
-                    : styles.buttonLikeInactive
-                }
-                onPress={handleFavorite}
-              >
-                <VokeIcon
-                  name="heart"
-                  style={[st.bgTransparent, st.white]}
-                  size={20}
-                />
-              </OldButton> */}
               <Text style={[st.blue, st.fs20, st.semi]}>{item.name}</Text>
               <Text style={[st.darkGrey, st.fs14, st.mb7]}>
                 {t('shares', { total: item.shares })}
