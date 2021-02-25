@@ -155,7 +155,6 @@ function GroupReleaseType(props: any): ReactElement {
             itemWidth={width - 80}
             layout={'default'}
             removeClippedSubviews={false}
-            // onSnapToItem={(index) => this.setState({ slider1ActiveSlide: index }) }
           />
         </Flex>
         <View style={{ minHeight: theme.spacing.xxl }} />

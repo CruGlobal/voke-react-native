@@ -43,16 +43,12 @@ function MainMessagingInput({ adventure, step, onFocus, ...rest }) {
       }),
     );
     setText('');
-    // }, 4000)
   };
 
   return (
     <View style={[styles.wrapper, { paddingBottom: bottomPadding }]}>
       <TextInput
         autoCapitalize="sentences"
-        // returnKeyType="send"
-        // blurOnSubmit={true}
-        // onSubmitEditing={handleSendMessage}
         placeholder={t('chatHere')} // TODO: Translate it.
         onChangeText={(t) => setText(t)}
         value={text}

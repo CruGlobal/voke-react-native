@@ -116,7 +116,6 @@ function AdventureStepsList(props: AdventureStepCardProps): React.ReactElement {
           data={stepsListIds}
           renderItem={renderStep}
           style={styles.listOfSteps}
-          // removeClippedSubviews={true} // vc-1022
         />
       )}
     </>

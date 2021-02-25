@@ -26,22 +26,11 @@ import { RootState } from '../../reducers';
 
 import styles from './styles';
 
-const THUMBNAIL_WIDTH = 140;
-
 type InviteItemProps = {
   inviteID: string;
 };
 
 const AdventureInvite = ({ inviteID }: InviteItemProps): React.ReactElement => {
-  // const inviteItem = {
-  //   code: '',
-  //   conversation: {},
-  //   progress: {},
-  //   item: { content: { thumbnails: { small: '' } } },
-  //   name: '',
-  //   expires_at: '',
-  //   ...item,
-
   const inviteItem: TInvitation =
     useSelector(
       ({ data }: RootState) =>

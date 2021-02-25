@@ -27,7 +27,6 @@ const colors: { [key: string]: string } = {
   lightGrey3: '#bbbbbb',
 };
 
-// Generate { color: ..., bgColor: ...} style object
 const generatedColors = Object.keys(colors).reduce((p: {}, key: string) => {
   const value = colors[key];
   const pascalCase = key.charAt(0).toUpperCase() + key.slice(1);

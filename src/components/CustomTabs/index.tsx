@@ -76,7 +76,6 @@ const CustomTabs = ({
       renderTabBar={(props): React.ReactElement => (
         <TabBarStyled {...props} theme={theme} />
       )}
-      // initialLayout={{ width: st.fullWidth }}
       {...rest}
     />
   );

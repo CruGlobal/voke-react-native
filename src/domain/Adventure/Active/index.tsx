@@ -158,7 +158,6 @@ function AdventureActive({ navigation, route }: Props): React.ReactElement {
             animated={false}
             barStyle="light-content"
             translucent={false}
-            // translucent={ isPortrait && insets.top > 0 ? false : true } // Android. The app will draw under the status bar.
             backgroundColor="#000" // Android. The background color of the status bar.
           />
         </View>
@@ -178,7 +177,6 @@ function AdventureActive({ navigation, route }: Props): React.ReactElement {
           isLoading={!adventureItemId}
           boneColor={theme.colors.deepBlack}
           highlightColor={theme.colors.black}
-          // animationType={'pulse'}
           animationDirection={'diagonalTopRight'}
           duration={2000}
           layout={sceletonLayout}

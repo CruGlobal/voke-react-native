@@ -58,11 +58,7 @@ const Flex = (props: FlexProps) => {
     else if (justify === 'evenly') styleObj.justifyContent = 'space-evenly';
   }
   return (
-    <View
-      // ref={ref}
-      {...rest}
-      style={[style, styleObj]}
-    >
+    <View {...rest} style={[style, styleObj]}>
       {children}
     </View>
   );

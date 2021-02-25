@@ -406,7 +406,6 @@ function Video({
                 ? 0 // Small video (Portrait)
                 : getPlayerDimensions().width / -20, // Fullscreen video.
           }}
-          // fullscreen={false} // Platforms: iOS - Controls whether the player enters fullscreen on play.
           fullscreenOrientation={fullscreenOrientation} // Platforms: iOS - all / landscape / portrait
         />
       )}

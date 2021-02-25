@@ -83,7 +83,6 @@ const GroupReleaseDate = (props): React.ReactElement => {
     } else {
       newDate = newDate.add(1, 'days');
     }
-    // }
     setDate(newDate);
   }, [weekday, time]);
 

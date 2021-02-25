@@ -115,8 +115,6 @@ function Notifications() {
     >
       {videoToShow && (
         <Video
-          // hideBack={true}
-          // hideInsets={true}
           onCancel={() => setVideoToShow(null)}
           item={videoToShow.item.media}
           lockOrientation={true}
@@ -152,7 +150,6 @@ function Notifications() {
             )}
             data={currentNotifications}
             contentContainerStyle={{ paddingBottom: 120 }}
-            // removeClippedSubviews={true} // vc-1022
             onRefresh={() => loadMore(true)}
             refreshing={isLoading}
             onEndReached={() => loadMore()}

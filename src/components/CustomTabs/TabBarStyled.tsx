@@ -12,9 +12,6 @@ const TabBarStyled = (props: any): React.ReactElement => {
     <TabBar
       indicatorStyle={styles['indicatorStyle' + tabsTheme]}
       style={styles['tabBar' + tabsTheme]}
-      // activeColor={theme.colors.secondary}
-      // inactiveColor={theme.colors.secondary}
-      // Param renderLabel can have the next params: ({ route, focused, color }).
       renderLabel={({ route, focused }): React.ReactElement => (
         <Text
           style={styles['tabBarTitle' + tabsTheme + (focused ? 'Active' : '')]}

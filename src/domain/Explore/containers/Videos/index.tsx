@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useSafeArea } from 'react-native-safe-area-context';
-import { SceneMap, TabBar } from 'react-native-tab-view';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { useWindowDimensions, ScrollView, FlatList, View } from 'react-native';
+import { useWindowDimensions, FlatList, View } from 'react-native';
 import Flex from 'components/Flex';
 import analytics from '@react-native-firebase/analytics';
 import Text from 'components/Text';
@@ -196,7 +194,7 @@ function VideoList() {
                   title: t('popular'),
                 },
               ]}
-              renderItem={({ item, index, separators }) => (
+              renderItem={({ item }) => (
                 <OldButton
                   key={item.id}
                   onPress={() => {
@@ -237,7 +235,6 @@ function VideoList() {
             ) : null}
           </>
         )}
-        // removeClippedSubviews // vc-1022
       />
     </View>
   );

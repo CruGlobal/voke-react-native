@@ -155,7 +155,6 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
               {/* INPUT FIELD: EMAIL */}
               <TextField
                 ref={emailRef}
-                // blurOnSubmit={false}
                 label={t('placeholder:newEmail')}
                 onSubmitEditing={(): void => emailConfirmRef?.current?.focus()}
                 placeholder={t('placeholder:newEmail')}
@@ -172,7 +171,6 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
               {/* INPUT FIELD: CONFIRM NEW EMAIL */}
               <TextField
                 ref={emailConfirmRef}
-                // blurOnSubmit={true}
                 label={t('placeholder:confirmEmail')}
                 placeholder={t('placeholder:confirmEmail')}
                 value={confirmEmail}
@@ -189,7 +187,6 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
               {/* INPUT FIELD: PASSWORD */}
               <TextField
                 ref={passwordRef}
-                // blurOnSubmit={true}
                 label={t('placeholder:password')}
                 placeholder={t('placeholder:password')}
                 value={password}

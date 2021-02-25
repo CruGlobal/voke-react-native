@@ -78,7 +78,6 @@ function AccountPhoto(props: Props) {
     } else {
       const avatarData = {
         avatar: {
-          // fileName: `${firstName}_${lastName}.png`,
           fileName: `${userId}.png`, // Why png not jpeg?
           uri: avatarSource,
         },

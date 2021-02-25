@@ -217,7 +217,6 @@ const AdventureStepScreen = ({ navigation, route }: Props): ReactElement => {
             isLoading={isLoading}
             boneColor={theme.colors.deepBlack}
             highlightColor={theme.colors.black}
-            // animationType={'pulse'}
             animationDirection={'diagonalTopRight'}
             duration={2000}
             layout={sceletonLayoutVideo}

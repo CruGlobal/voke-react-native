@@ -208,7 +208,6 @@ function AdventureStepCard({
           <Flex direction="row" style={styles.cardContent}>
             <Flex style={styles.thumbContainer}>
               <Image
-                // source={thumbnail}
                 source={{ uri: thumbnail }}
                 style={styles.thumb}
                 resizeMode="cover"

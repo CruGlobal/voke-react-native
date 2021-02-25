@@ -88,7 +88,6 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
           </Text>
           <View style={{ minHeight: 10 }} />
           <TextField
-            // blurOnSubmit={false}
             label={t('placeholder:email')}
             onSubmitEditing={handleSubmit}
             placeholder="Email"
@@ -138,12 +137,10 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
         <>
           {/* SECTION: NEED HELP? */}
           <Flex
-            // value={1}
             direction="row"
             align="center"
             justify="center"
             style={styles.SectionSignIn}
-            // width={useWindowDimensions().width}
           >
             <View>
               <Text style={styles.SignInText}>Need some help?</Text>

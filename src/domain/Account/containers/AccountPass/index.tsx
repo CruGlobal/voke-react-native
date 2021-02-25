@@ -117,7 +117,6 @@ const AccountPass: React.FC = (): React.ReactElement => {
               {/* INPUT FIELD: PASSWORD */}
               <TextField
                 ref={passwordRef}
-                // blurOnSubmit={true}
                 label={t('placeholder:currentPassword')}
                 placeholder={t('placeholder:currentPassword')}
                 value={password}
@@ -131,7 +130,6 @@ const AccountPass: React.FC = (): React.ReactElement => {
               {/* INPUT FIELD: NEW PASSWORD */}
               <TextField
                 ref={newPasswordRef}
-                // blurOnSubmit={true}
                 label={t('placeholder:newPassword')}
                 placeholder={t('placeholder:newPassword')}
                 value={newPassword}
@@ -147,7 +145,6 @@ const AccountPass: React.FC = (): React.ReactElement => {
               {/* INPUT FIELD: CONFIRM NEW PASSWORD */}
               <TextField
                 ref={confirmNewPasswordRef}
-                // blurOnSubmit={true}
                 label={t('placeholder:confirmNewPassword')}
                 placeholder={t('placeholder:confirmNewPassword')}
                 value={confirmNewPassword}

@@ -84,12 +84,7 @@ const SignOut = ({
           }
           testID={'ctaSignOut'}
         >
-          <Flex
-            // value={1}
-            direction="row"
-            align="center"
-            justify="center"
-          >
+          <Flex direction="row" align="center" justify="center">
             <Text
               style={{
                 padding: theme.spacing.m,

@@ -161,7 +161,6 @@ const AccountCreate = (props: Props): React.ReactElement => {
       <Flex direction="column" align="center" justify="center">
         {/* INPUT FIELD: EMAIL */}
         <TextField
-          // blurOnSubmit={false}
           label={t('placeholder:email')}
           onSubmitEditing={(): void => passwordRef?.current?.focus()}
           placeholder={t('placeholder:email')}
@@ -237,7 +236,6 @@ const AccountCreate = (props: Props): React.ReactElement => {
               paddingBottom: theme.spacing.xl,
             })
           }
-          // value={1}
         >
           {/* TEXT: TERMS OF SERVICE */}
           <Text style={[styles.TextSmall, { textAlign: 'center' }]}>

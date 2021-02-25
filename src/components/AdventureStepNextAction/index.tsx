@@ -173,10 +173,6 @@ const AdventureStepNextAction = ({
     const otherUser = adventure.conversation.messengers.find(
       (i) => i.id !== userId && i.first_name !== 'VokeBot',
     );
-    // TODO: Pass through invite name
-    // if (journey.conversation.messengers.length === 2 && inviteName) {
-
-    // }
     const inviteName = adventure.journey_invite?.name || '';
     let userName = '';
     if (otherUser && otherUser.first_name) {

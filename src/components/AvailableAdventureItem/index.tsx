@@ -109,7 +109,6 @@ function AvailableAdventureItem(
           align="center"
           direction="row"
           self="stretch"
-          // value={0.5}
           style={styles.bottomLine}
         >
           <Flex direction="row" align="center">

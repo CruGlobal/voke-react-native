@@ -35,11 +35,7 @@ const Root = () => {
       <Provider store={store}>
         {/* Delay the rendering of UI until the persisted state
             has been retrieved and saved to redux */}
-        <PersistGate
-          // loading={<LoadingRedux />}
-          persistor={persistor}
-          onBeforeLift={onBeforeLift}
-        >
+        <PersistGate persistor={persistor} onBeforeLift={onBeforeLift}>
           <App />
           <ToastManager />
         </PersistGate>

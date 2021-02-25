@@ -365,7 +365,6 @@ const AdventureStepScreenRender = ({
             animated={false}
             barStyle="light-content"
             translucent={false}
-            // translucent={ isPortrait && insets.top > 0 ? false : true } // Android. The app will draw under the status bar.
             backgroundColor="#000" // Android. The background color of the status bar.
           />
         </View>
@@ -384,10 +383,7 @@ const AdventureStepScreenRender = ({
               scrollRef.current = scroll;
             }
           }}
-          // enableOnAndroid={false}
-          // extraHeight={windowDimentions.height / 10}
           overScrollMode={'always'}
-          // scrollEventThrottle={16} // Don't activate. Works bad on Android.
           onScroll={(e): void => {
             const scrollDiff = Math.abs(
               e.nativeEvent.contentOffset.y - prevContentOffset,

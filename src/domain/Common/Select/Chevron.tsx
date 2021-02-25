@@ -41,7 +41,6 @@ const Chevron = (props: Props) => {
             width: 7 * size,
             height: 7 * size,
             transform: [
-              // { translateX: 1.5 * size }, - horizontal shift.
               { translateY: -2.4 * size },
               { rotate: `${rotate + 135}deg` },
             ],

@@ -213,7 +213,6 @@ const ReportedMessages = ({ adventureId }) => {
                 <OldButton
                   onPress={() => closeModal()}
                   touchableStyle={styles.actionButton}
-                  // testID={'ctaComplainClose'}
                 >
                   <Text style={styles.actionButtonLabel}>{t('cancel')}</Text>
                 </OldButton>
@@ -221,7 +220,6 @@ const ReportedMessages = ({ adventureId }) => {
                 <OldButton
                   onPress={() => closeModal()}
                   touchableStyle={styles.actionButton}
-                  // testID={'ctaComplainDone'}
                 >
                   <Text style={styles.actionButtonLabel}>{t('done')}</Text>
                 </OldButton>
@@ -266,8 +264,6 @@ const ReportedMessages = ({ adventureId }) => {
                         reportId: currentReport?.id,
                       });
                     }}
-                    // onPress={() => modalizeRef.current?.open()}
-                    // testID={'ctaContinue' + index}
                     touchableStyle={styles.complainActionBlock}
                     disabled={
                       currentReport?.status !== 'pending' ? true : false

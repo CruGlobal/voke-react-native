@@ -67,7 +67,6 @@ const ManageMembers = ({
         withGroup: true,
         isVideoInvite: false,
       });
-      // }
     } catch (error) {
       Alert.alert(
         'Failed to send a new invite',

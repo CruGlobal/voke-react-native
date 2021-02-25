@@ -769,9 +769,6 @@ const App = () => {
           // Save the current route name for later comparision
           routeNameRef.current = currentRouteName;
         }}
-        // linking={linking} - not working.
-        // initialState={ ( isLoggedIn ? ({ index: 0, routes: [{ name: 'LoggedInApp' }] }) : ({ index: 0, routes: [{ name: 'WelcomeApp' }] }) ) }
-        // initialState={ ( isLoggedIn ? ({ index: 0, routes: [{ name: 'LoggedInApp' }] }) : ({ index: 0, routes: [{ name: 'WelcomeApp' }] }) ) }
       >
         <Host>
           <AppStack.Navigator

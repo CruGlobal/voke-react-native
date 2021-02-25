@@ -272,12 +272,7 @@ const AccountProfile = () => {
                     onPress={() => navigation.navigate('AccountCreate')}
                     testID={'ctaSignUpEmail'}
                   >
-                    <Flex
-                      // value={1}
-                      direction="row"
-                      align="center"
-                      justify="center"
-                    >
+                    <Flex direction="row" align="center" justify="center">
                       <VokeIcon
                         name="mail"
                         size={22}
@@ -300,12 +295,7 @@ const AccountProfile = () => {
                     onPress={(): Promise<void> => fbLogin()}
                     testID={'ctaSignUpFacebook'}
                   >
-                    <Flex
-                      // value={1}
-                      direction="row"
-                      align="center"
-                      justify="center"
-                    >
+                    <Flex direction="row" align="center" justify="center">
                       <VokeIcon
                         name="facebook"
                         size={22}

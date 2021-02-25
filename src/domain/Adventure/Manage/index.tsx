@@ -125,12 +125,6 @@ function AdventureManage({ navigation, route }: Props): React.ReactElement {
   const gatingStart = adventure?.gating_start_at;
   const inviteCode = adventure?.journey_invite?.code;
 
-  // Request steps from server if nothing stored locally.
-  // useEffect(() => {
-  //   if (!steps.allIds.length) {
-
-  //   }
-
   const replacePrevScreen = useCallback((): void => {
     const { routes } = navigation.dangerouslyGetState();
     /**
