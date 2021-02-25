@@ -57,7 +57,6 @@ export default function (
 ) {
   switch (action.type) {
     case REDUX_ACTIONS.SET_AUTH_DATA:
-      // @ts-ignore
       if (!action.key || !action.data) {
         return state;
       }

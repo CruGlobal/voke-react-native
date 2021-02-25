@@ -103,7 +103,6 @@ const initialState: TDataState = {
 export function data(state = initialState, action: any): TDataState {
   switch (action.type) {
     case REDUX_ACTIONS.SET_DATA: {
-      // @ts-ignore
       if (!exists(state[action.key]) || !action.data) {
         return state;
       }

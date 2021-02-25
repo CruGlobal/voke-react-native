@@ -28,7 +28,6 @@ const testOptions = [
 // this is a hack which fix this issue
 jest.mock('react-native/Libraries/Modal/Modal', () => {
   const Modal = jest.requireActual('react-native/Libraries/Modal/Modal');
-  // @ts-ignore
   return (props) => <Modal {...props} />;
 });
 

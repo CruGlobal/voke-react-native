@@ -13,13 +13,11 @@ import LanguageSwitch from '../index';
 // this is a hack which fix this issue
 jest.mock('react-native/Libraries/Modal/Modal', () => {
 	const Modal = jest.requireActual('react-native/Libraries/Modal/Modal');
-	// @ts-ignore
 	return props => <Modal {...props} />;
 });
 
 // jest.mock('react-native-material-menu', () => {
 // 	const Menu = jest.requireActual('react-native-material-menu/src/Menu')
-// 	// @ts-ignore
 // 	return props => <Menu {...props} />
 // })
 // jest.mock('react-native-material-menu', () => 'Menu');
