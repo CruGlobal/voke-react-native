@@ -227,7 +227,6 @@ function Video({
 
   // Events firing when user leaves the screen with player or comes back.
   useFocusEffect(
-    // eslint-disable-next-line arrow-body-style
     React.useCallback(() => {
       // When the screen with player is focused:
       // - Do something here.
@@ -302,7 +301,7 @@ function Video({
         /*  st.h(
          dimensions.height === VIDEO_HEIGHT && !hideInsets
             ? dimensions.height + insets.top
-            : dimensions.height, 
+            : dimensions.height,
 
         ), */
         // st.w(dimensions.width), - NOT WORKING RIGHT

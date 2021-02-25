@@ -346,7 +346,6 @@ const AdventureStepScreenRender = ({
     // We don't want to have autoscroll when you have new messages and click
     // on video pause. This is why 'videoIsPlaying' is ommited from dependencies
     // list bellow.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     completedByMessenger,
     currentMessages,

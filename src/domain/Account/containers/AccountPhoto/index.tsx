@@ -93,7 +93,6 @@ function AccountPhoto(props: Props) {
         setLoginLoading(false);
         nextScreen();
       } catch (error) {
-        // eslint-disable-next-line no-console
         console.log('error updating me image 4', error);
       }
     }
@@ -150,10 +149,8 @@ function AccountPhoto(props: Props) {
       },
       (response) => {
         if (response.didCancel) {
-          // eslint-disable-next-line no-console
           console.log('User cancelled image picker');
         } else if (response.error) {
-          // eslint-disable-next-line no-console
           console.log('ImagePicker Error: ', response.error);
         } else if (response.customButton === 'camera') {
           imageTakeCrop('camera');

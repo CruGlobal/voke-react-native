@@ -117,7 +117,6 @@ export function checkCurrentLanguage() {
         // Update Existing Account.
         await dispatch(updateMe(userData));
       } catch (e) {
-        // eslint-disable-next-line no-console
         console.log('🛑 Error updating the user details \n', e);
       }
     }
@@ -251,7 +250,6 @@ export function logoutAction() {
       // Both iOS and Android.
       AsyncStorage.clear();
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.log('🛑 Logout error', error);
       throw error;
     }
@@ -269,7 +267,6 @@ export function getMeAction() {
       authToken: getState().auth.authToken,
     }).then(
       (userData) => {
-        // eslint-disable-next-line no-console
         console.log('👤 getMe > Updated user data:\n', userData);
         // Update redux store with data received.
         const me = dispatch(setUser(userData));
@@ -280,7 +277,6 @@ export function getMeAction() {
         return me;
       },
       (error) => {
-        // eslint-disable-next-line no-console
         console.log('👤 getMe > Fetch error', error);
         throw error;
       },
@@ -310,7 +306,6 @@ export function facebookLoginAction(accessToken) {
       authToken: getState().auth.authToken,
     }).then(
       (authData) => {
-        // eslint-disable-next-line no-console
         console.log('🚪🚶‍♂️Facebook loginResults:\n', authData);
         // Received login response do Logout/reset state.
         logoutAction();
@@ -320,7 +315,6 @@ export function facebookLoginAction(accessToken) {
         return dispatch(getMeAction());
       },
       (error) => {
-        // eslint-disable-next-line no-console
         console.log('facebookLoginAction > Login error', error);
         throw error;
       },
@@ -358,7 +352,6 @@ export async function facebookGetUserInfo(accessToken) {
       // Send the graph request.
       new GraphRequestManager().addRequest(infoRequest).start();
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.log('🛑 facebookGetUserInfo > GraphRequestManager:', error);
     }
   });
@@ -372,7 +365,6 @@ export async function facebookRequestPermissions() {
   if (!fbPermissionsRequest.isCancelled) {
     return true;
   }
-  // eslint-disable-next-line no-console
   console.log('🛑 👤FB Login cancelled');
   return false;
 }
@@ -386,7 +378,6 @@ export async function facebookGetAccessToken() {
     const accessToken = fbAccessTokenInfo.accessToken.toString();
     return accessToken;
   }
-  // eslint-disable-next-line no-console
   console.log("🛑👤FB access token doesn't exist");
   return false;
 }
@@ -407,7 +398,6 @@ export function facebookLogin() {
         return result.user.id;
       }
     } else {
-      // eslint-disable-next-line no-console
       console.log('🛑👤FB Login cancelled');
       return false;
     }
@@ -562,7 +552,6 @@ export function passwordResetAction(email) {
         authToken: getState().auth.authToken,
       }).then(
         (result) => {
-          // eslint-disable-next-line no-console
           console.log('🗝 Reset Password:\n', result);
           // Received login response do Logout/reset state.
           // logoutAction();
@@ -572,7 +561,6 @@ export function passwordResetAction(email) {
           return;
         },
         (error) => {
-          // eslint-disable-next-line no-console
           console.log('🛑 Login error', error);
           throw error;
         },
@@ -610,7 +598,6 @@ export function userLogin(username, password) {
       authToken: getState().auth.authToken,
     }).then(
       (authData) => {
-        // eslint-disable-next-line no-console
         console.log('🚪🚶‍♂️loginResults:\n', authData);
         // Received login response do Logout/reset state.
         logoutAction();
@@ -621,7 +608,6 @@ export function userLogin(username, password) {
         return dispatch(getMeAction());
       },
       (error) => {
-        // eslint-disable-next-line no-console
         console.log('🛑 Login error', error);
         throw error;
       },
@@ -651,7 +637,6 @@ export function createAccount(user) {
       description: 'Request CREATE_ACCOUNT',
     }).then(
       (userData) => {
-        // eslint-disable-next-line no-console
         console.log('👤 createAccount \n\n', userData);
         // Received login response do Logout/reset state.
         // logoutAction();
@@ -659,7 +644,6 @@ export function createAccount(user) {
         return dispatch(setUser(userData));
       },
       (error) => {
-        // eslint-disable-next-line no-console
         console.log('🛑 Create account error', error);
         throw error;
       },
@@ -678,7 +662,6 @@ export function deleteAccountAction() {
       description: 'Request DELETE_ACCOUNT',
     }).then(
       (success) => {
-        // eslint-disable-next-line no-console
         console.log('👤 Account Deleted \n\n', success);
         setAppIconBadgeNumber(0);
         // Clear data in the local storage if user logout.
@@ -686,7 +669,6 @@ export function deleteAccountAction() {
         // return;
       },
       (error) => {
-        // eslint-disable-next-line no-console
         console.log('🛑 Delete account error', error);
         // return;
       },

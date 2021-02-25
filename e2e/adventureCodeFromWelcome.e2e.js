@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 describe('Welcome > Have an Adventure Code', () => {
   const adventureCode = '605444';
   const firstName = 'Automated';

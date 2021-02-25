@@ -42,7 +42,6 @@ interface ButtonProps extends StylingProps {
   type?: string;
   text?: string;
   testID?: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [x: string]: any;
 }
 

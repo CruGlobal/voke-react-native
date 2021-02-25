@@ -126,7 +126,6 @@ const AccountName = (props: Props): React.ReactElement => {
           }),
         );
       } catch (e) {
-        // eslint-disable-next-line no-console
         console.log("🛑 Error updating the user's details \n", e);
         Alert.alert(e.error_description ? e.error_description : e.errors[0]);
       }

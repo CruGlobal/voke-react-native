@@ -130,7 +130,6 @@ const AccountCreate = (props: Props): React.ReactElement => {
         }
       } catch (e) {
         setIsLoading(false);
-        // eslint-disable-next-line no-console
         console.log("🛑 Error updating the user's Email/Pass \n", e);
         Alert.alert(e.error_description ? e.error_description : e.errors[0]);
       }

@@ -2,7 +2,6 @@ const moment = require('moment');
 
 const { signin, signout, goBackFrom } = require('./shortcuts');
 
-/* eslint-disable no-undef */
 describe('Group Adventure With Daily Release', () => {
   const secondUserEmail = 'autotest2@vokeapptest.com';
   const secondUserPass = '12345678';

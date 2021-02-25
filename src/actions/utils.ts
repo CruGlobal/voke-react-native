@@ -36,14 +36,12 @@ function replaceUrlParam(url, pathParams) {
   if (url.includes('{') && url.includes('}') && pathParams) {
     let tempUrl = url;
 
-    // eslint-disable-next-line no-unused-vars
     for (const [key, value] of Object.entries(pathParams)) {
       // Match the route/{routeId}
       let param = (tempUrl.match(/\{[A-Za-z0-9]*\}/) || [])[0];
       // console.log('param, value', param, value);
       // Remove the brackets from the matching result
       if (param) {
-        // eslint-disable-next-line no-useless-escape
         param = param.replace(/[\{\}]/g, '');
         if (typeof value !== 'undefined') {
           tempUrl = tempUrl.replace(`{${param}}`, value);
@@ -225,7 +223,7 @@ function imageUpload(url, headers, data) {
 
       if (status === 200) {
         // if (!response.ok) {
-        /* 
+        /*
       return response
         .json();
         .then(({ message }) => {
@@ -292,7 +290,7 @@ function imageUpload(url, headers, data) {
       return e;
     });
 
-  /* 
+  /*
   .then((res) => {
     let status = res.info().status;
 

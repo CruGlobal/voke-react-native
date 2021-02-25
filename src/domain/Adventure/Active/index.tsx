@@ -95,7 +95,6 @@ function AdventureActive({ navigation, route }: Props): React.ReactElement {
       },
       (error) => {
         // Can't Find Adventure.
-        // eslint-disable-next-line no-consolegetSteps
         console.log('🛑 Can not Find Adventure.', adventureId);
         navigation.reset({
           index: 0,

@@ -132,7 +132,6 @@ function AdventureName(props: any): ReactElement {
   }, [modalOpen]);
 
   useFocusEffect(
-    // eslint-disable-next-line arrow-body-style
     React.useCallback(() => {
       // When the screen is focused:
       // - Do something here.

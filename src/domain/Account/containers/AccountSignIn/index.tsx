@@ -90,7 +90,6 @@ const AccountSignIn: FunctionComponent<Props> = (props) => {
     setIsLoading(true);
 
     try {
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       await dispatch(userLogin(formik.values.email, formik.values.password));
       setIsLoading(false);
       if (layout === 'embed') {

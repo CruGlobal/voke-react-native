@@ -15,7 +15,6 @@ interface Props {
 const ReactionPills = (props: Props): React.ReactElement => {
   const { reactions, isMyMessage, onReaction } = props;
   // Animatable library has a very broken and confusing typing.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const pillRef = useRef<any[]>([]);
 
   if (!reactions) {

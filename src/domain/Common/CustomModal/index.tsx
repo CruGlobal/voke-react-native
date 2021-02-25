@@ -117,7 +117,6 @@ export default function CustomModal(props: any): React.ReactElement {
 
   // Events firing when user leaves the screen or comes back.
   useFocusEffect(
-    // eslint-disable-next-line arrow-body-style
     React.useCallback(() => {
       // When the screen is focused:
       checkNotificationsPopupVisibility(); // TODO: Verify how closure affects it?

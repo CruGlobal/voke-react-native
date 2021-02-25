@@ -1,7 +1,6 @@
 // const { lte } = require('lodash');
 const { signin, signout } = require('./shortcuts');
 
-/* eslint-disable no-undef */
 describe('Group Adventure With Manual Release', () => {
   const groupName = 'Manual Release Group Test - ';
   let inviteCode = '';

@@ -66,7 +66,6 @@ function Notifications() {
 
   // Events firing when user leaves the screen
   useFocusEffect(
-    // eslint-disable-next-line arrow-body-style
     React.useCallback(() => {
       markNotificationsAsRead(); // TODO: Verify how closure affects it?
       return (): void => {

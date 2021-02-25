@@ -57,7 +57,6 @@ export function getNotificationsTabUnreads() {
       authToken: getState().auth.authToken,
     }).then(
       (userData) => {
-        // eslint-disable-next-line no-console
         const newNotificationsCounter = userData?.pending_notifications || 0;
         // Update unread broadcast notifications counter.
         dispatch({
@@ -68,7 +67,6 @@ export function getNotificationsTabUnreads() {
         return newNotificationsCounter;
       },
       (error) => {
-        // eslint-disable-next-line no-console
         console.log('👤 getNotificationsTabUnreads > Fetch error', error);
         throw error;
       },
@@ -166,7 +164,6 @@ export function getMyAdventures(comment = '') {
         return dispatch(updateTotalUnreadCounter());
       },
       (error) => {
-        // eslint-disable-next-line no-console
         console.log('🛑 getMyAdventures error', error);
         throw error;
       },
@@ -198,7 +195,6 @@ export function getMyAdventure(adventureId: any) {
         return data;
       },
       (error) => {
-        // eslint-disable-next-line no-console
         console.log('🛑 getMyAdventure error', error);
         throw error;
       },
@@ -389,7 +385,6 @@ export function deleteAdventure(adventureId: string) {
     });
 
     if (result?.errors) {
-      // eslint-disable-next-line no-console
       console.log('🛑 deleteAdventure error', result?.errors);
       throw result?.errors;
     } else {
@@ -742,7 +737,6 @@ export function createDevice(newDeviceData: any) {
       description: 'Create Device',
     }).then(
       (returnedDeviceData) => {
-        // eslint-disable-next-line no-console
         // Update info in store.auth.device if it's a cable device not apple/adnriod.
         if (returnedDeviceData.kind === 'cable') {
           dispatch({
@@ -753,7 +747,6 @@ export function createDevice(newDeviceData: any) {
         return returnedDeviceData;
       },
       (error) => {
-        // eslint-disable-next-line no-console
         console.log('📱🛑 createDevice > error', error);
         throw error;
       },

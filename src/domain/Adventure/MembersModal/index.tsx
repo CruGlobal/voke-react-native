@@ -132,7 +132,6 @@ function AllMembersModal(props: Props) {
   const onConfirmDelete = async ({
     conversationId,
     messengerId,
-    // eslint-disable-next-line no-shadow
     adventureId,
   }: {
     conversationId: string;

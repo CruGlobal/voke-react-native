@@ -90,7 +90,6 @@ function AdventureShareCode(props) {
 
   // Events firing when user leaves the screen or comes back.
   useFocusEffect(
-    // eslint-disable-next-line arrow-body-style
     React.useCallback(() => {
       // When the screen is focused:
       // Ask for notifications permissions.

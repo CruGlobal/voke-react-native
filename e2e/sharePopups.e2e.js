@@ -1,5 +1,4 @@
 const { signin, signout } = require('./shortcuts');
-/* eslint-disable no-undef */
 describe('Sharing Adventure', () => {
   const friendName = 'Guguza';
   let inviteCode = '';

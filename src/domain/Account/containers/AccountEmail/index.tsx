@@ -114,7 +114,6 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
         setIsLoading(false);
         navigation.navigate('AccountProfile');
       } catch (e) {
-        // eslint-disable-next-line no-console
         console.log('🛑 Error on email/pass change \n', { e });
         Alert.alert(t('error:error'), e?.errors[0]);
         setIsLoading(false);
