@@ -1,6 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import theme from 'utils/theme';
-import { useTranslation } from 'react-i18next';
 import Flex from 'components/Flex';
 import VokeIcon from 'components/VokeIcon';
 import Text from 'components/Text';
@@ -13,7 +12,6 @@ function CollapsibleInfo({
   toggleText,
   infoText,
   children, // Used to create custom overlay/play button. Ex: "Watch Trailer".
-  ...rest
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 

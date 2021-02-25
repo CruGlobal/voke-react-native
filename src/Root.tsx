@@ -1,5 +1,4 @@
-import React, { Component, useState, useEffect } from 'react';
-import crashlytics from '@react-native-firebase/crashlytics';
+import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -17,25 +16,14 @@ YellowBox.ignoreWarnings(['FlatList:', '']);
 YellowBox.ignoreWarnings(['Require cycle:', 'Warning: componentWill']);
 
 const Root = () => {
-  const [showLoader, setShowLoader] = useState(true);
   registerLogs();
-
-  const onBeforeLift = () => {
-    // crashlytics().setAttribute('test', '1317'),
-
-    // Add any actions here to run before the loading gate lifts...
-    // Delay for at least one second to reduce loading gate flashing.
-    setTimeout(() => {
-      setShowLoader(false);
-    }, 1000);
-  };
 
   return (
     <SafeAreaProvider>
       <Provider store={store}>
         {/* Delay the rendering of UI until the persisted state
             has been retrieved and saved to redux */}
-        <PersistGate persistor={persistor} onBeforeLift={onBeforeLift}>
+        <PersistGate persistor={persistor}>
           <App />
           <ToastManager />
         </PersistGate>

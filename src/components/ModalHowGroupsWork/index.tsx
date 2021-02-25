@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { Image, View } from 'react-native';
 import { tutorials } from 'assets';
 import theme from 'utils/theme';
-import Touchable from 'components/Touchable';
 import Flex from 'components/Flex';
 import Text from 'components/Text';
 
@@ -15,13 +14,9 @@ import styles from './styles';
 
 type Props = {
   primaryAction?: () => void;
-  onClose?: () => void;
 };
 
-function ModalHowGroupsWork({
-  primaryAction,
-  onClose,
-}: Props): React.ReactElement {
+function ModalHowGroupsWork({ primaryAction }: Props): React.ReactElement {
   const { t } = useTranslation('modal');
 
   return (

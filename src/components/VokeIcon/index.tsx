@@ -16,7 +16,7 @@ type VokeIconProps = {
   [x: string]: any; // ..rest
 };
 
-const VokeIcon = ({ name, type, style, ...rest }: VokeIconProps) => {
+const VokeIcon = ({ name, style, ...rest }: VokeIconProps) => {
   return <CustomIcon name={name} style={style} {...rest} />;
 };
 

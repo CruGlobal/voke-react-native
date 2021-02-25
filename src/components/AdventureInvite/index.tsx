@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Alert } from 'react-native';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import analytics from '@react-native-firebase/analytics';
 import { useTranslation } from 'react-i18next';
-import moment from 'moment';
 import { useSelector, useDispatch } from 'react-redux';
-import theme from 'utils/theme';
 import useInterval from 'utils/useInterval';
 import { getExpiredTime } from 'utils/get';
 import st from 'utils/st';

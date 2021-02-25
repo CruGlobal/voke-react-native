@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ScrollView, Text, View } from 'react-native';
 import Image from 'react-native-scalable-image';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { Modalize } from 'react-native-modalize';
 import Flex from 'components/Flex';
@@ -10,7 +10,6 @@ import OldButton from 'components/OldButton';
 import BotTalking from 'components/BotTalking';
 import { tutorials } from 'assets';
 import theme from 'utils/theme';
-import { REDUX_ACTIONS } from 'utils/constants';
 import st from 'utils/st';
 import { RootState } from 'reducers';
 
@@ -31,13 +30,6 @@ export default function CustomModal({
   const [modalOpen, setModalOpen] = useState(false);
   const { t } = useTranslation('modal');
   const dispatch = useDispatch();
-  const navigation = useNavigation();
-  // Current user tutorial mode status stored in
-  // store.info.groupTutorialCount
-  const { duoTutorialCount, groupTutorialCount } = useSelector(
-    ({ info }: RootState) => info,
-  );
-  const withGroup = props.group === 'withGroup' ? true : false;
   const { pushNotificationPermission } = useSelector(
     ({ info }: RootState) => info,
   );
@@ -59,44 +51,6 @@ export default function CustomModal({
       onClose?.();
     }
   }, [modalOpen]);
-
-  const navigateToNextScreen = () => {
-    const { item } = props;
-    navigation.navigate('AdventureName', {
-      item,
-      withGroup: withGroup,
-    });
-  };
-
-  const updateCountDown = () => {
-    if (withGroup) {
-      const countdown = groupTutorialCount + 1;
-      dispatch({
-        type: REDUX_ACTIONS.TUTORIAL_COUNTDOWN_GROUP,
-        groupTutorialCount: countdown,
-        description:
-          'Tutorial Countdown group updated. Called from TipsModal.updateCountDown()',
-      });
-    } else {
-      const countdown = duoTutorialCount + 1;
-      dispatch({
-        type: REDUX_ACTIONS.TUTORIAL_COUNTDOWN_DUO,
-        duoTutorialCount: countdown,
-        description:
-          'Tutorial Countdown duo updated. Called from TipsModal.updateCountDown()',
-      });
-    }
-  };
-
-  const toggleModal = () => {
-    updateCountDown();
-  };
-
-  const handleGetStarted = () => {
-    toggleModal();
-    updateCountDown();
-    navigateToNextScreen();
-  };
 
   const checkNotificationsPopupVisibility = () => {
     // If notifications enabled close modal.

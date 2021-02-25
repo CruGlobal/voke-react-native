@@ -1,7 +1,6 @@
-import React, { useRef, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useNavigation } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 import { Portal } from 'react-native-portalize';
@@ -14,12 +13,38 @@ import ModalNotifications from '../ModalNotifications';
 import { RootState } from '../../reducers';
 import OldButton from '../OldButton';
 
+const styles = StyleSheet.create({
+  iconNotification: {
+    marginRight: 15,
+    fontSize: 24,
+    color: theme.colors.primary,
+  },
+  banner: {
+    padding: 15,
+    backgroundColor: '#000',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  bannerText: {
+    fontSize: 18,
+    color: theme.colors.white,
+  },
+  buttonEnable: {
+    marginLeft: 30,
+    borderColor: theme.colors.primary,
+    borderWidth: 2,
+    borderRadius: 32,
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+  },
+  bannerButtonLabel: {
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.l,
+  },
+});
 const NotificationBanner = (): React.ReactElement => {
-  const navigation = useNavigation();
-  const dispatch = useDispatch();
   const modalizeRef = useRef<Modalize>(null);
   const { t } = useTranslation('notifications');
-  const me = useSelector(({ auth }: RootState) => auth.user);
   // Current premissions status stroed in
   // store.info.pushNotificationPermission
   const { pushNotificationPermission } = useSelector(
@@ -74,35 +99,5 @@ const NotificationBanner = (): React.ReactElement => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  iconNotification: {
-    marginRight: 15,
-    fontSize: 24,
-    color: theme.colors.primary,
-  },
-  banner: {
-    padding: 15,
-    backgroundColor: '#000',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  bannerText: {
-    fontSize: 18,
-    color: theme.colors.white,
-  },
-  buttonEnable: {
-    marginLeft: 30,
-    borderColor: theme.colors.primary,
-    borderWidth: 2,
-    borderRadius: 32,
-    paddingVertical: 5,
-    paddingHorizontal: 15,
-  },
-  bannerButtonLabel: {
-    color: theme.colors.white,
-    fontSize: theme.fontSizes.l,
-  },
-});
 
 export default NotificationBanner;

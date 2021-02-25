@@ -3,7 +3,6 @@ import { Alert, Platform } from 'react-native';
 import { getTimeZone, getCountry, getLocales } from 'react-native-localize';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FilesystemStorage from 'redux-persist-filesystem-storage';
-import dynamicLinks from '@react-native-fireebase/dynamic-links';
 import {
   LoginManager,
   GraphRequestManager,
@@ -13,7 +12,7 @@ import {
 import CONSTANTS, { REDUX_ACTIONS } from 'utils/constants';
 import { appleAuth } from '@invertase/react-native-apple-authentication';
 import request from 'actions/utils';
-import { TAdventureSingle, TDataState } from 'utils/types';
+import { TDataState } from 'utils/types';
 import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 
@@ -533,10 +532,6 @@ export function passwordResetAction(email) {
           console.log('🛑 Login error', error);
           throw error;
         },
-      );
-      Alert.alert(
-        'Check Your Email',
-        'Please check your email for a link to reset your password.',
       );
     } catch (error) {
       Alert.alert(

@@ -235,7 +235,7 @@ export function updateTotalUnreadCounter() {
   return async (dispatch: Dispatch, getState: any) => {
     const myAdventures = getState().data.myAdventures.byId;
     let unreadTotal = 0;
-    for (const [key, value] of Object.entries(myAdventures)) {
+    for (const [, value] of Object.entries(myAdventures)) {
       unreadTotal += value.conversation.unread_messages;
     }
     // Update app icon counter.
@@ -408,7 +408,7 @@ export function createAdventureStepMessage(params: {
   internalMessage?: any;
 }) {
   return async (dispatch: Dispatch, getState: any) => {
-    const { internalMessage, value, kind, adventure, step } = params;
+    const { internalMessage } = params;
     let result = {};
     const data: any = {
       message: {},
@@ -486,7 +486,7 @@ export function createAdventureStepMessage(params: {
             getState().data.adventureStepMessages[
               params.step.metadata.messenger_journey_step_id
             ] || {};
-          for (const [key, message] of Object.entries(currentStepMessages)) {
+          for (const [, message] of Object.entries(currentStepMessages)) {
             if (message.messenger_id === otherUser.id) {
               otherUserReplied = true;
               break;
@@ -638,8 +638,7 @@ export function createAdventureStepMessage(params: {
 
 export function getVideos(params: any = {}) {
   return async (dispatch: Dispatch, getState: any) => {
-    let results: any;
-    results = await request({
+    const results = await request({
       ...ROUTES.GET_VIDEOS,
       params: { ...params },
       authToken: getState().auth.authToken,
@@ -656,8 +655,7 @@ export function getVideos(params: any = {}) {
 
 export function getVideoTags() {
   return async (dispatch: Dispatch, getState: any) => {
-    let results: any;
-    results = await request({
+    const results = await request({
       ...ROUTES.GET_VIDEO_TAGS,
       authToken: getState().auth.authToken,
       description: 'Get Video Tags',
@@ -670,23 +668,19 @@ export function getVideoTags() {
 }
 
 export function destroyDevice(deviceId: string) {
-  return async (dispatch: Dispatch, getState: any) => {
-    let results: any;
-    results = await request({
+  return async (_dispatch: Dispatch, getState: any) => {
+    return await request({
       ...ROUTES.DESTROY_DEVICE,
       pathParams: { deviceId },
       authToken: getState().auth.authToken,
       description: 'Destroy Device',
     });
-
-    return results;
   };
 }
 
 export function updateDevice(newDeviceData: any) {
   return async (dispatch: Dispatch, getState: any) => {
     const deviceId = getState().auth.device.id;
-    let results: any;
     const returnedDevice = await request({
       ...ROUTES.UPDATE_DEVICE,
       pathParams: { deviceId },
@@ -708,13 +702,12 @@ export function updateDevice(newDeviceData: any) {
 }
 
 export function getDevices() {
-  return async (dispatch: Dispatch, getState: any) => {
-    const results = await request({
+  return async (_dispatch: Dispatch, getState: any) => {
+    return await request({
       ...ROUTES.GET_DEVICES,
       authToken: getState().auth.authToken,
       description: 'Get Devices',
     });
-    return results;
   };
 }
 
@@ -748,14 +741,13 @@ export function createDevice(newDeviceData: any) {
 }
 
 export function revokeAuthToken(data: any) {
-  return async (dispatch: Dispatch, getState: any) => {
-    const results = await request({
+  return async (_dispatch: Dispatch, getState: any) => {
+    return await request({
       ...ROUTES.REVOKE_TOKEN,
       data,
       authToken: getState().auth.authToken,
       description: 'Revoke Auth Token',
     });
-    return results;
   };
 }
 
@@ -819,7 +811,7 @@ export function establishCableDevice(pushDeviceId?: string) {
 // Register new push notification token on our server,
 // so it knows where to deliver notifications.
 export function establishPushDevice(pushToken: string) {
-  return async (dispatch: Dispatch, getState: any) => {
+  return async (dispatch: Dispatch, _getState: any) => {
     if (!pushToken) return;
     // Compose current device info to be sent to the server.
     const currentDeviceData = {
@@ -911,7 +903,7 @@ export function markReadNotification(params: markReadNotification) {
 }
 
 export function sendVideoInvitation(params: any = {}) {
-  return async (dispatch: Dispatch, getState: any) => {
+  return async (_dispatch: Dispatch, getState: any) => {
     const createData = {
       share: {
         first_name: params.name,
@@ -919,14 +911,12 @@ export function sendVideoInvitation(params: any = {}) {
       },
     };
 
-    const results = await request({
+    return await request({
       ...ROUTES.SEND_VIDEO_INVITATION,
       data: createData,
       authToken: getState().auth.authToken,
       description: 'Send Video Invitation',
     });
-
-    return results;
   };
 }
 
@@ -1005,7 +995,7 @@ export function updateAdventureUnreads(adventureId) {
     const adventureSteps = getState().data.adventureSteps[adventureId].byId;
     let advUnreadCount = 0;
 
-    for (const [key, step] of Object.entries(adventureSteps)) {
+    for (const [, step] of Object.entries(adventureSteps)) {
       const stepUnreadCnt = step.unread_messages;
       if (stepUnreadCnt > 0) {
         advUnreadCount = advUnreadCount + stepUnreadCnt;
@@ -1119,7 +1109,7 @@ export function interactionVideoPlay(params: interactionVideoPlay) {
 }
 
 export function updateVideoIsPlayingState(newState) {
-  return async (dispatch: Dispatch, getState: any) => {
+  return async (dispatch: Dispatch, _getState: any) => {
     return dispatch({
       type: REDUX_ACTIONS.SET_VIDEO_STATE,
       state: newState,

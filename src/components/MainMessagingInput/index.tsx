@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { TextInput, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { SafeAreaView, useSafeArea } from 'react-native-safe-area-context';
+import { useSafeArea } from 'react-native-safe-area-context';
 import { useKeyboard } from '@react-native-community/hooks';
 import { useTranslation } from 'react-i18next';
 import st from 'utils/st';
 import theme from 'utils/theme';
 import { getCurrentUserId } from 'utils/get';
-import Flex from 'components/Flex';
 import VokeIcon from 'components/VokeIcon';
 
 import OldButton from '../OldButton';
@@ -18,7 +17,6 @@ import styles from './styles';
 function MainMessagingInput({ adventure, step, onFocus, ...rest }) {
   const { t } = useTranslation('journey');
   const [text, setText] = useState('');
-  const [inputHeight, setInputHeight] = useState(0);
   const dispatch = useDispatch();
   const userId = getCurrentUserId();
   const insets = useSafeArea();
@@ -54,9 +52,6 @@ function MainMessagingInput({ adventure, step, onFocus, ...rest }) {
         value={text}
         placeholderTextColor={theme.colors.secondary}
         underlineColorAndroid={st.colors.transparent}
-        onContentSizeChange={(event) =>
-          setInputHeight(event.nativeEvent.contentSize.height + 20)
-        }
         style={styles.input}
         selectionColor={st.colors.yellow}
         autoCorrect={true}

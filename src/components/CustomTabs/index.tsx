@@ -57,7 +57,7 @@ const CustomTabs = ({
     });
   }, [index]);
 
-  const renderScene = ({ route, jumpTo }) => {
+  const renderScene = ({ route }) => {
     if (!Object.keys(scenes.current).length) {
       return <></>;
     }

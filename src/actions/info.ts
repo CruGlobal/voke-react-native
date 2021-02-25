@@ -4,7 +4,7 @@ import { REDUX_ACTIONS } from 'utils/constants';
 type Dispatch = ThunkDispatch<any, any, any>;
 
 export function toastAction(text: string, length?: 'long' | 'short' | null) {
-  return async (dispatch: Dispatch, getState: any) => {
+  return async (dispatch: Dispatch, _getState: any) => {
     let timeout;
     switch (length) {
       case 'long':
@@ -29,7 +29,7 @@ type setCurrentScreenProps = {
   data: object;
 };
 export function setCurrentScreen({ screen, data }: setCurrentScreenProps) {
-  return async (dispatch: Dispatch, getState: any) => {
+  return async (dispatch: Dispatch, _getState: any) => {
     dispatch({
       type: REDUX_ACTIONS.SET_SCREEN,
       screen: screen,
@@ -45,7 +45,7 @@ export function next() {
 }
 
 export function setComplain({ messageId, adventureId }) {
-  return async (dispatch: Dispatch, getState: any) => {
+  return async (dispatch: Dispatch, _getState: any) => {
     dispatch({
       type: REDUX_ACTIONS.SET_COMPLAIN,
       props: { messageId, adventureId },
@@ -55,7 +55,7 @@ export function setComplain({ messageId, adventureId }) {
 }
 
 export function remindToUpdate(date: string) {
-  return async (dispatch: Dispatch, getState: any) => {
+  return async (dispatch: Dispatch, _getState: any) => {
     dispatch({
       type: REDUX_ACTIONS.SET_REMIND_TO_UPDATE,
       remindToUpdateOn: date,

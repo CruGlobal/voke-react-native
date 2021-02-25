@@ -6,9 +6,7 @@ import { BlurView } from '@react-native-community/blur';
 import { Portal } from 'react-native-portalize';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
 import CONSTANTS, { REDUX_ACTIONS } from 'utils/constants';
-import theme from 'utils/theme';
 import Touchable from 'components/Touchable';
 import VokeIcon from 'components/VokeIcon';
 import Text from 'components/Text';
@@ -22,7 +20,7 @@ import styles from './styles';
 const Complain = () => {
   const modalizeRef = useRef<Modalize>(null);
   const { t } = useTranslation('reportModal');
-  const { width, height } = Dimensions.get('window');
+  const { height } = Dimensions.get('window');
   const complain = useSelector(({ info }: RootState) => info.complain);
   const [complainSubmited, setComplainSubmited] = useState(false);
   const [isBusy, setIsBusy] = useState(false);

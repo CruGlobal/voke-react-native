@@ -1,4 +1,3 @@
-import theme from 'utils/theme';
 import ui from 'utils/ui';
 
 const styles: { [key: string]: any } = {

@@ -1,5 +1,10 @@
 module.exports = {
-  extends: ['react-native-wcandillon', 'plugin:prettier/recommended'],
+  extends: [
+    'react-native-wcandillon',
+    'plugin:jest/recommended',
+    'plugin:prettier/recommended',
+  ],
+  plugins: ['detox'],
   globals: {
     LOG: true,
     WARN: true,
@@ -101,9 +106,22 @@ module.exports = {
       },
     },
     {
-      files: ['*.stories.tsx', '*.test.tsx', '__tests__/**.*'],
+      files: [
+        '*.stories.tsx',
+        '*.test.tsx',
+        '**/__tests__/*.tsx',
+        '**/__mock__/*.ts',
+      ],
       rules: {
         '@typescript-eslint/no-empty-function': 'off',
+      },
+    },
+    {
+      files: ['e2e/*.js'],
+      env: {
+        'detox/detox': true,
+        jest: true,
+        'jest/globals': true,
       },
     },
   ],

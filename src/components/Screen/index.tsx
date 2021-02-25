@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  KeyboardAvoidingView,
-  View,
-  Dimensions,
-  ScrollView,
-  Platform,
-} from 'react-native';
+import { KeyboardAvoidingView, View, ScrollView, Platform } from 'react-native';
 import { useKeyboard } from '@react-native-community/hooks';
 import { SafeAreaView } from 'react-native-safe-area-context';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 import Image from 'react-native-scalable-image';
 import { tutorials } from 'assets';
 import theme from 'utils/theme';

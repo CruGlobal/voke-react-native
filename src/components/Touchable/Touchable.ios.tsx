@@ -3,18 +3,7 @@ import { TouchableOpacity, TouchableHighlight } from 'react-native';
 import { useMount } from 'utils';
 
 const TouchableIOS = forwardRef(
-  (
-    {
-      highlight,
-      borderless,
-      isAndroidOpacity,
-      androidRippleColor,
-      onPress,
-      disableTimeout,
-      ...rest
-    },
-    ref,
-  ) => {
+  ({ highlight, onPress, disableTimeout, ...rest }, ref) => {
     const [clickDisabled, setClickDisabled] = useState(false);
     let clickDisableTimeout;
 

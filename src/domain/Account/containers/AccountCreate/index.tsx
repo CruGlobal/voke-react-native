@@ -1,35 +1,19 @@
-import React, { useState, useRef, useEffect } from 'react';
-import {
-  KeyboardAvoidingView,
-  Platform,
-  Alert,
-  TextInput,
-  Linking,
-  ScrollView,
-  Dimensions,
-} from 'react-native';
+import React, { useState, useRef } from 'react';
+import { Platform, Alert, TextInput, Linking } from 'react-native';
 import { getTimeZone, getCountry, getLocales } from 'react-native-localize';
 import { RouteProp, useNavigation } from '@react-navigation/native';
-import { SafeAreaView, useSafeArea } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
-import { StackNavigationProp, useHeaderHeight } from '@react-navigation/stack';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { useTranslation } from 'react-i18next';
-import {
-  Transitioning,
-  Transition,
-  TransitioningView,
-} from 'react-native-reanimated';
 import { useKeyboard } from '@react-native-community/hooks';
-import DismissKeyboardView from 'components/DismissKeyboardHOC';
 import TextField from 'components/TextField';
 import OldButton from 'components/OldButton';
 import Flex from 'components/Flex';
 import Text from 'components/Text';
 import BotTalking from 'components/BotTalking';
-import VokeIcon from 'components/VokeIcon';
 import Screen from 'components/Screen';
 import theme from 'utils/theme';
-import { userLogin, updateMe } from 'actions/auth';
+import { updateMe } from 'actions/auth';
 import { RootStackParamList } from 'utils/types';
 import CONSTANTS from 'utils/constants';
 import st from 'utils/st';
@@ -53,7 +37,6 @@ const AccountCreate = (props: Props): React.ReactElement => {
   const { layout, parentScroll, scrollTo, onComplete = false } =
     props.route.params || {};
   const { t } = useTranslation('signUp');
-  const insets = useSafeArea();
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -69,16 +52,6 @@ const AccountCreate = (props: Props): React.ReactElement => {
 
   // https://github.com/react-native-hooks/keyboard#configuration
   const keyboard = useKeyboard();
-
-  const refBotBlock = useRef<TransitioningView>(null);
-  const headerHeight = useHeaderHeight();
-  const { width, height } = Dimensions.get('window');
-
-  const transition = (
-    <Transition.Together>
-      <Transition.Change interpolation="easeInOut" />
-    </Transition.Together>
-  );
 
   useMount(() => {
     lockToPortrait();

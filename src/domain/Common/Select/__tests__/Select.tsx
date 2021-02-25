@@ -1,12 +1,7 @@
-/**
- * @format
- */
-
 import { Text } from 'react-native';
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react-native';
 
-// https://github.com/testing-library/jest-dom/issues/123
 import '@testing-library/jest-native';
 import Select from '../index';
 

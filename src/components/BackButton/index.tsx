@@ -4,7 +4,19 @@ import theme from 'utils/theme';
 import { StyleSheet } from 'react-native';
 import VokeIcon from 'components/VokeIcon';
 
-function BackButton({ isClose = false, size, onPress, style }) {
+const styles = StyleSheet.create({
+  backButton: {
+    marginTop: theme.spacing.l,
+    marginLeft: theme.spacing.l,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    color: 'rgba(255,255,255,0.7)',
+    padding: 6,
+    borderRadius: 99,
+    position: 'absolute',
+  },
+});
+
+function BackButton({ isClose = false, size, onPress }) {
   const navigation = useNavigation();
 
   return (
@@ -31,17 +43,5 @@ function BackButton({ isClose = false, size, onPress, style }) {
     />
   );
 }
-
-const styles = StyleSheet.create({
-  backButton: {
-    marginTop: theme.spacing.l,
-    marginLeft: theme.spacing.l,
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    color: 'rgba(255,255,255,0.7)',
-    padding: 6,
-    borderRadius: 99,
-    position: 'absolute',
-  },
-});
 
 export default BackButton;

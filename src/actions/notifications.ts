@@ -14,16 +14,6 @@ import { establishPushDevice, establishCableDevice } from './requests';
 
 type Dispatch = ThunkDispatch<any, any, any>;
 
-// Push notification Android error
-// https://github.com/zo0r/react-native-push-notification/issues/495
-
-const WEBSOCKET_STATES = {
-  CONNECTING: 0,
-  OPEN: 1,
-  CLOSING: 2,
-  CLOSED: 3,
-};
-
 export const NAMESPACES = {
   MESSAGE: 'messenger:conversation:message',
   ADVENTURE: 'platform:organization:adventure:challenge',
@@ -59,21 +49,6 @@ const getLinkParams = (link: string) => {
   return result;
 };
 
-const getCID = (l) =>
-  l.substring(l.indexOf('conversations/') + 14, l.indexOf('/messages'));
-
-const getJID = (l) =>
-  l.substring(
-    l.indexOf('messenger_journeys/') + 19,
-    l.indexOf('/messenger_journey_steps'),
-  );
-
-const getOnlyJID = (l) =>
-  l.substring(l.indexOf('messenger_journeys/') + 19, l.length);
-
-const getSID = (l) =>
-  l.substring(l.indexOf('messenger_journey_steps/') + 24, l.length);
-
 export function setAppIconBadgeNumber(newValue: number) {
   // https://github.com/zo0r/react-native-push-notification#set-application-badge-icon
   // Works natively in iOS.
@@ -85,10 +60,8 @@ export function setAppIconBadgeNumber(newValue: number) {
 // Notifications are open and configured. Send this token to our backend,
 // so the server knows were to deliver notifications.
 function gotPushToken(newPushToken: any) {
-  return async (dispatch: Dispatch, getState: any) => {
+  return async (dispatch: Dispatch, _getState: any) => {
     if (!newPushToken) return;
-    const { pushToken } = getState().auth;
-    const deviceId = getState().auth.device.id;
     let newPushDeviceId = null;
 
     // Save new push token in the store.
@@ -115,7 +88,7 @@ function gotPushToken(newPushToken: any) {
 }
 
 function handleNotifications(state: string, notification: { data?: any }) {
-  return async (dispatch: Dispatch, getState: any) => {
+  return async (_dispatch: Dispatch, _getState: any) => {
     const { data } = notification;
 
     // Get the namespace and link differently for ios and android
@@ -200,7 +173,7 @@ export const checkInitialNotification = async () => {
 };
 
 function establishDevice(): Promise<void> {
-  return async (dispatch: Dispatch, getState: any) => {
+  return async (dispatch: Dispatch, _getState: any) => {
     // Shared configs for both Android and iOS.
     let configs: any = {
       // Called when Token is generated (iOS and Android)
@@ -292,7 +265,7 @@ function establishDevice(): Promise<void> {
 
 type PermissionStatus = 'unavailable' | 'denied' | 'blocked' | 'granted';
 export function permissionsAndNotifications(askPermission = false) {
-  return async (dispatch: Dispatch, getState: any) => {
+  return async (dispatch: Dispatch, _getState: any) => {
     // Check notifications permission status and get notifications settings.
     // https://d.pr/bbVk5I
     checkNotifications().then(({ status }: { status: PermissionStatus }) => {

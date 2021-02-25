@@ -1,9 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
   Alert,
-  useWindowDimensions,
   TextInput,
   ScrollView,
 } from 'react-native';
@@ -13,9 +12,7 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useKeyboard } from '@react-native-community/hooks';
 import DismissKeyboardView from 'components/DismissKeyboardHOC';
-import VokeIcon from 'components/VokeIcon';
 import TextField from 'components/TextField';
-import Triangle from 'components/Triangle';
 import OldButton from 'components/OldButton';
 import Flex from 'components/Flex';
 import Text from 'components/Text';
@@ -35,7 +32,6 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
   const [email, setEmail] = useState('');
   const [confirmEmail, setConfirmEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [emailValid, setEmailValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation([
     'common',
@@ -45,21 +41,11 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
     'login',
     'error',
   ]);
-  const [topMargin, setTopMargin] = useState(0);
-
   const emailRef = useRef<TextInput>(null);
   const emailConfirmRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
 
   const keyboard = useKeyboard();
-
-  useEffect(() => {
-    if (keyboard.keyboardShown) {
-      setTopMargin(-50);
-    } else {
-      setTopMargin(0);
-    }
-  }, [keyboard.keyboardShown]);
 
   useMount(() => {
     lockToPortrait();
@@ -67,10 +53,6 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
   });
 
   const checkEmail = (text: string): void => {
-    const emailValidation = CONSTANTS.EMAIL_REGEX.test(text);
-    if (emailValidation) {
-      setEmailValid(true);
-    }
     setEmail(text);
   };
 
@@ -102,7 +84,7 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
       };
 
       try {
-        const result = await dispatch(updateMe(data));
+        await dispatch(updateMe(data));
         setIsLoading(false);
         navigation.navigate('AccountProfile');
       } catch (e) {
@@ -181,7 +163,6 @@ const AccountEmailPass: React.FC = (): React.ReactElement => {
                 autoCompleteType="email"
                 keyboardType="email-address"
                 returnKeyType="next"
-                onSubmitEditing={(): void => passwordRef?.current?.focus()}
                 testID={'inputEmailConfirm'}
               />
               {/* INPUT FIELD: PASSWORD */}

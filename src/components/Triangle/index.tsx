@@ -1,7 +1,5 @@
 import React from 'react';
 import { View, StyleProp, ViewStyle } from 'react-native';
-import st from 'utils/st';
-import Image from 'components/Image';
 
 type TriangleProps = {
   width: number;

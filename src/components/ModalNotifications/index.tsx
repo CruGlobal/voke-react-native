@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import theme from 'utils/theme';
 import Flex from 'components/Flex';
 import Text from 'components/Text';
@@ -17,7 +16,7 @@ import styles from './styles';
 // Renders Cards on this screen https://d.pr/i/WsCCf2
 function ModalNotifications({ closeAction }): React.ReactElement {
   const { t } = useTranslation('modal');
-  const { pushNotificationPermission, notificationsRequest } = useSelector(
+  const { pushNotificationPermission } = useSelector(
     ({ info }: RootState) => info,
   );
   const me = useSelector(({ auth }) => auth.user);
@@ -28,7 +27,6 @@ function ModalNotifications({ closeAction }): React.ReactElement {
     if (pushNotificationPermission === 'granted') {
       closeAction();
     }
-    return () => {};
   }, [pushNotificationPermission]);
 
   return (

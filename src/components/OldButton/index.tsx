@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
   View,
-  Text,
   ActivityIndicator,
   StyleProp,
   ViewStyle,
@@ -48,7 +47,7 @@ const OldButton = ({
 
   function handlePress() {
     setClickDisabled(true);
-    onPress();
+    onPress?.();
     clickDisableTimeout = setTimeout(() => {
       setClickDisabled(false);
     }, 500);

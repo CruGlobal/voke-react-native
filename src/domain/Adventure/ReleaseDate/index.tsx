@@ -72,12 +72,6 @@ const GroupReleaseDate = (props): React.ReactElement => {
       .hour(newTimeRaw.hour())
       .minute(newTimeRaw.minute())
       .second(0);
-    const now = moment();
-    const diff = now.diff(newDate);
-    // - if date in the future diff < 0
-    // - if date in the past diff > 0
-    // if (diff > 0) {
-    // Set the next week new date is already in the past.
     if (releaseSchedule === 'weekly') {
       newDate = newDate.add(1, 'weeks');
     } else {

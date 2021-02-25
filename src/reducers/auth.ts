@@ -40,7 +40,7 @@ const initialState: InitialStateTypes = {
   ws: undefined,
 };
 
-export default function (
+export default function auth(
   state = initialState,
   action: {
     type: any;

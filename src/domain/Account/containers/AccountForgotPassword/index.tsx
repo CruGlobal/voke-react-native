@@ -1,14 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
-import {
-  KeyboardAvoidingView,
-  Alert,
-  Keyboard,
-  Platform,
-  View,
-  Linking,
-  useWindowDimensions,
-} from 'react-native';
+import { KeyboardAvoidingView, Alert, Platform, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +12,6 @@ import TextField from 'components/TextField';
 import OldButton from 'components/OldButton';
 import { passwordResetAction } from 'actions/auth';
 import theme from 'utils/theme';
-import CONSTANTS from 'utils/constants';
 import st from 'utils/st';
 import { useMount, lockToPortrait } from 'utils';
 
@@ -31,9 +22,7 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
-  const [emailValid, setEmailValid] = useState(false);
   const { t } = useTranslation('forgotPassword', 'placeholder');
-  const passwordRef = useRef<TextInput>(null);
 
   // https://github.com/react-native-hooks/keyboard#configuration
   const keyboard = useKeyboard();
@@ -43,10 +32,6 @@ const AccountForgotPassword: React.FC = (): React.ReactElement => {
   });
 
   const checkEmail = (text: string) => {
-    const emailValidation = CONSTANTS.EMAIL_REGEX.test(text);
-    if (emailValidation) {
-      setEmailValid(true);
-    }
     setEmail(text);
   };
 

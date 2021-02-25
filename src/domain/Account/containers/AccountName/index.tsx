@@ -1,23 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import {
-  Platform,
-  Alert,
-  KeyboardAvoidingView,
-  ScrollView,
-  Dimensions,
-} from 'react-native';
-import {
-  Transitioning,
-  Transition,
-  TransitioningView,
-} from 'react-native-reanimated';
+import { Alert, Dimensions } from 'react-native';
+import { TransitioningView } from 'react-native-reanimated';
 import { RouteProp, useNavigation } from '@react-navigation/native';
-import { StackNavigationProp, useHeaderHeight } from '@react-navigation/stack';
-import { useSafeArea } from 'react-native-safe-area-context';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { useSelector, useDispatch } from 'react-redux';
 import { useKeyboard } from '@react-native-community/hooks';
 import { useTranslation } from 'react-i18next';
-import DismissKeyboardView from 'components/DismissKeyboardHOC';
 import NameInput from 'components/NameInput';
 import OldButton from 'components/OldButton';
 import Flex from 'components/Flex';
@@ -29,8 +17,6 @@ import theme from 'utils/theme';
 import { RootStackParamList } from 'utils/types';
 import st from 'utils/st';
 import { RootState } from 'reducers';
-
-import styles from './styles';
 
 type NavigationPropType = StackNavigationProp<
   RootStackParamList,
@@ -47,10 +33,8 @@ type Props = {
 const AccountName = (props: Props): React.ReactElement => {
   const { t } = useTranslation('name');
   const onComplete = props?.route?.params?.onComplete;
-  const insets = useSafeArea();
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const headerHeight = useHeaderHeight();
   // State:
   const initialFirstName = useSelector(
     ({ auth }: RootState) => auth.user.firstName,
@@ -64,25 +48,13 @@ const AccountName = (props: Props): React.ReactElement => {
   const [firstName, setFirstName] = useState(initialFirstName);
   const [lastName, setLastName] = useState(initialLastName);
   const lastNameRef = useRef(null);
-  const [topMargin, setTopMargin] = useState(0);
   // https://github.com/react-native-hooks/keyboard#configuration
   const keyboard = useKeyboard();
   const windowDimensions = Dimensions.get('window');
 
   const refBotBlock = useRef<TransitioningView>(null);
 
-  const transition = (
-    <Transition.Together>
-      <Transition.Change interpolation="easeInOut" />
-    </Transition.Together>
-  );
-
   useEffect(() => {
-    if (keyboard.keyboardShown) {
-      setTopMargin(-300);
-    } else {
-      setTopMargin(theme.spacing.l);
-    }
     refBotBlock?.current?.animateNextTransition();
   }, [keyboard.keyboardShown]);
 

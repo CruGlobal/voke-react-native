@@ -1,28 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import analytics from '@react-native-firebase/analytics';
-import { View, ScrollView, StatusBar, Platform } from 'react-native';
+import { View, ScrollView, StatusBar } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { RouteProp, useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { StackNavigationProp } from '@react-navigation/stack';
 import Flex from 'components/Flex';
 import Text from 'components/Text';
-import OldButton from 'components/OldButton';
-import Triangle from 'components/Triangle';
 import Video from 'components/Video';
 import VokeIcon from 'components/VokeIcon';
 import Touchable from 'components/Touchable';
-import {
-  interactionVideoPlay,
-  toggleFavoriteVideo,
-  sendVideoInvitation,
-} from 'actions/requests';
-import { AdventureStackParamList, VideoStackParamList } from 'utils/types';
+import { interactionVideoPlay } from 'actions/requests';
+import { VideoStackParamList } from 'utils/types';
 import theme from 'utils/theme';
 import st from 'utils/st';
-
-import styles from './styles';
 
 type NavigationPropType = StackNavigationProp<
   VideoStackParamList,
@@ -43,12 +35,6 @@ function VideoDetails(props: Props) {
   const navigation = useNavigation();
   const [isPortrait, setIsPortrait] = useState(true);
   const { item } = props.route.params;
-  const [isFavorited, setIsFavorited] = useState(item['favorite?']);
-
-  async function handleFavorite() {
-    setIsFavorited(!isFavorited);
-    await dispatch(toggleFavoriteVideo(!isFavorited, item));
-  }
 
   function handleShare() {
     navigation.navigate('AdventureName', {
@@ -111,22 +97,23 @@ function VideoDetails(props: Props) {
               zIndex: 1,
             }}
           />
-          {/* Video Player */}
-          <Video
-            onOrientationChange={(orientation: string): void => {
-              setIsPortrait(orientation === 'portrait' ? true : false);
-            }}
-            autoPlay={true}
-            item={item.media}
-            onPlay={() => {
-              dispatch(
-                interactionVideoPlay({
-                  videoId: item.id,
-                  context: 'resource',
-                }),
-              );
-            }}
-          />
+          {item.media && (
+            <Video
+              onOrientationChange={(orientation: string): void => {
+                setIsPortrait(orientation === 'portrait' ? true : false);
+              }}
+              autoPlay={true}
+              item={item.media}
+              onPlay={() => {
+                dispatch(
+                  interactionVideoPlay({
+                    videoId: item.id,
+                    context: 'resource',
+                  }),
+                );
+              }}
+            />
+          )}
           {isPortrait && (
             <Flex
               direction="column"

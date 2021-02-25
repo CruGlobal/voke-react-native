@@ -1,69 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  ActivityIndicator,
-  StyleProp,
-  ViewStyle,
-  TextStyle,
-} from 'react-native';
+import React from 'react';
+import { Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from 'utils/theme';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import Flex from 'components/Flex';
-import Touchable from 'components/Touchable';
 
 import OldButton from '../OldButton';
 import { logoutAction } from '../../actions/auth';
 
-type SignOutProps = {
-  onPress?: Function;
-  children?: React.ReactNode;
-  disabled?: boolean;
-  isLoading?: boolean;
-  buttonTextStyle?: StyleProp<TextStyle>; // StyleSheet?
-  style?: StyleProp<ViewStyle>; // StyleSheet?
-  touchableStyle?: StyleProp<ViewStyle>;
-  isAndroidOpacity?: boolean;
-  activeOpacity?: number;
-  type?: string;
-  text?: string;
-  [x: string]: any;
-};
 /**
  * Our custom button component.
  */
-const SignOut = ({
-  onPress,
-  children,
-  disabled,
-  isLoading,
-  style,
-  touchableStyle,
-  ...rest
-}: SignOutProps) => {
+const SignOut = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [clickDisabled, setClickDisabled] = useState(false);
   const email = useSelector(({ auth }: any) => auth?.user?.email);
-  let clickDisableTimeout = null;
-  useEffect(
-    () =>
-      (cleanUp = () => {
-        clearTimeout(clickDisableTimeout);
-      }),
-    [],
-  );
-
-  function handlePress() {
-    setClickDisabled(true);
-    clickDisableTimeout = setTimeout(() => {
-      setClickDisabled(false);
-    }, 500);
-    onPress();
-  }
 
   return (
     <>

@@ -157,55 +157,57 @@ function AdventureAvailable(props: Props): React.ReactElement {
           backgroundColor="transparent" // Android. The background color of the status bar.
         />
       </View>
-      <Video
-        onOrientationChange={(orientation: string): void => {
-          setIsPortrait(orientation === 'portrait' ? true : false);
-        }}
-        item={item?.item?.content}
-        onPlay={() => {
-          dispatch(
-            interactionVideoPlay({
-              videoId: item?.item?.id,
-              context: 'journey',
-            }),
-          );
-        }}
-      >
-        <Flex direction="column" align="center">
-          {/* Call to action overlay to be rendered over the video. */}
-          <Text
-            style={{
-              fontSize: 24,
-              paddingHorizontal: 25,
-              paddingVertical: 4,
-              color: 'white',
-            }}
-          >
-            {item.name}
-          </Text>
-          <Flex
-            style={{
-              borderRadius: 20,
-              backgroundColor: 'rgba(0,0,0,0.4)',
-              alignSelf: 'center',
-              marginBottom: 10,
-            }}
-          >
+      {item?.item?.content && (
+        <Video
+          onOrientationChange={(orientation: string): void => {
+            setIsPortrait(orientation === 'portrait' ? true : false);
+          }}
+          item={item.item.content}
+          onPlay={() => {
+            dispatch(
+              interactionVideoPlay({
+                videoId: item?.item?.id,
+                context: 'journey',
+              }),
+            );
+          }}
+        >
+          <Flex direction="column" align="center">
+            {/* Call to action overlay to be rendered over the video. */}
             <Text
               style={{
-                fontSize: 16,
-                paddingHorizontal: 24,
-                paddingTop: 8,
-                paddingBottom: 10,
-                textAlign: 'center',
+                fontSize: 24,
+                paddingHorizontal: 25,
+                paddingVertical: 4,
                 color: 'white',
               }}
             >
-              {t('watchTrailer')}
+              {item.name}
             </Text>
+            <Flex
+              style={{
+                borderRadius: 20,
+                backgroundColor: 'rgba(0,0,0,0.4)',
+                alignSelf: 'center',
+                marginBottom: 10,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 16,
+                  paddingHorizontal: 24,
+                  paddingTop: 8,
+                  paddingBottom: 10,
+                  textAlign: 'center',
+                  color: 'white',
+                }}
+              >
+                {t('watchTrailer')}
+              </Text>
+            </Flex>
           </Flex>
-        </Flex>
-      </Video>
+        </Video>
+      )}
       {isPortrait && (
         <ScrollView
           bounces={false}

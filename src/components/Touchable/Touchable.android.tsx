@@ -1,4 +1,4 @@
-import React, { useState, forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { useMount } from 'utils';
 import {
   TouchableOpacity,
@@ -10,19 +10,16 @@ import {
 const TouchableAndroid = forwardRef(
   (
     {
-      highlight,
       borderless = false,
       isAndroidOpacity,
       androidRippleColor,
       onPress,
       children,
       style,
-      disableTimeout,
       ...rest
     },
     ref,
   ) => {
-    const [clickDisabled, setClickDisabled] = useState(false);
     let clickDisableTimeout;
 
     useMount(() => clearTimeout(clickDisableTimeout));

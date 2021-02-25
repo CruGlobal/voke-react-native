@@ -1,15 +1,11 @@
-import PushNotification from 'react-native-push-notification';
-import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import lodash from 'lodash';
 // Following https://github.com/react-native-community/push-notification-ios
 // - Added these configs: https://d.pr/i/AoUUxy
 
 import { ThunkDispatch } from 'redux-thunk';
-import { checkNotifications, openSettings } from 'react-native-permissions';
 import { Vibration } from 'react-native';
 import { REDUX_ACTIONS } from 'utils/constants';
 import { SOCKET_URL } from 'actions/utils';
-import { userBlockedAction } from 'actions/auth';
 
 import { toastAction } from './info';
 import {
@@ -43,6 +39,13 @@ export const NAMESPACES = {
   MESSAGE: 'messenger:conversation:message',
   ADVENTURE: 'platform:organization:adventure:challenge',
 };
+
+export function vibrateAction() {
+  return () => {
+    // Vibrate when receiving a new message
+    Vibration.vibrate(100);
+  };
+}
 
 // https://docs.vokeapp.com/#cable-device
 // The Cable Messaging API allows you to receive events from Voke in real time.
@@ -286,8 +289,8 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
   };
 };
 
-export function openSocketAction(deviceId: string) {
-  return async (dispatch: Dispatch, getState: any) => {
+export function openSocketAction(_deviceId: string) {
+  return async (dispatch: Dispatch, _getState: any) => {
     await dispatch({ type: REDUX_ACTIONS.OPEN_SOCKETS });
   };
 }
@@ -309,12 +312,5 @@ export function closeSocketAction() {
       // Do nothing with the error
       console.log('socket error in close', socketErr);
     }
-  };
-}
-
-export function vibrateAction() {
-  return () => {
-    // Vibrate when receiving a new message
-    Vibration.vibrate(100);
   };
 }

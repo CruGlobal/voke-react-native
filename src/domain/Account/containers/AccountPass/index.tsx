@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -64,7 +64,7 @@ const AccountPass: React.FC = (): React.ReactElement => {
       };
 
       try {
-        const result = await dispatch(updateMe(data));
+        await dispatch(updateMe(data));
         setIsLoading(false);
         navigation.navigate('AccountProfile');
       } catch (e) {

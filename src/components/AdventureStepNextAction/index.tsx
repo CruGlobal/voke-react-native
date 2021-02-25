@@ -65,11 +65,7 @@ const AdventureStepNextAction = ({
     ? getTimeToDate(nextReleaseDate)
     : null;
 
-  const printNextReleaseDate = ({
-    nextReleaseDate,
-    nextReleaseIn,
-    nextReleaseTime,
-  }) => {
+  const printNextReleaseDate = ({ nextReleaseDate, nextReleaseTime }) => {
     let result = '';
     if (nextReleaseDate) {
       result = `${t('share:nextRelease')}: ${nextReleaseTime}`;

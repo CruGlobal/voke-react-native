@@ -428,29 +428,30 @@ const AdventureStepScreenRender = ({
                   height: 300,
                 }}
               />
-              {/* Video Player */}
-              <Video
-                onOrientationChange={(orientation: string): void => {
-                  setIsPortrait(orientation === 'portrait' ? true : false);
-                }}
-                item={currentStep?.item?.content}
-                onPlay={(): void => {
-                  dispatch(
-                    interactionVideoPlay({
-                      videoId: currentStep?.item?.id,
-                      context: 'journey',
-                    }),
-                  );
+              {currentStep?.item?.content && (
+                <Video
+                  onOrientationChange={(orientation: string): void => {
+                    setIsPortrait(orientation === 'portrait' ? true : false);
+                  }}
+                  item={currentStep.item.content}
+                  onPlay={(): void => {
+                    dispatch(
+                      interactionVideoPlay({
+                        videoId: currentStep?.item?.id,
+                        context: 'journey',
+                      }),
+                    );
 
-                  if (!hasClickedPlay) {
-                    setHasClickedPlay(true);
-                  }
-                }}
-                onStop={(): void => {
-                  // nothing here.
-                }}
-                lockOrientation={!videoIsPlaying}
-              />
+                    if (!hasClickedPlay) {
+                      setHasClickedPlay(true);
+                    }
+                  }}
+                  onStop={(): void => {
+                    // nothing here.
+                  }}
+                  lockOrientation={!videoIsPlaying}
+                />
+              )}
               {isPortrait && (
                 <>
                   {/* Special Bot message at the top */}

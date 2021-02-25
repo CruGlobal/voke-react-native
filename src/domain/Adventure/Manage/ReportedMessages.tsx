@@ -199,7 +199,6 @@ const ReportedMessages = ({ adventureId }) => {
           openAnimationConfig={{
             timing: { duration: 300 },
           }}
-          onClose={() => {}}
           rootStyle={{
             elevation: 5, // need it here to solve issue with button shadow.
           }}

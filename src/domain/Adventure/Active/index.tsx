@@ -86,10 +86,10 @@ function AdventureActive({ navigation, route }: Props): React.ReactElement {
 
   const getPendingAdventure = async () => {
     await dispatch(getMyAdventure(adventureId)).then(
-      (data) => {
+      (_data) => {
         // Received Adventure from the server.
       },
-      (error) => {
+      (_error) => {
         // Can't Find Adventure.
         console.log('🛑 Can not Find Adventure.', adventureId);
         navigation.reset({
@@ -195,7 +195,7 @@ function AdventureActive({ navigation, route }: Props): React.ReactElement {
             }}
           />
         )}
-        {!!adventureItemId && (
+        {!!adventureItemId && adventureContent && (
           <Video
             item={adventureContent}
             lockOrientation={true}

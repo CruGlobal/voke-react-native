@@ -10,8 +10,6 @@ describe('Group Adventure With Daily Release', () => {
 
   const thirdUserEmail = 'autotest3@vokeapptest.com';
   const thirdUserPass = '12345678';
-  const thirdUserFirstName = 'Autotest 3';
-  const thirdUserLastName = 'Detox Robot';
 
   const groupName = 'Daily Release Group Test - ';
   let inviteCode = '';
@@ -137,7 +135,7 @@ describe('Group Adventure With Daily Release', () => {
       .toBeVisible()
       .withTimeout(2000);
     await element(by.id('inputFirstName')).replaceText(secondUserFirstName);
-    await element(by.id('inputLastName')).typeText(secondUserlastName);
+    await element(by.id('inputLastName')).typeText(secondUserLastName);
     await element(by.id('ctaNameContinue')).tap();
     await element(by.id('ctaPhotoContinue')).tap();
     await expect(element(by.id('tabAdventuresMy'))).toBeVisible();

@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 import { View, StyleProp, ViewStyle } from 'react-native';
 
 type FlexProps = {

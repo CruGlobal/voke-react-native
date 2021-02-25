@@ -1,5 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
+
 type Props = {
   size?: 's' | 'm' | 'l' | 'xl' | 'xxl';
   [x: string]: any;

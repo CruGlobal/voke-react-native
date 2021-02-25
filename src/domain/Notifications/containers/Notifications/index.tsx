@@ -113,7 +113,7 @@ function Notifications() {
         st.h100,
       ]}
     >
-      {videoToShow && (
+      {videoToShow && videoToShow.item.media && (
         <Video
           onCancel={() => setVideoToShow(null)}
           item={videoToShow.item.media}

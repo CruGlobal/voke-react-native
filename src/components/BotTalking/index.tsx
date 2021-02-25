@@ -10,8 +10,7 @@ import Triangle from '../Triangle';
 
 import styles from './styles';
 
-interface IBotTalking {
-  reference?: React.RefObject<HTMLButtonElement>;
+interface Props {
   children?: React.ReactNode;
   type?: string;
   heading?: string;
@@ -22,12 +21,11 @@ interface IBotTalking {
  * Wraps provided content with <Text> element.
  */
 const BotTalking = ({
-  reference,
   children,
   type,
   heading,
   style,
-}: IBotTalking): React.ReactElement => {
+}: Props): React.ReactElement => {
   switch (type) {
     case 'uke':
       return (

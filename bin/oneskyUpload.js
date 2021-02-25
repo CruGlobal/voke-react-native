@@ -2,7 +2,7 @@ import process from 'process';
 
 import oneSky from '@brainly/onesky-utils';
 
-import translations from '../src/i18n/locales/en-US';
+import translations from '../src/i18n/locales/en-US.json';
 
 async function uploadTranslations() {
   const options = {

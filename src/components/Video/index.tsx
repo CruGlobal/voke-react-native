@@ -69,26 +69,16 @@ interface Props {
 }
 
 function Video({
-  onOrientationChange = (orientation: string) => {
-    //void
-  },
+  onOrientationChange = () => {},
   onPlay = () => {},
   onStop = () => {},
-  hideBack = false,
   item,
   onCancel,
-  hideInsets,
   autoPlay = false,
-  // fullscreenOrientation = 'all',
   lockOrientation = false,
   children, // Used to create custom overlay/play button. Ex: "Watch Trailer".
   containerStyles = {},
-  ...rest
 }: Props) {
-  // Don't even bother if there is no info about video provided.
-  if (!item) {
-    return <></>;
-  }
   let youtubeVideo = useRef<RefYouTube>(null);
   let arclightVideo = useRef<RefArcLight>(null);
   const lockOrientationRef = useRef<boolean>(lockOrientation);
@@ -102,13 +92,9 @@ function Video({
   const [videoReady, setVideoReady] = useState<boolean>(false);
   const [started, setStarted] = useState<boolean>(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [fullscreen, setFullscreen] = useState(false);
-  const [fullscreenOrientation, setFullscreenOrientation] = useState(
-    'landscape',
-  );
+  const fullscreenOrientation = 'landscape';
   const [refreshInterval, setRefreshInterval] = useState<number | null>(null);
   const [sliderValue, setSliderValue] = useState<number>(0);
-  const [currentTime, setCurrentTime] = useState<number>(0);
   const window = useWindowDimensions();
   const dispatch = useDispatch();
 
@@ -116,7 +102,6 @@ function Video({
   useInterval(() => {
     if (!youtubeVideo.current) return;
     youtubeVideo.current.getCurrentTime().then((currentTime: void | number) => {
-      setCurrentTime(currentTime ? currentTime : 0);
       setSliderValue(currentTime ? currentTime : 0);
     });
   }, refreshInterval);
@@ -212,14 +197,6 @@ function Video({
       });
     }
   }, [lockOrientation]);
-
-  useEffect(() => {
-    if (screenOrientation === 'portrait') {
-      setFullscreen(true);
-    } else {
-      setFullscreen(false);
-    }
-  }, [screenOrientation]);
 
   // Events firing when user leaves the screen with player or comes back.
   useFocusEffect(
@@ -336,7 +313,7 @@ function Video({
           onReady={(): void => {
             handleVideoStateChange('ready');
           }}
-          onError={(e): void => {
+          onError={(): void => {
             setIsPlaying(false);
           }}
           onPlaybackQualityChange={(q): void => console.log(q)}
@@ -364,7 +341,7 @@ function Video({
               item.url.replace('http:', 'https:'),
             type: item.hls ? 'm3u8' : undefined,
           }}
-          onLoad={(e) => {
+          onLoad={() => {
             handleVideoStateChange('ready');
           }}
           paused={!isPlaying}
@@ -373,7 +350,7 @@ function Video({
               setSliderValue(e.currentTime);
             }
           }}
-          onEnd={(e) => {
+          onEnd={() => {
             if (sliderValue >= 1) {
               handleVideoStateChange('paused');
               setSliderValue(0);

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import st from 'utils/st';
 import { TextInput } from 'react-native';
 
-import Icon from '../Icon';
+import VokeIcon from '../VokeIcon';
 
-function SearchBox({ source, style, badge, onPress, ...rest }) {
+function SearchBox() {
   const [searchText, setSearchText] = useState('');
   return (
     <>
@@ -37,7 +37,7 @@ function SearchBox({ source, style, badge, onPress, ...rest }) {
         autoCorrect={true}
         onSubmitEditing={() => {}}
       />
-      <Icon
+      <VokeIcon
         name="search"
         style={[st.asc, st.mt4, { width: 20, height: 20 }]}
         onPress={() => {}}

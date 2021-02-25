@@ -23,12 +23,6 @@ import Spacer from '../Spacer';
 
 import styles from './styles';
 
-type StepProps = {
-  status: string;
-  unread_messages: number;
-  'completed_by_messenger?': boolean;
-};
-
 type AdventureStepCardProps = {
   stepId: string;
   adventureId: string;
@@ -103,7 +97,6 @@ function AdventureStepCard({
 
   const printNextReleaseDate = ({
     releaseDate,
-    releaseIn,
     releaseTime,
   }: {
     releaseDate: string | null;

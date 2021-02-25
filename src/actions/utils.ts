@@ -1,12 +1,9 @@
 import RNFetchBlob from 'rn-fetch-blob';
 import qs from 'qs'; // querystring parsing and stringifying
-import CONSTANTS, { REDUX_ACTIONS } from 'utils/constants';
-import { userBlockedAction } from 'actions/auth';
+import CONSTANTS from 'utils/constants';
 
 import configureStore from '../store';
-const { store } = configureStore({});
-let baseUrl;
-let authUrl;
+configureStore({});
 
 const API_VERSION = 'v1';
 
@@ -17,8 +14,8 @@ if (!CONSTANTS.IS_STAGING) {
   domain = '-stage';
 }
 
-baseUrl = `https://api${domain}.vokeapp.com/api/messenger/${API_VERSION}`;
-authUrl = `https://auth${domain}.vokeapp.com`;
+const baseUrl = `https://api${domain}.vokeapp.com/api/messenger/${API_VERSION}`;
+const authUrl = `https://auth${domain}.vokeapp.com`;
 
 export const BASE_URL = baseUrl;
 export const API_BASE_URL = BASE_URL + '/';
@@ -34,13 +31,13 @@ function replaceUrlParam(url, pathParams) {
   if (url.includes('{') && url.includes('}') && pathParams) {
     let tempUrl = url;
 
-    for (const [key, value] of Object.entries(pathParams)) {
+    for (const [, value] of Object.entries(pathParams)) {
       // Match the route/{routeId}
       let param = (tempUrl.match(/\{[A-Za-z0-9]*\}/) || [])[0];
 
       // Remove the brackets from the matching result
       if (param) {
-        param = param.replace(/[\{\}]/g, '');
+        param = param.replace(/[{}]/g, '');
         if (typeof value !== 'undefined') {
           tempUrl = tempUrl.replace(`{${param}}`, value);
         }
@@ -153,33 +150,6 @@ export default function request<T>(options): Promise<T> {
       if (e.status === 403) {
       }
 
-      return e;
-    });
-}
-
-function imageUpload(url, headers, data) {
-  console.log('🖼 imageUpload\n', { url, headers, data });
-  RNFetchBlob.fetch(
-    'PUT',
-    url,
-    {
-      Authorization: headers.Authorization,
-      'Content-Type': 'multipart/form-data',
-    },
-    [data],
-  )
-
-    .then((response) => {
-      console.log('⤵️ imageUpload response \n', response);
-      const { status } = response.info();
-
-      console.log('status:');
-      console.log(status);
-
-      return response.blob();
-    })
-    .catch((e) => {
-      console.log('imageUpload fetch error', e);
       return e;
     });
 }

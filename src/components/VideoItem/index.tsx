@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ImageBackground, useWindowDimensions } from 'react-native';
+import { ImageBackground, useWindowDimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -7,7 +7,6 @@ import st from 'utils/st';
 import theme from 'utils/theme';
 import Flex from 'components/Flex';
 import VokeIcon from 'components/VokeIcon';
-import Image from 'components/Image';
 import Text from 'components/Text';
 import Touchable from 'components/Touchable';
 

@@ -3,33 +3,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import {
   NavigationContainer,
-  useNavigationState,
   StackActions,
   getFocusedRouteNameFromRoute,
 } from '@react-navigation/native';
 import analytics from '@react-native-firebase/analytics';
-import dynamicLinks from '@react-native-firebase/dynamic-links';
-import { Linking, YellowBox } from 'react-native';
+import { Linking } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {
-  createStackNavigator,
-  StackNavigationProp,
-} from '@react-navigation/stack';
-import { SafeAreaView, useSafeArea } from 'react-native-safe-area-context';
+import { createStackNavigator } from '@react-navigation/stack';
+import { useSafeArea } from 'react-native-safe-area-context';
 import { useAppState } from '@react-native-community/hooks';
 import RNBootSplash from 'react-native-bootsplash';
 import { Host } from 'react-native-portalize';
 import theme from 'utils/theme';
 import st from 'utils/st';
 import {
-  AdventureStackParamList,
   AppStackParamList,
   NotificationStackParamList,
   RootStackParamList,
-  VideoStackParamList,
 } from 'utils/types';
 import { useMount } from 'utils';
-import NavBackButton from 'components/NavBackButton';
 import { getTimeSinceStartup } from 'react-native-startup-time';
 import { REDUX_ACTIONS } from 'utils/constants';
 
@@ -141,7 +133,7 @@ const NotificationStackScreens = () => {
   );
 };
 
-const LoggedInAppContainer = (navigation, route) => {
+const LoggedInAppContainer = () => {
   const dispatch = useDispatch();
   const Tabs = createBottomTabNavigator();
   const { t } = useTranslation('title');
@@ -170,7 +162,7 @@ const LoggedInAppContainer = (navigation, route) => {
   useEffect(() => {
     // Check notifications permission and setup sockets.
     dispatch(startupAction()).then(
-      (success) => LOG(' 🧛‍♂️ startupAction > SUCCESS'),
+      () => LOG(' 🧛‍♂️ startupAction > SUCCESS'),
       (error) => WARN(' 🧚‍♂️ startupAction > ERROR', error),
     );
   }, []);
@@ -295,7 +287,7 @@ const RootStackScreens = React.memo(
           <RootStack.Screen
             name="AccountPhoto"
             component={AccountPhoto}
-            options={({ navigation }) => ({
+            options={() => ({
               ...transparentHeaderConfig,
               headerStyle: {
                 ...transparentHeaderConfig.headerStyle,
@@ -407,7 +399,7 @@ const RootStackScreens = React.memo(
           <RootStack.Screen
             name="AccountProfile"
             component={AccountProfile}
-            options={({ navigation }) => ({
+            options={() => ({
               headerShown: true,
               headerLeft: (): ReactElement => (
                 <HeaderLeft testID="AccountProfile" />
@@ -431,7 +423,7 @@ const RootStackScreens = React.memo(
           <RootStack.Screen
             name="AccountEmail"
             component={AccountEmail}
-            options={({ navigation }) => ({
+            options={() => ({
               headerShown: true,
               headerLeft: (): ReactElement => (
                 <HeaderLeft testID="AccountEmail" />
@@ -453,7 +445,7 @@ const RootStackScreens = React.memo(
           <RootStack.Screen
             name="AccountPass"
             component={AccountPass}
-            options={({ navigation }) => ({
+            options={() => ({
               headerShown: true,
               headerLeft: (): ReactElement => (
                 <HeaderLeft testID="AccountPass" />
@@ -475,7 +467,7 @@ const RootStackScreens = React.memo(
           <RootStack.Screen
             name="Help"
             component={MenuHelp}
-            options={({ navigation }) => ({
+            options={() => ({
               headerShown: true,
               headerLeft: (): ReactElement => <HeaderLeft testID="Help" />,
               cardStyle: { backgroundColor: theme.colors.transparent },
@@ -495,7 +487,7 @@ const RootStackScreens = React.memo(
           <RootStack.Screen
             name="About"
             component={MenuAbout}
-            options={({ navigation }) => ({
+            options={() => ({
               headerShown: true,
               headerLeft: (): ReactElement => <HeaderLeft testID="About" />,
               cardStyle: { backgroundColor: theme.colors.transparent },
@@ -515,7 +507,7 @@ const RootStackScreens = React.memo(
           <RootStack.Screen
             name="Acknowledgements"
             component={MenuAcknowledgements}
-            options={({ navigation }) => ({
+            options={() => ({
               headerShown: true,
               headerLeft: (): ReactElement => (
                 <HeaderLeft testID="Acknowledgements" />
@@ -587,7 +579,7 @@ const RootStackScreens = React.memo(
             name="AdventureManage"
             component={AdventureManage}
             // Fixed header with back button.
-            options={({ route, navigation }) => ({
+            options={() => ({
               ...transparentHeaderConfig,
               headerStyle: {
                 ...transparentHeaderConfig.headerStyle,
@@ -644,7 +636,7 @@ const RootStackScreens = React.memo(
       </>
     );
   },
-  (prevProps, nextProps) => {
+  () => {
     // We don't care about props, and don't want our component to re-render
     // if any value in the props cahnge.
     return true; // force areEqual - don't re-render.
@@ -706,29 +698,6 @@ const App = () => {
     // When the is component unmounted, remove the listener
   }, []);
 
-  const linking = {
-    prefixes: ['https://the.vokeapp.com', 'voke:://', 'voke://'],
-    config: {
-      screens: {
-        // "voke:://messenger_journeys/e579effe-3b01-4054-bca7-db912fe463e6/messenger_journey_steps/227a52a4-2025-4770-b792-f51f3f3ab4c0"
-        AdventureStepScreen: {
-          path:
-            'messenger_journeys/:adventureId/messenger_journey_steps/:stepId',
-          parse: {
-            // adventureId: (adventureId) => adventureId,
-          },
-        },
-        // Profile: 'user',
-      },
-    },
-    getStateFromPath: (path, options) => {
-      // Return a state object here
-      // You can also reuse the default logic by importing `getStateFromPath` from `@react-navigation/native`
-    },
-
-    // Here Chat is the name of the screen that handles the URL /feed, and Profile handles the URL /user.
-  };
-
   // Make screen names meaningfull for Analytic reports.
   const analyticsRenameRoute = (routeName: string) => {
     let newName = '';
@@ -786,7 +755,7 @@ const App = () => {
             <AppStack.Screen
               name="AdventureName"
               component={AdventureName}
-              options={({ navigation }) => ({
+              options={() => ({
                 ...transparentHeaderConfig,
                 headerStyle: {
                   ...transparentHeaderConfig.headerStyle,
@@ -801,7 +770,7 @@ const App = () => {
             <AppStack.Screen
               name="GroupReleaseType"
               component={GroupReleaseType}
-              options={({ navigation }) => ({
+              options={() => ({
                 ...transparentHeaderConfig,
                 headerStyle: {
                   ...transparentHeaderConfig.headerStyle,
@@ -816,7 +785,7 @@ const App = () => {
             <AppStack.Screen
               name="GroupReleaseDate"
               component={GroupReleaseDate}
-              options={({ navigation }) => ({
+              options={() => ({
                 ...transparentHeaderConfig,
                 headerStyle: {
                   ...transparentHeaderConfig.headerStyle,
@@ -860,7 +829,7 @@ const App = () => {
             <RootStack.Screen
               name="KitchenSink"
               component={KitchenSink}
-              options={({ navigation }) => ({
+              options={() => ({
                 headerShown: true,
                 headerLeft: (): ReactElement => (
                   <HeaderLeft testID="KitchenSink" />
