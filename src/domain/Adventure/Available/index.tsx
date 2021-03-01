@@ -17,7 +17,7 @@ import VokeIcon from 'components/VokeIcon';
 import ModalHowDuoWorks from 'components/ModalHowDuoWorks';
 import ModalHowGroupsWork from 'components/ModalHowGroupsWork';
 import theme from 'utils/theme';
-import { REDUX_ACTIONS } from 'utils/constants';
+import CONSTANTS, { REDUX_ACTIONS } from 'utils/constants';
 import { AdventureStackParamList } from 'utils/types';
 import Touchable from 'components/Touchable';
 import analytics from '@react-native-firebase/analytics';
@@ -256,11 +256,19 @@ function AdventureAvailable(props: Props): React.ReactElement {
                   }}
                 />
                 <ActionButton
-                  text={t('goWithGroup')}
+                  text={
+                    item.id === CONSTANTS.ADV_EASTER
+                      ? t('goWithFamily')
+                      : t('goWithGroup')
+                  }
                   testID="ctaGoWithGroup"
                   icon="group"
-                  onPress={() => {
-                    if (groupTutorialCount > 1) {
+                  onPress={(): void => {
+                    if (
+                      groupTutorialCount > 1 ||
+                      item.id === CONSTANTS.ADV_EASTER
+                      // If Easter Adventure.
+                    ) {
                       navigation.navigate('AdventureName', {
                         item,
                         withGroup: true,
