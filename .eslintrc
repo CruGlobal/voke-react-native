@@ -33,6 +33,8 @@
           "messenger_journey_steps",
           "messenger_journey_step_id",
           "step_kind",
+          "screen_name",
+          "screen_class",
           "vokebot_action",
           "organization_journeys",
           "page_number",
