@@ -55,21 +55,25 @@ const Complain = () => {
 
   const sendComplain = async (reason: string): void => {
     setIsBusy(true);
-    const result = await dispatch(
-      createComplain({
-        messageId: complain?.messageId,
-        adventureId: complain?.adventureId,
-        comment: reason,
-      }),
-    );
-
-    setIsBusy(false);
-
-    if (result?.error || result?.errors) {
-      LOG('🛑 sendComplain > unexpecrted return', result);
-      closeModal();
-    } else {
+    try {
+      await dispatch(
+        createComplain({
+          messageId: complain?.messageId,
+          adventureId: complain?.adventureId,
+          comment: reason,
+        }),
+      );
       setComplainSubmited(true);
+      setIsBusy(false);
+    } catch (error) {
+      LOG('🛑 sendComplain > unexpected return', error);
+      if (error?.errors[0] === 'Message has already been taken') {
+        setComplainSubmited(true);
+      } else {
+        LOG('🛑 sendComplain > close modal');
+        closeModal();
+      }
+      setIsBusy(false);
     }
   };
 
@@ -135,7 +139,7 @@ const Complain = () => {
                 <Touchable
                   highlight={false}
                   activeOpacity={0.8}
-                  onPress={() => {
+                  onPress={(): void => {
                     isBusy ? null : sendComplain(t('bullying'));
                   }}
                   style={styles.causeOption}
@@ -147,7 +151,7 @@ const Complain = () => {
                 <Touchable
                   highlight={false}
                   activeOpacity={0.8}
-                  onPress={() => {
+                  onPress={(): void => {
                     isBusy ? null : sendComplain(t('spam'));
                   }}
                   style={styles.causeOption}
@@ -159,7 +163,7 @@ const Complain = () => {
                 <Touchable
                   highlight={false}
                   activeOpacity={0.8}
-                  onPress={() => {
+                  onPress={(): void => {
                     isBusy ? null : sendComplain(t('inappropriate'));
                   }}
                   style={styles.causeOption}

@@ -270,6 +270,7 @@ function AdventureManage({ navigation, route }: Props): React.ReactElement {
                 <></>
               );
             }}
+            scrollIndicatorInsets={{ right: 1 }}
           />
           <AdventureStepReportCard
             stepId="graduated"

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, ReactElement } from 'react';
 import { TabView } from 'react-native-tab-view';
 import { useMount, lockToPortrait } from 'utils';
 import analytics from '@react-native-firebase/analytics';
+import { default as appTheme } from 'utils/theme';
 import { ParamListBase } from '@react-navigation/native';
 import { hasOwnProperty } from 'actions/utils';
 
@@ -101,6 +102,10 @@ const CustomTabs = ({
       renderTabBar={(props): React.ReactElement => (
         <TabBarStyled {...props} theme={theme} />
       )}
+      style={{
+        backgroundColor: appTheme.colors.primary,
+        flex: 1,
+      }}
       // initialLayout={{ width: st.fullWidth }}
       {...rest}
     />
