@@ -1250,7 +1250,7 @@ export function unlockNextAdventureStep(
 ): AsyncAction<TAdventureSingle | TError> {
   return async (dispatch, getState) => {
     try {
-      const results: Promise<TAdventureSingle | TError> = await request({
+      const results: TAdventureSingle | TError = await request({
         ...ROUTES.UNLOCK_NEXT_ADVENTURE_STEP,
         pathParams: { adventureId },
         authToken: getState().auth.authToken,

@@ -529,20 +529,29 @@ export function appleSignIn() {
 
     // 3. - Login on the server using Apple identity token.
     if (credentialState === appleAuth.State.AUTHORIZED && identityToken) {
-      const result = await dispatch(
-        appleLoginAction({
-          email,
-          firstName: fullName?.givenName || null,
-          lastName: fullName?.familyName || null,
+      try {
+        const result = await dispatch(
+          appleLoginAction({
+            email,
+            firstName: fullName?.givenName || null,
+            lastName: fullName?.familyName || null,
+            identityToken,
+            appleUser: user,
+          }),
+        );
+        if (result?.user) {
+          // User is authenticated.
+          dispatch(setAuthData('authType', 'apple'));
+          return result.user;
+        }
+      } catch (error) {
+        LOG(
+          '🛑🛑🛑 Apple SignIn cancelled. Returned (credentialState, identityToken):',
+          credentialState,
           identityToken,
-          appleUser: user,
-        }),
-      );
-      if (result?.user) {
-        // User is authenticated.
-        dispatch(setAuthData('authType', 'apple'));
-        return result.user;
-      } else {
+          error,
+        );
+
         // Error.
         return result;
       }

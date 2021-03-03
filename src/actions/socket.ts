@@ -10,6 +10,8 @@ import { Vibration } from 'react-native';
 import { REDUX_ACTIONS } from 'utils/constants';
 import { SOCKET_URL } from 'actions/utils';
 import { userBlockedAction } from 'actions/auth';
+import { Action } from 'redux';
+import { TDataState } from 'utils/types';
 
 import { toastAction } from './info';
 import {
@@ -20,7 +22,7 @@ import {
   getNotifications,
 } from './requests';
 
-type Dispatch = ThunkDispatch<any, any, any>;
+type Dispatch = ThunkDispatch<TDataState, void, Action>;
 
 // Declaring ws as typed property of the global object.
 interface CustomGlobal extends NodeJS.Global {
@@ -44,6 +46,36 @@ const WEBSOCKET_STATES = {
 export const NAMESPACES = {
   MESSAGE: 'messenger:conversation:message',
   ADVENTURE: 'platform:organization:adventure:challenge',
+};
+
+let socketWait = 1000;
+let socketTimeout: NodeJS.Timer;
+const socketTryReconnect = (dispatch: Dispatch): void => {
+  // Slowdown socket reconnection requests if can't reconnect quickly.
+  // (Self-throttling unless 30 sec. breaks between attempts).
+  if (socketWait < 30000) {
+    socketWait = socketWait * 1.25;
+  }
+  socketTimeout = setTimeout(
+    () =>
+      dispatch({
+        type: REDUX_ACTIONS.STARTUP,
+      }),
+    socketWait,
+  );
+};
+
+let wsDisconnected: NodeJS.Timer;
+const keepWsAlive = (dispatch: Dispatch): void => {
+  // Try to reconnect every 10 sec. in case WS pings do not respond,
+  // but no WS error registered.
+  clearTimeout(wsDisconnected);
+  wsDisconnected = setTimeout(() => {
+    dispatch({
+      type: REDUX_ACTIONS.STARTUP,
+    });
+    keepWsAlive(dispatch);
+  }, 10000);
 };
 
 // https://docs.vokeapp.com/#cable-device
@@ -75,10 +107,10 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
             `${SOCKET_URL}cable?access_token=${authToken}`,
           );
           if (global.ws) {
-            console.log('🔌 setupSockets > setting up sockets', global.ws);
+            LOG('🔌 setupSockets > setting up sockets', global.ws);
             // Socket opened: the connection is ready to send and receive data.
             global.ws.onopen = (): void => {
-              console.log('🔌 setupSockets > socket opened');
+              LOG('🔌 setupSockets > socket opened');
               if (
                 global.ws &&
                 global.ws.send &&
@@ -99,8 +131,11 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
                   /*  dispatch(getAdventuresInvitations());
                   dispatch(getMyAdventures()); */
 
-                  // Get notifications every time sockets connections reestablished.
+                  // Get notifications every time WS connection reestablished.
                   dispatch(getNotifications());
+                  // Clear WS reconnection timeout.
+                  socketWait = 1000;
+                  clearTimeout(socketTimeout);
                 }
               } else {
                 console.log(
@@ -116,7 +151,8 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
               const type = data && data.type;
 
               if (type === 'ping') {
-                console.log('.');
+                keepWsAlive(dispatch);
+                LOG('.');
               }
               if (type === 'ping' || type === 'welcome' || !data.message)
                 return;
@@ -255,21 +291,15 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
 
             global.ws.onerror = error => {
               // an error occurred
-              console.log('🛑 socket error\n', error.message);
+              LOG('🛑 socket onerror\n', error.message);
               // throw error;
-              // Try to restart:
-              /*  setTimeout(
-                () =>
-                  dispatch({
-                    type: REDUX_ACTIONS.STARTUP,
-                  }),
-                5000,
-              ); */
+              // Try to restart WS connection:
+              socketTryReconnect(dispatch);
             };
 
             global.ws.onclose = error => {
               // connection closed
-              console.log('🛑 socket closed\n', error.code, error.reason);
+              LOG('🛑 socket closed\n', error.code, error.reason);
             };
           } else {
             console.log('🛑 WebSocket Error');
@@ -277,15 +307,9 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
           }
         } catch (socketErr) {
           // Do nothing with the error
-          console.log('🛑 socketErr:\n', socketErr);
-          // Try to restart:
-          /*  setTimeout(
-            () =>
-              dispatch({
-                type: REDUX_ACTIONS.STARTUP,
-              }),
-            5000,
-          ); */
+          LOG('🛑 socketErr:\n', socketErr);
+          // Try to restart WS connection:
+          socketTryReconnect(dispatch);
         }
       }
     }

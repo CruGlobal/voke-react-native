@@ -199,8 +199,7 @@ export default function request<T>(options): Promise<T> {
       // }
 
       // Couldn't parse the JSON
-      // throw e;
-      return e;
+      throw e;
     });
 }
 
@@ -288,8 +287,7 @@ function imageUpload(url, headers, data) {
       // }
 
       // Couldn't parse the JSON
-      // throw e;
-      return e;
+      throw e;
     });
 
   /* 
@@ -319,3 +317,12 @@ function imageUpload(url, headers, data) {
 export function json(response) {
   return response.json ? response.json() : response;
 }
+
+// Typescript helper
+// https://fettblog.eu/typescript-hasownproperty/
+export const hasOwnProperty = <X extends {}, Y extends PropertyKey>(
+  obj: X,
+  prop: Y,
+): obj is X & Record<Y, unknown> => {
+  return obj.hasOwnProperty(prop);
+};

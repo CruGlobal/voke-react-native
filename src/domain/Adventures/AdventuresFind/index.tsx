@@ -67,6 +67,7 @@ const AdventuresFind = (): React.ReactElement => {
         data={availableAdventures}
         style={{ width: '100%' }}
         contentContainerStyle={{ paddingTop: 70, paddingBottom: 110 }}
+        scrollIndicatorInsets={{ right: 1 }}
         onRefresh={onRefresh}
         refreshing={refreshing}
       />
