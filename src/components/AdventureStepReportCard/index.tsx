@@ -45,6 +45,7 @@ function AdventureStepReportCard({
   const dispatch = useDispatchTs();
   const [isNext, setIsNext] = useState(false);
   const [isManual, setIsManual] = useState(false);
+  const [isLocked, setIsLocked] = useState(true);
   const modalizeRef = useRef<Modalize>(null);
   const { t } = useTranslation('manageGroup');
   const { height } = Dimensions.get('window');
@@ -56,15 +57,12 @@ function AdventureStepReportCard({
       data.adventureSteps[adventureId]?.byId[stepId] || {},
   );
 
-  const stepLocked = useSelector(
-    ({ data }: RootState) =>
-      data.adventureSteps[adventureId]?.byId[stepId]?.locked || false,
-  );
-
-  /*  const step = useSelector(
-    ({ data }: RootState) =>
-      data.adventureSteps[adventureId].byId[step.id] || {},
-  ); */
+  useEffect(() => {
+    // Don't alow to lock the step if it was unlocked once.
+    if (isLocked && !step.locked) {
+      setIsLocked(false);
+    }
+  }, [step?.locked, isLocked]);
 
   if (stepId === 'graduated' && adventure?.id) {
     const allUsers = adventure?.conversation?.messengers;
@@ -82,7 +80,7 @@ function AdventureStepReportCard({
   const updateNextStep = () => {
     // if (isManual && step.status === 'inactive') {
     const position = parseInt(step.position, 10);
-    if (!stepLocked && position !== 99) {
+    if (!isLocked && position !== 99) {
       if (currentStep > 0 && currentStep < position) {
         setCurrentStep(() => position);
       } else if (currentStep === 0 && position === 1) {
@@ -102,7 +100,7 @@ function AdventureStepReportCard({
   // For example we need to update unread count on the card when state changed.
   useEffect(() => {
     updateNextStep();
-  }, [currentStep, stepLocked, isManual]);
+  }, [currentStep, isLocked, isManual]);
 
   const unlockNextStep = async (advId: string): Promise<void> => {
     const result = await dispatch(unlockNextAdventureStep(advId));
@@ -114,7 +112,7 @@ function AdventureStepReportCard({
       setCurrentStep((curVal: number) => curVal + 1);
       // Unlock (UI) the step we just released and initiate
       // recalculation of the next step.
-      step.locked = false;
+      setIsLocked(false);
       setIsNext(false);
     } else {
       // TODO: Extract this email report into a separate universal module.
@@ -169,7 +167,7 @@ function AdventureStepReportCard({
     let styleClass = '';
     if (step.id === 'graduated') {
       styleClass = 'cardGraduated';
-    } else if (step.locked) {
+    } else if (isLocked) {
       if (isNext) {
         styleClass = 'cardNext';
       } else {
@@ -193,14 +191,9 @@ function AdventureStepReportCard({
         testID={step?.position ? 'stepPart-' + step.position : ''}
       >
         <View
-          style={
-            styles[
-              // step.locked || (step.status === 'inactive' && !isNext)
-              stepStyle()
-            ]
-          }
+          style={styles[stepStyle()]}
           testID={
-            step.locked
+            isLocked
               ? 'lockedStepPart-' + step.position
               : 'availableStepPart-' + step.position
           }
@@ -235,8 +228,7 @@ function AdventureStepReportCard({
                       {t('releaseNow')}
                     </Text>
                   </OldButton>
-                ) : // ) : step.locked || step.status === 'inactive' ? (
-                step.locked ? (
+                ) : isLocked ? (
                   <VokeIcon
                     name={'lock'}
                     size={20}
@@ -306,6 +298,7 @@ function AdventureStepReportCard({
                 >
                   <FlatList
                     data={step.active_messengers}
+                    scrollIndicatorInsets={{ right: 1 }}
                     renderItem={({ item }): React.ReactElement => (
                       <View style={styles.stepMemberItem}>
                         <Image

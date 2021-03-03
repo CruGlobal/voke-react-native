@@ -1,9 +1,9 @@
 import LanguageSwitch from 'domain/Common/LanguageSwitch';
 
-import React from 'react';
+import React, { ReactElement, useCallback, useLayoutEffect } from 'react';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { Alert, ScrollView, View, Dimensions } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { RouteProp, useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import Flex from 'components/Flex';
@@ -15,13 +15,26 @@ import VokeIcon from 'components/VokeIcon';
 import { logoutAction, deleteAccountAction, facebookLogin } from 'actions/auth';
 import theme from 'utils/theme';
 import st from 'utils/st';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from 'utils/types';
 
 import styles from './styles';
 
-const AccountProfile = () => {
+type NavigationPropType = StackNavigationProp<
+  RootStackParamList,
+  'AccountProfile'
+>;
+
+type RoutePropType = RouteProp<RootStackParamList, 'AccountProfile'>;
+
+type Props = {
+  navigation: NavigationPropType;
+  route: RoutePropType;
+};
+
+const AccountProfile = ({ navigation, route }: Props): ReactElement => {
   const { t } = useTranslation();
   const insets = useSafeArea();
-  const navigation = useNavigation();
   const dispatch = useDispatch();
   const authType = useSelector(({ auth }) => auth?.authType);
   const me = useSelector(({ auth }) => auth.user);
@@ -40,6 +53,38 @@ const AccountProfile = () => {
       navigation.navigate('LoggedInApp');
     }
   };
+
+  const replacePrevScreen = useCallback((): void => {
+    const { routes } = navigation.dangerouslyGetState();
+    /*
+      When navigating into this screen from Login form we should
+      go back to Menu screen, not back to Login.
+    */
+    if (routes[routes.length - 2]?.name !== 'Menu') {
+      const newRoutes = [
+        {
+          key: 'Menu-1',
+          name: 'Menu' as keyof RootStackParamList,
+          params: undefined,
+        },
+        {
+          key: 'AccountProfile-2',
+          name: 'AccountProfile' as keyof RootStackParamList,
+          params: undefined,
+        },
+      ];
+
+      return navigation.reset({
+        routes: newRoutes,
+        index: newRoutes.length - 1,
+      });
+    }
+  }, [navigation]);
+
+  useLayoutEffect(() => {
+    // Check the previous screen in history.
+    replacePrevScreen();
+  }, [replacePrevScreen]);
 
   return (
     <Flex
@@ -88,7 +133,7 @@ const AccountProfile = () => {
               style={[st.ph1, st.w100, { marginTop: 30 }]}
             >
               <Touchable
-                onPress={() =>
+                onPress={(): void =>
                   navigation.navigate('AccountPhoto', {
                     onComplete: () => navigation.navigate('AccountProfile'),
                   })

@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, ReactElement } from 'react';
 import { TabView } from 'react-native-tab-view';
 import { useMount, lockToPortrait } from 'utils';
 import analytics from '@react-native-firebase/analytics';
 import { default as appTheme } from 'utils/theme';
+import { ParamListBase } from '@react-navigation/native';
+import { hasOwnProperty } from 'actions/utils';
 
 import TabBarStyled from './TabBarStyled';
 
@@ -12,10 +14,30 @@ type TabsProps = {
     title: string;
     testID?: string;
     component: React.ComponentType;
+    params?: ParamListBase;
   }[];
-  initial: number;
-  theme: string;
+  selectedIndex: number;
+  theme?: string;
 };
+
+interface ScenesType {
+  [key: string]:
+    | {
+        params: ParamListBase;
+        component: ReactElement;
+      }
+    | {};
+}
+
+interface RenderSceneParams {
+  route: {
+    key: string;
+    title: string;
+    testID?: string | undefined;
+    component: React.ComponentType;
+    params?: Record<string, object | undefined> | undefined;
+  };
+}
 
 /**
  * Custom Tabs
@@ -24,12 +46,13 @@ type TabsProps = {
 const CustomTabs = ({
   tabs,
   selectedIndex = 0,
-  theme,
+  theme = '',
   ...rest
 }: TabsProps): React.ReactElement => {
   const [index, setIndex] = useState(selectedIndex);
   const [routes] = useState(tabs);
-  const scenes = useRef({});
+  const scenes = useRef<ScenesType>({});
+  // const scenes = useRef({});
 
   useEffect(() => {
     setIndex(selectedIndex);
@@ -46,7 +69,7 @@ const CustomTabs = ({
         params: tab.params || {},
       };
     });
-  }, [tabs.length]);
+  }, [tabs, tabs.length]);
 
   // On active tab index change - report event to analytics.
   useEffect(() => {
@@ -56,13 +79,15 @@ const CustomTabs = ({
       screen_name: tabs[index]?.title,
       screen_class: 'CustomTabs',
     });
-  }, [index]);
+  }, [index, tabs]);
 
-  const renderScene = ({ route, jumpTo }) => {
+  const renderScene = ({ route }: RenderSceneParams): ReactElement => {
     if (!Object.keys(scenes.current).length) {
       return <></>;
     }
 
+    // TODO: Try resolving the next TS warning:
+    // Property 'component' does not exist on type '{} | { params:...
     return React.createElement(
       scenes.current[route.key].component,
       scenes.current[route.key]?.params,
