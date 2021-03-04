@@ -11,6 +11,7 @@ platform :ios do
     profile_name = options[:profile_name] || ENV['CRU_APPSTORE_PROFILE_NAME']
     type = options[:type] || 'appstore'
     export_method = options[:export_method] || 'app-store'
+    configuration = options[:configuration] || 'Release'
 
     cru_download_localizations if ENV['CRU_SKIP_LOCALIZATION_DOWNLOAD'].nil?
 
@@ -57,89 +58,20 @@ platform :ios do
       )
     end
 
-    # !!! Path to the folder that you will cache on CI !!!
     ios_derived_data_path = File.expand_path('../.local_derived_data')
-    base_cache_path = "#{ios_derived_data_path}/Build/Intermediates.noindex/ArchiveIntermediates/#{ENV['CRU_SCHEME']}"
-    cache_folder = File.expand_path("#{base_cache_path}/BuildProductsPath/Release-iphoneos")
 
-    # Step 0) Check if cache exists
-    ipa_path = ''
-
-    if File.exist?(cache_folder)
-      # Step 1) Apply a fix of "Copy Pods Resources" Build Phase
-
-      # Before:
-      # "${PODS_ROOT}/Target Support Files/Pods-${CRU_SCHEME}/Pods-${CRU_SCHEME}-resources.sh"
-      #
-      # After:
-      # BUILT_PRODUCTS_DIR=/a/b/c "${PODS_ROOT}/Target Support Files/Pods-${CRU_SCHEME}/Pods-${CRU_SCHEME}-resources.sh"
-
-      fastlane_require 'xcodeproj'
-      project = Xcodeproj::Project.open("./#{ENV['CRU_XCODEPROJ']}")
-      target = project.targets.select { |project_target| project_target.name == ENV['CRU_SCHEME'] }.first
-      phase = target.shell_script_build_phases.select do |build_phase|
-        build_phase&.name&.include?('Copy Pods Resources')
-      end.first
-      unless phase.shell_script.start_with?('BUILT_PRODUCTS_DIR')
-        phase.shell_script = "BUILT_PRODUCTS_DIR=#{cache_folder} #{phase.shell_script}"
-        project.save
-      end
-
-      # Step 2) Build only .xcodeproj
-      ipa_path = gym(
-        scheme: ENV['CRU_SCHEME'],
-        clean: false,
-        project: "./#{ENV['CRU_XCODEPROJ']}",
-        configuration: 'Release',
-        export_method: export_method,
-        destination: 'generic/platform=iOS',
-        export_options: {
-          compileBitcode: false,
-          uploadBitcode: false,
-          uploadSymbols: false,
-          provisioningProfiles: {
-            ENV['CRU_APP_IDENTIFIER'] => profile_name
-          }
-        },
-        xcargs: [
-          # Step 3) Provide paths where xcode can't find pods binaries
-          "PODS_CONFIGURATION_BUILD_DIR=#{cache_folder}",
-          "FRAMEWORK_SEARCH_PATHS='#{cache_folder} $(inherited)'",
-          "LIBRARY_SEARCH_PATHS='#{cache_folder} $(inherited)'",
-          "SWIFT_INCLUDE_PATHS=#{cache_folder}"
-        ].join(' ')
-      )
-    else
-      # Step 4) Build full app .xcworkspace
-      ipa_path = gym(
-        scheme: ENV['CRU_SCHEME'],
-        workspace: "./#{ENV['CRU_XCODEWORKSPACE']}",
-        derived_data_path: ios_derived_data_path,
-        export_method: export_method,
-        configuration: 'Release',
-        export_options: {
-          provisioningProfiles: {
-            ENV['CRU_APP_IDENTIFIER'] => profile_name
-          }
-        },
-        clean: true
-      )
-
-      # Step 5) Remove not a Pods binaries to reduce cache size
-      require 'fileutils'
-      dirs = [
-        File.expand_path("#{ios_derived_data_path}/info.plist"),
-        File.expand_path("#{ios_derived_data_path}/Logs"),
-        File.expand_path("#{ios_derived_data_path}/SourcePackages"),
-        File.expand_path("#{ios_derived_data_path}/ModuleCache.noindex"),
-        File.expand_path("#{base_cache_path}/IntermediateBuildFilesPath/#{ENV['CRU_SCHEME']}.build"),
-        File.expand_path("#{base_cache_path}/IntermediateBuildFilesPath/XCBuildData"),
-        File.expand_path("#{base_cache_path}/BuildProductsPath/SwiftSupport"),
-        File.expand_path("#{base_cache_path}/PrecompiledHeaders")
-      ]
-      dirs.each { |dir| FileUtils.rm_rf(dir) }
-    end
-
-    ipa_path
+    gym(
+      scheme: ENV['CRU_SCHEME'],
+      clean: File.exist?(ios_derived_data_path),
+      workspace: "./#{ENV['CRU_XCODEWORKSPACE']}",
+      derived_data_path: ios_derived_data_path,
+      configuration: configuration,
+      export_method: export_method,
+      export_options: {
+        provisioningProfiles: {
+          ENV['CRU_APP_IDENTIFIER'] => profile_name
+        }
+      }
+    )
   end
 end

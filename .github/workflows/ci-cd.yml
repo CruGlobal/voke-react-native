@@ -2,8 +2,6 @@ name: CI/CD
 
 env:
   XCPRETTY_TEST_FORMAT: true
-  GYM_SILENT: true
-  SUPPRESS_OUTPUT: true
 
 on:
   push:
@@ -16,8 +14,9 @@ jobs:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v2
+  #     - uses: webfactory/ssh-agent@v0.5.0
   #       with:
-  #         ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
+  #           ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 12
@@ -29,8 +28,9 @@ jobs:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v2
+  #     - uses: webfactory/ssh-agent@v0.5.0
   #       with:
-  #         ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
+  #           ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 12
@@ -42,8 +42,9 @@ jobs:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v2
+  #     - uses: webfactory/ssh-agent@v0.5.0
   #       with:
-  #         ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
+  #           ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 12
@@ -55,8 +56,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: webfactory/ssh-agent@v0.5.0
         with:
-          ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
+            ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
       - uses: actions/setup-node@v2
         with:
           node-version: 12
@@ -70,8 +72,9 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v2
+      - uses: webfactory/ssh-agent@v0.5.0
         with:
-          ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
+            ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
       - uses: actions/setup-node@v2
         with:
           node-version: 12
@@ -88,8 +91,9 @@ jobs:
   #   if: github.event_name == 'push' && github.ref == 'refs/heads/master'
   #   steps:
   #     - uses: actions/checkout@v2
+  #     - uses: webfactory/ssh-agent@v0.5.0
   #       with:
-  #         ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
+  #           ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 12
@@ -120,8 +124,9 @@ jobs:
   #   if: github.event_name == 'push' && github.ref == 'refs/heads/master'
   #   steps:
   #     - uses: actions/checkout@v2
+  #     - uses: webfactory/ssh-agent@v0.5.0
   #       with:
-  #         ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
+  #           ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 12
@@ -151,8 +156,9 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v2
+      - uses: webfactory/ssh-agent@v0.5.0
         with:
-          ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
+            ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
       - uses: actions/setup-node@v2
         with:
           node-version: 12
@@ -178,12 +184,22 @@ jobs:
           path: ios/Pods
           key: ${{ runner.os }}-pods-v1-${{ hashFiles('**/Podfile.lock') }}
           restore-keys: |
-            ${{ runner.os }}-pods-
+            ${{ runner.os }}-pods-v1-
       - name: Cache Derived Data
         uses: actions/cache@v2
         with:
           path: ios/.local_derived_data
-          key: ${{ runner.os }}-pods-derived-data-v1-${{ hashFiles('**/Podfile.lock') }}
+          key: ${{ runner.os }}-local-derived-data-v2-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-local-derived-data-v2-
+      - name: Touch all cache files
+        run: find ios/.local_derived_data -exec touch -t 2004210000 {} \; || true
+      # https://github.com/react-native-community/releases/issues/214#issuecomment-779920261
+      - name: FBReactNativeSpec patch
+        run: |
+          mkdir node_modules/react-native/React/FBReactNativeSpec/FBReactNativeSpec
+          touch node_modules/react-native/React/FBReactNativeSpec/FBReactNativeSpec/FBReactNativeSpec.h
+          touch node_modules/react-native/React/FBReactNativeSpec/FBReactNativeSpec/FBReactNativeSpec-generated.mm
       - name: 🏗️🚀🍏 Build and push to Testflight
         uses: maierj/fastlane-action@v2.0.0
         with:
@@ -196,6 +212,11 @@ jobs:
           TRAVIS_BUILD_NUMBER: ${{ github.run_id }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
+        with:
+          limit-access-to-actor: true
 
   android-deploy:
     runs-on: ubuntu-latest
@@ -204,8 +225,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
           fetch-depth: 0
+      - uses: webfactory/ssh-agent@v0.5.0
+        with:
+            ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
       - uses: actions/setup-node@v2
         with:
           node-version: 12
