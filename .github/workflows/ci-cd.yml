@@ -207,9 +207,6 @@ jobs:
       - name: Setup tmate session
         if: ${{ failure() }}
         uses: mxschmitt/action-tmate@v3
-        timeout-minutes: 10
-        env:
-          SSH_KEY: ${{ secrets.VOKE_CI_SSH_KEY }}
         with:
           limit-access-to-actor: true
 
