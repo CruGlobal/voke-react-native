@@ -135,7 +135,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         vectorDrawables.useSupportLibrary = true
-        versionCode grgit.log(includes:['HEAD']).size() + 100
+        versionCode grgit.log(includes:['HEAD']).size() + 1000
         versionName "5.6.7"
         multiDexEnabled true
         testBuildType System.getProperty('testBuildType', 'debug')  // This will later be used to control the test apk build type
