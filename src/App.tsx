@@ -17,8 +17,10 @@ import {
   RouteProp,
 } from '@react-navigation/native';
 import analytics from '@react-native-firebase/analytics';
-import dynamicLinks from '@react-native-firebase/dynamic-links';
-import { Linking, YellowBox } from 'react-native';
+import dynamicLinks, {
+  FirebaseDynamicLinksTypes,
+} from '@react-native-firebase/dynamic-links';
+import { Alert, Linking, YellowBox } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
   createStackNavigator,
@@ -45,6 +47,7 @@ import {
   sleepAction,
   wakeupAction,
   getMeAction,
+  updateMe,
 } from './actions/auth';
 import { routeNameRef, navigationRef } from './RootNavigation';
 import Welcome from './domain/Account/containers/Welcome';
@@ -747,20 +750,40 @@ const App = () => {
   const userId = useSelector(({ auth }: any) => auth.user?.id);
   const dispatch = useDispatch();
   const { t } = useTranslation(['common', 'profile']);
-  const [deeplink, setDeeplink] = useState(null);
+  const [deeplink, setDeeplink] = useState('');
 
-  const deepLinkListener = event => {
-    if (event?.url) {
-      setDeeplink(event?.url);
+  // Deeplinks are links like voke:// or any other non-Firebase link.
+  const handleDeepLink = (link: string | null | { url: string }): void => {
+    let flatLink = link as string;
+    const deepLink = link as { url: string };
+    if (deepLink?.url) {
+      flatLink = deepLink?.url;
+    }
+
+    // Don't process Dynamic Links generated in Firebase (//voke.page.link)
+    if (!flatLink.includes('//voke.page.link')) {
+      setDeeplink(flatLink as string);
     }
   };
 
-  const getUrlAsync = async () => {
-    // Get the deep link used to open the app
-    // Warning! This works only with debugger disabled!
-    const newdeeplink = await Linking.getInitialURL();
+  // Dynamic Links are links generated via Firebase. (https://voke.page.link/..)
+  const handleDynamicLink = (
+    link: FirebaseDynamicLinksTypes.DynamicLink | null,
+  ): void => {
+    if (link?.url) {
+      setDeeplink(link?.url);
+    }
+  };
+
+  const getUrlAsync = async (): Promise<void> => {
+    // Get the deep link used to open the app from cold state.
+    // Required to open app using url like voke://...
+    // Don't confuse it with Firebase Dynamic links https://voke.page.link/..
+    // These two are not the same thing and needs a differenet approach.
+    // 🛑 WARNING! This works only with RN debugger disabled! 🛑
+    const newDeeplink = await Linking.getInitialURL();
     // TODO: For Android issues see: https://github.com/facebook/react-native/issues/25675#
-    setDeeplink(newdeeplink);
+    handleDeepLink(newDeeplink);
   };
 
   // Hide splash screen on load.
@@ -774,21 +797,66 @@ const App = () => {
   });
 
   useEffect(() => {
-    if (deeplink) {
-      // Alert.alert('deeplink:', deeplink);
-    }
-  }, [deeplink]);
-
-  useEffect(() => {
     const state = navigationRef.current.getRootState();
     // Save the initial route name
     routeNameRef.current = getActiveRouteName(state);
-    Linking.addEventListener('url', deepLinkListener);
-
-    // const unsubscribe = dynamicLinks().onLink(handleDynamicLink);
-    // When the is component unmounted, remove the listener
-    // return () => unsubscribe();
+    Linking.addEventListener('url', handleDeepLink);
   }, []);
+
+  useEffect(() => {
+    // Opened the app from link.
+    dynamicLinks()
+      .getInitialLink()
+      .then(link => {
+        handleDynamicLink(link);
+      });
+    // Opened Firebase Dynamic Link while the app in the background (hot mode).
+    const unsubscribe = dynamicLinks().onLink(handleDynamicLink);
+    // Component unmounted, remove the listener
+    return (): void => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (deeplink) {
+      let campaign = '';
+      let medium = '';
+      let source = '';
+
+      const tempLink: string[] = decodeURIComponent(deeplink).split('?');
+      let linkParams = '';
+      tempLink.forEach(str => {
+        if (str.includes('utm_')) {
+          linkParams = str;
+        }
+      });
+      const linkParts = linkParams.split('&');
+      linkParts.forEach(part => {
+        const [param, value] = part.split('=');
+        switch (param) {
+          case 'utm_campaign':
+            campaign = value;
+            break;
+          case 'utm_medium':
+            medium = value;
+            break;
+          case 'utm_source':
+            source = value;
+            break;
+        }
+      });
+
+      // Update User Account With campaign data.
+      dispatch(
+        updateMe({
+          utm: {
+            source: source,
+            campaign: campaign,
+            medium: medium,
+          },
+        }),
+      );
+    }
+  }, [deeplink]);
 
   const linking = {
     prefixes: ['https://the.vokeapp.com', 'voke:://', 'voke://'],

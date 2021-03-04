@@ -45,10 +45,10 @@
   center.delegate = self;
 
   // VOKE: Configure Firebase - https://rnfirebase.io/#validate-ios-credentials
-  // if ([FIRApp defaultApp] == nil) {
+  if ([FIRApp defaultApp] == nil) {
     [FIRApp configure];
     // [Fabric with:@[CrashlyticsKit]];
-  // }
+  }
 
   // VOKE: Facebook SDK
   [[FBSDKApplicationDelegate sharedInstance] application:application

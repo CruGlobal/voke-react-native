@@ -11,6 +11,7 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:link.vokeapp.com</string>
+		<string>applinks:voke.page.link</string>
 	</array>
 </dict>
 </plist>
