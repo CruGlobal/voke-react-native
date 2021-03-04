@@ -14,8 +14,9 @@ jobs:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v2
+  #     - uses: webfactory/ssh-agent@v0.5.0
   #       with:
-  #         ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
+  #           ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 12
@@ -27,8 +28,9 @@ jobs:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v2
+  #     - uses: webfactory/ssh-agent@v0.5.0
   #       with:
-  #         ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
+  #           ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 12
@@ -40,8 +42,9 @@ jobs:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v2
+  #     - uses: webfactory/ssh-agent@v0.5.0
   #       with:
-  #         ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
+  #           ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 12
@@ -53,8 +56,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: webfactory/ssh-agent@v0.5.0
         with:
-          ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
+            ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
       - uses: actions/setup-node@v2
         with:
           node-version: 12
@@ -68,8 +72,9 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v2
+      - uses: webfactory/ssh-agent@v0.5.0
         with:
-          ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
+            ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
       - uses: actions/setup-node@v2
         with:
           node-version: 12
@@ -86,8 +91,9 @@ jobs:
   #   if: github.event_name == 'push' && github.ref == 'refs/heads/master'
   #   steps:
   #     - uses: actions/checkout@v2
+  #     - uses: webfactory/ssh-agent@v0.5.0
   #       with:
-  #         ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
+  #           ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 12
@@ -118,8 +124,9 @@ jobs:
   #   if: github.event_name == 'push' && github.ref == 'refs/heads/master'
   #   steps:
   #     - uses: actions/checkout@v2
+  #     - uses: webfactory/ssh-agent@v0.5.0
   #       with:
-  #         ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
+  #           ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 12
@@ -149,8 +156,9 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v2
+      - uses: webfactory/ssh-agent@v0.5.0
         with:
-          ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
+            ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
       - uses: actions/setup-node@v2
         with:
           node-version: 12
@@ -217,8 +225,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ssh-key: ${{ secrets.VOKE_CI_SSH_KEY }}
           fetch-depth: 0
+      - uses: webfactory/ssh-agent@v0.5.0
+        with:
+            ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
       - uses: actions/setup-node@v2
         with:
           node-version: 12
