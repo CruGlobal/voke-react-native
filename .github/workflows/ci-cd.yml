@@ -154,8 +154,6 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 12
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
       - uses: bahmutov/npm-install@v1
       - name: ⛅ OneSky Download
         env:
@@ -206,6 +204,12 @@ jobs:
           TRAVIS_BUILD_NUMBER: ${{ github.run_id }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
+        timeout-minutes: 5
+        with:
+          limit-access-to-actor: true
 
   android-deploy:
     runs-on: ubuntu-latest
