@@ -386,7 +386,7 @@
 				CODE_SIGN_ENTITLEMENTS = Voke/Voke.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1094;
+				CURRENT_PROJECT_VERSION = 1114;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = DQ48D9BF2V;
 				EXCLUDED_ARCHS = "";
@@ -394,7 +394,7 @@
 				INFOPLIST_FILE = Voke/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 5.6.6;
+				MARKETING_VERSION = 5.6.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -416,12 +416,12 @@
 				CODE_SIGN_ENTITLEMENTS = Voke/Voke.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1094;
+				CURRENT_PROJECT_VERSION = 1114;
 				DEVELOPMENT_TEAM = DQ48D9BF2V;
 				INFOPLIST_FILE = Voke/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 5.6.6;
+				MARKETING_VERSION = 5.6.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
