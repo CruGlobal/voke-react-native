@@ -6,7 +6,13 @@ import { REDUX_ACTIONS } from 'utils/constants';
 import st from 'utils/st';
 import request from 'actions/utils';
 import { isEqualObject, exists } from 'utils';
-import { TAdventureSingle, TError, TAdventures, TDataState } from 'utils/types';
+import {
+  TAdventureSingle,
+  TError,
+  TAdventures,
+  TDataState,
+  TInvitation,
+} from 'utils/types';
 import { AsyncAction } from 'reducers';
 import { Action } from 'redux';
 
@@ -223,16 +229,22 @@ export function getAdventuresInvitations() {
   };
 }
 
-export function acceptAdventureInvitation(adventureCode: string) {
-  return async (dispatch: Dispatch, getState: any) => {
-    const results: any = await request({
-      ...ROUTES.ACCEPT_ADVENTURE_INVITATION,
-      data: { code: adventureCode },
-      authToken: getState().auth.authToken,
-      description: 'Accept Adventure Invitation',
-    });
-    await dispatch(getMyAdventures('Accept Adventure Invitation'));
-    return results;
+export function acceptAdventureInvitation(
+  adventureCode: string,
+): AsyncAction<TInvitation> {
+  return async (dispatch: Dispatch, getState: any): Promise<TInvitation> => {
+    try {
+      const results = await request<TInvitation>({
+        ...ROUTES.ACCEPT_ADVENTURE_INVITATION,
+        data: { code: adventureCode },
+        authToken: getState().auth.authToken,
+        description: 'Accept Adventure Invitation',
+      });
+      dispatch(getMyAdventures('Accept Adventure Invitation'));
+      return results;
+    } catch (error) {
+      return error;
+    }
   };
 }
 
