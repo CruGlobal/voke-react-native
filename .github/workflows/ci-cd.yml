@@ -194,12 +194,6 @@ jobs:
             ${{ runner.os }}-local-derived-data-v2-
       - name: Touch all cache files
         run: find ios/.local_derived_data -exec touch -t 2004210000 {} \; || true
-      # https://github.com/react-native-community/releases/issues/214#issuecomment-779920261
-      - name: FBReactNativeSpec patch
-        run: |
-          mkdir node_modules/react-native/React/FBReactNativeSpec/FBReactNativeSpec
-          touch node_modules/react-native/React/FBReactNativeSpec/FBReactNativeSpec/FBReactNativeSpec.h
-          touch node_modules/react-native/React/FBReactNativeSpec/FBReactNativeSpec/FBReactNativeSpec-generated.mm
       - name: 🏗️🚀🍏 Build and push to Testflight
         uses: maierj/fastlane-action@v2.0.0
         with:
