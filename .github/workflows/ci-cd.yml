@@ -154,6 +154,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 12
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
       - uses: bahmutov/npm-install@v1
       - name: ⛅ OneSky Download
         env:
