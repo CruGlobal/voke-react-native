@@ -23,6 +23,8 @@ import Screen from 'components/Screen';
 import { sendAdventureInvitation, sendVideoInvitation } from 'actions/requests';
 import theme from 'utils/theme';
 import st from 'utils/st';
+import moment from 'moment';
+import { CONSTANTS } from 'utils/constants';
 
 import styles from './styles';
 
@@ -67,7 +69,11 @@ function AdventureName(props: any): ReactElement {
         try {
           setIsLoading(true);
           let result;
-          if (withGroup) {
+          if (
+            withGroup &&
+            item.id !== CONSTANTS.ADV_EASTER
+            // If not Easter Adventure.
+          ) {
             // GROUP Adventure
             navigation.navigate('GroupReleaseType', {
               groupName: values.name,
@@ -89,6 +95,13 @@ function AdventureName(props: any): ReactElement {
                   organization_journey_id: item.id,
                   name: values.name,
                   kind: withGroup ? 'multiple' : 'duo',
+                  gating_period: item.id === CONSTANTS.ADV_EASTER ? 0 : null,
+                  // If Easter Adventure.
+                  gating_start_at:
+                    item.id === CONSTANTS.ADV_EASTER
+                      ? moment().utc().format()
+                      : null,
+                  // If Easter Adventure.
                 }),
               );
             }

@@ -448,6 +448,7 @@
     "unsubscribeBody": "This cannot be undone.",
     "goWithFriend": "Go with a Friend",
     "goWithGroup": "Go with a Group",
+    "goWithFamily": "Go with my Family",
     "goByMyself": "Go by Myself",
     "started": "Started"
   },
@@ -485,6 +486,7 @@
     "reportedBy": "Reported by:",
     "block": "Block",
     "allow": "Allow",
+    "episodeLocked": "Next episode is locked.",
     "releaseNow": "Release Now!",
     "releaseNowModalTitle": "Release Now",
     "releaseNowModalText": "This Video will be released now to\u00A0all\u00A0members.",

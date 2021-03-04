@@ -125,6 +125,21 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.l,
     lineHeight: theme.fontSizes.l * 1.35,
   },
+  nextStepLocked: {
+    flexDirection: 'row',
+    paddingTop: theme.spacing.s,
+    paddingBottom: theme.spacing.m,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+    flex: 1,
+  },
+  nextStepLockedText: {
+    fontSize: theme.fontSizes.l,
+    fontWeight: '600',
+    paddingRight: theme.spacing.s,
+    color: theme.colors.secondary,
+  },
 });
 
 export default styles;
