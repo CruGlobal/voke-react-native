@@ -196,8 +196,12 @@ jobs:
         run: find ios/.local_derived_data -exec touch -t 2004210000 {} \; || true
       - name: 🔓 Decrypt AppleAppStoreAPI.json
         run: |
-          echo "${{ secrets.APPLE_APP_STORE_API_FILE }}" > ios/fastlane/AppleAppStoreAPI.json.asc
-          gpg -d --passphrase "${{ secrets.APPLE_APP_STORE_API_FILE_PASSPHRASE }}" --batch ios/fastlane/AppleAppStoreAPI.json.asc > ios/fastlane/AppleAppStoreAPI.json
+          echo $APPLE_APP_STORE_API_FILE > ios/fastlane/AppleAppStoreAPI.json.asc
+          openssl enc -d -aes-256-cbc -base64 -K $APPLE_APP_STORE_API_FILE_KEY -iv $APPLE_APP_STORE_API_FILE_IV -in ios/fastlane/AppleAppStoreAPI.json.asc -out ios/fastlane/AppleAppStoreAPI.json
+        env:
+          APPLE_APP_STORE_API_FILE: ${{ secrets.APPLE_APP_STORE_API_FILE }}
+          APPLE_APP_STORE_API_FILE_KEY: ${{ secrets.APPLE_APP_STORE_API_FILE_KEY }}
+          APPLE_APP_STORE_API_FILE_IV: ${{ secrets.APPLE_APP_STORE_API_FILE_IV }}
       - name: 🏗️🚀🍏 Build and push to Testflight
         uses: maierj/fastlane-action@v2.0.0
         with:
