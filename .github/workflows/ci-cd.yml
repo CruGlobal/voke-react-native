@@ -10,17 +10,6 @@ on:
     branches: [develop, master]
 
 jobs:
-  tmux:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-        with:
-          limit-access-to-actor: true
-        env:
-          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-
   # test:
   #   runs-on: ubuntu-latest
   #   steps:
