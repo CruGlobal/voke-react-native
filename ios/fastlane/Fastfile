@@ -2,6 +2,6 @@ cocoapods repo_update: true
 
 import_from_git(
     url: 'git@github.com:CruGlobal/cru-fastlane-files.git',
-    branch: 'master',
+    branch: 'ios-api-key',
     path: 'Fastfile'
 )
