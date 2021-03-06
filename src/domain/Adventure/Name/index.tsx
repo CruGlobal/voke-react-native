@@ -115,9 +115,8 @@ function AdventureName(props: any): ReactElement {
                 withGroup,
                 isVideoInvite,
                 onClose: () => {
-                  navigation.reset({
-                    index: 0,
-                    routes: [{ name: 'Root' }],
+                  return navigation.navigate('AdventureActive', {
+                    adventureId: result?.messenger_journey_id,
                   });
                 },
               });
