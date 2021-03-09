@@ -845,18 +845,21 @@ const App = () => {
         }
       });
 
-      // Update User Account With campaign data.
-      dispatch(
-        updateMe({
-          utm: {
-            source: source,
-            campaign: campaign,
-            medium: medium,
-          },
-        }),
-      );
+      if (userId) {
+        // Update user account with campaign data,
+        // but only when userId available
+        dispatch(
+          updateMe({
+            utm: {
+              source: source,
+              campaign: campaign,
+              medium: medium,
+            },
+          }),
+        );
+      }
     }
-  }, [deeplink]);
+  }, [deeplink, dispatch, userId]);
 
   const linking = {
     prefixes: ['https://the.vokeapp.com', 'voke:://', 'voke://'],

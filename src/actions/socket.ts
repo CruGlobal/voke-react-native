@@ -158,7 +158,7 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
               if (
                 notification?.category === 'CREATE_MESSAGE_CATEGORY' ||
                 notification?.category ===
-                'CREATE_JOURNEY_STEP_MESSAGE_MESSAGE_CATEGORY'
+                  'CREATE_JOURNEY_STEP_MESSAGE_MESSAGE_CATEGORY'
               ) {
                 // When new message posted by another user.
                 if (message && message['adventure_message?']) {

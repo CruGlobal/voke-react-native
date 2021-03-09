@@ -586,7 +586,14 @@ export function createAdventureStepMessage(params: {
     }
 
     // Refresh all messages when answering a quiestion to multi challenge.
-    if (data.message.kind === 'answer') {
+    if (
+      data.message.kind === 'answer' ||
+      data.message.kind === 'question' ||
+      params.kind === 'multi' ||
+      params.kind === 'binary' ||
+      params.kind === 'share' ||
+      params.internalMessage
+    ) {
       dispatch(
         getAdventureStepMessages(
           params.adventure.conversation.id,
