@@ -31,7 +31,7 @@ target 'Voke' do
   # you should disable the next line.
   # use_flipper!()
   # https://github.com/facebook/react-native/issues/30836#issuecomment-772830882
-  use_flipper!({ 'Flipper-Folly' => '2.3.0' })
+  use_flipper!({ 'Flipper-Folly' => '2.5' })
 
 
   post_install do |installer|
