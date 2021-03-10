@@ -242,8 +242,8 @@ function AdventureAvailable(props: Props): React.ReactElement {
                   text={t('goWithFriend')}
                   testID="ctaGoWithFriend"
                   icon="couple"
-                  onPress={() => {
-                    if (duoTutorialCount > 1) {
+                  onPress={(): void => {
+                    if (groupTutorialCount > 1) {
                       navigation.navigate('AdventureName', {
                         item,
                         withGroup: false,
@@ -263,11 +263,10 @@ function AdventureAvailable(props: Props): React.ReactElement {
                   }
                   testID="ctaGoWithGroup"
                   icon="group"
-                  onPress={(): void => {
+                  onPress={() => {
                     if (
                       groupTutorialCount > 1 ||
-                      item.id === CONSTANTS.ADV_EASTER
-                      // If Easter Adventure.
+                      item.id === CONSTANTS.ADV_EASTER // If Easter Adventure.
                     ) {
                       navigation.navigate('AdventureName', {
                         item,

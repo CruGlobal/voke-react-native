@@ -175,11 +175,6 @@ export default function request<T>(options): Promise<T> {
           error: e,
         }); */
 
-      // If user blocked server will return 403,
-      // meaning we should to mark the current user as blocked in the store.
-      if (e.status === 403) {
-        // dispatch(userBlockedAction());
-      }
       // if (options.url !== ROUTES.LOGOUT.url) {
       //   const unauthMessages = [
       //     'Missing active access token',

@@ -13,14 +13,9 @@ import theme from 'utils/theme';
 import st from 'utils/st';
 import { TAdventureSingle, TDataState, TError, TStep } from 'utils/types';
 import analytics from '@react-native-firebase/analytics';
-import Flex from 'components/Flex';
-import VokeIcon from 'components/VokeIcon';
-import Image from 'components/Image';
-import Touchable from 'components/Touchable';
-import Text from 'components/Text';
 import { Pressable, View } from 'react-native';
 import Button from 'components/Button';
-import { unlockNextAdventureStep } from 'actions/requests';
+import { getAdventureSteps, unlockNextAdventureStep } from 'actions/requests';
 import Communications from 'react-native-communications';
 import CONSTANTS from 'utils/constants';
 
@@ -147,12 +142,22 @@ function AdventureStepCard({
         nextStepRef.current = step.position;
       } else if (step?.locked && nextStepRef.current === step.position) {
         setIsNext(true);
+      } else if (!step?.locked && nextStepRef.current === step.position) {
+        setIsNext(false);
+        nextStepRef.current = null;
       } else {
         setIsNext(false);
       }
     }
     setIsUnlocking(false);
-  }, [isGroup, nextStepRef, nextStepRef.current, step, isLocked]);
+  }, [isGroup, nextStepRef, step, isLocked, step?.locked]);
+
+  const verifyReleaseStatus = () => {
+    setIsUnlocking(false);
+    if (step?.locked) {
+      dispatch(getAdventureSteps(adventureId));
+    }
+  };
 
   const unlockNextStep = async (advId: string): Promise<void> => {
     setIsUnlocking(true);
@@ -160,6 +165,13 @@ function AdventureStepCard({
     // https://www.typescriptlang.org/docs/handbook/advanced-types.html
     const positiveResult = result as TAdventureSingle;
     const negativeResult = result as TError;
+
+    setTimeout(() => {
+      // If no confirmation from server received in 3 seconds:
+      // hide the loader indicator and refetch the adventure steps.
+      verifyReleaseStatus();
+    }, 3000);
+
     if (positiveResult.id) {
       nextStepRef.current = null;
     } else {

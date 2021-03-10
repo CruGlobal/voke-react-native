@@ -393,6 +393,7 @@ const CONSTANTS: { [key: string]: { [key: string]: string | number } | any } = {
     REACT_NATIVE_FIREBASE: 'https://rnfirebase.io/',
   },
 
+  // Easter Adventure ID.
   ADV_EASTER: '73f0d20b-441e-4ff0-85b3-71116b606d2d',
 };
 

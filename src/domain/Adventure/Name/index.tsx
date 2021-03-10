@@ -24,7 +24,7 @@ import { sendAdventureInvitation, sendVideoInvitation } from 'actions/requests';
 import theme from 'utils/theme';
 import st from 'utils/st';
 import moment from 'moment';
-import { CONSTANTS } from 'utils/constants';
+import CONSTANTS from 'utils/constants';
 
 import styles from './styles';
 
@@ -101,7 +101,6 @@ function AdventureName(props: any): ReactElement {
                     item.id === CONSTANTS.ADV_EASTER
                       ? moment().utc().format()
                       : null,
-                  // If Easter Adventure.
                 }),
               );
             }
@@ -112,9 +111,8 @@ function AdventureName(props: any): ReactElement {
                 withGroup,
                 isVideoInvite,
                 onClose: () => {
-                  navigation.reset({
-                    index: 0,
-                    routes: [{ name: 'Root' }],
+                  return navigation.navigate('AdventureActive', {
+                    adventureId: result?.messenger_journey_id,
                   });
                 },
               });

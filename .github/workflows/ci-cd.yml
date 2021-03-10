@@ -52,29 +52,29 @@ jobs:
   #     - name: ✅ TypeScript lint
   #       run: npm run lint:ts
 
-  prettier:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: webfactory/ssh-agent@v0.5.0
-        with:
-            ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 12
-      - uses: bahmutov/npm-install@v1
-      - name: 💅 Prettier Check
-        run: npm run prettier:check
+  # prettier:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: webfactory/ssh-agent@v0.5.0
+  #       with:
+  #           ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
+  #     - uses: actions/setup-node@v2
+  #       with:
+  #         node-version: 12
+  #     - uses: bahmutov/npm-install@v1
+  #     - name: 💅 Prettier Check
+  #       run: npm run prettier:check
 
   onesky-upload:
     runs-on: ubuntu-latest
-    needs: [prettier] # [test, eslint, typescript, prettier]
+    # needs: [prettier] # [test, eslint, typescript, prettier]
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v2
       - uses: webfactory/ssh-agent@v0.5.0
         with:
-            ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
+          ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
       - uses: actions/setup-node@v2
         with:
           node-version: 12
@@ -152,13 +152,13 @@ jobs:
 
   ios-deploy:
     runs-on: macos-latest
-    needs: [prettier] # [test, eslint, typescript, prettier]
+    # needs: [prettier] # [test, eslint, typescript, prettier]
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v2
       - uses: webfactory/ssh-agent@v0.5.0
         with:
-            ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
+          ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
       - uses: actions/setup-node@v2
         with:
           node-version: 12
@@ -194,12 +194,14 @@ jobs:
             ${{ runner.os }}-local-derived-data-v2-
       - name: Touch all cache files
         run: find ios/.local_derived_data -exec touch -t 2004210000 {} \; || true
-      # https://github.com/react-native-community/releases/issues/214#issuecomment-779920261
-      - name: FBReactNativeSpec patch
+      - name: 🔓 Decrypt AppleAppStoreAPI.json
         run: |
-          mkdir node_modules/react-native/React/FBReactNativeSpec/FBReactNativeSpec
-          touch node_modules/react-native/React/FBReactNativeSpec/FBReactNativeSpec/FBReactNativeSpec.h
-          touch node_modules/react-native/React/FBReactNativeSpec/FBReactNativeSpec/FBReactNativeSpec-generated.mm
+          echo $APPLE_APP_STORE_API_FILE > ios/fastlane/AppleAppStoreAPI.json.asc
+          openssl enc -d -aes-256-cbc -base64 -K $APPLE_APP_STORE_API_FILE_KEY -iv $APPLE_APP_STORE_API_FILE_IV -in ios/fastlane/AppleAppStoreAPI.json.asc -out ios/fastlane/AppleAppStoreAPI.json
+        env:
+          APPLE_APP_STORE_API_FILE: ${{ secrets.APPLE_APP_STORE_API_FILE }}
+          APPLE_APP_STORE_API_FILE_KEY: ${{ secrets.APPLE_APP_STORE_API_FILE_KEY }}
+          APPLE_APP_STORE_API_FILE_IV: ${{ secrets.APPLE_APP_STORE_API_FILE_IV }}
       - name: 🏗️🚀🍏 Build and push to Testflight
         uses: maierj/fastlane-action@v2.0.0
         with:
@@ -220,7 +222,7 @@ jobs:
 
   android-deploy:
     runs-on: ubuntu-latest
-    needs: [prettier] # [test, eslint, typescript, prettier]
+    # needs: [prettier] # [test, eslint, typescript, prettier]
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v2
@@ -228,7 +230,7 @@ jobs:
           fetch-depth: 0
       - uses: webfactory/ssh-agent@v0.5.0
         with:
-            ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
+          ssh-private-key: ${{ secrets.VOKE_CI_SSH_KEY }}
       - uses: actions/setup-node@v2
         with:
           node-version: 12
