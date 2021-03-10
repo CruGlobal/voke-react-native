@@ -11,15 +11,20 @@ import {
 } from 'utils/get';
 import theme from 'utils/theme';
 import st from 'utils/st';
-import { TAdventureSingle, TDataState, TStep } from 'utils/types';
+import { TAdventureSingle, TDataState, TError, TStep } from 'utils/types';
 import analytics from '@react-native-firebase/analytics';
-import Flex from 'components/Flex';
-import VokeIcon from 'components/VokeIcon';
-import Image from 'components/Image';
-import Touchable from 'components/Touchable';
-import Text from 'components/Text';
+import { Pressable, View } from 'react-native';
+import Button from 'components/Button';
+import { getAdventureSteps, unlockNextAdventureStep } from 'actions/requests';
+import Communications from 'react-native-communications';
+import CONSTANTS from 'utils/constants';
 
-import { RootState } from '../../reducers';
+import { RootState, useDispatchTs } from '../../reducers';
+import Image from '../Image';
+import Touchable from '../Touchable';
+import Flex from '../Flex';
+import Text from '../Text';
+import VokeIcon from '../VokeIcon';
 import Spacer from '../Spacer';
 
 import styles from './styles';
@@ -43,7 +48,7 @@ function AdventureStepCard({
   nextStepRef,
 }: AdventureStepCardProps): React.ReactElement {
   const { t } = useTranslation('journey');
-
+  const dispatch = useDispatchTs();
   const navigation = useNavigation();
   const userId = getCurrentUserId();
   const adventure: TAdventureSingle = useSelector(
@@ -66,6 +71,7 @@ function AdventureStepCard({
   );
   // const [isLocked, setIsLocked] = useState(!isCompleted && !isActive);
   const [isLocked, setIsLocked] = useState(true);
+  const [isUnlocking, setIsUnlocking] = useState(false);
   const [isNext, setIsNext] = useState(false);
   const messengers = (adventure?.conversation || {}).messengers || [];
   const thumbnail = step?.item?.content?.thumbnails?.medium || '';
@@ -141,14 +147,96 @@ function AdventureStepCard({
         nextStepRef.current = step.position;
       } else if (step?.locked && nextStepRef.current === step.position) {
         setIsNext(true);
+      } else if (!step?.locked && nextStepRef.current === step.position) {
+        setIsNext(false);
+        nextStepRef.current = null;
       } else {
         setIsNext(false);
       }
     }
-  }, [isGroup, nextStepRef, step]);
+    setIsUnlocking(false);
+  }, [isGroup, nextStepRef, step, isLocked, step?.locked]);
+
+  const verifyReleaseStatus = () => {
+    setIsUnlocking(false);
+    if (step?.locked) {
+      dispatch(getAdventureSteps(adventureId));
+    }
+  };
+
+  const unlockNextStep = async (advId: string): Promise<void> => {
+    setIsUnlocking(true);
+    const result = await dispatch(unlockNextAdventureStep(advId));
+    // https://www.typescriptlang.org/docs/handbook/advanced-types.html
+    const positiveResult = result as TAdventureSingle;
+    const negativeResult = result as TError;
+    setTimeout(() => {
+      // If no confirmation from server received in 3 seconds:
+      // hide the loader indicator and refetch the adventure steps.
+      verifyReleaseStatus();
+    }, 3000);
+    if (positiveResult.id) {
+      nextStepRef.current = null;
+    } else {
+      // TODO: Extract this email report into a separate universal module.
+      Alert.alert(
+        'Failed to unlock the next step',
+        'Please, check your internet connection and try again.',
+        [
+          {
+            text: t('settings:email'),
+            onPress: (): void => {
+              Communications.email(
+                ['support@vokeapp.com'], // TO
+                null, // CC
+                null, // BCC
+                'Voke App Error: Failed to unlock the next step', // SUBJECT
+                `I'm getting 'Failed to unlock the next step' error when clicking 'Release Now' button.
+                 My adventure ID is: ${advId}
+                 API Error: ${negativeResult.error}`, // BODY
+              );
+            },
+          },
+          {
+            text: t('ok'),
+            onPress: (): void => {
+              // No action.
+            },
+          },
+        ],
+      );
+    }
+  };
 
   return (
     <Flex style={styles.stepWrapper}>
+      {isGroup &&
+      isLocked &&
+      isNext &&
+      adventure.organization_journey_id === CONSTANTS.ADV_EASTER &&
+      isLeader ? (
+        <View style={styles.nextStepLocked}>
+          <Text style={styles.nextStepLockedText}>
+            <VokeIcon name={'lock'} size={16} style={{ paddingRight: 30 }} />
+            {'  '}
+            {t('manageGroup:episodeLocked')}
+          </Text>
+          <Button
+            size="s"
+            radius="m"
+            color="blank"
+            isLoading={isUnlocking}
+            style={{ paddingVertical: theme.spacing.s }}
+            onPress={(): void => {
+              unlockNextStep(adventureId);
+            }}
+          >
+            {t('manageGroup:releaseNow')}
+          </Button>
+        </View>
+      ) : (
+        <></>
+      )}
       <Touchable
         highlight={false}
         disabled={isLocked && (isSolo || !isLeader)}
@@ -190,13 +278,15 @@ function AdventureStepCard({
           justify="start"
         >
           {/* {isGroup && isLocked && isActive && ( */}
-          {isGroup && isLocked && isNext && (
-            <Flex
-              align="center"
-              style={styles.nextReleaseBlock}
-              testID="nextRelease"
-            >
-              {
+          {isGroup &&
+            isLocked &&
+            isNext &&
+            adventure.organization_journey_id !== CONSTANTS.ADV_EASTER && (
+              <Flex
+                align="center"
+                style={styles.nextReleaseBlock}
+                testID="nextRelease"
+              >
                 <Text style={styles.nextReleaseText}>
                   {printNextReleaseDate({
                     releaseDate: nextReleaseDate,
@@ -204,9 +294,8 @@ function AdventureStepCard({
                     releaseTime: nextReleaseTime,
                   })}
                 </Text>
-              }
-            </Flex>
-          )}
+              </Flex>
+            )}
           <Flex direction="row" style={styles.cardContent}>
             <Flex style={styles.thumbContainer}>
               <Image

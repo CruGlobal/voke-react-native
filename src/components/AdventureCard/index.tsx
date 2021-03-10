@@ -322,7 +322,6 @@ function AdventureCard({ adventureId }: { adventureId: string }): ReactElement {
       />
     );
   } else {
-    console.log('🛑 adventureItem?.id:', adventureItem?.id);
     return <></>;
   }
 }

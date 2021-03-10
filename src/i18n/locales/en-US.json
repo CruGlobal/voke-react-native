@@ -449,6 +449,7 @@
     "goWithFriend": "Go with a Friend",
     "goWithGroup": "Go with a Group",
     "goByMyself": "Go by Myself",
+    "goWithFamily": "Go with my Family",
     "started": "Started"
   },
   "adventureCode": {
@@ -485,6 +486,7 @@
     "reportedBy": "Reported by:",
     "block": "Block",
     "allow": "Allow",
+    "episodeLocked": "Next episode is locked.",
     "releaseNow": "Release Now!",
     "releaseNowModalTitle": "Release Now",
     "releaseNowModalText": "This Video will be released now to\u00A0all\u00A0members.",

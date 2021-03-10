@@ -20,6 +20,7 @@ import {
   TDataState,
   TUser,
 } from 'utils/types';
+import CONSTANTS from 'utils/constants';
 
 import {
   getMyAdventure,
@@ -213,42 +214,43 @@ function AdventureManage({ navigation, route }: Props): React.ReactElement {
             <Text style={styles.inviteCode}>{inviteCode}</Text>
           </Text>
         </Flex>
-        {gatingPeriod !== null && (
-          <View style={styles.releaseSchedule}>
-            <Text style={styles.releaseScheduleText}>
-              {t('share:contentUnlockSchedule') +
-                ' ' +
-                (gatingPeriod
-                  ? t(
-                      gatingPeriod === 7
-                        ? 'share:everyWeek'
-                        : 'share:everyDayAt',
-                    ) + ' '
-                  : '')}
-              {
-                <Text
-                  onPress={(): void =>
-                    navigation.navigate('GroupReleaseType', {
-                      groupName: adventure?.journey_invite?.name,
-                      itemId: adventure.organization_journey_id,
-                      releaseSchedule: gatingType(gatingPeriod),
-                      releaseDate: gatingStartAt,
-                      editing: true,
-                      adventureId: adventure?.id,
-                    })
-                  }
-                  style={styles.manageMembers}
-                >
-                  {gatingPeriod === 0
-                    ? t('share:manually')
-                    : moment(gatingStart).format(
-                        gatingPeriod === 7 ? 'dddd, LT' : 'LT',
-                      )}
-                </Text>
-              }
-            </Text>
-          </View>
-        )}
+        {gatingPeriod !== null &&
+          adventure.organization_journey_id !== CONSTANTS.ADV_EASTER && (
+            <View style={styles.releaseSchedule}>
+              <Text style={styles.releaseScheduleText}>
+                {t('share:contentUnlockSchedule') +
+                  ' ' +
+                  (gatingPeriod
+                    ? t(
+                        gatingPeriod === 7
+                          ? 'share:everyWeek'
+                          : 'share:everyDayAt',
+                      ) + ' '
+                    : '')}
+                {
+                  <Text
+                    onPress={(): void =>
+                      navigation.navigate('GroupReleaseType', {
+                        groupName: adventure?.journey_invite?.name,
+                        itemId: adventure.organization_journey_id,
+                        releaseSchedule: gatingType(gatingPeriod),
+                        releaseDate: gatingStartAt,
+                        editing: true,
+                        adventureId: adventure?.id,
+                      })
+                    }
+                    style={styles.manageMembers}
+                  >
+                    {gatingPeriod === 0
+                      ? t('share:manually')
+                      : moment(gatingStart).format(
+                          gatingPeriod === 7 ? 'dddd, LT' : 'LT',
+                        )}
+                  </Text>
+                }
+              </Text>
+            </View>
+          )}
         <ManageMembers messengers={messengers} me={me} adventure={adventure} />
         <Flex
           direction="column"
