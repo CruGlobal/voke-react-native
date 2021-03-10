@@ -20,11 +20,6 @@ import Communications from 'react-native-communications';
 import CONSTANTS from 'utils/constants';
 
 import { RootState, useDispatchTs } from '../../reducers';
-import Image from '../Image';
-import Touchable from '../Touchable';
-import Flex from '../Flex';
-import Text from '../Text';
-import VokeIcon from '../VokeIcon';
 import Spacer from '../Spacer';
 
 import styles from './styles';
@@ -170,11 +165,13 @@ function AdventureStepCard({
     // https://www.typescriptlang.org/docs/handbook/advanced-types.html
     const positiveResult = result as TAdventureSingle;
     const negativeResult = result as TError;
+
     setTimeout(() => {
       // If no confirmation from server received in 3 seconds:
       // hide the loader indicator and refetch the adventure steps.
       verifyReleaseStatus();
     }, 3000);
+
     if (positiveResult.id) {
       nextStepRef.current = null;
     } else {

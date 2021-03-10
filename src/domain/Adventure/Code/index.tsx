@@ -17,8 +17,9 @@ import BotTalking from 'components/BotTalking';
 import OldButton from 'components/OldButton';
 import Screen from 'components/Screen';
 import theme from 'utils/theme';
-import { RootState } from 'reducers';
+import { RootState, useDispatchTs } from 'reducers';
 import st from 'utils/st';
+import { TInvitation } from 'utils/types';
 
 import { toastAction } from '../../../actions/info';
 import { createAccount } from '../../../actions/auth';
@@ -35,7 +36,7 @@ function AdventureCode(): ReactElement {
   const firstName = useSelector(({ auth }: RootState) => auth.user.firstName);
   const [adventureCode, setAdventureCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useDispatchTs();
   // https://github.com/react-native-hooks/keyboard#configuration
   const keyboard = useKeyboard();
   // const Screen = useScreenContainer();
@@ -76,7 +77,7 @@ function AdventureCode(): ReactElement {
         if (!firstName) {
           // No first name > user came here from the Welcome screen,
           // continue onboarding process.
-          navigation.navigate('AccountName');
+          return navigation.navigate('AccountName');
         } else {
           // Otherwise, invitation accepted from within an app.
           const isGroup = acceptedAdventureInvite.kind === 'multiple';
