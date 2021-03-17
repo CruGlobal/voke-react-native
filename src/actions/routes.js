@@ -121,6 +121,8 @@ const ROUTES = {
     method: 'post',
     url: `me/conversations/{adventureConversationId}/messages`,
   },
+
+  // Interactions:
   CREATE_INTERACTION_READ: {
     method: 'post',
     url: `me/conversations/{conversationId}/messages/{messageId}/interactions/`,
@@ -133,6 +135,7 @@ const ROUTES = {
     method: 'post',
     url: `items/{videoId}/interactions`,
   },
+
   START_ADVENTURE: { method: 'post', url: `me/journeys` },
   // https://docs.vokeapp.com/#me-journeys-cancels-a-messenger-journey
   DELETE_ADVENTURE: {

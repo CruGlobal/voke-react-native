@@ -47,7 +47,7 @@ import {
 import {
   getAdventureStepMessages,
   markMessageAsRead,
-  interactionVideoPlay,
+  reportVideoInteraction,
   getAdventureSteps,
 } from 'actions/requests';
 import useWhyDidYouUpdate from 'hooks/useWhyDidYouUpdate';
@@ -459,20 +459,50 @@ const AdventureStepScreenRender = ({
                   setIsPortrait(orientation === 'portrait' ? true : false);
                 }}
                 item={currentStep?.item?.content}
-                onPlay={(): void => {
-                  dispatch(
-                    interactionVideoPlay({
-                      videoId: currentStep?.item?.id,
-                      context: 'journey',
-                    }),
-                  );
+                onPlay={(time): void => {
+                  if (time > 1) {
+                    dispatch(
+                      reportVideoInteraction({
+                        videoId: currentStep?.item?.id,
+                        context: 'journey',
+                        action: 'resumed',
+                        time: time,
+                      }),
+                    );
+                  } else {
+                    dispatch(
+                      reportVideoInteraction({
+                        videoId: currentStep?.item?.id,
+                        context: 'journey',
+                        action: 'started',
+                        time: time,
+                      }),
+                    );
+                  }
 
                   if (!hasClickedPlay) {
                     setHasClickedPlay(true);
                   }
                 }}
-                onStop={(): void => {
-                  // nothing here.
+                onPause={(time): void => {
+                  dispatch(
+                    reportVideoInteraction({
+                      videoId: currentStep?.item?.id,
+                      context: 'journey',
+                      action: 'paused',
+                      time: time,
+                    }),
+                  );
+                }}
+                onStop={(time): void => {
+                  dispatch(
+                    reportVideoInteraction({
+                      videoId: currentStep?.item?.id,
+                      context: 'journey',
+                      action: 'finished',
+                      time: time,
+                    }),
+                  );
                 }}
                 lockOrientation={!videoIsPlaying}
               />
