@@ -12,6 +12,7 @@ import {
   TAdventures,
   TDataState,
   TInvitation,
+  TAuthState,
 } from 'utils/types';
 import { AsyncAction } from 'reducers';
 import { Action } from 'redux';
@@ -1091,59 +1092,55 @@ export function markMessageAsRead(params: markMessageAsRead) {
   };
 }
 
-// Send an interaction when the user press play.
-export function interactionAdventureVideoPlay({ adventureId, stepId }) {
-  return async (dispatch: Dispatch, getState: any) => {
-    const deviceId = getState().auth.device.id;
-    // See: https://docs.vokeapp.com/#me-journeys-steps-interactions-create-interaction
-    const data: any = {
-      interaction: {
-        action: 'started', // Message read.
-        device_id: deviceId,
-      },
-    };
-    // SEND INTERACTION DATA TO THE SERVER.
-    const result = await request({
-      ...ROUTES.CREATE_INTERACTION_PLAY_ADVENTURE_VIDEO,
-      pathParams: {
-        adventureId,
-        stepId,
-      },
-      data,
-      authToken: getState().auth.authToken,
-    });
-    return result;
-  };
-}
-
-type interactionVideoPlay = {
+type TReportVideoInteraction = {
   videoId: string;
-  context: 'resource' | 'journey' | 'step' | 'notifications';
   // Where the interaction is comming from?
+  context: 'resource' | 'journey' | 'step' | 'notifications';
+  action: 'started' | 'paused' | 'resumed' | 'finished';
+  time?: number;
 };
+
+interface TInteraction {
+  id: string;
+  action: string;
+  messenger_id: string;
+  device_id: string;
+  item_id: string;
+  media_view_time: number;
+  created_at: string;
+}
 
 // Send an interaction when the user press play.
 // https://docs.vokeapp.com/#items-interactions-create-item-interaction
-export function interactionVideoPlay(params: interactionVideoPlay) {
-  return async (dispatch: Dispatch, getState: any) => {
-    const deviceId = getState().auth.device.id;
-    const data: any = {
-      interaction: {
-        action: 'started', // Message read.
-        device_id: deviceId,
-        context: params.context,
-      },
-    };
-    // SEND INTERACTION DATA TO THE SERVER.
-    const result = await request({
-      ...ROUTES.CREATE_INTERACTION_PLAY_VIDEO,
-      pathParams: {
-        videoId: params.videoId,
-      },
-      data,
-      authToken: getState().auth.authToken,
-    });
-    return result;
+export function reportVideoInteraction(
+  params: TReportVideoInteraction,
+): AsyncAction<TInteraction> {
+  return async (
+    dispatch: Dispatch,
+    getState: () => { auth: TAuthState },
+  ): Promise<TInteraction> => {
+    try {
+      const deviceId = getState().auth.device.id;
+      const data = {
+        interaction: {
+          action: params.action,
+          device_id: deviceId,
+          context: params.context,
+          media_view_time: params?.time ? params.time.toFixed(0) : 0,
+        },
+      };
+      const result = await request<TInteraction>({
+        ...ROUTES.CREATE_INTERACTION_PLAY_VIDEO,
+        pathParams: {
+          videoId: params.videoId,
+        },
+        data,
+        authToken: getState().auth.authToken,
+      });
+      return result;
+    } catch (error) {
+      return error;
+    }
   };
 }
 

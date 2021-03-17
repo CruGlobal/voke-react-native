@@ -23,7 +23,7 @@ import Video from 'components/Video';
 import AdventureStepsList from 'components/AdventureStepsList';
 import VokeIcon from 'components/VokeIcon';
 import Touchable from 'components/Touchable';
-import { getMyAdventure, interactionVideoPlay } from 'actions/requests';
+import { getMyAdventure, reportVideoInteraction } from 'actions/requests';
 import { setCurrentScreen } from 'actions/info';
 import { AdventureStackParamList, TDataState } from 'utils/types';
 import theme from 'utils/theme';
@@ -211,11 +211,44 @@ function AdventureActive({ navigation, route }: Props): React.ReactElement {
           <Video
             item={adventureContent}
             lockOrientation={true}
-            onPlay={(): void => {
+            onPlay={(time): void => {
+              if (time > 1) {
+                dispatch(
+                  reportVideoInteraction({
+                    videoId: adventureItemId,
+                    context: 'journey',
+                    action: 'resumed',
+                    time: time,
+                  }),
+                );
+              } else {
+                dispatch(
+                  reportVideoInteraction({
+                    videoId: adventureItemId,
+                    context: 'journey',
+                    action: 'started',
+                    time: time,
+                  }),
+                );
+              }
+            }}
+            onPause={(time): void => {
               dispatch(
-                interactionVideoPlay({
+                reportVideoInteraction({
                   videoId: adventureItemId,
                   context: 'journey',
+                  action: 'paused',
+                  time: time,
+                }),
+              );
+            }}
+            onStop={(time): void => {
+              dispatch(
+                reportVideoInteraction({
+                  videoId: adventureItemId,
+                  context: 'journey',
+                  action: 'finished',
+                  time: time,
                 }),
               );
             }}

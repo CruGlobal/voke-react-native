@@ -1,26 +1,11 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { REDUX_ACTIONS } from 'utils/constants';
-import { TUser } from 'utils/types';
+import { TAuthState, TUser } from 'utils/types';
 import { exists } from 'utils';
 
 export type AuthDataKeys = 'device' | 'authType' | 'adventureInvitations';
-interface InitialStateTypes {
-  isLoggedIn: boolean;
-  authType: 'email' | 'apple' | 'facebook' | undefined;
-  authToken?: string;
-  pushToken?: string; // Push Notifications token receved from apple/google.
-  deviceId?: string; // Device ID returend by server after provided with Push Notfications Tocken.
-  language?: string;
-  device: object; // TODO: IDeviceInformation interface here
-  user: TUser;
-  modalProps: object; // TODO: IModalProps interface here
-  userBlocked: {
-    isBlocked: boolean;
-  };
-  ws?: object;
-}
 
-const initialState: InitialStateTypes = {
+const initialState: TAuthState = {
   isLoggedIn: false,
   authType: undefined,
   authToken: '',

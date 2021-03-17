@@ -13,11 +13,17 @@ import theme from 'utils/theme';
 import st from 'utils/st';
 import { TAdventureSingle, TDataState, TError, TStep } from 'utils/types';
 import analytics from '@react-native-firebase/analytics';
-import { Pressable, View } from 'react-native';
+import { Pressable, View, Alert } from 'react-native';
 import Button from 'components/Button';
 import { getAdventureSteps, unlockNextAdventureStep } from 'actions/requests';
 import Communications from 'react-native-communications';
 import CONSTANTS from 'utils/constants';
+import Flex from 'components/Flex';
+import Text from 'components/Text';
+import VokeIcon from 'components/VokeIcon';
+import Image from 'components/Image';
+import Touchable from 'components/Touchable';
+
 
 import { RootState, useDispatchTs } from '../../reducers';
 import Spacer from '../Spacer';

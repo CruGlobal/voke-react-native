@@ -24,7 +24,7 @@ import analytics from '@react-native-firebase/analytics';
 
 import {
   startAdventure,
-  interactionVideoPlay,
+  reportVideoInteraction,
 } from '../../../actions/requests';
 
 import styles from './styles';
@@ -166,11 +166,44 @@ function AdventureAvailable(props: Props): React.ReactElement {
           setIsPortrait(orientation === 'portrait' ? true : false);
         }}
         item={item?.item?.content}
-        onPlay={() => {
+        onPlay={(time): void => {
+          if (time > 1) {
+            dispatch(
+              reportVideoInteraction({
+                videoId: item?.item?.id,
+                context: 'journey',
+                action: 'resumed',
+                time: time,
+              }),
+            );
+          } else {
+            dispatch(
+              reportVideoInteraction({
+                videoId: item?.item?.id,
+                context: 'journey',
+                action: 'started',
+                time: time,
+              }),
+            );
+          }
+        }}
+        onPause={(time): void => {
           dispatch(
-            interactionVideoPlay({
+            reportVideoInteraction({
               videoId: item?.item?.id,
               context: 'journey',
+              action: 'paused',
+              time: time,
+            }),
+          );
+        }}
+        onStop={(time): void => {
+          dispatch(
+            reportVideoInteraction({
+              videoId: item?.item?.id,
+              context: 'journey',
+              action: 'finished',
+              time: time,
             }),
           );
         }}
