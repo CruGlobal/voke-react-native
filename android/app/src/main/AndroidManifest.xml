@@ -70,8 +70,8 @@
         android:name=".MainActivity"
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-        android:windowSoftInputMode="adjustPan"
-        android:exported="true">
+        android:launchMode="singleTask"
+        android:windowSoftInputMode="adjustPan">
         <!-- https://github.com/zoontek/react-native-bootsplash#android-1 -->
         <!-- Don't change windowSoftInputMode as it will messup focus on signin page for small devices -->
         <!-- https://github.com/expo/expo/issues/7815#issuecomment-614721573 -->
@@ -89,7 +89,6 @@
           <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
-      <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
       <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
       <!-- https://github.com/firebase/quickstart-android/tree/master/messaging#custom-default-icon -->
       <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@mipmap/ic_notification" />

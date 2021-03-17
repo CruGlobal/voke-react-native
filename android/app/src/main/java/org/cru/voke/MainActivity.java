@@ -16,9 +16,9 @@ public class MainActivity extends ReactActivity {
   // Voke: Splash Screen
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
-      // https://github.com/zoontek/react-native-bootsplash#android-1
-      RNBootSplash.init(R.drawable.bootsplash, MainActivity.this);
+    super.onCreate(savedInstanceState);
+    // https://github.com/zoontek/react-native-bootsplash#android-1
+    RNBootSplash.init(R.drawable.bootsplash, MainActivity.this);
   }
   // Voke: Needed for orientation changes
   // https://github.com/wonday/react-native-orientation-locker#android
