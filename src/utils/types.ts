@@ -348,6 +348,30 @@ export interface TInvitation {
   updated_at: string;
 }
 
+export interface TAuthState {
+  isLoggedIn: boolean;
+  authType: 'email' | 'apple' | 'facebook' | undefined;
+  authToken?: string;
+  pushToken?: string; // Push Notifications token receved from apple/google.
+  deviceId?: string; // Device ID returend by server after provided with Push Notfications Tocken.
+  language?: string;
+  device: {
+    id: string;
+    version: number;
+    local_version: string;
+    local_id: string;
+    family: string;
+    name: string;
+    os: string;
+  };
+  user: TUser;
+  modalProps: object; // TODO: IModalProps interface here
+  userBlocked: {
+    isBlocked: boolean;
+  };
+  ws?: object;
+}
+
 export interface TDataState {
   dataChangeTracker: {
     notifications: number;

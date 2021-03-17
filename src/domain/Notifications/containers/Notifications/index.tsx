@@ -9,7 +9,7 @@ import NotificationItem from 'components/NotificationItem';
 import {
   getNotifications,
   markReadNotification,
-  interactionVideoPlay,
+  reportVideoInteraction,
 } from 'actions/requests';
 import st from 'utils/st';
 import { useMount, lockToPortrait } from 'utils';
@@ -127,11 +127,44 @@ function Notifications() {
           item={videoToShow.item.media}
           lockOrientation={true}
           autoPlay={true}
-          onPlay={() => {
+          onPlay={(time): void => {
+            if (time > 1) {
+              dispatch(
+                reportVideoInteraction({
+                  videoId: videoToShow.item.id,
+                  context: 'notifications',
+                  action: 'resumed',
+                  time: time,
+                }),
+              );
+            } else {
+              dispatch(
+                reportVideoInteraction({
+                  videoId: videoToShow.item.id,
+                  context: 'notifications',
+                  action: 'started',
+                  time: time,
+                }),
+              );
+            }
+          }}
+          onPause={(time): void => {
             dispatch(
-              interactionVideoPlay({
+              reportVideoInteraction({
                 videoId: videoToShow.item.id,
-                context: 'notifications',
+                context: 'journey',
+                action: 'paused',
+                time: time,
+              }),
+            );
+          }}
+          onStop={(time): void => {
+            dispatch(
+              reportVideoInteraction({
+                videoId: videoToShow.item.id,
+                context: 'journey',
+                action: 'finished',
+                time: time,
               }),
             );
           }}

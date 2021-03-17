@@ -14,7 +14,7 @@ import Video from 'components/Video';
 import VokeIcon from 'components/VokeIcon';
 import Touchable from 'components/Touchable';
 import {
-  interactionVideoPlay,
+  reportVideoInteraction,
   toggleFavoriteVideo,
   sendVideoInvitation,
 } from 'actions/requests';
@@ -118,11 +118,44 @@ function VideoDetails(props: Props) {
             }}
             autoPlay={true}
             item={item.media}
-            onPlay={() => {
+            onPlay={(time): void => {
+              if (time > 1) {
+                dispatch(
+                  reportVideoInteraction({
+                    videoId: item.id,
+                    context: 'resource',
+                    action: 'resumed',
+                    time: time,
+                  }),
+                );
+              } else {
+                dispatch(
+                  reportVideoInteraction({
+                    videoId: item.id,
+                    context: 'resource',
+                    action: 'started',
+                    time: time,
+                  }),
+                );
+              }
+            }}
+            onPause={(time): void => {
               dispatch(
-                interactionVideoPlay({
+                reportVideoInteraction({
                   videoId: item.id,
-                  context: 'resource',
+                  context: 'journey',
+                  action: 'paused',
+                  time: time,
+                }),
+              );
+            }}
+            onStop={(time): void => {
+              dispatch(
+                reportVideoInteraction({
+                  videoId: item.id,
+                  context: 'journey',
+                  action: 'finished',
+                  time: time,
                 }),
               );
             }}

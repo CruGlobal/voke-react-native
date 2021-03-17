@@ -55,8 +55,9 @@ interface RefArcLight {
 
 interface Props {
   onOrientationChange?: (orientation: string) => void;
-  onPlay?: () => void;
-  onStop?: () => void;
+  onPlay?: (time: number) => void;
+  onPause?: (time: number) => void;
+  onStop?: (time: number) => void;
   hideBack?: boolean;
   item: TStep['item']['content'];
   onCancel?: () => void;
@@ -73,6 +74,7 @@ function Video({
     //void
   },
   onPlay = () => {},
+  onPause = () => {},
   onStop = () => {},
   hideBack = false,
   item,
@@ -255,12 +257,12 @@ function Video({
         setIsBuffering(true);
         break;
       case 'paused':
+        if (started && isPlaying && sliderValue <= item.duration - 1) {
+          // Send an interaction when the user press pause.
+          onPause(sliderValue);
+        }
         setIsPlaying(false);
         setIsBuffering(false);
-        if (started) {
-          // Send an interaction when the user press pause.
-          onStop();
-        }
         break;
       case 'play':
       case 'playing':
@@ -269,7 +271,9 @@ function Video({
         if (!started) {
           setStarted(true);
         }
-        onPlay();
+        if (event === 'play') {
+          onPlay(sliderValue);
+        }
         break;
       case 'ready':
         setVideoReady(true);
@@ -277,6 +281,9 @@ function Video({
         if (!started && autoPlay) {
           handleVideoStateChange('play');
         }
+        break;
+      case 'ended':
+        onStop(sliderValue);
         break;
       // default:
       // break;
@@ -353,9 +360,6 @@ function Video({
             setIsPlaying(false);
           }}
           onPlaybackQualityChange={(q): void => console.log(q)}
-          onEnd={(): void => {
-            console.log('Player -> onEnd');
-          }}
           volume={100}
           initialPlayerParams={{
             controls: false,
@@ -390,6 +394,7 @@ function Video({
             if (sliderValue >= 1) {
               handleVideoStateChange('paused');
               setSliderValue(0);
+              onStop(sliderValue);
             }
           }}
           onError={e => {
