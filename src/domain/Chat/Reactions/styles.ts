@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     lineHeight: 60,
     fontSize: 38,
     textAlign: 'center',
+    color: '#000',
   },
 });
 

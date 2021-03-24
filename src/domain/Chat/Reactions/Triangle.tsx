@@ -16,7 +16,9 @@ const Triangle = (props: Props): ReactElement => {
     borderWidth: 0,
     borderTopWidth: 5 * size,
     borderLeftWidth: 5 * size,
-    borderColor: 'transparent',
+    borderTopColor: 'transparent',
+    borderBottomColor: 'transparent',
+    borderRightColor: 'transparent',
     borderLeftColor: color,
   };
 

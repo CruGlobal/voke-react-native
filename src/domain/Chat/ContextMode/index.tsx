@@ -32,11 +32,18 @@ const ContextMode = (props: Props): React.ReactElement => {
     return (
       <>
         {/* Hidden overlay to make modal close on pressing outside. */}
+        {/* This is used to dim background and capture taps on iPhone */}
+        {/* It won't capture Adroid taps due to bug in RN */}
+        {/* For Android capture element see: contextOffAndroid */}
         <Pressable
           style={styles.overlay}
+          onPressIn={(): void => {
+            onClose();
+          }}
           onPress={(): void => {
             onClose();
           }}
+          testID="contextOffiPhone"
         />
         <Animatable.View
           style={styles.animatedBubble}

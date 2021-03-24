@@ -1,33 +1,65 @@
 import SpecialMessage from 'domain/Chat/SpecialMessage';
 import TextMessage from 'domain/Chat/TextMessage';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Clipboard from '@react-native-community/clipboard';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from 'react-native';
 import { createReaction } from 'actions/requests';
 import { setComplain, toastAction } from 'actions/info';
-import { TMessage, TStep, TAdventureSingle, TMessenger } from 'utils/types';
+import {
+  TMessage,
+  TStep,
+  TAdventureSingle,
+  TMessenger,
+  TDataState,
+} from 'utils/types';
 import useCurrentUser from 'hooks/useCurrentUser';
+import { RootState } from 'reducers';
 
 interface Props {
   item: TMessage;
-  step: TStep;
-  adventure: TAdventureSingle;
+  stepId: string;
+  adventureId: string;
   previous: TMessage | null;
   next: TMessage | null;
   onFocus: (answerPosY: number) => void;
+  contextActive: string | null;
+  setContextActive: (state: string | null) => void;
 }
 
 const Message = (props: Props): React.ReactElement => {
-  const { item, step, adventure, previous, next, onFocus } = props;
+  const {
+    item,
+    stepId,
+    adventureId,
+    previous,
+    next,
+    onFocus,
+    contextActive,
+    setContextActive,
+  } = props;
 
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const isSharedAnswer = item?.metadata?.vokebot_action === 'share_answers';
   // Current User:
   const user = useCurrentUser();
+
+  const step: TStep = useSelector(
+    ({ data }: RootState) =>
+      data.adventureSteps[adventureId]?.byId[
+        stepId as keyof TDataState['adventureSteps'][typeof adventureId]['byId']
+      ] || {},
+  );
+
+  const adventure: TAdventureSingle = useSelector(
+    ({ data }: RootState) =>
+      data.myAdventures?.byId[
+        adventureId as keyof TDataState['myAdventures']['byId']
+      ] || {},
+  );
   // Group Leader:
   const grLeader = adventure.conversation.messengers.find(i => i.group_leader);
   // Message author (user who left this message):
@@ -135,6 +167,10 @@ const Message = (props: Props): React.ReactElement => {
               conversationId: item.conversation_id,
             }),
           );
+        }}
+        contextActive={contextActive}
+        setContextActive={(newVal): void => {
+          setContextActive(newVal);
         }}
       />
     );
