@@ -27,9 +27,7 @@ const ReactionPills = (props: Props): React.ReactElement => {
       style={[
         styles.reactions,
         {
-          // Reaction pills located on left for my messages
-          // and on the right for other user messages.
-          justifyContent: isMyMessage ? 'flex-start' : 'flex-end',
+          justifyContent: 'flex-end',
         },
       ]}
     >

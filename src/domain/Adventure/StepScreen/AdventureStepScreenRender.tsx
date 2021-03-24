@@ -232,7 +232,7 @@ const AdventureStepScreenRender = ({
   }, [messengers]);
 
   // Find a reply to the main question (if already answered).
-  const myMainAnswer: TMessage = {
+  let myMainAnswer: TMessage = {
     id: '',
     content: '',
     created_at: '',
@@ -244,8 +244,7 @@ const AdventureStepScreenRender = ({
       .slice()
       .find(m => m?.messenger_id === currentUser.id);
     if (mainAnswer) {
-      myMainAnswer.id = mainAnswer.id;
-      myMainAnswer.content = mainAnswer.content;
+      myMainAnswer = mainAnswer;
     }
   } else {
     // If multichoise.
@@ -560,6 +559,12 @@ const AdventureStepScreenRender = ({
                         step={currentStep}
                         defaultValue={myMainAnswer.content}
                         isLoading={isLoading} // TODO: what to do about this?
+                      />
+                      <MessageFooter
+                        date={myMainAnswer.created_at}
+                        isMyMessage={true}
+                        // Don't show reaction if message is blured.
+                        reactions={myMainAnswer?.reactions || {}}
                       />
                     </Flex>
                   </View>
