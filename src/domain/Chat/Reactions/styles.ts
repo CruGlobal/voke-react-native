@@ -3,9 +3,9 @@ import theme from 'utils/theme';
 
 const styles = StyleSheet.create({
   popupWrapper: {
-    position: 'absolute',
+    // position: 'absolute' <-- Android bug: You can't click on pos:abs element!
     width: '100%',
-    top: -76,
+    marginBottom: 16,
   },
   popup: {
     backgroundColor: '#fefefe',

@@ -52,13 +52,13 @@ const ContextMode = (props: Props): React.ReactElement => {
           useNativeDriver={process.env.JEST_WORKER_ID ? false : true}
           // Native drives isn't available in test environment.
         >
-          {/* Message block. */}
-          {children}
           <Reactions
             onReaction={(newReaction): void => {
               onReaction(newReaction);
             }}
           />
+          {/* Message block. */}
+          {children}
         </Animatable.View>
         {/* Bottom 'actions' panel. */}
         <Portal>

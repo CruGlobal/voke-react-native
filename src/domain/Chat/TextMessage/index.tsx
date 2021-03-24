@@ -110,6 +110,12 @@ const TextMessage = (props: Props): React.ReactElement => {
         {
           // Need it to dim other message out of current context mode.
           zIndex: contextActive === message.id ? 1 : -1,
+          // Android have a bug: clickable area can't have position: absolute
+          // and negative margin. To solve this problem we abandon idea
+          // to have reactions popup in absolute positioned container.
+          // Instead we compensate vertical object shift with negative margin
+          // here at parrent element.
+          marginTop: contextActive === message.id ? -76 : 0,
         },
       ]}
     >
