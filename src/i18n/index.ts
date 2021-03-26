@@ -6,6 +6,9 @@ import i18n, {
 import { NativeModules, Platform } from 'react-native';
 import { initReactI18next, reactI18nextModule } from 'react-i18next';
 import { findBestAvailableLanguage } from 'react-native-localize';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import store from '../store';
 
 import oneSkyTranslations from './locales/translations.json';
 import en_US from './locales/en-US.json';
@@ -85,10 +88,16 @@ const aliasedResourceLanguages: Resource = aliasLanguages(
 
 const languageDetector: LanguageDetectorModule = {
   type: 'languageDetector',
-  detect: () => {
-    return (
-      findBestAvailableLanguage(Object.keys(aliasedResourceLanguages)) || {}
-    ).languageTag;
+  async: true, // flags below detection to be async
+  detect: async callback => {
+    // Preferred user language (selected by the user in Profile)
+    // is being saved in AsyncStorage (Redux isn't available here).
+    const prefLanguage = await AsyncStorage.getItem('prefLanguage');
+    const selectLanguage =
+      prefLanguage ||
+      (findBestAvailableLanguage(Object.keys(aliasedResourceLanguages)) || {})
+        .languageTag;
+    callback(selectLanguage);
   },
   init: () => {},
   cacheUserLanguage: () => {},
