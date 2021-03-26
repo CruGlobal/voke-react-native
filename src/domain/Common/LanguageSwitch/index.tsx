@@ -1,8 +1,14 @@
+import Select from 'domain/Common/Select';
+
 import React, { ReactElement, useEffect, useState } from 'react';
 import i18next from 'i18next';
-import Select from 'domain/Common/Select';
 import VokeIcon from 'components/VokeIcon';
 import Text from 'components/Text';
+import { useDispatch } from 'react-redux';
+import { checkCurrentLanguage, updateMe } from 'actions/auth';
+import { Alert } from 'react-native';
+import { setPrefLang } from 'actions/info';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import styles from './styles';
 
@@ -15,6 +21,7 @@ type Option = {
 };
 
 const LanguageSwitch = (): ReactElement => {
+  const dispatch = useDispatch();
   const lang = languageCodes[i18next.language.substr(0, 2).toLowerCase()];
   const availableTranslations = i18next.languages;
   const [modalVisible, setModalVisible] = useState(false);
@@ -61,6 +68,8 @@ const LanguageSwitch = (): ReactElement => {
       }
     });
     setSelectOptions(newSelectOptions);
+    AsyncStorage.setItem('prefLanguage', option.label.toLowerCase());
+    dispatch(checkCurrentLanguage(option.label.toLowerCase()));
   };
 
   return (
