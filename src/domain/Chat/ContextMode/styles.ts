@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     bottom: -1000,
     left: -1000,
     right: -1000,
-    backgroundColor: 'rgba(0,0,0,.6)',
+    backgroundColor: 'rgba(0,0,0,.7)',
     zIndex: 1,
   },
   animatedBubble: {

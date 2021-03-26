@@ -16,6 +16,7 @@ import request from 'actions/utils';
 import { TAdventureSingle, TDataState } from 'utils/types';
 import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
+import i18next from 'i18next';
 
 import ROUTES from './routes';
 import {
@@ -93,12 +94,15 @@ export function userBlockedAction() {
 
 // Check current system language against the one already stored.
 // Update it on the server if different.
-export function checkCurrentLanguage() {
+export function checkCurrentLanguage(prefLang = '') {
   return async (dispatch, getState): void => {
     const languageStored = getState().auth.language;
-    const languageCurrent = (
-      getLocales()[0]?.languageCode || 'EN'
-    ).toUpperCase();
+    const languageCurrent =
+      prefLang.toUpperCase() || i18next.language.toUpperCase();
+
+    if (prefLang !== i18next.language) {
+      i18next.changeLanguage(prefLang.toLowerCase());
+    }
 
     if (languageStored !== languageCurrent) {
       const { user } = getState().auth;

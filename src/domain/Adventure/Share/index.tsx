@@ -122,7 +122,10 @@ function AdventureShareCode(props) {
         {isVideoInvite && (
           <Flex direction="column" align="center">
             <Text style={[st.fs22, st.white, st.pb4]}>{t('inviteLink')}: </Text>
-            <Touchable onPress={() => copyToClipboard(invitation.url)}>
+            <Touchable
+              onPress={() => copyToClipboard(invitation.url)}
+              style={{ width: '100%' }}
+            >
               <Flex
                 style={[
                   st.bw1,
@@ -130,10 +133,11 @@ function AdventureShareCode(props) {
                   st.br5,
                   st.bgOffBlue,
                   st.pv5,
-                  st.ph2,
+                  st.ph4,
+                  { width: '100%' },
                 ]}
               >
-                <Text style={[st.white, st.fs24]}>
+                <Text style={[st.white, { fontSize: 18, textAlign: 'center' }]}>
                   {isVideoInvite ? invitation.url : invitation.code}
                 </Text>
               </Flex>

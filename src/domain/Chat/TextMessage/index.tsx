@@ -2,7 +2,7 @@ import ContextMode from 'domain/Chat/ContextMode';
 import MessageFooter from 'domain/Chat/MessageFooter';
 import BluredBlock from 'domain/Chat/BluredBlock';
 
-import React, { useState } from 'react';
+import React from 'react';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import { Image as ReactNativeImage, Text, View, Pressable } from 'react-native';
 import { TMessage, TMessenger, TUser } from 'utils/types';
@@ -23,6 +23,8 @@ interface Props {
   isSharedAnswer: boolean;
   isBlured: boolean;
   onReaction: (value: string) => void;
+  contextActive: string | null;
+  setContextActive: (state: string | null) => void;
 }
 
 const TextMessage = (props: Props): React.ReactElement => {
@@ -36,12 +38,13 @@ const TextMessage = (props: Props): React.ReactElement => {
     isSharedAnswer,
     isBlured,
     onReaction,
+    contextActive,
+    setContextActive,
   } = props;
 
   const { t } = useTranslation('journey');
   const messengerId = message?.messenger_id; // User who left this message.
   const isCurrUsrMessage = messengerId === user.id; // Is it my message?
-  const [contextActive, setContextActive] = useState(false);
 
   const getContent = (): string => {
     if (isSharedAnswer) {
@@ -106,29 +109,35 @@ const TextMessage = (props: Props): React.ReactElement => {
         styles.container,
         {
           // Need it to dim other message out of current context mode.
-          zIndex: contextActive ? 1 : -1,
+          zIndex: contextActive === message.id ? 1 : -1,
+          // Android have a bug: clickable area can't have position: absolute
+          // and negative margin. To solve this problem we abandon idea
+          // to have reactions popup in absolute positioned container.
+          // Instead we compensate vertical object shift with negative margin
+          // here at parrent element.
+          marginTop: contextActive === message.id ? -76 : 0,
         },
       ]}
     >
       <View style={styles.content}>
         {/* Wrapper to show/hide context mode modal. */}
         <ContextMode
-          active={contextActive}
+          active={contextActive === message.id}
           canReport={canReport}
           onReport={(): void => {
             onReport();
-            setContextActive(false);
+            setContextActive(null);
           }}
           onCopy={(): void => {
             onCopy();
-            setContextActive(false);
+            setContextActive(null);
           }}
           onClose={(): void => {
-            setContextActive(false);
+            setContextActive(null);
           }}
           onReaction={(reaction: string): void => {
             onReaction(reaction);
-            setContextActive(false);
+            setContextActive(null);
           }}
         >
           <>
@@ -137,7 +146,7 @@ const TextMessage = (props: Props): React.ReactElement => {
               <Pressable
                 testID="messagePressArea"
                 onLongPress={(): void => {
-                  setContextActive(!contextActive);
+                  setContextActive(message.id);
                   ReactNativeHapticFeedback.trigger('selection');
                 }}
                 style={

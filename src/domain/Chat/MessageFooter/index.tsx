@@ -1,7 +1,7 @@
 import ReactionPills from 'domain/Chat/ReactionPills';
 
 import React from 'react';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import DateComponent from 'components/DateComponent';
 
 import styles from './styles';
@@ -21,14 +21,7 @@ const MessageFooter = (props: Props): React.ReactElement => {
   const { date, isMyMessage, reactions, onReaction } = props;
 
   return (
-    <View
-      style={[
-        styles.messageMeta,
-        {
-          justifyContent: isMyMessage ? 'flex-end' : 'flex-start',
-        },
-      ]}
-    >
+    <View style={[styles.messageMeta]}>
       <DateComponent date={date} format="MMM D @ h:mm A" style={styles.date} />
       {reactions !== undefined && Object.keys(reactions).length !== 0 ? (
         <ReactionPills
