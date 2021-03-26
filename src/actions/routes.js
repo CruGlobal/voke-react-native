@@ -215,7 +215,7 @@ const ROUTES = {
   },
   APPROVE_COMPLAIN: {
     method: 'patch',
-    url: `me/journeys/{adventureId}/reports/{reportId}/approve_and_block,
+    url: `me/journeys/{adventureId}/reports/{reportId}/approve_and_block`,
   },
   GET_COMPLAINS: {
     method: 'get',
