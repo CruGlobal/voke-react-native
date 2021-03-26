@@ -32,11 +32,18 @@ const ContextMode = (props: Props): React.ReactElement => {
     return (
       <>
         {/* Hidden overlay to make modal close on pressing outside. */}
+        {/* This is used to dim background and capture taps on iPhone */}
+        {/* It won't capture Adroid taps due to bug in RN */}
+        {/* For Android capture element see: contextOffAndroid */}
         <Pressable
           style={styles.overlay}
+          onPressIn={(): void => {
+            onClose();
+          }}
           onPress={(): void => {
             onClose();
           }}
+          testID="contextOffiPhone"
         />
         <Animatable.View
           style={styles.animatedBubble}
@@ -45,13 +52,13 @@ const ContextMode = (props: Props): React.ReactElement => {
           useNativeDriver={process.env.JEST_WORKER_ID ? false : true}
           // Native drives isn't available in test environment.
         >
-          {/* Message block. */}
-          {children}
           <Reactions
             onReaction={(newReaction): void => {
               onReaction(newReaction);
             }}
           />
+          {/* Message block. */}
+          {children}
         </Animatable.View>
         {/* Bottom 'actions' panel. */}
         <Portal>
