@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable camelcase */
-import Message from 'domain/Chat/Message';
 import InteractiveElement from 'domain/Chat/InteractiveElement';
+import Conversation from 'domain/Chat/Conversation';
+import MessageFooter from 'domain/Chat/MessageFooter';
 
 import React, {
   useState,
@@ -28,7 +29,6 @@ import { REDUX_ACTIONS } from 'utils/constants';
 import { RootState } from 'reducers';
 import Complain from 'components/Complain';
 import AdventureStepNextAction from 'components/AdventureStepNextAction';
-import AdventureStepMessage from 'components/AdventureStepMessage';
 import DismissKeyboardView from 'components/DismissKeyboardHOC';
 import MainMessagingInput from 'components/MainMessagingInput';
 import Flex from 'components/Flex';
@@ -36,7 +36,6 @@ import Text from 'components/Text';
 import st from 'utils/st';
 import theme from 'utils/theme';
 import Video from 'components/Video';
-import VokeIcon from 'components/VokeIcon';
 import {
   TAdventureSingle,
   TAnswer,
@@ -50,7 +49,6 @@ import {
   reportVideoInteraction,
   getAdventureSteps,
 } from 'actions/requests';
-import useWhyDidYouUpdate from 'hooks/useWhyDidYouUpdate';
 import { toastAction } from 'actions/info';
 import { bots } from 'assets';
 import Image from 'components/Image';
@@ -232,7 +230,7 @@ const AdventureStepScreenRender = ({
   }, [messengers]);
 
   // Find a reply to the main question (if already answered).
-  const myMainAnswer: TMessage = {
+  let myMainAnswer: TMessage = {
     id: '',
     content: '',
     created_at: '',
@@ -244,8 +242,7 @@ const AdventureStepScreenRender = ({
       .slice()
       .find(m => m?.messenger_id === currentUser.id);
     if (mainAnswer) {
-      myMainAnswer.id = mainAnswer.id;
-      myMainAnswer.content = mainAnswer.content;
+      myMainAnswer = mainAnswer;
     }
   } else {
     // If multichoise.
@@ -355,14 +352,6 @@ const AdventureStepScreenRender = ({
     currentStep.unread_messages,
     userId,
   ]);
-
-  /* useWhyDidYouUpdate('🧚‍♀️', {
-    adventureId,
-    conversationId,
-    currentStep,
-    dispatch,
-    isSolo,
-  }); */
 
   return (
     <View
@@ -517,7 +506,6 @@ const AdventureStepScreenRender = ({
                       <Image source={bots.bot} style={styles.vokebot} />
                     </Flex>
                   ) : null}
-
                   {/* First card with question */}
                   <View
                     style={styles.mainQuestionCard}
@@ -561,40 +549,29 @@ const AdventureStepScreenRender = ({
                         defaultValue={myMainAnswer.content}
                         isLoading={isLoading} // TODO: what to do about this?
                       />
+                      <MessageFooter
+                        date={myMainAnswer.created_at}
+                        isMyMessage={true}
+                        // Don't show reaction if message is blured.
+                        reactions={myMainAnswer?.reactions || {}}
+                      />
                     </Flex>
                   </View>
-
-                  {currentMessages.map((item, index) => {
-                    if (item && myMainAnswer?.id !== item?.id) {
-                      return (
-                        <Message
-                          key={item.id}
-                          adventure={adventure}
-                          step={currentStep}
-                          item={item}
-                          next={
-                            currentMessages[index + 1]
-                              ? currentMessages[index + 1]
-                              : null
-                          }
-                          previous={
-                            currentMessages[index - 1]
-                              ? currentMessages[index - 1]
-                              : null
-                          }
-                          onFocus={(posY): void => {
-                            if (Platform.OS === 'ios' && scrollRef?.current) {
-                              scrollRef.current.scrollTo({
-                                x: 0,
-                                y: posY - 40,
-                                animated: true,
-                              });
-                            }
-                          }}
-                        />
-                      );
-                    }
-                  })}
+                  <Conversation
+                    messages={currentMessages}
+                    skipMessages={[myMainAnswer.id]}
+                    adventureId={adventure.id}
+                    stepId={currentStep.id}
+                    onFocus={(posY): void => {
+                      if (Platform.OS === 'ios' && scrollRef?.current) {
+                        scrollRef.current.scrollTo({
+                          x: 0,
+                          y: posY - 40,
+                          animated: true,
+                        });
+                      }
+                    }}
+                  />
                   <AdventureStepNextAction
                     adventureId={adventureId}
                     stepId={currentStep.id}

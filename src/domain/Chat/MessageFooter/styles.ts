@@ -5,6 +5,8 @@ const styles = StyleSheet.create({
   messageMeta: {
     paddingTop: theme.spacing.xs,
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignContent: 'space-between',
   },
   date: {
     textAlign: 'right',
