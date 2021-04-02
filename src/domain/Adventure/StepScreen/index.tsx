@@ -20,9 +20,8 @@ import {
   TDataState,
   TStep,
 } from 'utils/types';
-
-import { getMyAdventures, getAdventureSteps } from '../../../actions/requests';
-import { setCurrentScreen } from '../../../actions/info';
+import { setCurrentScreen } from 'actions/info';
+import { getMyAdventures, getAdventureSteps } from 'actions/requests';
 
 import AdventureStepScreenRender from './AdventureStepScreenRender';
 import styles from './styles';
