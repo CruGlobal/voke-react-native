@@ -9,7 +9,6 @@ import Touchable from 'components/Touchable';
 import OldButton from 'components/OldButton';
 import VokeIcon from 'components/VokeIcon';
 import Image from 'components/Image';
-
 import { TAdventureSingle, TMessenger, TUser } from 'utils/types';
 
 import styles from './styles';
@@ -74,13 +73,11 @@ const ManageMembers = ({
         } */
       // }
 
-      // if (readyToShare) {
       navigation.navigate('AdventureShareCode', {
         invitation: invite,
         withGroup: true,
         isVideoInvite: false,
       });
-      // }
     } catch (error) {
       Alert.alert(
         'Failed to send a new invite',
