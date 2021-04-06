@@ -2,18 +2,15 @@ import React, { useEffect, useCallback } from 'react';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, FlatList, View, Text } from 'react-native';
+import { ScrollView, View } from 'react-native';
+import Text from 'components/Text';
 import Touchable from 'components/Touchable';
 import AdventureInvite from 'components/AdventureInvite';
 import AdventureCard from 'components/AdventureCard';
 import NotificationBanner from 'components/NotificationBanner';
 import { TDataState } from 'utils/types';
-
-import {
-  getMyAdventures,
-  getAdventuresInvitations,
-} from '../../../actions/requests';
-import { setCurrentScreen } from '../../../actions/info';
+import { setCurrentScreen } from 'actions/info';
+import { getMyAdventures, getAdventuresInvitations } from 'actions/requests';
 
 import styles from './styles';
 
@@ -30,17 +27,15 @@ const AdventuresMy = (): React.ReactElement => {
     ) || [];
   const { t } = useTranslation('title');
 
-  const updateAdventures = (): void => {
-    // TODO: Do some kind of time based caching for these requests
-    dispatch(getMyAdventures('AdventuresMy'));
-    dispatch(getAdventuresInvitations());
-  };
-
   // On first render update adventures and invites via API.
   useEffect(() => {
+    const updateAdventures = (): void => {
+      dispatch(getMyAdventures('AdventuresMy'));
+      dispatch(getAdventuresInvitations());
+    };
     // Load my adventures + invites. Note: async function can't be part of hook!
     updateAdventures();
-  }, []);
+  }, [dispatch]);
 
   // Events firing when user leaves the screen or comes back.
   useFocusEffect(
@@ -52,13 +47,7 @@ const AdventuresMy = (): React.ReactElement => {
           screen: 'AdventuresMy',
         }),
       );
-      // Update adventures so we have up to date unreads badge.
-      // dispatch( getMyAdventures('AdventuresMy - Use Focus Effect') );
-      return () => {
-        // Do something when the screen is unfocused
-        // Useful for cleanup functions
-      };
-    }, []),
+    }, [dispatch]),
   );
 
   return (
@@ -90,9 +79,9 @@ const AdventuresMy = (): React.ReactElement => {
         {myAdventuresIds.length > 0 && (
           <>
             <Text style={styles.Heading}>{t('adventures')}</Text>
-            {myAdventuresIds.map((advId: string) => (
-              <AdventureCard adventureId={advId} />
-            ))}
+            {myAdventuresIds.map((advId: string | null) =>
+              advId ? <AdventureCard adventureId={advId} /> : null,
+            )}
           </>
         )}
         <View style={{ height: 180 }} />

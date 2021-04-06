@@ -24,10 +24,10 @@ export function toastAction(text: string, length?: 'long' | 'short' | null) {
   };
 }
 
-type setCurrentScreenProps = {
+interface setCurrentScreenProps {
   screen: string;
-  data: object;
-};
+  data?: object;
+}
 export function setCurrentScreen({ screen, data }: setCurrentScreenProps) {
   return async (dispatch: Dispatch, getState: any) => {
     dispatch({
