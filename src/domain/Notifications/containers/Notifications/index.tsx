@@ -118,8 +118,6 @@ function Notifications() {
     >
       {videoToShow && (
         <Video
-          // hideBack={true}
-          // hideInsets={true}
           onCancel={() => setVideoToShow(null)}
           onOrientationChange={(orientation: string): void => {
             // setIsPortrait( orientation === 'portrait' ? true : false);
