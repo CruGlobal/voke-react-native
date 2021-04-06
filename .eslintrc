@@ -44,6 +44,7 @@
           "vokebot_action",
           "organization_journeys",
           "page_number",
+          "preview_journey_url",
           "gating_period",
           "total_pages",
           "total_count",
