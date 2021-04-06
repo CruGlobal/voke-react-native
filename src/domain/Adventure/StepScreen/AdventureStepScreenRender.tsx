@@ -415,7 +415,8 @@ const AdventureStepScreenRender = ({
             setPrevContentOffset(e.nativeEvent.contentOffset.y);
           }}
           contentContainerStyle={styles.scrollContainer}
-          scrollEnabled={isPortrait ? true : false}
+          // scrollEnabled={isPortrait ? true : false}
+          scrollEnabled={true}
           keyboardShouldPersistTaps="always"
           // ☝️required to fix the bug with a need to double tap
           // on the send message icon.
@@ -449,6 +450,11 @@ const AdventureStepScreenRender = ({
                 }}
                 item={currentStep?.item?.content}
                 onPlay={(time): void => {
+                  scrollRef.current.scrollTo({
+                    x: 0,
+                    y: 0,
+                    animated: true,
+                  });
                   if (time > 1) {
                     dispatch(
                       reportVideoInteraction({
@@ -493,7 +499,8 @@ const AdventureStepScreenRender = ({
                     }),
                   );
                 }}
-                lockOrientation={!videoIsPlaying}
+                // lockOrientation={!videoIsPlaying}
+                lockOrientation={false}
               />
               {isPortrait && (
                 <>

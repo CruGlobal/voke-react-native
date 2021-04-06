@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import theme from 'utils/theme';
 
 const styles = StyleSheet.create({
-  AdventuresSreen: {
+  AdventuresScreen: {
     backgroundColor: theme.colors.primary,
   },
   AdventuresList: {

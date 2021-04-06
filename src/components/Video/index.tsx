@@ -1,4 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  ReactElement,
+  useCallback,
+} from 'react';
 import RNVideo from 'react-native-video';
 // https://github.com/react-native-community/react-native-video#usage
 import YoutubePlayer from 'react-native-youtube-iframe';
@@ -9,6 +15,9 @@ import {
   ImageBackground,
   ActivityIndicator,
   Platform,
+  StyleProp,
+  ViewStyle,
+  Modal,
 } from 'react-native';
 import Orientation, { OrientationType } from 'react-native-orientation-locker';
 import { useFocusEffect } from '@react-navigation/native';
@@ -29,15 +38,13 @@ import { updateVideoIsPlayingState } from '../../actions/requests';
 
 import styles from './styles';
 
-function convertTime(time): string {
+function convertTime(time: number): string {
   const roundedTime = Math.round(time);
   const seconds = '00' + (roundedTime % 60);
   const minutes = '00' + Math.floor(roundedTime / 60);
-  let hours = '';
   let str = `${minutes.substr(-2)}:${seconds.substr(-2)}`;
   if (time / 3600 >= 1) {
-    hours = Math.floor(time / 3600);
-    str = `${hours}:${str}`;
+    str = `${Math.floor(time / 3600)}:${str}`;
   }
   return str;
 }
@@ -58,39 +65,32 @@ interface Props {
   onPlay?: (time: number) => void;
   onPause?: (time: number) => void;
   onStop?: (time: number) => void;
-  hideBack?: boolean;
   item: TStep['item']['content'];
   onCancel?: () => void;
-  hideInsets?: boolean;
   autoPlay?: boolean;
   lockOrientation?: boolean;
-  children?: any; // Used to create custom overlay/play button. Ex: "Watch Trailer".
-  containerStyles?: any;
-  [x: string]: any;
+  children?: React.ReactNode; // Used to create custom overlay/play button. Ex: "Watch Trailer".
 }
 
 function Video({
-  onOrientationChange = (orientation: string) => {
+  onOrientationChange = (): void => {
     //void
   },
-  onPlay = () => {},
-  onPause = () => {},
-  onStop = () => {},
-  hideBack = false,
+  onPlay = (): void => {
+    //void
+  },
+  onPause = (): void => {
+    //void
+  },
+  onStop = (): void => {
+    //void
+  },
   item,
   onCancel,
-  hideInsets,
   autoPlay = false,
-  // fullscreenOrientation = 'all',
   lockOrientation = false,
   children, // Used to create custom overlay/play button. Ex: "Watch Trailer".
-  containerStyles = {},
-  ...rest
-}: Props) {
-  // Don't even bother if there is no info about video provided.
-  if (!item) {
-    return <></>;
-  }
+}: Props): ReactElement {
   let youtubeVideo = useRef<RefYouTube>(null);
   let arclightVideo = useRef<RefArcLight>(null);
   const lockOrientationRef = useRef<boolean>(lockOrientation);
@@ -104,15 +104,12 @@ function Video({
   const [videoReady, setVideoReady] = useState<boolean>(false);
   const [started, setStarted] = useState<boolean>(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [fullscreen, setFullscreen] = useState(false);
-  const [fullscreenOrientation, setFullscreenOrientation] = useState(
-    'landscape',
-  );
   const [refreshInterval, setRefreshInterval] = useState<number | null>(null);
   const [sliderValue, setSliderValue] = useState<number>(0);
-  const [currentTime, setCurrentTime] = useState<number>(0);
   const window = useWindowDimensions();
   const dispatch = useDispatch();
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
 
   // const time = youtubeVideo.current.getCurrentTime();
   // const duration = youtubeVideo.current.getDuration();
@@ -121,7 +118,6 @@ function Video({
   useInterval(() => {
     if (!youtubeVideo.current) return;
     youtubeVideo.current.getCurrentTime().then((currentTime: void | number) => {
-      setCurrentTime(currentTime ? currentTime : 0);
       setSliderValue(currentTime ? currentTime : 0);
     });
   }, refreshInterval);
@@ -130,44 +126,54 @@ function Video({
     dispatch(updateVideoIsPlayingState(isPlaying));
     if (!youtubeVideo.current) return;
     setRefreshInterval(isPlaying ? 1000 : null);
-  }, [isPlaying]);
+  }, [dispatch, isPlaying]);
 
-  const getPlayerDimensions = () => {
-    let shortSize = window.width;
-    if (window.width > window.height) {
-      shortSize = window.height;
-    }
-    const currentWidth = lockOrientation ? shortSize : window.width;
+  useEffect(() => {
+    const shortSize =
+      window.width > window.height ? window.height : window.width;
+    const longSize =
+      window.width > window.height ? window.width : window.height;
 
-    return {
-      width: currentWidth,
-      height:
-        !lockOrientation && screenOrientation === 'landscape'
-          ? window.height
-          : item?.type === 'youtube'
-          ? currentWidth / 1.7
-          : currentWidth / 1.7,
-    };
-  };
+    setWidth(screenOrientation === 'portrait' ? shortSize : longSize);
+    setHeight(
+      screenOrientation === 'portrait' ? shortSize / 1.75 : longSize / 1.75,
+    );
+  }, [lockOrientation, screenOrientation, window.height, window.width]);
 
-  function getLandscapeOrPortrait(orientation: string) {
-    let newOrientation = screenOrientation;
-    if (
-      lockOrientationRef.current ||
-      orientation === 'PORTRAIT' ||
-      orientation === 'PORTRAIT-UPSIDEDOWN' // ot supported on iOS
-    ) {
-      newOrientation = 'portrait';
-    } else if (
-      orientation === 'LANDSCAPE-LEFT' ||
-      orientation === 'LANDSCAPE-RIGHT'
-    ) {
-      newOrientation = 'landscape';
-    }
-    // In all other cases (FACE-UP,FACE-DOWN,UNKNOWN) leave current value as is.
-    setScreenOrientation(newOrientation);
-    return newOrientation;
-  }
+  const getLandscapeOrPortrait = useCallback(
+    (orientation: string): string => {
+      let newOrientation = screenOrientation;
+
+      if (
+        lockOrientationRef.current ||
+        orientation === 'PORTRAIT' ||
+        orientation === 'PORTRAIT-UPSIDEDOWN' // ot supported on iOS
+      ) {
+        newOrientation = 'portrait';
+      } else if (
+        orientation === 'LANDSCAPE-LEFT' ||
+        orientation === 'LANDSCAPE-RIGHT'
+      ) {
+        newOrientation = 'landscape';
+      }
+
+      // In all other cases (FACE-UP,FACE-DOWN,UNKNOWN) leave current value as is.
+      setScreenOrientation(newOrientation);
+      return newOrientation;
+    },
+    [screenOrientation],
+  );
+
+  const handleOrientationChange = useCallback(
+    (orientation: OrientationType): void => {
+      if (!lockOrientationRef.current) {
+        onOrientationChange(getLandscapeOrPortrait(orientation));
+      } else {
+        onOrientationChange(getLandscapeOrPortrait('PORTRAIT'));
+      }
+    },
+    [getLandscapeOrPortrait, onOrientationChange],
+  );
 
   useMount(() => {
     if (lockOrientation) {
@@ -217,19 +223,15 @@ function Video({
         onOrientationChange(getLandscapeOrPortrait(orientation));
       });
     }
-  }, [lockOrientation]);
-
-  useEffect(() => {
-    if (screenOrientation === 'portrait') {
-      setFullscreen(true);
-    } else {
-      setFullscreen(false);
-    }
-  }, [screenOrientation]);
+  }, [
+    getLandscapeOrPortrait,
+    handleOrientationChange,
+    lockOrientation,
+    onOrientationChange,
+  ]);
 
   // Events firing when user leaves the screen with player or comes back.
   useFocusEffect(
-    // eslint-disable-next-line arrow-body-style
     React.useCallback(() => {
       // When the screen with player is focused:
       // - Do something here.
@@ -243,21 +245,13 @@ function Video({
     }, []),
   );
 
-  const handleOrientationChange = (orientation: OrientationType): void => {
-    if (!lockOrientationRef.current) {
-      onOrientationChange(getLandscapeOrPortrait(orientation));
-    } else {
-      onOrientationChange(getLandscapeOrPortrait('PORTRAIT'));
-    }
-  };
-
-  function handleVideoStateChange(event: string) {
+  function handleVideoStateChange(event: string): void {
     switch (event) {
       case 'buffering':
         setIsBuffering(true);
         break;
       case 'paused':
-        if (started && isPlaying && sliderValue <= item.duration - 1) {
+        if (started && isPlaying && sliderValue <= item?.duration - 1) {
           // Send an interaction when the user press pause.
           onPause(sliderValue);
         }
@@ -290,11 +284,11 @@ function Video({
     }
   }
 
-  function togglePlayState() {
+  function togglePlayState(): void {
     handleVideoStateChange(isPlaying ? 'paused' : 'play');
   }
 
-  function handleSliderChange(value: number) {
+  function handleSliderChange(value: number): void {
     if (youtubeVideo.current) {
       youtubeVideo.current.seekTo(value);
     } else if (arclightVideo.current) {
@@ -303,31 +297,24 @@ function Video({
     setSliderValue(value);
   }
 
-  return (
+  // Don't even bother if there is no info about video provided.
+  return !item ? (
+    <></>
+  ) : (
     <View
-      style={[
-        /*  st.h(
-         dimensions.height === VIDEO_HEIGHT && !hideInsets
-            ? dimensions.height + insets.top
-            : dimensions.height, 
-
-        ), */
-        // st.w(dimensions.width), - NOT WORKING RIGHT
-        st.bgDeepBlack,
-        {
-          ...containerStyles,
-          overflow: 'hidden',
-          width: getPlayerDimensions().width,
-          height: getPlayerDimensions().height,
-        },
-      ]}
+      style={{
+        backgroundColor: '#000',
+        overflow: 'hidden',
+        width: width,
+        height: height,
+      }}
     >
       {!started && (
         // || !isPlaying && ( sliderValue < 1 || sliderValue >= item.duration )
         // || isPlaying && sliderValue < .05
         <ImageBackground
           resizeMode="cover"
-          source={{ uri: item.thumbnails.large }}
+          source={{ uri: item?.thumbnails?.large }}
           style={[
             st.aic,
             st.jcc,
@@ -347,8 +334,8 @@ function Video({
         <YoutubePlayer
           ref={youtubeVideo}
           videoId={youtubeParser(item?.url)}
-          width={getPlayerDimensions().width}
-          height={getPlayerDimensions().height}
+          width={width}
+          height={height}
           play={isPlaying}
           onChangeState={(state): void => {
             handleVideoStateChange(state);
@@ -356,7 +343,7 @@ function Video({
           onReady={(): void => {
             handleVideoStateChange('ready');
           }}
-          onError={(e): void => {
+          onError={(): void => {
             setIsPlaying(false);
           }}
           onPlaybackQualityChange={(q): void => console.log(q)}
@@ -367,8 +354,8 @@ function Video({
             modestbranding: true,
           }}
           webViewStyle={{
-            width: getPlayerDimensions().width,
-            height: getPlayerDimensions().height,
+            width: width,
+            height: height,
             opacity: videoReady ? 1 : 0,
           }}
         />
@@ -381,23 +368,23 @@ function Video({
               item.url.replace('http:', 'https:'),
             type: item.hls ? 'm3u8' : undefined,
           }}
-          onLoad={e => {
+          onLoad={(): void => {
             handleVideoStateChange('ready');
           }}
           paused={!isPlaying}
-          onProgress={e => {
+          onProgress={(e): void => {
             if (e.currentTime !== sliderValue) {
               setSliderValue(e.currentTime);
             }
           }}
-          onEnd={e => {
+          onEnd={(): void => {
             if (sliderValue >= 1) {
               handleVideoStateChange('paused');
               setSliderValue(0);
               onStop(sliderValue);
             }
           }}
-          onError={e => {
+          onError={(e): void => {
             console.log('🆘 onError e:', e);
           }}
           playInBackground={false}
@@ -406,26 +393,11 @@ function Video({
           // resizeMode="cover"
           repeat={true}
           style={{
-            position: 'absolute',
-            top:
-              screenOrientation === 'portrait' || lockOrientation
-                ? getPlayerDimensions().width / -10 // Small video (Portrait)
-                : getPlayerDimensions().width / -20, // Fullscreen video.
-            bottom:
-              screenOrientation === 'portrait' || lockOrientation
-                ? getPlayerDimensions().width / -10 // Small video (Portrait)
-                : getPlayerDimensions().width / -20, // Fullscreen video.
-            left:
-              screenOrientation === 'portrait' || lockOrientation
-                ? 0 // Small video (Portrait)
-                : getPlayerDimensions().width / -20, // Fullscreen video.
-            right:
-              screenOrientation === 'portrait' || lockOrientation
-                ? 0 // Small video (Portrait)
-                : getPlayerDimensions().width / -20, // Fullscreen video.
+            width: '100%',
+            height: '100%',
           }}
           // fullscreen={false} // Platforms: iOS - Controls whether the player enters fullscreen on play.
-          fullscreenOrientation={fullscreenOrientation} // Platforms: iOS - all / landscape / portrait
+          // fullscreenOrientation="landscape" // Platforms: iOS - all / landscape / portrait
         />
       )}
       <Flex
