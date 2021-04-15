@@ -29,10 +29,7 @@ target 'Voke' do
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable the next line.
-  # use_flipper!()
-  # https://github.com/facebook/react-native/issues/30836#issuecomment-772830882
-  use_flipper!({ 'Flipper-Folly' => '2.5' })
-
+  use_flipper!({ 'Flipper' => '0.85.0' })
 
   post_install do |installer|
     installer.pods_project.targets.each do |target|
