@@ -21,6 +21,7 @@ import {
 import { AdventureStackParamList, VideoStackParamList } from 'utils/types';
 import theme from 'utils/theme';
 import st from 'utils/st';
+import useOrientation from 'hooks/useOrientation';
 
 import styles from './styles';
 
@@ -41,7 +42,7 @@ function VideoDetails(props: Props) {
   const dispatch = useDispatch();
   const insets = useSafeArea();
   const navigation = useNavigation();
-  const [isPortrait, setIsPortrait] = useState(true);
+  const orientation = useOrientation();
   const { item } = props.route.params;
   const [isFavorited, setIsFavorited] = useState(item['favorite?']);
 
@@ -81,9 +82,11 @@ function VideoDetails(props: Props) {
       <>
         <View
           style={{
-            height: isPortrait ? insets.top : 0,
+            height: orientation === 'portrait' ? insets.top : 0,
             backgroundColor:
-              isPortrait && insets.top > 0 ? '#000' : 'transparent',
+              orientation === 'portrait' && insets.top > 0
+                ? '#000'
+                : 'transparent',
           }}
         >
           <StatusBar
@@ -95,7 +98,7 @@ function VideoDetails(props: Props) {
         </View>
         <ScrollView
           bounces={true}
-          scrollEnabled={isPortrait ? true : false}
+          scrollEnabled={orientation === 'portrait' ? true : false}
           scrollIndicatorInsets={{ right: 1 }}
         >
           {/* This View stays outside of the screen on top
@@ -113,9 +116,6 @@ function VideoDetails(props: Props) {
           />
           {/* Video Player */}
           <Video
-            onOrientationChange={(orientation: string): void => {
-              setIsPortrait(orientation === 'portrait' ? true : false);
-            }}
             autoPlay={true}
             item={item.media}
             onPlay={(time): void => {
@@ -160,7 +160,7 @@ function VideoDetails(props: Props) {
               );
             }}
           />
-          {isPortrait && (
+          {orientation === 'portrait' && (
             <Flex
               direction="column"
               style={[
@@ -220,7 +220,7 @@ function VideoDetails(props: Props) {
           )}
         </ScrollView>
         {/* Call to action button: */}
-        {isPortrait && (
+        {orientation === 'portrait' && (
           <Touchable
             isAndroidOpacity={true}
             onPress={handleShare}
