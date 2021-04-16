@@ -4,15 +4,12 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 
-// Voke: ===============================================================
-#import <Firebase.h> // Voke: https://rnfirebase.io/#validate-ios-credentials
-//#import <FBSDKCoreKit/FBSDKCoreKit.h> // Voke: FB login
+#import <FBSDKCoreKit/FBSDKCoreKit.h> // Voke: FB login
 #import "Orientation.h" // Voke: Needed to handle orientation changes
 #import <RNCPushNotificationIOS.h> // Voke: Needed for push notifications
 #import <UserNotifications/UserNotifications.h> // Voke: Needed for push notifications
 #import <React/RCTLinkingManager.h> //Voke: Deeplinking
 #import "RNBootSplash.h" //Voke: Launch screen.
-
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
 #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
@@ -20,6 +17,8 @@
 #import <FlipperKitNetworkPlugin/FlipperKitNetworkPlugin.h>
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
+
+#import <Firebase.h> // Voke: Firebase.
 
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
@@ -40,6 +39,11 @@ static void InitializeFlipper(UIApplication *application) {
   InitializeFlipper(application);
 #endif
 
+  // Voke: Firebase.
+  if ([FIRApp defaultApp] == nil) {
+    [FIRApp configure];
+  }
+
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"Voke"
@@ -56,7 +60,6 @@ static void InitializeFlipper(UIApplication *application) {
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-
   // Voke: ===============================================================
   // Voke: Launch screen.
   // https://github.com/zoontek/react-native-bootsplash#ios-1
@@ -66,15 +69,9 @@ static void InitializeFlipper(UIApplication *application) {
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
 
-  // VOKE: Configure Firebase - https://rnfirebase.io/#validate-ios-credentials
-  if ([FIRApp defaultApp] == nil) {
-    [FIRApp configure];
-    // [Fabric with:@[CrashlyticsKit]];
-  }
-
   // VOKE: Facebook Login SDK
-//  [[FBSDKApplicationDelegate sharedInstance] application:application
-//    didFinishLaunchingWithOptions:launchOptions];
+ [[FBSDKApplicationDelegate sharedInstance] application:application
+   didFinishLaunchingWithOptions:launchOptions];
 
   return YES;
 }
