@@ -38,12 +38,10 @@ const useOrientation = (): Orientations => {
   );
 
   useLayoutEffect(() => {
-    if (Platform.OS === 'android') {
-      // Only Device Orientation Listener works on older Android models.
-      Orientation.addDeviceOrientationListener(handleOrientationChange);
-    } else {
-      Orientation.addOrientationListener(handleOrientationChange);
-    }
+    // Only Device Orientation Listener works on older Android models.
+    // Looks like fixed now and not needed anymore.
+    // Orientation.addDeviceOrientationListener(handleOrientationChange);
+    Orientation.addOrientationListener(handleOrientationChange);
 
     return function cleanup() {
       Orientation.removeOrientationListener(handleOrientationChange);

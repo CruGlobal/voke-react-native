@@ -71,6 +71,7 @@
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
         android:launchMode="singleTask"
+        android:exported="true"
         android:windowSoftInputMode="adjustPan">
         <!-- https://github.com/zoontek/react-native-bootsplash#android-1 -->
         <!-- Don't change windowSoftInputMode as it will messup focus on signin page for small devices -->

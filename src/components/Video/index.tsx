@@ -120,7 +120,7 @@ function Video({
     setRefreshInterval(isPlaying ? 1000 : null);
   }, [dispatch, isPlaying]);
 
-  const udpateDimensions = useCallback(
+  const updateDimensions = useCallback(
     (newOrientation = orientation) => {
       const shortSize =
         window.width > window.height ? window.height : window.width;
@@ -128,18 +128,20 @@ function Video({
         window.width > window.height ? window.width : window.height;
 
       setWidth(newOrientation === 'portrait' ? shortSize : longSize);
-      setHeight(
-        newOrientation === 'portrait' ? shortSize / 1.75 : longSize / 1.75,
-      );
+      setHeight(newOrientation === 'portrait' ? shortSize / 1.75 : shortSize);
     },
     [orientation, window.height, window.width],
   );
 
   useEffect(() => {
-    udpateDimensions(orientation);
-  }, [orientation, udpateDimensions]);
+    if (!lockOrientation) {
+      updateDimensions(orientation);
+    }
+  }, [lockOrientation, orientation, updateDimensions]);
 
   useMount(() => {
+    updateDimensions(orientation);
+
     if (lockOrientation) {
       lockToPortrait();
     } else {
@@ -223,7 +225,7 @@ function Video({
       style={{
         backgroundColor: '#000',
         overflow: 'hidden',
-        width: '100%',
+        width: width,
         height: height,
       }}
     >
@@ -250,6 +252,7 @@ function Video({
         <YoutubePlayer
           ref={youtubeVideo}
           videoId={youtubeParser(item?.url)}
+          width={width}
           height={height}
           play={isPlaying}
           onChangeState={(state): void => {
@@ -309,7 +312,7 @@ function Video({
           repeat={true}
           style={{
             width: width,
-            height: '100%',
+            height: height,
           }}
           // fullscreen={false} // Platforms: iOS - Controls whether the player enters fullscreen on play.
           // fullscreenOrientation="landscape" // Platforms: iOS - all / landscape / portrait
@@ -362,7 +365,7 @@ function Video({
           </Touchable>
         ) : (
           <>
-            <Flex value={1} style={[]} justify="center" align="center">
+            <Flex value={1} justify="center" align="center">
               <Touchable
                 isAndroidOpacity
                 style={[

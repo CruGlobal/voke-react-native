@@ -22,6 +22,7 @@ import { AdventureStackParamList } from 'utils/types';
 import Touchable from 'components/Touchable';
 import analytics from '@react-native-firebase/analytics';
 import useOrientation from 'hooks/useOrientation';
+import { lockToPortrait, useMount } from 'utils';
 
 import {
   startAdventure,
@@ -89,6 +90,10 @@ function AdventureAvailable(props: Props): React.ReactElement {
   const { duoTutorialCount, groupTutorialCount } = useSelector(
     ({ info }: RootState) => info,
   );
+
+  useMount(() => {
+    lockToPortrait();
+  });
 
   useEffect(() => {
     // Google Analytics: Record content selection.
@@ -166,6 +171,7 @@ function AdventureAvailable(props: Props): React.ReactElement {
       </View>
       <Video
         item={item?.item?.content}
+        lockOrientation={true}
         onPlay={(time): void => {
           if (time > 1) {
             dispatch(
