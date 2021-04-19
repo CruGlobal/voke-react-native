@@ -174,6 +174,8 @@ jobs:
           ruby-version: 2.7.2
           working-directory: './ios'
           bundler-cache: true
+      - name: 🛑 Inhibit Compiler Warnings
+        run: yarn run react-native-inhibit-warnings
       - name: 🗝 Configure GitHub login
         run: echo -e "machine github.com\n login $CI_USER_TOKEN" >> ~/.netrc
         env:
