@@ -190,7 +190,8 @@
 				00E356EC1AD99517003FC87E /* Resources */,
 				B3A37E1406A86BD5FA7EC3F6 /* [CP] Embed Pods Frameworks */,
 				C62EDDA7E4253FAA0B1C52AA /* [CP] Check Pods Manifest.lock */,
-				BD3549FDFCF3C308091EF9E6 /* [CP] Copy Pods Resources */,
+				BD3549FDFCF3C308091EF9E6 /* [CP] Check Pods Manifest.lock */,
+				7891BF24DF147F3C2190C126 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -348,6 +349,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Voke/Pods-Voke-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		7891BF24DF147F3C2190C126 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Voke-VokeTests/Pods-Voke-VokeTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Voke-VokeTests/Pods-Voke-VokeTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Voke-VokeTests/Pods-Voke-VokeTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		8E02EC7550D189F7EBC09994 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -409,7 +427,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Voke-VokeTests/Pods-Voke-VokeTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		BD3549FDFCF3C308091EF9E6 /* [CP] Copy Pods Resources */ = {
+		BD3549FDFCF3C308091EF9E6 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (

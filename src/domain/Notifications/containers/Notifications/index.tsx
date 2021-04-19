@@ -17,7 +17,6 @@ import { useMount, lockToPortrait } from 'utils';
 function Notifications() {
   const dispatch = useDispatch();
   const insets = useSafeArea();
-  const [isPortrait, setIsPortrait] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const me = useSelector(({ auth }) => auth.user);
   const notificationPagination = useSelector(
@@ -119,9 +118,6 @@ function Notifications() {
       {videoToShow && (
         <Video
           onCancel={() => setVideoToShow(null)}
-          onOrientationChange={(orientation: string): void => {
-            // setIsPortrait( orientation === 'portrait' ? true : false);
-          }}
           item={videoToShow.item.media}
           lockOrientation={true}
           autoPlay={true}

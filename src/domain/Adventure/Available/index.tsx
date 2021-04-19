@@ -21,6 +21,8 @@ import CONSTANTS, { REDUX_ACTIONS } from 'utils/constants';
 import { AdventureStackParamList } from 'utils/types';
 import Touchable from 'components/Touchable';
 import analytics from '@react-native-firebase/analytics';
+import useOrientation from 'hooks/useOrientation';
+import { lockToPortrait, useMount } from 'utils';
 
 import {
   startAdventure,
@@ -80,7 +82,7 @@ function AdventureAvailable(props: Props): React.ReactElement {
   const dispatch = useDispatch();
   const insets = useSafeArea();
   const navigation = useNavigation();
-  const [isPortrait, setIsPortrait] = useState(true);
+  const orientation = useOrientation();
   const { item, alreadyStartedByMe } = props.route.params;
   const [isLoading, setIsLoading] = useState(false);
   const [soloStarted, setSoloStarted] = useState(alreadyStartedByMe);
@@ -88,6 +90,10 @@ function AdventureAvailable(props: Props): React.ReactElement {
   const { duoTutorialCount, groupTutorialCount } = useSelector(
     ({ info }: RootState) => info,
   );
+
+  useMount(() => {
+    lockToPortrait();
+  });
 
   useEffect(() => {
     // Google Analytics: Record content selection.
@@ -149,9 +155,11 @@ function AdventureAvailable(props: Props): React.ReactElement {
     <Flex value={1} style={[st.bgWhite]}>
       <View
         style={{
-          height: isPortrait ? insets.top : 0,
+          height: orientation === 'portrait' ? insets.top : 0,
           backgroundColor:
-            isPortrait && insets.top > 0 ? '#000' : 'transparent',
+            orientation === 'portrait' && insets.top > 0
+              ? '#000'
+              : 'transparent',
         }}
       >
         <StatusBar
@@ -162,10 +170,8 @@ function AdventureAvailable(props: Props): React.ReactElement {
         />
       </View>
       <Video
-        onOrientationChange={(orientation: string): void => {
-          setIsPortrait(orientation === 'portrait' ? true : false);
-        }}
         item={item?.item?.content}
+        lockOrientation={true}
         onPlay={(time): void => {
           if (time > 1) {
             dispatch(
@@ -243,7 +249,7 @@ function AdventureAvailable(props: Props): React.ReactElement {
           </Flex>
         </Flex>
       </Video>
-      {isPortrait && (
+      {orientation === 'portrait' && (
         <ScrollView
           bounces={false}
           style={{ paddingBottom: insets.bottom }}

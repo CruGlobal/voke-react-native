@@ -52,6 +52,7 @@ import {
 import { toastAction } from 'actions/info';
 import { bots } from 'assets';
 import Image from 'components/Image';
+import useOrientation from 'hooks/useOrientation';
 
 import styles from './styles';
 
@@ -208,7 +209,7 @@ const AdventureStepScreenRender = ({
   const hasNotch = DeviceInfo.hasNotch();
   const insets = useSafeAreaInsets();
   const [isLoading, setIsLoading] = useState(false);
-  const [isPortrait, setIsPortrait] = useState(true);
+  const orientation = useOrientation();
   const keyboard = useKeyboard();
   const [prevContentOffset, setPrevContentOffset] = useState(100);
   const [hasClickedPlay, setHasClickedPlay] = useState(false);
@@ -358,13 +359,14 @@ const AdventureStepScreenRender = ({
       style={{
         width: '100%',
         height: '100%',
-        backgroundColor: isPortrait ? st.colors.blue : st.colors.deepBlack,
+        backgroundColor:
+          orientation === 'portrait' ? st.colors.blue : st.colors.deepBlack,
         flexDirection: 'column',
         alignContent: 'center',
         justifyContent: 'space-between',
       }}
     >
-      {isPortrait && hasNotch ? (
+      {orientation === 'portrait' && hasNotch ? (
         <View
           style={{
             height: Platform.OS === 'ios' ? insets.top : 0,
@@ -375,7 +377,7 @@ const AdventureStepScreenRender = ({
             animated={false}
             barStyle="light-content"
             translucent={false}
-            // translucent={ isPortrait && insets.top > 0 ? false : true } // Android. The app will draw under the status bar.
+            // translucent={ orientation === 'portrait' && insets.top > 0 ? false : true } // Android. The app will draw under the status bar.
             backgroundColor="#000" // Android. The background color of the status bar.
           />
         </View>
@@ -415,7 +417,7 @@ const AdventureStepScreenRender = ({
             setPrevContentOffset(e.nativeEvent.contentOffset.y);
           }}
           contentContainerStyle={styles.scrollContainer}
-          // scrollEnabled={isPortrait ? true : false}
+          // scrollEnabled={orientation === 'portrait' ? true : false}
           scrollEnabled={true}
           keyboardShouldPersistTaps="always"
           // ☝️required to fix the bug with a need to double tap
@@ -445,9 +447,6 @@ const AdventureStepScreenRender = ({
               />
               {/* Video Player */}
               <Video
-                onOrientationChange={(orientation: string): void => {
-                  setIsPortrait(orientation === 'portrait' ? true : false);
-                }}
                 item={currentStep?.item?.content}
                 onPlay={(time): void => {
                   scrollRef.current.scrollTo({
@@ -502,7 +501,7 @@ const AdventureStepScreenRender = ({
                 // lockOrientation={!videoIsPlaying}
                 lockOrientation={false}
               />
-              {isPortrait && (
+              {orientation === 'portrait' && (
                 <>
                   {/* Special Bot message at the top */}
                   {currentStep?.status_message ? (
@@ -586,7 +585,7 @@ const AdventureStepScreenRender = ({
                 </>
               )}
               {/* Extra spacing on the bottom */}
-              {isPortrait && <View style={{ height: 80 }} />}
+              {orientation === 'portrait' && <View style={{ height: 80 }} />}
             </>
           </DismissKeyboardView>
         </ScrollView>
@@ -596,7 +595,7 @@ const AdventureStepScreenRender = ({
             But only if it's portrait orientation and not solo adventure.
             It makes no sense to talk to yourself in solo mode.
           */}
-        {!isSolo && isPortrait && completedByMessenger && (
+        {!isSolo && orientation === 'portrait' && completedByMessenger && (
           <View
             style={{
               flexDirection: 'row',
