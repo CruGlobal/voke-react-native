@@ -30,7 +30,7 @@ const LanguageSwitch = (): ReactElement => {
   useEffect(() => {
     // Prepare list of languages for selector removing 'en-US' used
     // for development purposes only.
-    const appLang = i18next?.language ? i18next.language.toUpperCase() : 'EN';
+    const appLang = i18next?.language?.toUpperCase() || 'EN';
 
     availableTranslations.map(lang => {
       const stepLang = lang.toUpperCase();
