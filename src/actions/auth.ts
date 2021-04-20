@@ -98,9 +98,7 @@ export function checkCurrentLanguage(prefLang = '') {
   return async (dispatch, getState): void => {
     const languageStored = getState().auth.language;
     const languageCurrent =
-      prefLang.toUpperCase() || i18next?.language
-        ? i18next.language.toUpperCase()
-        : 'EN';
+      prefLang.toUpperCase() || i18next?.language?.toUpperCase() || 'EN';
 
     if (prefLang !== i18next.language) {
       i18next.changeLanguage(prefLang.toLowerCase());
