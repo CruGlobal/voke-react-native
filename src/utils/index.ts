@@ -12,6 +12,7 @@ import moment from 'moment';
 import { useEffect, useRef } from 'react';
 import { Keyboard } from 'react-native';
 import Orientation from 'react-native-orientation-locker';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 export {
   difference,
@@ -248,6 +249,9 @@ export function registerLogs() {
       if (ENABLE_LOGS) {
         console.log.apply(console, args);
       }
+    } else {
+      const args = getArgs(arguments, true);
+      crashlytics().log(args);
     }
   };
 
@@ -257,6 +261,9 @@ export function registerLogs() {
       if (ENABLE_WARN) {
         console.warn.apply(console, args);
       }
+    } else {
+      const args = getArgs(arguments, true);
+      crashlytics().log(args);
     }
   };
 }

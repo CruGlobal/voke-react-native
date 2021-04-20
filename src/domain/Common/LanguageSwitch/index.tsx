@@ -30,7 +30,7 @@ const LanguageSwitch = (): ReactElement => {
   useEffect(() => {
     // Prepare list of languages for selector removing 'en-US' used
     // for development purposes only.
-    const appLang = i18next.language.toUpperCase();
+    const appLang = i18next?.language?.toUpperCase() || 'EN';
 
     availableTranslations.map(lang => {
       const stepLang = lang.toUpperCase();
@@ -52,7 +52,7 @@ const LanguageSwitch = (): ReactElement => {
 
   const newLangSelected = (option: Option): void => {
     // Change current language for app UI.
-    const appLang = i18next.language.toUpperCase();
+    const appLang = i18next?.language?.toUpperCase() || 'EN';
     const newSelectOptions: Option[] = selectOptions;
     selectOptions.map((value, index) => {
       if (
