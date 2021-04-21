@@ -325,6 +325,7 @@ export function getAdventureStepMessages(
       return results;
     } catch (error) {
       console.log('getAdventureStepMessages error:', error);
+      return error;
     }
   };
 }
@@ -1214,13 +1215,18 @@ export function ignoreComplain({ reportId, adventureId }) {
 
 export function approveComplain({ reportId, adventureId }) {
   return async (dispatch: Dispatch, getState: any) => {
-    const data = await request({
-      ...ROUTES.APPROVE_COMPLAIN,
-      pathParams: { adventureId, reportId },
-      authToken: getState().auth.authToken,
-      description: 'Approve complain on the server',
-    });
-    return data;
+    try {
+      const results: any = await request({
+        ...ROUTES.APPROVE_COMPLAIN,
+        pathParams: { adventureId, reportId },
+        authToken: getState().auth.authToken,
+        description: 'Approve complain on the server',
+      });
+      return results;
+    } catch (error) {
+      WARN('approveComplain error:', error);
+      return error;
+    }
   };
 }
 
@@ -1287,7 +1293,12 @@ export function deleteMember({ conversationId, messengerId }) {
       });
       return results;
     } catch (error) {
-      console.log('deleteMember error:', error);
+      WARN('Actions > Requests > deleteMember error:', {
+        error,
+        conversationId,
+        messengerId,
+      });
+      return error;
     }
   };
 }

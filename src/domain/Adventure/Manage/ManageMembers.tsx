@@ -45,7 +45,13 @@ const ManageMembers = ({
   }
 
   const otherUsers =
-    messengers.filter(i => i.id !== me.id && i.first_name !== 'VokeBot') || [];
+    messengers.filter(
+      i =>
+        i.id !== me.id &&
+        i.first_name !== 'VokeBot' &&
+        i['archived?'] !== true &&
+        i['blocked?'] !== true,
+    ) || [];
 
   const totalGroupUsers = otherUsers.length;
   let subGroup = otherUsers;

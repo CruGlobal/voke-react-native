@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions, Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import Carousel from 'react-native-snap-carousel';
@@ -77,14 +77,26 @@ const ReportedMessages = ({ adventureId }) => {
       }),
     );
 
-    if (result?.status === 'accepted') {
+    if (
+      result?.status === 'accepted' ||
+      result?.status === 'accepted_and_blocked'
+    ) {
       const modifiedComplains = [...complains];
       complains.forEach((complain, index) => {
         if (complain.id === reportId) {
-          modifiedComplains[index].status = 'accepted';
+          modifiedComplains[index].status = result?.status;
         }
       });
       setComplains(modifiedComplains);
+    } else {
+      closeModal();
+      getAdventureComplains(adventureId);
+      WARN(
+        `ReportMessages > complainActionBlock > Can't block the user`,
+        result,
+      );
+      const error = result?.errors ? result?.errors[0] : result?.error;
+      Alert.alert(`Can't block the user`, error);
     }
   };
 
@@ -92,6 +104,10 @@ const ReportedMessages = ({ adventureId }) => {
     setCurrentReport({});
     modalizeRef.current?.close();
   };
+
+  useEffect(() => {
+    console.log(complains);
+  }, [complains]);
 
   const SingleReport = ({ item, index }) => {
     return (
@@ -241,7 +257,7 @@ const ReportedMessages = ({ adventureId }) => {
               <BlurView blurType="xlight" style={styles.modalBlur} />
             )}
             <View style={styles.modalContent}>
-              {currentReport?.status === 'accepted' ? (
+              {currentReport?.status === 'accepted_and_blocked' ? (
                 <>
                   <VokeIcon
                     name="check_circle"
