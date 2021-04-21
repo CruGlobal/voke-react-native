@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, {
   useState,
   useEffect,
@@ -16,6 +15,7 @@ import theme from 'utils/theme';
 import { RootState } from 'reducers';
 import {
   AdventureStackParamList,
+  RootStackParamList,
   TAdventureSingle,
   TDataState,
   TStep,
@@ -25,16 +25,6 @@ import { getMyAdventures, getAdventureSteps } from 'actions/requests';
 
 import AdventureStepScreenRender from './AdventureStepScreenRender';
 import styles from './styles';
-
-type ModalProps = {
-  route: {
-    name: string;
-    params: {
-      stepId: string;
-      adventureId: string;
-    };
-  };
-};
 
 type NavigationPropType = StackNavigationProp<
   AdventureStackParamList,
@@ -73,6 +63,7 @@ const AdventureStepScreen = ({ navigation, route }: Props): ReactElement => {
   const currentStepIdRef = useRef(currentStep?.id);
   const currentStepId = currentStep?.id;
   const adventureIdStore = adventure?.id;
+  const redirectTimerRef = useRef<NodeJS.Timeout | null>();
 
   const replacePrevScreen = useCallback((): void => {
     const { routes } = navigation.dangerouslyGetState();
@@ -176,11 +167,15 @@ const AdventureStepScreen = ({ navigation, route }: Props): ReactElement => {
 
   // Wait for 5 seconds. If no content loaded, redirect to the main screen.
   useEffect(() => {
-    const timer = setTimeout(() => {
-      redirectIfNeeded();
-    }, 5000);
-    return (): void => clearTimeout(timer);
-  }, [redirectIfNeeded]);
+    if (isLoading && !redirectTimerRef.current) {
+      redirectTimerRef.current = setTimeout(() => {
+        redirectIfNeeded();
+      }, 5000);
+    } else if (!isLoading && redirectTimerRef.current) {
+      clearTimeout(redirectTimerRef.current);
+      redirectTimerRef.current = null;
+    }
+  }, [isLoading, navigation, redirectIfNeeded]);
 
   const sceletonLayoutVideo = useMemo(
     () => [
