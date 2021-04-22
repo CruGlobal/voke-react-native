@@ -5,7 +5,6 @@ import React, {
   useCallback,
   ReactElement,
   MutableRefObject,
-  useLayoutEffect,
 } from 'react';
 import RNVideo from 'react-native-video';
 // https://github.com/react-native-community/react-native-video#usage
@@ -229,25 +228,6 @@ function Video({
         height: height,
       }}
     >
-      {!started && (
-        // || !isPlaying && ( sliderValue < 1 || sliderValue >= item.duration )
-        // || isPlaying && sliderValue < .05
-        <ImageBackground
-          resizeMode="cover"
-          source={{ uri: item?.thumbnails?.large }}
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: theme.colors.black,
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            zIndex: 1,
-          }}
-        />
-      )}
       {item?.type === 'youtube' ? (
         <YoutubePlayer
           ref={youtubeVideo}
@@ -316,6 +296,23 @@ function Video({
           }}
           // fullscreen={false} // Platforms: iOS - Controls whether the player enters fullscreen on play.
           // fullscreenOrientation="landscape" // Platforms: iOS - all / landscape / portrait
+        />
+      )}
+      {!isPlaying && (
+        <ImageBackground
+          resizeMode="cover"
+          source={{ uri: item?.thumbnails?.large }}
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: theme.colors.black,
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            zIndex: 1,
+          }}
         />
       )}
       <Flex
