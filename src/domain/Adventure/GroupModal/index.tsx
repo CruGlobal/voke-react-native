@@ -1,9 +1,4 @@
-import React, {
-  ReactElement,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from 'react';
+import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import { RouteProp, useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -49,9 +44,10 @@ function GroupModal(props: Props): ReactElement {
   const { adventureId } = props.route.params;
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const me = useSelector(({ auth }) => auth.user);
+  const me = useSelector(({ auth }: RootState) => auth.user);
   const [isLoading, setIsLoading] = useState(true);
   const [messengers, setMessengers] = useState<TMessenger[] | []>([]);
+  const redirectTimerRef = useRef<NodeJS.Timeout | null>();
   // We update local adventures in the background when accepting invite.
   // If no adventures in the local store at this point - we have a problem.
   const adventure: TAdventureSingle = useSelector(
@@ -67,7 +63,11 @@ function GroupModal(props: Props): ReactElement {
       if (allMessengers.length) {
         // setAllMessengers(allMessengers.slice());
         const humanMessengers = allMessengers.filter(
-          i => i.first_name !== 'VokeBot' && (i || {}).id !== (me || {}).id,
+          i =>
+            i.first_name !== 'VokeBot' &&
+            (i || {}).id !== (me || {}).id &&
+            i['archived?'] !== true &&
+            i['blocked?'] !== true,
         );
         // Fake crowd.
         if (humanMessengers.length < 5) {
@@ -90,18 +90,20 @@ function GroupModal(props: Props): ReactElement {
     }
   }, [adventure?.conversation?.messengers, adventure?.id, me]);
 
-  useLayoutEffect(() => {
-    const redirectTimer = setTimeout(() => {
-      // Backup plan: Redirect to My Adventures screen if nothing happen in 5sec.
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'LoggedInApp' }],
-      });
-    }, 5000);
-    return (): void => {
-      clearTimeout(redirectTimer);
-    };
-  });
+  useEffect(() => {
+    if (isLoading && !redirectTimerRef.current) {
+      redirectTimerRef.current = setTimeout(() => {
+        // Backup plan: Redirect to My Adventures screen if nothing happen in 5sec.
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'LoggedInApp' }],
+        });
+      }, 5000);
+    } else if (!isLoading && redirectTimerRef.current) {
+      clearTimeout(redirectTimerRef.current);
+      redirectTimerRef.current = null;
+    }
+  }, [isLoading, navigation]);
 
   const handleJoinGroup = (): void => {
     // Go to the adventure steps screen.
@@ -122,7 +124,7 @@ function GroupModal(props: Props): ReactElement {
           </View>
         ) : (
           <>
-            <Flex style={[st.mb4]}>
+            <Flex style={{ marginBottom: 15 }}>
               <Flex align="center" justify="center" style={styles.title}>
                 <Flex>
                   <Text
@@ -148,7 +150,10 @@ function GroupModal(props: Props): ReactElement {
                     color={st.colors.offBlue}
                     slant="down"
                     flip={true}
-                    style={[st.rotate(90), st.mt(-6)]}
+                    style={{
+                      transform: [{ rotate: '90deg' }],
+                      marginTop: -6,
+                    }}
                   />
                 </Flex>
               </Flex>
@@ -167,19 +172,18 @@ function GroupModal(props: Props): ReactElement {
                     direction="column"
                     align="center"
                     justify="center"
-                    style={[
-                      st.bgOffBlue,
-                      st.m5,
-                      {
-                        width: index === 0 ? largeBox : smallBox,
-                        height: index === 0 ? largeBox : smallBox,
-                        marginRight: 15,
-                        paddingVertical: theme.spacing.l,
-                      },
-                    ]}
+                    style={{
+                      backgroundColor: theme.colors.secondaryAlt,
+                      width: index === 0 ? largeBox : smallBox,
+                      height: index === 0 ? largeBox : smallBox,
+                      margin: 10,
+                      marginRight: 15,
+                      paddingVertical: theme.spacing.l,
+                    }}
                   >
-                    {!messenger.avatar ? (
-                      <Flex align="center" justify="center" style={[st.pt3]}>
+
+                    {!messenger?.avatar?.medium ? (
+                      <Flex align="center" justify="center" style={{ paddingTop: 25 }}>
                         <VokeIcon name="person" size={80} style={[st.white]} />
                       </Flex>
                     ) : (
@@ -215,14 +219,12 @@ function GroupModal(props: Props): ReactElement {
                 <Flex
                   direction="column"
                   align="center"
-                  style={[
-                    st.bgOrange,
-                    st.m5,
-                    {
-                      width: smallBox,
-                      height: smallBox,
-                    },
-                  ]}
+                  style={{
+                    margin: 10,
+                    width: smallBox,
+                    height: smallBox,
+                    backgroundColor: theme.colors.accent,
+                  }}
                 >
                   <Touchable
                     onPress={(): void => handleJoinGroup()}
@@ -244,7 +246,7 @@ function GroupModal(props: Props): ReactElement {
                       >
                         <Image
                           resizeMode="contain"
-                          source={{ uri: me.avatar.large }}
+                          source={{ uri: me?.avatar?.large }}
                           style={[
                             {
                               height: smallBox / 2.5,
@@ -298,7 +300,7 @@ function GroupModal(props: Props): ReactElement {
                 </Flex>
               </Flex>
             </Flex>
-            {messengers.length > 5 ? (
+            {messengers.length > 0 ? (
               <Flex align="center" self="stretch">
                 <OldButton
                   onPress={(): void =>
@@ -307,16 +309,15 @@ function GroupModal(props: Props): ReactElement {
                       isJoined: false,
                     })
                   }
-                  style={[
-                    st.bgOrange,
-                    st.ph6,
-                    st.pv5,
-                    st.bw0,
-                    st.br3,
-                    st.mt5,
-                    st.aic,
-                    { width: st.fullWidth - 90 },
-                  ]}
+                  style={{
+                    alignItems: 'center',
+                    width: st.fullWidth - 90,
+                    paddingHorizontal: 5,
+                    paddingVertical: 10,
+                    marginTop: theme.spacing.l,
+                    borderRadius: theme.radius.xxl,
+                    backgroundColor: theme.colors.accent,
+                  }}
                 >
                   <Flex direction="row" align="center">
                     <Text style={[st.white, st.fs16]}>{t('allMembers')}</Text>

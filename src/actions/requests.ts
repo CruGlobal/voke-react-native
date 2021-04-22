@@ -296,7 +296,25 @@ const getAdventureStepsDebounced = debounce(
 
 export function getAdventureSteps(adventureId: any) {
   return async (dispatch: Dispatch, getState: any) => {
-    return await getAdventureStepsDebounced(dispatch, getState, adventureId);
+    const results: any = await request({
+      ...ROUTES.GET_ADVENTURE_STEPS,
+      pathParams: { adventureId },
+      authToken: getState().auth.authToken,
+      description: 'Get Adventure Steps',
+    });
+    const adventureSteps = results.steps;
+    dispatch({
+      type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEPS,
+      result: { adventureId, adventureSteps },
+      description: 'Get Adventure Steps',
+    });
+
+    dispatch(getMyAdventure(adventureId));
+    dispatch(updateTotalUnreadCounter());
+
+    return results;
+
+    // return await getAdventureStepsDebounced(dispatch, getState, adventureId);
   };
 }
 
@@ -325,6 +343,7 @@ export function getAdventureStepMessages(
       return results;
     } catch (error) {
       console.log('getAdventureStepMessages error:', error);
+      return error;
     }
   };
 }
@@ -1214,13 +1233,18 @@ export function ignoreComplain({ reportId, adventureId }) {
 
 export function approveComplain({ reportId, adventureId }) {
   return async (dispatch: Dispatch, getState: any) => {
-    const data = await request({
-      ...ROUTES.APPROVE_COMPLAIN,
-      pathParams: { adventureId, reportId },
-      authToken: getState().auth.authToken,
-      description: 'Approve complain on the server',
-    });
-    return data;
+    try {
+      const results: any = await request({
+        ...ROUTES.APPROVE_COMPLAIN,
+        pathParams: { adventureId, reportId },
+        authToken: getState().auth.authToken,
+        description: 'Approve complain on the server',
+      });
+      return results;
+    } catch (error) {
+      WARN('approveComplain error:', error);
+      return error;
+    }
   };
 }
 
@@ -1287,7 +1311,12 @@ export function deleteMember({ conversationId, messengerId }) {
       });
       return results;
     } catch (error) {
-      console.log('deleteMember error:', error);
+      WARN('Actions > Requests > deleteMember error:', {
+        error,
+        conversationId,
+        messengerId,
+      });
+      return error;
     }
   };
 }

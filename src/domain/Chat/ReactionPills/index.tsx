@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import { getCurrentUserId } from 'utils/get';
+import theme from 'utils/theme';
 
 import styles from './styles';
 
@@ -17,6 +19,7 @@ const ReactionPills = (props: Props): React.ReactElement => {
   // Animatable library has a very broken and confusing typing.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const pillRef = useRef<any[]>([]);
+  const userId = getCurrentUserId();
 
   if (!reactions) {
     return <></>;
@@ -50,7 +53,13 @@ const ReactionPills = (props: Props): React.ReactElement => {
             style={styles.reactionPill}
             testID={'reactionPill-' + index}
           >
-            <Text style={styles.reactionLabel}>
+            <Text
+              style={
+                votes.includes(userId)
+                  ? styles.reactionLabelOwn
+                  : styles.reactionLabel
+              }
+            >
               {emoji} {votes.length}
             </Text>
           </Pressable>
