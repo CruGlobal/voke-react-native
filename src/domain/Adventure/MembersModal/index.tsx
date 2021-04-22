@@ -35,6 +35,7 @@ import {
   TDataState,
   TMessenger,
 } from 'utils/types';
+import { avatars } from 'assets';
 
 import { deleteMember, getMyAdventure } from '../../../actions/requests';
 
@@ -253,12 +254,11 @@ function AllMembersModal(props: Props) {
                       />
                     </Touchable>
                   ) : null}
-
-                  {!messenger.avatar ? (
+                  {!messenger?.avatar?.medium ? (
                     <Flex align="center" justify="center" style={[st.pt3]}>
                       <Image
                         resizeMode="contain"
-                        source={DEFAULT_AVATAR}
+                        source={avatars.default}
                         style={{
                           height: smallCircle,
                           width: smallCircle,

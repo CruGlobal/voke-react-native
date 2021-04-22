@@ -178,7 +178,7 @@ function GroupModal(props: Props): ReactElement {
                       },
                     ]}
                   >
-                    {!messenger.avatar ? (
+                    {!messenger?.avatar?.medium ? (
                       <Flex align="center" justify="center" style={[st.pt3]}>
                         <VokeIcon name="person" size={80} style={[st.white]} />
                       </Flex>
