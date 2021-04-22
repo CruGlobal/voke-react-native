@@ -70,8 +70,8 @@ const TextMessage = (props: Props): React.ReactElement => {
     return (
       !isBlured &&
       message?.metadata?.vokebot_action !== 'journey_step_comment' &&
-      message?.metadata?.vokebot_action !== 'journey_step' &&
-      message?.metadata?.vokebot_action !== 'share_answers'
+      message?.metadata?.vokebot_action !== 'journey_step' //&&
+      // message?.metadata?.vokebot_action !== 'share_answers'
       // TODO: 👆 remove it once the bug fixed in API (should not able to report/block VokeBot).
       // https://jesusfilmmedia.atlassian.net/browse/VC-1355
     );
@@ -145,7 +145,7 @@ const TextMessage = (props: Props): React.ReactElement => {
               {/* Long press block to activate context menu. */}
               <Pressable
                 testID="messagePressArea"
-                onLongPress={(): void => {
+                onPressIn={(): void => {
                   setContextActive(message.id);
                   ReactNativeHapticFeedback.trigger('selection');
                 }}
