@@ -296,7 +296,25 @@ const getAdventureStepsDebounced = debounce(
 
 export function getAdventureSteps(adventureId: any) {
   return async (dispatch: Dispatch, getState: any) => {
-    return await getAdventureStepsDebounced(dispatch, getState, adventureId);
+    const results: any = await request({
+      ...ROUTES.GET_ADVENTURE_STEPS,
+      pathParams: { adventureId },
+      authToken: getState().auth.authToken,
+      description: 'Get Adventure Steps',
+    });
+    const adventureSteps = results.steps;
+    dispatch({
+      type: REDUX_ACTIONS.UPDATE_ADVENTURE_STEPS,
+      result: { adventureId, adventureSteps },
+      description: 'Get Adventure Steps',
+    });
+
+    dispatch(getMyAdventure(adventureId));
+    dispatch(updateTotalUnreadCounter());
+
+    return results;
+
+    // return await getAdventureStepsDebounced(dispatch, getState, adventureId);
   };
 }
 
