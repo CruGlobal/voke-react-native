@@ -188,7 +188,7 @@ const TextMessage = (props: Props): React.ReactElement => {
                 source={
                   messenger?.avatar?.small
                     ? { uri: messenger?.avatar?.small }
-                    : avatars.default
+                    : avatars.smallAvatar
                 }
               />
             </View>
