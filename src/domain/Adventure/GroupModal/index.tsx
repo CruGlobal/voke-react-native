@@ -63,7 +63,11 @@ function GroupModal(props: Props): ReactElement {
       if (allMessengers.length) {
         // setAllMessengers(allMessengers.slice());
         const humanMessengers = allMessengers.filter(
-          i => i.first_name !== 'VokeBot' && (i || {}).id !== (me || {}).id,
+          i =>
+            i.first_name !== 'VokeBot' &&
+            (i || {}).id !== (me || {}).id &&
+            i['archived?'] !== true &&
+            i['blocked?'] !== true,
         );
         // Fake crowd.
         if (humanMessengers.length < 5) {

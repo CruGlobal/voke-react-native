@@ -127,6 +127,7 @@ export interface TMessenger {
   last_name: string;
   group_leader?: boolean;
   completed?: boolean;
+  'blocked?'?: boolean;
   'archived?'?: boolean;
   avatar: TImage;
   status?: string; //"active"

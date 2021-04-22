@@ -55,7 +55,11 @@ const AdventureCardRender: FunctionComponent<Props> = ({
   const isGroup = adventureItem.kind === 'multiple';
   const myAvatar = me?.avatar?.small;
   const usersExceptVokeAndMe = messengers.filter(
-    i => i.id !== me.id && i.first_name !== 'VokeBot',
+    i =>
+      i.id !== me.id &&
+      i.first_name !== 'VokeBot' &&
+      i['archived?'] !== true &&
+      i['blocked?'] !== true,
   );
   const totalGroupUsers = usersExceptVokeAndMe.length;
   const maxNumberOfAvatars = windowDimensions.width < 400 ? 3 : 4;

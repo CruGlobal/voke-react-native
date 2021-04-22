@@ -56,6 +56,19 @@ function AdventureStepReportCard({
     ({ data }: RootState) =>
       data.adventureSteps[adventureId]?.byId[stepId] || {},
   );
+  let messengers =
+    step?.active_messengers?.filter(
+      i => i['archived?'] !== true && i['blocked?'] !== true,
+    ) || [];
+
+  if (stepId === 'graduated' && adventure?.id) {
+    const allUsers = adventure?.conversation?.messengers;
+    const graduatedUsers = allUsers.filter(user => user.completed);
+    step.id = 'graduated';
+    step.name = 'Graduated Users';
+    messengers = graduatedUsers;
+    step.position = '99'; // position required for testID!
+  }
 
   useEffect(() => {
     // Don't alow to lock the step if it was unlocked once.
@@ -63,15 +76,6 @@ function AdventureStepReportCard({
       setIsLocked(false);
     }
   }, [step?.locked, isLocked]);
-
-  if (stepId === 'graduated' && adventure?.id) {
-    const allUsers = adventure?.conversation?.messengers;
-    const garduatedUsers = allUsers.filter(user => user.completed);
-    step.id = 'graduated';
-    step.name = 'Graduated Users';
-    step.active_messengers = garduatedUsers;
-    step.position = '99'; // position required for testID!
-  }
 
   useEffect(() => {
     setIsManual(!adventure?.gating_period);
@@ -179,10 +183,7 @@ function AdventureStepReportCard({
     return styleClass;
   };
 
-  if (
-    !adventure?.id ||
-    (stepId === 'graduated' && !step.active_messengers.length)
-  ) {
+  if (!adventure?.id || (stepId === 'graduated' && !messengers.length)) {
     return <></>;
   } else {
     return (
@@ -243,7 +244,7 @@ function AdventureStepReportCard({
                         : styles.actionText
                     }
                     onPress={() => {
-                      step.active_messengers.length > 0
+                      messengers.length > 0
                         ? modalizeRef.current?.open()
                         : false;
                     }}
@@ -251,11 +252,8 @@ function AdventureStepReportCard({
                       step?.position ? 'allMembersPart-' + step.position : ''
                     }
                   >
-                    {step.active_messengers.length > 0
-                      ? t('seeAllMembers') +
-                        ' (' +
-                        step.active_messengers.length +
-                        ')'
+                    {messengers.length > 0
+                      ? t('seeAllMembers') + ' (' + messengers.length + ')'
                       : ' '}
                   </Text>
                 )}
@@ -297,7 +295,7 @@ function AdventureStepReportCard({
                   scrollIndicatorInsets={{ right: 1 }}
                 >
                   <FlatList
-                    data={step.active_messengers}
+                    data={messengers}
                     scrollIndicatorInsets={{ right: 1 }}
                     renderItem={({ item }): React.ReactElement => (
                       <View style={styles.stepMemberItem}>

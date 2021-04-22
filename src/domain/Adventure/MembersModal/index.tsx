@@ -11,7 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { RouteProp, useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { Dimensions, ScrollView, View } from 'react-native';
+import { Alert, Dimensions, ScrollView, View } from 'react-native';
 import { BlurView } from '@react-native-community/blur';
 import { Modalize } from 'react-native-modalize';
 import { Portal } from 'react-native-portalize';
@@ -76,9 +76,12 @@ function AllMembersModal(props: Props) {
   );
 
   // const adventureId = props.route.params.adventure.messenger_journey_id;
-  const allMessengers = adventure?.conversation?.messengers;
-
-  const [messengers, setMessengers] = useState<TMessenger[]>([]);
+  const messengers = adventure?.conversation?.messengers.filter(
+    i =>
+      i.first_name !== 'VokeBot' &&
+      i['archived?'] !== true &&
+      i['blocked?'] !== true,
+  );
   const [isLeaderView, setIsLeaderView] = useState(false);
   interface TDeleteUser {
     deleted: boolean;
@@ -103,10 +106,6 @@ function AllMembersModal(props: Props) {
       adventureId: adventureId,
     });
   };
-
-  useEffect(() => {
-    setMessengers(allMessengers.filter(i => i.first_name !== 'VokeBot'));
-  }, [allMessengers.length, allMessengers]);
 
   useEffect(() => {
     setIsLeaderView(
@@ -155,17 +154,22 @@ function AllMembersModal(props: Props) {
       }),
     );
 
-    if (result['blocked?']) {
+    if (result['blocked?'] || result['archived?']) {
       // Remove element instantly
       // without waiting for an adventure update from the server.
       messengers.splice(
         messengers.findIndex(i => i.id === messengerId),
         1,
       );
-      setMessengers(() => messengers.splice(0, messengers.length));
       // Update current adventure to reflect changes.
       dispatch(getMyAdventure(adventureId));
       setDeleteUser(user => ({ ...user, deleted: true }));
+    } else {
+      closeModal();
+      dispatch(getMyAdventure(adventureId));
+      WARN(`AllMembersModal > onConfirmDelete > Can't remove the user`, result);
+      const error = result?.errors ? result?.errors[0] : result?.error;
+      Alert.alert(`Can't remove the user`, error);
     }
   };
 
@@ -219,84 +223,88 @@ function AllMembersModal(props: Props) {
         </Flex>
         <Flex align="center" justify="center" style={styles.members}>
           <Flex direction="row" wrap="wrap" justify="center">
-            {messengers.map((messenger, index) => (
-              <View
-                style={
-                  messenger.group_leader
-                    ? styles.adminOuter
-                    : styles.memberOuter
-                }
-              >
-                <Flex
-                  key={messenger.id}
-                  direction="column"
-                  style={
-                    messenger.group_leader
-                      ? styles.adminInner
-                      : styles.memberInner
-                  }
-                >
-                  {isLeaderView && !messenger.group_leader ? (
-                    <Touchable
-                      style={styles.iconDeleteBlock}
-                      //TODO: Hook up Remove
-                      onPress={(): void => {
-                        onDeleteMember({
-                          conversationId: adventure.conversation.id,
-                          messenger,
-                        });
-                      }}
-                    >
-                      <VokeIcon
-                        name="close-circle"
-                        size={34}
-                        style={styles.iconDelete}
-                      />
-                    </Touchable>
-                  ) : null}
-                  {!messenger?.avatar?.medium ? (
-                    <Flex align="center" justify="center" style={[st.pt3]}>
-                      <Image
-                        resizeMode="contain"
-                        source={avatars.default}
-                        style={{
-                          height: smallCircle,
-                          width: smallCircle,
-                          borderRadius: smallCircle / 2,
-                          borderWidth: st.isAndroid || index !== 0 ? 1 : 2,
-                          borderColor: st.colors.white,
-                        }}
-                      />
-                    </Flex>
-                  ) : (
-                    <Image
-                      resizeMode="contain"
-                      source={{ uri: messenger.avatar.medium }}
-                      style={[
-                        {
-                          height: smallCircle,
-                          width: smallCircle,
-                          borderRadius: smallCircle / 2,
-                          borderWidth: 2,
-                          borderColor: st.colors.white,
-                        },
-                      ]}
-                    />
-                  )}
-                  <Text
-                    style={{
-                      fontSize: theme.fontSizes.l,
-                      paddingTop: 3,
-                      color: theme.colors.white,
-                      textAlign: 'center',
-                    }}
-                    numberOfLines={1}
+            {messengers.map(
+              (messenger, index) =>
+                !messenger['archived?'] && (
+                  <View
+                    style={
+                      messenger.group_leader
+                        ? styles.adminOuter
+                        : styles.memberOuter
+                    }
                   >
-                    {messenger.first_name}
-                  </Text>
-                </Flex>
-              </View>
-            ))}
+                    <Flex
+                      key={messenger.id}
+                      direction="column"
+                      style={
+                        messenger.group_leader
+                          ? styles.adminInner
+                          : styles.memberInner
+                      }
+                    >
+                      {isLeaderView && !messenger.group_leader ? (
+                        <Touchable
+                          style={styles.iconDeleteBlock}
+                          //TODO: Hook up Remove
+                          onPress={(): void => {
+                            onDeleteMember({
+                              conversationId: adventure.conversation.id,
+                              messenger,
+                            });
+                          }}
+                        >
+                          <VokeIcon
+                            name="close-circle"
+                            size={34}
+                            style={styles.iconDelete}
+                          />
+                        </Touchable>
+                      ) : null}
+
+                      {!messenger?.avatar?.medium ? (
+                        <Flex align="center" justify="center" style={[st.pt3]}>
+                          <Image
+                            resizeMode="contain"
+                            source={avatars.default}
+                            style={{
+                              height: smallCircle,
+                              width: smallCircle,
+                              borderRadius: smallCircle / 2,
+                              borderWidth: st.isAndroid || index !== 0 ? 1 : 2,
+                              borderColor: st.colors.white,
+                            }}
+                          />
+                        </Flex>
+                      ) : (
+                        <Image
+                          resizeMode="contain"
+                          source={{ uri: messenger.avatar.medium }}
+                          style={[
+                            {
+                              height: smallCircle,
+                              width: smallCircle,
+                              borderRadius: smallCircle / 2,
+                              borderWidth: 2,
+                              borderColor: st.colors.white,
+                            },
+                          ]}
+                        />
+                      )}
+                      <Text
+                        style={{
+                          fontSize: theme.fontSizes.l,
+                          paddingTop: 3,
+                          color: theme.colors.white,
+                          textAlign: 'center',
+                        }}
+                        numberOfLines={1}
+                      >
+                        {messenger.first_name}
+                      </Text>
+                    </Flex>
+                  </View>
+                ),
+            )}
           </Flex>
           <Portal>
             <Modalize
