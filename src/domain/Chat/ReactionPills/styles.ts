@@ -22,6 +22,13 @@ const styles = StyleSheet.create({
     color: theme.colors.secondary,
     paddingRight: theme.spacing.xs,
   },
+  reactionLabelOwn: {
+    fontSize: theme.fontSizes.xxs,
+    lineHeight: theme.fontSizes.xxs * 1.3,
+    fontFamily: theme.fonts.bold,
+    color: theme.colors.primary,
+    paddingRight: theme.spacing.xs,
+  },
 });
 
 export default styles;
