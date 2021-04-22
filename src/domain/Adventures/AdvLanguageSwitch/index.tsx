@@ -42,7 +42,8 @@ const AdvLanguageSwitch = (): ReactElement => {
     const appLang = i18next?.language?.toUpperCase() || 'EN';
     availableTranslations.map(lang => {
       const stepLang = lang.toUpperCase();
-      if (appLang === stepLang || (stepLang === 'EN' && appLang === 'EN-US')) {
+      // if (appLang === stepLang || (stepLang === 'EN' && appLang === 'EN-US')) {
+      if (stepLang === 'EN' && appLang === 'EN-US') {
         setSelectOptions(current => [
           ...current,
           { label: lang, selected: true },
