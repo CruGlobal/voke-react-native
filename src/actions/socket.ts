@@ -286,6 +286,8 @@ export const createWebSocketMiddleware = ({ dispatch, getState }) => {
                 // If user blocked from Voke.
               ) {
                 // dispatch(userBlockedAction());
+              } else if (notification.category === 'RELOAD_JOURNEY_CATEGORY') {
+                dispatch(getMyAdventures('Sockets – RELOAD_JOURNEY_CATEGORY'));
               }
             };
 

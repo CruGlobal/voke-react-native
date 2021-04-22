@@ -4,6 +4,7 @@ export const backgrounds = {
 
 export const avatars = {
 	default:  require("./avatars/defaultAvatar.png"),
+	smallAvatar:  require("./avatars/avatar.jpg"),
 };
 
 export const bots = {

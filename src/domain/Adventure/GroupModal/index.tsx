@@ -177,12 +177,9 @@ function GroupModal(props: Props): ReactElement {
                       paddingVertical: theme.spacing.l,
                     }}
                   >
-                    {!messenger.avatar ? (
-                      <Flex
-                        align="center"
-                        justify="center"
-                        style={{ paddingTop: 25 }}
-                      >
+
+                    {!messenger?.avatar?.medium ? (
+                      <Flex align="center" justify="center" style={{ paddingTop: 25 }}>
                         <VokeIcon name="person" size={80} style={[st.white]} />
                       </Flex>
                     ) : (
