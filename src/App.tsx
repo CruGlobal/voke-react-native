@@ -1,4 +1,9 @@
-import React, { useEffect, useState, ReactElement } from 'react';
+import React, {
+  useEffect,
+  useState,
+  ReactElement,
+  useLayoutEffect,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import {
@@ -6,6 +11,7 @@ import {
   useNavigationState,
   StackActions,
   getFocusedRouteNameFromRoute,
+  useNavigation,
 } from '@react-navigation/native';
 import analytics from '@react-native-firebase/analytics';
 import dynamicLinks, {
@@ -706,8 +712,11 @@ const App = () => {
   const { t } = useTranslation(['common', 'profile']);
   const [deeplink, setDeeplink] = useState('');
 
+  console.log('⚠️ deeplink:', deeplink);
+
   // Deeplinks are links like voke:// or any other non-Firebase link.
   const handleDeepLink = (link: string | null | { url: string }): void => {
+    console.log('11111 ⚠️ link:', link);
     let flatLink = link as string;
     const deepLink = link as { url: string };
     if (deepLink?.url) {
@@ -724,11 +733,13 @@ const App = () => {
   const handleDynamicLink = (
     link: FirebaseDynamicLinksTypes.DynamicLink | null,
   ): void => {
+    console.log('222222 ⚠️ link:', link);
     if (link?.url) {
       setDeeplink(link?.url);
     }
   };
 
+  // VOVA
   const getUrlAsync = async (): Promise<void> => {
     // Get the deep link used to open the app from cold state.
     // Required to open app using url like voke://...
@@ -779,6 +790,7 @@ const App = () => {
 
   useEffect(() => {
     if (deeplink) {
+      console.log('!!!!⚠️ deeplink:', deeplink);
       let campaign = '';
       let medium = '';
       let source = '';
@@ -818,6 +830,22 @@ const App = () => {
             },
           }),
         );
+      }
+    }
+  }, [deeplink, dispatch, userId]);
+
+  // Extract code from the deeplink.
+  useEffect(() => {
+    // https://link.vokeapp.com/?link=https://the.vokeapp.com/a/849440&apn=org.cru.voke&ibi=org.cru.voke&isi=1056168356&efr=1
+    if (deeplink && deeplink.includes('the.vokeapp.com/a/')) {
+      const regex = /the\.vokeapp\.com\/a\/([0-9]+)/;
+      const found = deeplink.match(regex);
+      const code = found?.length ? found[1] : '';
+
+      console.log('⚠️ found:', found);
+      console.log('⚠️ code:', code);
+      if (code) {
+        navigation.navigate('AdventureCode');
       }
     }
   }, [deeplink, dispatch, userId]);
