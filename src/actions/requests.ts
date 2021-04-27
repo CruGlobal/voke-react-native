@@ -811,10 +811,10 @@ export function revokeAuthToken(data: any) {
 // Devices allow the API to send the user information relative to them.
 export function establishCableDevice(pushDeviceId?: string) {
   return async (dispatch: Dispatch, getState: any) => {
-    const savedDeviceInfo = getState().auth.device;
+    // const savedDeviceInfo = getState().auth.device;
     const currentDeviceId = getState().auth.device.id;
     const currentDeviceData = {
-      id: currentDeviceId,
+      id: currentDeviceId || null,
       version: 1,
       local_id: deviceInfoModule.getUniqueId(),
       local_version: deviceInfoModule.getVersion(),
@@ -822,43 +822,34 @@ export function establishCableDevice(pushDeviceId?: string) {
       name: deviceInfoModule.getModel(),
       os: `${Platform.OS} ${deviceInfoModule.getSystemVersion()}`,
     };
-    let returnedDeviceData = {};
 
-    const deviceInfoChanged = (): boolean => {
+    /* const deviceInfoChanged = (): boolean => {
       return !isEqualObject(savedDeviceInfo, currentDeviceData);
-    };
+    }; */
 
     // If device info or push device id changed:
     // deviceId - if provided, need to update device.
-    if (pushDeviceId || deviceInfoChanged() || !currentDeviceId) {
-      const newDeviceData = {
-        device: {
-          ...currentDeviceData,
-          // TODO: do I needed these?
-          key: pushDeviceId || null,
-          kind: 'cable',
-          // Possible variations:
-          // key: deviceId for websokets,
-          // kind: 'cable' for websokets.
-          // ----------------------------
-          // key: pushToken for notifications.
-          // kind: 'fcm'/'apple' for push notifications.
-        },
-      };
+    // if (pushDeviceId || deviceInfoChanged() || !currentDeviceId) {
+    const newDeviceData = {
+      device: {
+        ...currentDeviceData,
+        key: pushDeviceId || null,
+        kind: 'cable',
+        // Possible variations:
+        // key: deviceId for websokets,
+        // kind: 'cable' for websokets.
+        // ----------------------------
+        // key: pushToken for notifications.
+        // kind: 'fcm'/'apple' for push notifications.
+      },
+    };
 
-      if (currentDeviceId) {
-        // UPDATE existing cable with new device data.
-        returnedDeviceData = await dispatch(updateDevice(newDeviceData));
-      } else {
-        // CREATE new cable with new device data.
-        returnedDeviceData = await dispatch(createDevice(newDeviceData));
-      }
-    }
-
-    if (returnedDeviceData?.id) {
-      deviceId = returnedDeviceData.id;
+    if (currentDeviceId) {
+      // UPDATE existing cable with new device data.
+      await dispatch(updateDevice(newDeviceData));
     } else {
-      deviceId = currentDeviceId;
+      // CREATE new cable with new device data.
+      await dispatch(createDevice(newDeviceData));
     }
   };
 }
