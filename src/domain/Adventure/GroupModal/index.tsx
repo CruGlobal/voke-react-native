@@ -303,7 +303,7 @@ function GroupModal(props: Props): ReactElement {
                 </Flex>
               </Flex>
             </Flex>
-            {messengers.length > 5 ? (
+            {messengers.length > 0 ? (
               <Flex align="center" self="stretch">
                 <OldButton
                   onPress={(): void =>
