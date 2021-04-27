@@ -49,7 +49,7 @@ const Message = (props: Props): React.ReactElement => {
 
   const step: TStep = useSelector(
     ({ data }: RootState) =>
-      data.adventureSteps[adventureId]?.byId[
+      data?.adventureSteps[adventureId]?.byId[
         stepId as keyof TDataState['adventureSteps'][typeof adventureId]['byId']
       ] || {},
   );
@@ -61,10 +61,10 @@ const Message = (props: Props): React.ReactElement => {
       ] || {},
   );
   // Group Leader:
-  const grLeader = adventure.conversation.messengers.find(i => i.group_leader);
+  const grLeader = adventure.conversation?.messengers.find(i => i.group_leader);
   // Message author (user who left this message):
   const messengerId = item?.messenger_id;
-  const messenger: TMessenger = adventure.conversation.messengers.find(
+  const messenger: TMessenger = adventure.conversation?.messengers.find(
     msngr => msngr.id === messengerId,
   ) || {
     status: 'blocked',

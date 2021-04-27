@@ -247,7 +247,8 @@ export type TAdventureSingle = {
   } | null;
   conversation: {
     id: string;
-    messengers: TMessenger[];
+    adventure.conversation.messengers.find(
+      messengers: TMessenger[];
     unread_messages: number;
   };
   progress: {

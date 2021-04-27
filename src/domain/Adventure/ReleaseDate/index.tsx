@@ -71,22 +71,23 @@ const GroupReleaseDate = (props): React.ReactElement => {
       'DD MM YYYY h:mm a',
     );
     let newDate = moment()
-      .day(weekday)
+      .day(releaseSchedule === 'weekly' ? weekday : moment().day())
       .hour(newTimeRaw.hour())
       .minute(newTimeRaw.minute())
       .second(0);
     const now = moment();
-    const diff = now.diff(newDate);
-    // - if date in the future diff < 0
-    // - if date in the past diff > 0
-    // if (diff > 0) {
-    // Set the next week new date is already in the past.
-    if (releaseSchedule === 'weekly') {
-      newDate = newDate.add(1, 'weeks');
-    } else {
-      newDate = newDate.add(1, 'days');
+    // const diff = now.diff(newDate);
+    const diff = moment(newDate).diff(moment());
+    // - if date in the future diff > 0
+    // - if date in the past diff < 0
+    if (diff < 0) {
+      // Set the next week new date is already in the past.
+      if (releaseSchedule === 'weekly') {
+        newDate = newDate.add(1, 'weeks');
+      } else {
+        newDate = newDate.add(1, 'days');
+      }
     }
-    // }
     setDate(newDate);
   }, [weekday, time]);
 

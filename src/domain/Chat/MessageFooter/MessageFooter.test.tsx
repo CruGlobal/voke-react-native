@@ -1,11 +1,20 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react-native';
-import { reactionsMock } from 'mocks/vokeDataMocks';
+import { mockUser, reactionsMock } from 'mocks/vokeDataMocks';
+import renderWithContext from 'utils/testUtils';
 
 import MessageFooter from './index';
 
+const initialState = {
+  auth: { user: mockUser },
+  data: {
+    adventureSteps: {},
+    adventureStepMessages: {},
+  },
+};
+
 it('renders correctly', () => {
-  const { queryByText, toJSON } = render(
+  const { queryByText, toJSON } = renderWithContext(
     <MessageFooter
       date={'2021-01-25T20:44:00.960Z'}
       isMyMessage={false}
@@ -14,6 +23,7 @@ it('renders correctly', () => {
         // void
       }}
     />,
+    { initialState },
   );
 
   expect(toJSON()).toMatchSnapshot();
@@ -25,7 +35,7 @@ it('renders correctly', () => {
 });
 
 it('renders correctly my message', () => {
-  const { toJSON } = render(
+  const { toJSON } = renderWithContext(
     <MessageFooter
       date={'2021-01-25T20:44:00.960Z'}
       isMyMessage={true}
@@ -34,6 +44,7 @@ it('renders correctly my message', () => {
         // void
       }}
     />,
+    { initialState },
   );
 
   expect(toJSON()).toMatchSnapshot();
@@ -41,7 +52,7 @@ it('renders correctly my message', () => {
 
 it('emit events correctly', () => {
   const onReaction = jest.fn();
-  const { getByText } = render(
+  const { getByText } = renderWithContext(
     <MessageFooter
       date={'2021-01-25T20:44:00.960Z'}
       isMyMessage={false}
@@ -50,6 +61,7 @@ it('emit events correctly', () => {
         onReaction(reaction);
       }}
     />,
+    { initialState },
   );
 
   fireEvent.press(getByText(/♥️/i));

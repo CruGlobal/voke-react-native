@@ -8,6 +8,7 @@ import {
   getNextReleaseDate,
   getDiffToDate,
   getTimeToDate,
+  getAdventureById,
 } from 'utils/get';
 import theme from 'utils/theme';
 import st from 'utils/st';
@@ -23,7 +24,6 @@ import Text from 'components/Text';
 import VokeIcon from 'components/VokeIcon';
 import Image from 'components/Image';
 import Touchable from 'components/Touchable';
-
 
 import { RootState, useDispatchTs } from '../../reducers';
 import Spacer from '../Spacer';
@@ -168,6 +168,7 @@ function AdventureStepCard({
   const unlockNextStep = async (advId: string): Promise<void> => {
     setIsUnlocking(true);
     const result = await dispatch(unlockNextAdventureStep(advId));
+    dispatch(getAdventureSteps(adventureId));
     // https://www.typescriptlang.org/docs/handbook/advanced-types.html
     const positiveResult = result as TAdventureSingle;
     const negativeResult = result as TError;

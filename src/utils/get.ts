@@ -36,16 +36,27 @@ export function getNextReleaseDate({ startDate, releasePeriod }): string {
   if (diff < 0) {
     let timesReleased = Math.abs(diffDurationDays / releasePeriod);
     if (timesReleased > 1) {
-      timesReleased = Math.floor(diffDurationDays / releasePeriod);
+      timesReleased = Math.abs(Math.floor(diffDurationDays / releasePeriod));
     } else {
       timesReleased = 1;
     }
-
     // const lastReleaseDaysAgo = timesReleased * releasePeriod + diffDurationDays;
     // daysStartToNext = lastReleaseDaysAgo + releasePeriod;
     // daysStartToNext = timesReleased * releasePeriod + releasePeriod;
     daysStartToNext = timesReleased * releasePeriod;
+
+    // Check if Today's release is in the past or in the future.
+    const releaseTodayDiff = moment(startDate)
+      .add(daysStartToNext, 'days')
+      .utc()
+      .diff(moment());
+
+    // Today's realease is in the past.
+    if (releaseTodayDiff < 0) {
+      daysStartToNext += releasePeriod;
+    }
   }
+
   // If daily release and released today and next release is today.
   // Set daysStartToNext to zero.
   /* if (

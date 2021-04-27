@@ -5,11 +5,10 @@ exports[`renders correctly 1`] = `
   style={
     Array [
       Object {
+        "alignContent": "space-between",
         "flexDirection": "row",
+        "justifyContent": "space-between",
         "paddingTop": 4,
-      },
-      Object {
-        "justifyContent": "flex-start",
       },
     ]
   }
@@ -234,11 +233,10 @@ exports[`renders correctly my message 1`] = `
   style={
     Array [
       Object {
+        "alignContent": "space-between",
         "flexDirection": "row",
+        "justifyContent": "space-between",
         "paddingTop": 4,
-      },
-      Object {
-        "justifyContent": "flex-end",
       },
     ]
   }
@@ -273,7 +271,7 @@ exports[`renders correctly my message 1`] = `
           "flexWrap": "wrap",
         },
         Object {
-          "justifyContent": "flex-start",
+          "justifyContent": "flex-end",
         },
       ]
     }

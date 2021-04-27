@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
     lineHeight: 27,
     minHeight: 45,
     maxHeight: 145,
+    color: theme.colors.black,
   },
   sendButton: {
     width: 45,

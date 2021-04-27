@@ -55,9 +55,6 @@ exports[`renders correct languages when open 1`] = `
             "height": 7,
             "transform": Array [
               Object {
-                "translateX": 1.5,
-              },
-              Object {
                 "translateY": -2.4,
               },
               Object {
@@ -68,6 +65,7 @@ exports[`renders correct languages when open 1`] = `
           },
           Object {
             "marginLeft": 10,
+            "marginRight": 2,
           },
         ]
       }
@@ -439,9 +437,6 @@ exports[`renders correctly 1`] = `
             "height": 7,
             "transform": Array [
               Object {
-                "translateX": 1.5,
-              },
-              Object {
                 "translateY": -2.4,
               },
               Object {
@@ -452,6 +447,7 @@ exports[`renders correctly 1`] = `
           },
           Object {
             "marginLeft": 10,
+            "marginRight": 2,
           },
         ]
       }
