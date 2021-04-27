@@ -16,10 +16,18 @@
 // }));
 
 jest.mock('@react-native-firebase/analytics', () => {
-	return () => ({
-		logEvent: jest.fn(),
-		setUserProperties: jest.fn(),
-		setUserId: jest.fn(),
-		setCurrentScreen: jest.fn(),
-	})
+  return () => ({
+    logScreenView: jest.fn(),
+    logEvent: jest.fn(),
+    setUserProperties: jest.fn(),
+    setUserId: jest.fn(),
+    setCurrentScreen: jest.fn(),
+  });
+});
+
+jest.mock('@react-native-firebase/crashlytics', () => {
+  return () => ({
+    log: jest.fn(),
+    recordError: jest.fn(),
+  });
 });

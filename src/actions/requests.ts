@@ -814,7 +814,7 @@ export function establishCableDevice(pushDeviceId?: string) {
     const savedDeviceInfo = getState().auth.device;
     const currentDeviceId = getState().auth.device.id;
     const currentDeviceData = {
-      // id: currentDeviceId,
+      id: currentDeviceId,
       version: 1,
       local_id: deviceInfoModule.getUniqueId(),
       local_version: deviceInfoModule.getVersion(),

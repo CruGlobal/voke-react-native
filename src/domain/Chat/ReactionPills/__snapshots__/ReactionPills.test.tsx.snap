@@ -208,7 +208,7 @@ exports[`renders correctly my message 1`] = `
         "flexWrap": "wrap",
       },
       Object {
-        "justifyContent": "flex-start",
+        "justifyContent": "flex-end",
       },
     ]
   }

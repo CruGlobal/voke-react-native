@@ -21,6 +21,7 @@ import Message from './index';
 const initialState = {
   auth: { user: mockUser },
   data: {
+    adventureSteps: {},
     adventureStepMessages: {
       [mockStepDecisionInactive.id]: {},
     },

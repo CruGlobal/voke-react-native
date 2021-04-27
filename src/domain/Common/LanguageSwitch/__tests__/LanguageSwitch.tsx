@@ -2,15 +2,18 @@
  * @format
  */
 
-import 'react-native';
+import { Text, View } from 'react-native';
 import React from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react-native';
+
 // import { toHaveStyle } from '@testing-library/jest-native'; - causes TS error.
 // https://github.com/testing-library/jest-dom/issues/123
 import '@testing-library/jest-native';
-import LanguageSwitch from '../index';
-import { Text, View } from 'react-native';
 import i18n from 'i18next';
+import renderWithContext from 'utils/testUtils';
+import { mockUser } from 'mocks/vokeDataMocks';
+
+import LanguageSwitch from '../index';
 
 // the modal component is automatically mocked by RN and apparently contains
 // a bug which make the modal (and it's children) always visible in the test tree
@@ -26,8 +29,15 @@ beforeEach(() => {
   jest.useFakeTimers();
 });
 
+const initialState = {
+  auth: { user: mockUser },
+  data: {},
+};
+
 it('renders correctly', () => {
-  const { queryByText, toJSON } = render(<LanguageSwitch />);
+  const { queryByText, toJSON } = renderWithContext(<LanguageSwitch />, {
+    initialState,
+  });
 
   expect(toJSON()).toMatchSnapshot();
   expect(queryByText(/English/i)).toBeTruthy();
@@ -42,7 +52,7 @@ it('renders correct languages when open', async () => {
     queryByText,
     toJSON,
     debug,
-  } = render(<LanguageSwitch />);
+  } = renderWithContext(<LanguageSwitch />, { initialState });
 
   // FR language should be hidden first.
   expect(queryByText(/FR/i)).not.toBeTruthy();
@@ -66,11 +76,12 @@ it('select new language when pressed', async () => {
     queryByText,
     toJSON,
     debug,
-  } = render(
+  } = renderWithContext(
     <View>
       <Text>{i18n.t('welcome:botMessageTitle')}</Text>
       <LanguageSwitch />
     </View>,
+    { initialState },
   );
 
   // FR language should be hidden first.

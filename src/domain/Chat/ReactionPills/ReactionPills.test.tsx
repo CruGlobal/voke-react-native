@@ -1,7 +1,17 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react-native';
+import { mockUser } from 'mocks/vokeDataMocks';
+import renderWithContext from 'utils/testUtils';
 
 import ReactionPills from './index';
+
+const initialState = {
+  auth: { user: mockUser },
+  data: {
+    adventureSteps: {},
+    adventureStepMessages: {},
+  },
+};
 
 const reactionsMock = {
   '🤗': [
@@ -19,7 +29,7 @@ const reactionsMock = {
 };
 
 it('renders correctly', () => {
-  const { queryByText, toJSON } = render(
+  const { queryByText, toJSON } = renderWithContext(
     <ReactionPills
       reactions={reactionsMock}
       isMyMessage={false}
@@ -27,6 +37,7 @@ it('renders correctly', () => {
         // void
       }}
     />,
+    { initialState },
   );
 
   expect(toJSON()).toMatchSnapshot();
@@ -38,7 +49,7 @@ it('renders correctly', () => {
 });
 
 it('renders correctly my message', () => {
-  const { toJSON } = render(
+  const { toJSON } = renderWithContext(
     <ReactionPills
       reactions={reactionsMock}
       isMyMessage={true}
@@ -46,6 +57,7 @@ it('renders correctly my message', () => {
         // void
       }}
     />,
+    { initialState },
   );
 
   expect(toJSON()).toMatchSnapshot();
@@ -53,7 +65,7 @@ it('renders correctly my message', () => {
 
 it('emit events correctly', () => {
   const onReaction = jest.fn();
-  const { getByText } = render(
+  const { getByText } = renderWithContext(
     <ReactionPills
       reactions={reactionsMock}
       isMyMessage={false}
@@ -61,6 +73,7 @@ it('emit events correctly', () => {
         onReaction(reaction);
       }}
     />,
+    { initialState },
   );
 
   fireEvent.press(getByText(/♥️/i));
@@ -78,7 +91,7 @@ it('emit events correctly', () => {
 
 it("can't click on it's own message' reactions ", () => {
   const onReaction = jest.fn();
-  const { getByText } = render(
+  const { getByText } = renderWithContext(
     <ReactionPills
       reactions={reactionsMock}
       isMyMessage={true}
@@ -86,6 +99,7 @@ it("can't click on it's own message' reactions ", () => {
         onReaction(reaction);
       }}
     />,
+    { initialState },
   );
 
   fireEvent.press(getByText(/♥️/i));

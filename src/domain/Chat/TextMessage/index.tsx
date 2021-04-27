@@ -145,7 +145,7 @@ const TextMessage = (props: Props): React.ReactElement => {
               {/* Long press block to activate context menu. */}
               <Pressable
                 testID="messagePressArea"
-                onPressIn={(): void => {
+                onLongPress={(): void => {
                   setContextActive(message.id);
                   ReactNativeHapticFeedback.trigger('selection');
                 }}

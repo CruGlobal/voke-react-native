@@ -44,7 +44,7 @@ function VideoList() {
   const THUMBNAIL_HEIGHT = ((window.width - 20) * 1) / 2;
   const ITEM_HEIGHT = THUMBNAIL_HEIGHT + 100 + 20;
   function handleRefresh() {
-    loadVideos();
+    loadVideos(true);
   }
 
   useEffect(() => {
@@ -185,7 +185,7 @@ function VideoList() {
         style={[st.f1]}
         contentContainerStyle={[st.mv5, { paddingBottom: 120 }]}
         scrollIndicatorInsets={{ right: 1 }}
-        onRefresh={() => loadMore(true)}
+        onRefresh={() => handleRefresh()}
         refreshing={isLoading}
         onEndReached={() => loadMore()}
         ListHeaderComponent={() => (

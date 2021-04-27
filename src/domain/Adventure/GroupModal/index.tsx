@@ -181,9 +181,12 @@ function GroupModal(props: Props): ReactElement {
                       paddingVertical: theme.spacing.l,
                     }}
                   >
-
                     {!messenger?.avatar?.medium ? (
-                      <Flex align="center" justify="center" style={{ paddingTop: 25 }}>
+                      <Flex
+                        align="center"
+                        justify="center"
+                        style={{ paddingTop: 25 }}
+                      >
                         <VokeIcon name="person" size={80} style={[st.white]} />
                       </Flex>
                     ) : (
@@ -300,7 +303,7 @@ function GroupModal(props: Props): ReactElement {
                 </Flex>
               </Flex>
             </Flex>
-            {messengers.length > 0 ? (
+            {messengers.length > 5 ? (
               <Flex align="center" self="stretch">
                 <OldButton
                   onPress={(): void =>

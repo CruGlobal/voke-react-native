@@ -5,9 +5,8 @@ exports[`renders correctly 1`] = `
   forwardedRef={[Function]}
   style={
     Object {
+      "marginBottom": 16,
       "opacity": 0,
-      "position": "absolute",
-      "top": -76,
       "transform": Array [
         Object {
           "translateY": 100,
@@ -58,6 +57,7 @@ exports[`renders correctly 1`] = `
       <Text
         style={
           Object {
+            "color": "#000",
             "fontSize": 38,
             "lineHeight": 60,
             "textAlign": "center",
@@ -95,6 +95,7 @@ exports[`renders correctly 1`] = `
       <Text
         style={
           Object {
+            "color": "#000",
             "fontSize": 38,
             "lineHeight": 60,
             "textAlign": "center",
@@ -132,6 +133,7 @@ exports[`renders correctly 1`] = `
       <Text
         style={
           Object {
+            "color": "#000",
             "fontSize": 38,
             "lineHeight": 60,
             "textAlign": "center",
@@ -169,6 +171,7 @@ exports[`renders correctly 1`] = `
       <Text
         style={
           Object {
+            "color": "#000",
             "fontSize": 38,
             "lineHeight": 60,
             "textAlign": "center",
@@ -206,6 +209,7 @@ exports[`renders correctly 1`] = `
       <Text
         style={
           Object {
+            "color": "#000",
             "fontSize": 38,
             "lineHeight": 60,
             "textAlign": "center",
@@ -242,9 +246,11 @@ exports[`renders correctly 1`] = `
         Array [
           Object {
             "backgroundColor": "transparent",
-            "borderColor": "transparent",
+            "borderBottomColor": "transparent",
             "borderLeftColor": "#eee",
             "borderLeftWidth": 20,
+            "borderRightColor": "transparent",
+            "borderTopColor": "transparent",
             "borderTopWidth": 20,
             "borderWidth": 0,
           },
@@ -266,9 +272,11 @@ exports[`renders correctly 1`] = `
         Array [
           Object {
             "backgroundColor": "transparent",
-            "borderColor": "transparent",
+            "borderBottomColor": "transparent",
             "borderLeftColor": "#eee",
             "borderLeftWidth": 20,
+            "borderRightColor": "transparent",
+            "borderTopColor": "transparent",
             "borderTopWidth": 20,
             "borderWidth": 0,
           },
