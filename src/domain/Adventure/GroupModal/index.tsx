@@ -303,7 +303,7 @@ function GroupModal(props: Props): ReactElement {
                 </Flex>
               </Flex>
             </Flex>
-            {messengers.length > 0 ? (
+            {messengers.length > 5 ? (
               <Flex align="center" self="stretch">
                 <OldButton
                   onPress={(): void =>
@@ -319,7 +319,7 @@ function GroupModal(props: Props): ReactElement {
                     paddingVertical: 10,
                     marginTop: theme.spacing.l,
                     borderRadius: theme.radius.xxl,
-                    backgroundColor: theme.colors.accent,
+                    backgroundColor: theme.colors.secondary,
                   }}
                 >
                   <Flex direction="row" align="center">
