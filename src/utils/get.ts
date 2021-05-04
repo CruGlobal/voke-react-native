@@ -85,8 +85,10 @@ export function getNextReleaseDate({ startDate, releasePeriod }): string {
   } */
 
   // First release is in the future
+  // The 2nd episode should not be released until the next calendar day,
+  // no matter what time user sets release to occur.
   if (diff > 0) {
-    daysStartToNext = 0;
+    daysStartToNext = releasePeriod === 1 && diffDurationDays === 0 ? 1 : 0;
   }
 
   return moment(startDate).add(daysStartToNext, 'days').utc().format();
