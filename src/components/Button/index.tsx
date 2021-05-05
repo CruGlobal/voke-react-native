@@ -146,7 +146,10 @@ const Button: FunctionComponent<ButtonProps> = ({
         <Text style={stylesText}>{isLoading ? ' ' : children}</Text>
         {!!isLoading && (
           <View style={{ position: 'absolute', alignSelf: 'center' }}>
-            <ActivityIndicator size="small" color="#216373" />
+            <ActivityIndicator
+              size="small"
+              color={color === 'secondary' ? '#fff' : '#216373'}
+            />
           </View>
         )}
       </View>

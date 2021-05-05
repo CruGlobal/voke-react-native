@@ -15,6 +15,7 @@ import VokeIcon from 'components/VokeIcon';
 import OldButton from 'components/OldButton';
 import { unlockNextAdventureStep } from 'actions/requests';
 import Image from 'components/Image';
+import Button from 'components/Button';
 
 import styles from './styles';
 
@@ -46,6 +47,7 @@ function AdventureStepReportCard({
   const [isNext, setIsNext] = useState(false);
   const [isManual, setIsManual] = useState(false);
   const [isLocked, setIsLocked] = useState(true);
+  const [isUnlocking, setIsUnlocking] = useState(false);
   const modalizeRef = useRef<Modalize>(null);
   const { t } = useTranslation('manageGroup');
   const { height } = Dimensions.get('window');
@@ -107,10 +109,18 @@ function AdventureStepReportCard({
   }, [currentStep, isLocked, isManual]);
 
   const unlockNextStep = async (advId: string): Promise<void> => {
+    setIsUnlocking(true);
+    dispatch(unlockNextAdventureStep(advId));
+    /*
+    We can't rely on the positive reply from the server here as it's causing
+    delay-release bugs. Instead we are waiting for the adventure steps
+    to download by itself after getting a positive WS message (UNLOCK_STEP_CATEGORY).
+
     const result = await dispatch(unlockNextAdventureStep(advId));
     // https://www.typescriptlang.org/docs/handbook/advanced-types.html
     const positiveResult = result as TAdventureSingle;
     const negativeResult = result as TError;
+
     if (positiveResult.id) {
       // TODO: when we have results refetch adventure to have UI updated.
       setCurrentStep((curVal: number) => curVal + 1);
@@ -146,7 +156,7 @@ function AdventureStepReportCard({
           },
         ],
       );
-    }
+    } */
   };
 
   const onUnlockNextStep = (advId: string): void => {
@@ -220,15 +230,19 @@ function AdventureStepReportCard({
               </View>
               <View style={styles.action}>
                 {isNext ? (
-                  <OldButton
-                    onPress={() => onUnlockNextStep(adventure.id)}
-                    style={styles.actionReleaseNow}
+                  <Button
+                    size="s"
+                    radius="m"
+                    color="secondary"
+                    isLoading={isUnlocking}
+                    style={{ paddingVertical: theme.spacing.s }}
+                    onPress={(): void => {
+                      onUnlockNextStep(adventure.id);
+                    }}
                     testID="ctaReleaseNow"
                   >
-                    <Text style={styles.actionReleaseNowLabel}>
-                      {t('releaseNow')}
-                    </Text>
-                  </OldButton>
+                    {t('releaseNow')}
+                  </Button>
                 ) : isLocked ? (
                   <VokeIcon
                     name={'lock'}
