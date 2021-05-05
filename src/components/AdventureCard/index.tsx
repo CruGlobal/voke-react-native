@@ -65,14 +65,10 @@ const AdventureCardRender: FunctionComponent<Props> = ({
   const maxNumberOfAvatars = windowDimensions.width < 400 ? 3 : 4;
   let subGroup = usersExceptVokeAndMe;
   let numberMore = 0;
-  let groupName = '';
 
   if (totalGroupUsers > maxNumberOfAvatars) {
     subGroup = usersExceptVokeAndMe.slice(0, maxNumberOfAvatars - 1);
     numberMore = totalGroupUsers - subGroup.length;
-  }
-  if (isGroup) {
-    groupName = (adventureItem.journey_invite || {}).name || '';
   }
 
   useEffect(() => {
@@ -100,10 +96,12 @@ const AdventureCardRender: FunctionComponent<Props> = ({
 
   const getCardTitle = (): string => {
     let title = '';
-    if (isSolo) {
+    const groupName = adventureItem?.journey_invite?.name || '';
+
+    if (isSolo && !groupName) {
       // Solo:
       title = t('yourAdventure');
-    } else if (isGroup) {
+    } else if (isGroup || (isSolo && groupName)) {
       // Group:
       title = groupName
         ? groupName + ' ' + t('adventure')
