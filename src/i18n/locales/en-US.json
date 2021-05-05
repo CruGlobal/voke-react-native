@@ -469,7 +469,7 @@
   },
   "manageGroup": {
     "reportModalTitle": "Before you Proceed!",
-    "reportModalText": "Blocking a user will lock them out of the Voke application. They will no longer be able to use Voke. This cannot be undone.",
+    "reportModalText": "Blocking a member from a Group means they will not be able to rejoin the Group in the future.",
     "noMembers": "No Members Yet",
     "members": "Member",
     "members_plural": "Members",
