@@ -109,7 +109,6 @@ const GroupReleaseDate = (props): React.ReactElement => {
         );
       } else {
         result = await dispatch(
-          // TODO NOT CREATE EDIT ADVENTURE!
           sendAdventureInvitation({
             // eslint-disable-next-line camelcase
             organization_journey_id: itemId,
@@ -131,9 +130,6 @@ const GroupReleaseDate = (props): React.ReactElement => {
           }),
         );
       }
-
-      setIsLoading(false);
-
       // Depending on what we are doing with the invite (update or create)
       // we are getting the Adventure id in the different places.
       if (result?.messenger_journey_id) {
@@ -146,9 +142,15 @@ const GroupReleaseDate = (props): React.ReactElement => {
         });
       } else {
         Alert.alert('Failed to create a valid invite.', 'Please try again.');
+        WARN('Failed to create a valid invite.', result);
+        setIsLoading(false);
       }
     } catch (e) {
       setIsLoading(false);
+      WARN(
+        'Error creating invite @ ReleaseDate > Group ReleaseDate > handleContinue',
+        e,
+      );
       if (e?.message === 'Network request failed') {
         Alert.alert(e?.message, t('checkInternet'));
       } else if (e?.message) {
