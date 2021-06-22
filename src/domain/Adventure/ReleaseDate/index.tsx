@@ -17,6 +17,7 @@ import Screen from 'components/Screen';
 import Spacer from 'components/Spacer';
 import { tutorials } from 'assets';
 import VokeIcon from 'components/VokeIcon';
+import { cloneWith } from 'lodash';
 
 import { toastAction } from '../../../actions/info';
 import {
@@ -156,6 +157,7 @@ const GroupReleaseDate = (props): React.ReactElement => {
       } else if (e?.message) {
         Alert.alert(e?.message);
       } else {
+        Alert.alert(`Can't create a valid invite.`, 'Please try again.');
         console.error(e);
       }
     }
