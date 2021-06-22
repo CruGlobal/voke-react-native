@@ -168,9 +168,11 @@ function AdventureManage({ navigation, route }: Props): React.ReactElement {
   }, [adventure, navigation]);
 
   useEffect(() => {
-    // Check the navigator history.
-    replacePrevScreen();
-  }, [replacePrevScreen]);
+    if (adventure?.id) {
+      // Check the navigator history.
+      replacePrevScreen();
+    }
+  }, [replacePrevScreen, adventure?.id]);
 
   useFocusEffect(
     React.useCallback(() => {
