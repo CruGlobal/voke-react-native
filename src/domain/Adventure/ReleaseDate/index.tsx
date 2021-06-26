@@ -142,9 +142,13 @@ const GroupReleaseDate = (props): React.ReactElement => {
           adventureId: result.id,
         });
       } else {
-        Alert.alert('Failed to create a valid invite.', 'Please try again.');
         WARN('Failed to create a valid invite.', result);
         setIsLoading(false);
+        navigation.reset({
+          index: 0,
+          type: 'stack', // Required to make dynamic nav bar to work properly.
+          routes: [{ name: 'LoggedInApp' }],
+        });
       }
     } catch (e) {
       setIsLoading(false);

@@ -251,7 +251,7 @@ export function registerLogs() {
       }
     } else {
       const args = getArgs(arguments, true);
-      crashlytics().log(args);
+      crashlytics().log(JSON.stringify(args));
     }
   };
 
@@ -263,7 +263,7 @@ export function registerLogs() {
       }
     } else {
       const args = getArgs(arguments, true);
-      crashlytics().log(args);
+      crashlytics().log(JSON.stringify(args));
     }
   };
 }
