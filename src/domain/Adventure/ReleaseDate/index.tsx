@@ -154,15 +154,20 @@ const GroupReleaseDate = (props): React.ReactElement => {
       setIsLoading(false);
       WARN(
         'Error creating invite @ ReleaseDate > Group ReleaseDate > handleContinue',
-        e,
+        e.errors[0],
       );
       if (e?.message === 'Network request failed') {
         Alert.alert(e?.message, t('checkInternet'));
       } else if (e?.message) {
         Alert.alert(e?.message);
       } else {
-        Alert.alert(`Can't create a valid invite.`, 'Please try again.');
-        console.error(e);
+        // Alert.alert(`Can't create a valid invite.`, 'Please try again.');
+        // console.error(e);
+        navigation.reset({
+          index: 0,
+          type: 'stack', // Required to make dynamic nav bar to work properly.
+          routes: [{ name: 'LoggedInApp' }],
+        });
       }
     }
   };
