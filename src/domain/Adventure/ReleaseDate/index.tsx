@@ -144,17 +144,15 @@ const GroupReleaseDate = (props): React.ReactElement => {
       } else {
         WARN('Failed to create a valid invite.', result);
         setIsLoading(false);
-        navigation.reset({
-          index: 0,
-          type: 'stack', // Required to make dynamic nav bar to work properly.
-          routes: [{ name: 'LoggedInApp' }],
+        navigation.navigate('Adventures', {
+          resetTabs: Math.floor(Math.random() * 99), // Reset/Remount tabs component using random key.
         });
       }
     } catch (e) {
       setIsLoading(false);
       WARN(
         'Error creating invite @ ReleaseDate > Group ReleaseDate > handleContinue',
-        e.errors[0],
+        e?.error || e?.errors[0],
       );
       if (e?.message === 'Network request failed') {
         Alert.alert(e?.message, t('checkInternet'));
@@ -163,10 +161,8 @@ const GroupReleaseDate = (props): React.ReactElement => {
       } else {
         // Alert.alert(`Can't create a valid invite.`, 'Please try again.');
         // console.error(e);
-        navigation.reset({
-          index: 0,
-          type: 'stack', // Required to make dynamic nav bar to work properly.
-          routes: [{ name: 'LoggedInApp' }],
+        navigation.navigate('Adventures', {
+          resetTabs: Math.floor(Math.random() * 99), // Reset/Remount tabs component using random key.
         });
       }
     }

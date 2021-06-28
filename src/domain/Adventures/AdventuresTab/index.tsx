@@ -8,7 +8,7 @@ import { TDataState } from 'utils/types';
 import AdventuresMy from '../AdventuresMy';
 import AdventuresFind from '../AdventuresFind';
 
-const Adventures = (): React.ReactElement => {
+const Adventures = ({ navigation, route }): React.ReactElement => {
   const myAdventuresIds =
     useSelector(({ data }: { data: TDataState }) => data.myAdventures.allIds) ||
     [];
@@ -26,6 +26,7 @@ const Adventures = (): React.ReactElement => {
 
   return (
     <CustomTabs
+      key={route?.params?.resetTabs || 0}
       tabs={[
         {
           key: 'my',
