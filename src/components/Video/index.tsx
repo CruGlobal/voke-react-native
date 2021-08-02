@@ -231,6 +231,7 @@ function Video({
       {item?.type === 'youtube' ? (
         <YoutubePlayer
           ref={youtubeVideo}
+          useLocalHTML={true}
           videoId={youtubeParser(item?.url)}
           width={width}
           height={height}
