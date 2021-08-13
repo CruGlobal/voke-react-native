@@ -143,11 +143,15 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         vectorDrawables.useSupportLibrary = true
-        versionCode grgit.log(includes:['HEAD']).size() + 1000
+        // versionCode grgit.log(includes:['HEAD']).size() + 1000
+        versionCode 8000 // Update on release
         versionName "5.6.9"
         multiDexEnabled true
         testBuildType System.getProperty('testBuildType', 'debug')  // This will later be used to control the test apk build type
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        dexOptions {
+            javaMaxHeapSize "4g"
+        }
     }
 
     splits {
@@ -221,6 +225,8 @@ dependencies {
     // Voke: Add the Firebase Crashlytics SDK.
     implementation 'com.google.firebase:firebase-crashlytics:17.3.0'
     implementation 'com.android.support:multidex:2.0.1' // https://medium.com/@jQN/react-native-multidex-error-8f9a1daf8c34
+
+    implementation 'com.google.firebase:firebase-messaging:21.1.0'
 
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
