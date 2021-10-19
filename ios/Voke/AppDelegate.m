@@ -92,11 +92,12 @@ static void InitializeFlipper(UIApplication *application) {
             openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
   // Voke: Deeplink from Facebook
-//  BOOL handleFBSDK = [[FBSDKApplicationDelegate sharedInstance] application:application
-//    openURL:url
-//    sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
-//    annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
-//  ];
+  BOOL handleFBSDK = [[FBSDKApplicationDelegate sharedInstance] application:application
+    openURL:url
+    sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+    annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
+  ];
+
   // Voke: Deeplink for React Native
   BOOL handleRCT = [RCTLinkingManager application:application
     openURL:url
@@ -104,8 +105,8 @@ static void InitializeFlipper(UIApplication *application) {
   ];
   // Voke: Deeplink for Firebase?
   // BOOL handleFirebase = [[RNFBDynamicLinksAppDelegateInterceptor sharedInstance] application:application openURL:url options:options];
-//  return handleFBSDK || handleRCT;
-  return handleRCT;
+  return handleFBSDK || handleRCT;
+  // return handleRCT;
 }
 // Voke: Needed for handling orientation changes
 // https://github.com/wonday/react-native-orientation-locker
