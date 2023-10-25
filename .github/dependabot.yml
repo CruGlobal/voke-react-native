@@ -1,0 +1,30 @@
+version: 2
+registries:
+  rubygems-server-gems-contribsys-com:
+    type: rubygems-server
+    url: https://gems.contribsys.com
+    username: "${{secrets.RUBYGEMS_SERVER_GEMS_CONTRIBSYS_COM_USERNAME}}"
+    password: "${{secrets.RUBYGEMS_SERVER_GEMS_CONTRIBSYS_COM_PASSWORD}}"
+
+updates:
+- package-ecosystem: bundler
+  directory: "/ios"
+  schedule:
+    interval: monthly
+  ignore:
+  - dependency-name: fastlane
+    versions:
+    - 2.172.0
+    - 2.174.0
+  registries:
+  - rubygems-server-gems-contribsys-com
+- package-ecosystem: bundler
+  directory: "/android"
+  schedule:
+    interval: monthly
+  ignore:
+  - dependency-name: fastlane
+    versions:
+    - 2.172.0
+  registries:
+  - rubygems-server-gems-contribsys-com
